@@ -1,1121 +1,1386 @@
 export default {
-	document: {
-		id: "0:0",
-		name: "Document",
-		type: "DOCUMENT",
-		scrollBehavior: "SCROLLS",
-		children: [
-			{
-				id: "0:1",
-				name: "Basic Building Blocks",
-				type: "CANVAS",
-				scrollBehavior: "SCROLLS",
-				children: [
-					{
-						id: "1:3",
-						name: "A base play area Frame",
-						type: "FRAME",
-						scrollBehavior: "SCROLLS",
-						blendMode: "PASS_THROUGH",
-						children: [
-							{
-								id: "38:5",
-								name: "Frame 1",
-								type: "FRAME",
-								scrollBehavior: "SCROLLS",
-								blendMode: "PASS_THROUGH",
-								children: [
-									{
-										id: "38:7",
-										name: "Rectangle 3",
-										type: "RECTANGLE",
-										scrollBehavior: "SCROLLS",
-										blendMode: "PASS_THROUGH",
-										absoluteBoundingBox: {
-											x: -234.0,
-											y: 241.0,
-											width: 48.0,
-											height: 48.0,
-										},
-										absoluteRenderBounds: {
-											x: -234.0,
-											y: 241.0,
-											width: 48.0,
-											height: 48.0,
-										},
-										constraints: {
-											vertical: "TOP",
-											horizontal: "LEFT",
-										},
-										layoutAlign: "INHERIT",
-										layoutGrow: 0.0,
-										fills: [
-											{
-												blendMode: "NORMAL",
-												type: "SOLID",
-												color: {
-													r: 0.85098040103912354,
-													g: 0.85098040103912354,
-													b: 0.85098040103912354,
-													a: 1.0,
-												},
-											},
-										],
-										strokes: [],
-										strokeWeight: 1.0,
-										strokeAlign: "INSIDE",
-										effects: [],
-									},
-								],
-								absoluteBoundingBox: {
-									x: -234.0,
-									y: 241.0,
-									width: 48.0,
-									height: 48.0,
-								},
-								absoluteRenderBounds: {
-									x: -234.0,
-									y: 241.0,
-									width: 48.0,
-									height: 48.0,
-								},
-								constraints: {
-									vertical: "TOP",
-									horizontal: "LEFT",
-								},
-								layoutAlign: "INHERIT",
-								layoutGrow: 0.0,
-								clipsContent: false,
-								background: [],
-								fills: [],
-								strokes: [],
-								strokeWeight: 1.0,
-								strokeAlign: "INSIDE",
-								backgroundColor: {
-									r: 0.0,
-									g: 0.0,
-									b: 0.0,
-									a: 0.0,
-								},
-								layoutMode: "VERTICAL",
-								itemSpacing: 10.0,
-								primaryAxisAlignItems: "MAX",
-								layoutWrap: "NO_WRAP",
-								effects: [],
-							},
-							{
-								id: "38:8",
-								name: "Frame 2",
-								type: "FRAME",
-								scrollBehavior: "SCROLLS",
-								blendMode: "PASS_THROUGH",
-								children: [
-									{
-										id: "38:9",
-										name: "Rectangle 2",
-										type: "RECTANGLE",
-										scrollBehavior: "SCROLLS",
-										blendMode: "PASS_THROUGH",
-										absoluteBoundingBox: {
-											x: -174.0,
-											y: 183.0,
-											width: 48.0,
-											height: 48.0,
-										},
-										absoluteRenderBounds: {
-											x: -174.0,
-											y: 183.0,
-											width: 48.0,
-											height: 48.0,
-										},
-										constraints: {
-											vertical: "TOP",
-											horizontal: "LEFT",
-										},
-										layoutAlign: "INHERIT",
-										layoutGrow: 0.0,
-										fills: [
-											{
-												blendMode: "NORMAL",
-												type: "SOLID",
-												color: {
-													r: 0.85098040103912354,
-													g: 0.85098040103912354,
-													b: 0.85098040103912354,
-													a: 1.0,
-												},
-											},
-										],
-										strokes: [],
-										strokeWeight: 1.0,
-										strokeAlign: "INSIDE",
-										effects: [],
-									},
-									{
-										id: "38:10",
-										name: "Rectangle 3",
-										type: "RECTANGLE",
-										scrollBehavior: "SCROLLS",
-										blendMode: "PASS_THROUGH",
-										absoluteBoundingBox: {
-											x: -174.0,
-											y: 241.0,
-											width: 48.0,
-											height: 48.0,
-										},
-										absoluteRenderBounds: {
-											x: -174.0,
-											y: 241.0,
-											width: 48.0,
-											height: 48.0,
-										},
-										constraints: {
-											vertical: "TOP",
-											horizontal: "LEFT",
-										},
-										layoutAlign: "INHERIT",
-										layoutGrow: 0.0,
-										fills: [
-											{
-												blendMode: "NORMAL",
-												type: "SOLID",
-												color: {
-													r: 0.85098040103912354,
-													g: 0.85098040103912354,
-													b: 0.85098040103912354,
-													a: 1.0,
-												},
-											},
-										],
-										strokes: [],
-										strokeWeight: 1.0,
-										strokeAlign: "INSIDE",
-										effects: [],
-									},
-								],
-								absoluteBoundingBox: {
-									x: -174.0,
-									y: 183.0,
-									width: 48.0,
-									height: 106.0,
-								},
-								absoluteRenderBounds: {
-									x: -174.0,
-									y: 183.0,
-									width: 48.0,
-									height: 106.0,
-								},
-								constraints: {
-									vertical: "TOP",
-									horizontal: "LEFT",
-								},
-								layoutAlign: "INHERIT",
-								layoutGrow: 0.0,
-								clipsContent: false,
-								background: [],
-								fills: [],
-								strokes: [],
-								strokeWeight: 1.0,
-								strokeAlign: "INSIDE",
-								backgroundColor: {
-									r: 0.0,
-									g: 0.0,
-									b: 0.0,
-									a: 0.0,
-								},
-								layoutMode: "VERTICAL",
-								itemSpacing: 10.0,
-								primaryAxisAlignItems: "MAX",
-								layoutWrap: "NO_WRAP",
-								effects: [],
-							},
-							{
-								id: "38:11",
-								name: "Frame 3",
-								type: "FRAME",
-								scrollBehavior: "SCROLLS",
-								blendMode: "PASS_THROUGH",
-								children: [
-									{
-										id: "38:12",
-										name: "Rectangle 2",
-										type: "RECTANGLE",
-										scrollBehavior: "SCROLLS",
-										blendMode: "PASS_THROUGH",
-										absoluteBoundingBox: {
-											x: -114.0,
-											y: 67.0,
-											width: 48.0,
-											height: 48.0,
-										},
-										absoluteRenderBounds: {
-											x: -114.0,
-											y: 67.0,
-											width: 48.0,
-											height: 48.0,
-										},
-										constraints: {
-											vertical: "TOP",
-											horizontal: "LEFT",
-										},
-										layoutAlign: "INHERIT",
-										layoutGrow: 0.0,
-										fills: [
-											{
-												blendMode: "NORMAL",
-												type: "SOLID",
-												color: {
-													r: 0.85098040103912354,
-													g: 0.85098040103912354,
-													b: 0.85098040103912354,
-													a: 1.0,
-												},
-											},
-										],
-										strokes: [],
-										strokeWeight: 1.0,
-										strokeAlign: "INSIDE",
-										effects: [],
-									},
-									{
-										id: "38:14",
-										name: "Rectangle 4",
-										type: "RECTANGLE",
-										scrollBehavior: "SCROLLS",
-										blendMode: "PASS_THROUGH",
-										absoluteBoundingBox: {
-											x: -114.0,
-											y: 125.0,
-											width: 48.0,
-											height: 48.0,
-										},
-										absoluteRenderBounds: {
-											x: -114.0,
-											y: 125.0,
-											width: 48.0,
-											height: 48.0,
-										},
-										constraints: {
-											vertical: "TOP",
-											horizontal: "LEFT",
-										},
-										layoutAlign: "INHERIT",
-										layoutGrow: 0.0,
-										fills: [
-											{
-												blendMode: "NORMAL",
-												type: "SOLID",
-												color: {
-													r: 0.85098040103912354,
-													g: 0.85098040103912354,
-													b: 0.85098040103912354,
-													a: 1.0,
-												},
-											},
-										],
-										strokes: [],
-										strokeWeight: 1.0,
-										strokeAlign: "INSIDE",
-										effects: [],
-									},
-									{
-										id: "38:15",
-										name: "Rectangle 5",
-										type: "RECTANGLE",
-										scrollBehavior: "SCROLLS",
-										blendMode: "PASS_THROUGH",
-										absoluteBoundingBox: {
-											x: -114.0,
-											y: 183.0,
-											width: 48.0,
-											height: 48.0,
-										},
-										absoluteRenderBounds: {
-											x: -114.0,
-											y: 183.0,
-											width: 48.0,
-											height: 48.0,
-										},
-										constraints: {
-											vertical: "TOP",
-											horizontal: "LEFT",
-										},
-										layoutAlign: "INHERIT",
-										layoutGrow: 0.0,
-										fills: [
-											{
-												blendMode: "NORMAL",
-												type: "SOLID",
-												color: {
-													r: 0.85098040103912354,
-													g: 0.85098040103912354,
-													b: 0.85098040103912354,
-													a: 1.0,
-												},
-											},
-										],
-										strokes: [],
-										strokeWeight: 1.0,
-										strokeAlign: "INSIDE",
-										effects: [],
-									},
-									{
-										id: "38:13",
-										name: "Rectangle 3",
-										type: "RECTANGLE",
-										scrollBehavior: "SCROLLS",
-										blendMode: "PASS_THROUGH",
-										absoluteBoundingBox: {
-											x: -114.0,
-											y: 241.0,
-											width: 48.0,
-											height: 48.0,
-										},
-										absoluteRenderBounds: {
-											x: -114.0,
-											y: 241.0,
-											width: 48.0,
-											height: 48.0,
-										},
-										constraints: {
-											vertical: "TOP",
-											horizontal: "LEFT",
-										},
-										layoutAlign: "INHERIT",
-										layoutGrow: 0.0,
-										fills: [
-											{
-												blendMode: "NORMAL",
-												type: "SOLID",
-												color: {
-													r: 0.85098040103912354,
-													g: 0.85098040103912354,
-													b: 0.85098040103912354,
-													a: 1.0,
-												},
-											},
-										],
-										strokes: [],
-										strokeWeight: 1.0,
-										strokeAlign: "INSIDE",
-										effects: [],
-									},
-								],
-								absoluteBoundingBox: {
-									x: -114.0,
-									y: 67.0,
-									width: 48.0,
-									height: 222.0,
-								},
-								absoluteRenderBounds: {
-									x: -114.0,
-									y: 67.0,
-									width: 48.0,
-									height: 222.0,
-								},
-								constraints: {
-									vertical: "TOP",
-									horizontal: "LEFT",
-								},
-								layoutAlign: "INHERIT",
-								layoutGrow: 0.0,
-								clipsContent: false,
-								background: [],
-								fills: [],
-								strokes: [],
-								strokeWeight: 1.0,
-								strokeAlign: "INSIDE",
-								backgroundColor: {
-									r: 0.0,
-									g: 0.0,
-									b: 0.0,
-									a: 0.0,
-								},
-								layoutMode: "VERTICAL",
-								itemSpacing: 10.0,
-								primaryAxisAlignItems: "MAX",
-								layoutWrap: "NO_WRAP",
-								effects: [],
-							},
-							{
-								id: "38:16",
-								name: "Frame 4",
-								type: "FRAME",
-								scrollBehavior: "SCROLLS",
-								blendMode: "PASS_THROUGH",
-								children: [
-									{
-										id: "38:33",
-										name: "Group 1",
-										type: "GROUP",
-										scrollBehavior: "SCROLLS",
-										blendMode: "PASS_THROUGH",
-										children: [
-											{
-												id: "38:31",
-												name: "Polygon 1",
-												type: "REGULAR_POLYGON",
-												scrollBehavior: "SCROLLS",
-												blendMode: "PASS_THROUGH",
-												absoluteBoundingBox: {
-													x: -54.0,
-													y: 171.0,
-													width: 43.0,
-													height: 25.0,
-												},
-												absoluteRenderBounds: {
-													x: -51.119544982910156,
-													y: 171.0,
-													width: 37.239089965820312,
-													height: 18.75,
-												},
-												constraints: {
-													vertical: "TOP",
-													horizontal: "LEFT",
-												},
-												fills: [
-													{
-														blendMode: "NORMAL",
-														type: "SOLID",
-														color: {
-															r: 0.20000000298023224,
-															g: 0.20000000298023224,
-															b: 0.20000000298023224,
-															a: 1.0,
-														},
-													},
-												],
-												strokes: [],
-												strokeWeight: 1.0,
-												strokeAlign: "INSIDE",
-												effects: [],
-											},
-											{
-												id: "38:32",
-												name: "Polygon 2",
-												type: "REGULAR_POLYGON",
-												scrollBehavior: "SCROLLS",
-												rotation: -3.1415926535897931,
-												blendMode: "PASS_THROUGH",
-												absoluteBoundingBox: {
-													x: -54.0,
-													y: 196.0,
-													width: 43.0,
-													height: 25.0,
-												},
-												absoluteRenderBounds: {
-													x: -51.119544982910156,
-													y: 202.25,
-													width: 37.239089965820312,
-													height: 18.75,
-												},
-												constraints: {
-													vertical: "TOP",
-													horizontal: "LEFT",
-												},
-												fills: [
-													{
-														blendMode: "NORMAL",
-														type: "SOLID",
-														color: {
-															r: 0.20000000298023224,
-															g: 0.20000000298023224,
-															b: 0.20000000298023224,
-															a: 1.0,
-														},
-													},
-												],
-												strokes: [],
-												strokeWeight: 1.0,
-												strokeAlign: "INSIDE",
-												effects: [],
-											},
-										],
-										absoluteBoundingBox: {
-											x: -54.0,
-											y: 171.0,
-											width: 43.0,
-											height: 50.0,
-										},
-										absoluteRenderBounds: {
-											x: -54.0,
-											y: 171.0,
-											width: 43.0,
-											height: 50.0,
-										},
-										constraints: {
-											vertical: "TOP",
-											horizontal: "LEFT",
-										},
-										layoutAlign: "INHERIT",
-										layoutGrow: 0.0,
-										clipsContent: false,
-										background: [],
-										fills: [],
-										strokes: [],
-										strokeWeight: 1.0,
-										strokeAlign: "INSIDE",
-										backgroundColor: {
-											r: 0.0,
-											g: 0.0,
-											b: 0.0,
-											a: 0.0,
-										},
-										effects: [],
-									},
-									{
-										id: "38:24",
-										name: "Frame 6",
-										type: "FRAME",
-										scrollBehavior: "SCROLLS",
-										blendMode: "PASS_THROUGH",
-										children: [
-											{
-												id: "38:25",
-												name: "Rectangle 2",
-												type: "RECTANGLE",
-												scrollBehavior: "SCROLLS",
-												blendMode: "PASS_THROUGH",
-												absoluteBoundingBox: {
-													x: -54.0,
-													y: -223.0,
-													width: 48.0,
-													height: 48.0,
-												},
-												absoluteRenderBounds: {
-													x: null,
-													y: null,
-													width: null,
-													height: null,
-												},
-												constraints: {
-													vertical: "TOP",
-													horizontal: "LEFT",
-												},
-												layoutAlign: "INHERIT",
-												layoutGrow: 0.0,
-												fills: [
-													{
-														blendMode: "NORMAL",
-														type: "SOLID",
-														color: {
-															r: 0.85098040103912354,
-															g: 0.85098040103912354,
-															b: 0.85098040103912354,
-															a: 1.0,
-														},
-													},
-												],
-												strokes: [],
-												strokeWeight: 1.0,
-												strokeAlign: "INSIDE",
-												effects: [],
-											},
-											{
-												id: "38:35",
-												name: "Rectangle 8",
-												type: "RECTANGLE",
-												scrollBehavior: "SCROLLS",
-												blendMode: "PASS_THROUGH",
-												absoluteBoundingBox: {
-													x: -54.0,
-													y: -165.0,
-													width: 48.0,
-													height: 48.0,
-												},
-												absoluteRenderBounds: {
-													x: null,
-													y: null,
-													width: null,
-													height: null,
-												},
-												constraints: {
-													vertical: "TOP",
-													horizontal: "LEFT",
-												},
-												layoutAlign: "INHERIT",
-												layoutGrow: 0.0,
-												fills: [
-													{
-														blendMode: "NORMAL",
-														type: "SOLID",
-														color: {
-															r: 0.85098040103912354,
-															g: 0.85098040103912354,
-															b: 0.85098040103912354,
-															a: 1.0,
-														},
-													},
-												],
-												strokes: [],
-												strokeWeight: 1.0,
-												strokeAlign: "INSIDE",
-												effects: [],
-											},
-											{
-												id: "38:36",
-												name: "Rectangle 9",
-												type: "RECTANGLE",
-												scrollBehavior: "SCROLLS",
-												blendMode: "PASS_THROUGH",
-												absoluteBoundingBox: {
-													x: -54.0,
-													y: -107.0,
-													width: 48.0,
-													height: 48.0,
-												},
-												absoluteRenderBounds: {
-													x: null,
-													y: null,
-													width: null,
-													height: null,
-												},
-												constraints: {
-													vertical: "TOP",
-													horizontal: "LEFT",
-												},
-												layoutAlign: "INHERIT",
-												layoutGrow: 0.0,
-												fills: [
-													{
-														blendMode: "NORMAL",
-														type: "SOLID",
-														color: {
-															r: 0.85098040103912354,
-															g: 0.85098040103912354,
-															b: 0.85098040103912354,
-															a: 1.0,
-														},
-													},
-												],
-												strokes: [],
-												strokeWeight: 1.0,
-												strokeAlign: "INSIDE",
-												effects: [],
-											},
-											{
-												id: "38:37",
-												name: "Rectangle 10",
-												type: "RECTANGLE",
-												scrollBehavior: "SCROLLS",
-												blendMode: "PASS_THROUGH",
-												absoluteBoundingBox: {
-													x: -54.0,
-													y: -49.0,
-													width: 48.0,
-													height: 48.0,
-												},
-												absoluteRenderBounds: {
-													x: null,
-													y: null,
-													width: null,
-													height: null,
-												},
-												constraints: {
-													vertical: "TOP",
-													horizontal: "LEFT",
-												},
-												layoutAlign: "INHERIT",
-												layoutGrow: 0.0,
-												fills: [
-													{
-														blendMode: "NORMAL",
-														type: "SOLID",
-														color: {
-															r: 0.85098040103912354,
-															g: 0.85098040103912354,
-															b: 0.85098040103912354,
-															a: 1.0,
-														},
-													},
-												],
-												strokes: [],
-												strokeWeight: 1.0,
-												strokeAlign: "INSIDE",
-												effects: [],
-											},
-											{
-												id: "38:26",
-												name: "Rectangle 6",
-												type: "RECTANGLE",
-												scrollBehavior: "SCROLLS",
-												blendMode: "PASS_THROUGH",
-												absoluteBoundingBox: {
-													x: -54.0,
-													y: 9.0,
-													width: 48.0,
-													height: 48.0,
-												},
-												absoluteRenderBounds: {
-													x: null,
-													y: null,
-													width: null,
-													height: null,
-												},
-												constraints: {
-													vertical: "TOP",
-													horizontal: "LEFT",
-												},
-												layoutAlign: "INHERIT",
-												layoutGrow: 0.0,
-												fills: [
-													{
-														blendMode: "NORMAL",
-														type: "SOLID",
-														color: {
-															r: 0.85098040103912354,
-															g: 0.85098040103912354,
-															b: 0.85098040103912354,
-															a: 1.0,
-														},
-													},
-												],
-												strokes: [],
-												strokeWeight: 1.0,
-												strokeAlign: "INSIDE",
-												effects: [],
-											},
-											{
-												id: "38:27",
-												name: "Rectangle 7",
-												type: "RECTANGLE",
-												scrollBehavior: "SCROLLS",
-												blendMode: "PASS_THROUGH",
-												absoluteBoundingBox: {
-													x: -54.0,
-													y: 67.0,
-													width: 48.0,
-													height: 48.0,
-												},
-												absoluteRenderBounds: {
-													x: null,
-													y: null,
-													width: null,
-													height: null,
-												},
-												constraints: {
-													vertical: "TOP",
-													horizontal: "LEFT",
-												},
-												layoutAlign: "INHERIT",
-												layoutGrow: 0.0,
-												fills: [
-													{
-														blendMode: "NORMAL",
-														type: "SOLID",
-														color: {
-															r: 0.85098040103912354,
-															g: 0.85098040103912354,
-															b: 0.85098040103912354,
-															a: 1.0,
-														},
-													},
-												],
-												strokes: [],
-												strokeWeight: 1.0,
-												strokeAlign: "INSIDE",
-												effects: [],
-											},
-											{
-												id: "38:28",
-												name: "Rectangle 4",
-												type: "RECTANGLE",
-												scrollBehavior: "SCROLLS",
-												blendMode: "PASS_THROUGH",
-												absoluteBoundingBox: {
-													x: -54.0,
-													y: 125.0,
-													width: 48.0,
-													height: 48.0,
-												},
-												absoluteRenderBounds: {
-													x: null,
-													y: null,
-													width: null,
-													height: null,
-												},
-												constraints: {
-													vertical: "TOP",
-													horizontal: "LEFT",
-												},
-												layoutAlign: "INHERIT",
-												layoutGrow: 0.0,
-												fills: [
-													{
-														blendMode: "NORMAL",
-														type: "SOLID",
-														color: {
-															r: 0.85098040103912354,
-															g: 0.85098040103912354,
-															b: 0.85098040103912354,
-															a: 1.0,
-														},
-													},
-												],
-												strokes: [],
-												strokeWeight: 1.0,
-												strokeAlign: "INSIDE",
-												effects: [],
-											},
-											{
-												id: "38:29",
-												name: "Rectangle 5",
-												type: "RECTANGLE",
-												scrollBehavior: "SCROLLS",
-												blendMode: "PASS_THROUGH",
-												absoluteBoundingBox: {
-													x: -54.0,
-													y: 183.0,
-													width: 48.0,
-													height: 48.0,
-												},
-												absoluteRenderBounds: {
-													x: -54.0,
-													y: 231.0,
-													width: 48.0,
-													height: 0.0,
-												},
-												constraints: {
-													vertical: "TOP",
-													horizontal: "LEFT",
-												},
-												layoutAlign: "INHERIT",
-												layoutGrow: 0.0,
-												fills: [
-													{
-														blendMode: "NORMAL",
-														type: "SOLID",
-														color: {
-															r: 0.85098040103912354,
-															g: 0.85098040103912354,
-															b: 0.85098040103912354,
-															a: 1.0,
-														},
-													},
-												],
-												strokes: [],
-												strokeWeight: 1.0,
-												strokeAlign: "INSIDE",
-												effects: [],
-											},
-											{
-												id: "38:30",
-												name: "Rectangle 3",
-												type: "RECTANGLE",
-												scrollBehavior: "SCROLLS",
-												blendMode: "PASS_THROUGH",
-												absoluteBoundingBox: {
-													x: -54.0,
-													y: 241.0,
-													width: 48.0,
-													height: 48.0,
-												},
-												absoluteRenderBounds: {
-													x: -54.0,
-													y: 241.0,
-													width: 48.0,
-													height: 48.0,
-												},
-												constraints: {
-													vertical: "TOP",
-													horizontal: "LEFT",
-												},
-												layoutAlign: "INHERIT",
-												layoutGrow: 0.0,
-												fills: [
-													{
-														blendMode: "NORMAL",
-														type: "SOLID",
-														color: {
-															r: 0.85098040103912354,
-															g: 0.85098040103912354,
-															b: 0.85098040103912354,
-															a: 1.0,
-														},
-													},
-												],
-												strokes: [],
-												strokeWeight: 1.0,
-												strokeAlign: "INSIDE",
-												effects: [],
-											},
-										],
-										absoluteBoundingBox: {
-											x: -54.0,
-											y: 231.0,
-											width: 48.0,
-											height: 58.0,
-										},
-										absoluteRenderBounds: {
-											x: -54.0,
-											y: 231.0,
-											width: 48.0,
-											height: 58.0,
-										},
-										constraints: {
-											vertical: "TOP",
-											horizontal: "LEFT",
-										},
-										layoutAlign: "INHERIT",
-										layoutGrow: 0.0,
-										clipsContent: true,
-										background: [],
-										fills: [],
-										strokes: [],
-										strokeWeight: 1.0,
-										strokeAlign: "INSIDE",
-										backgroundColor: {
-											r: 0.0,
-											g: 0.0,
-											b: 0.0,
-											a: 0.0,
-										},
-										layoutMode: "VERTICAL",
-										itemSpacing: 10.0,
-										primaryAxisSizingMode: "FIXED",
-										counterAxisAlignItems: "CENTER",
-										primaryAxisAlignItems: "MAX",
-										layoutWrap: "NO_WRAP",
-										effects: [],
-									},
-								],
-								absoluteBoundingBox: {
-									x: -54.0,
-									y: -397.0,
-									width: 48.0,
-									height: 686.0,
-								},
-								absoluteRenderBounds: {
-									x: -54.0,
-									y: -397.0,
-									width: 48.0,
-									height: 686.0,
-								},
-								constraints: {
-									vertical: "TOP",
-									horizontal: "LEFT",
-								},
-								layoutAlign: "INHERIT",
-								layoutGrow: 0.0,
-								clipsContent: false,
-								background: [],
-								fills: [],
-								strokes: [],
-								strokeWeight: 1.0,
-								strokeAlign: "INSIDE",
-								backgroundColor: {
-									r: 0.0,
-									g: 0.0,
-									b: 0.0,
-									a: 0.0,
-								},
-								layoutMode: "VERTICAL",
-								itemSpacing: 10.0,
-								primaryAxisSizingMode: "FIXED",
-								primaryAxisAlignItems: "MAX",
-								layoutWrap: "NO_WRAP",
-								effects: [],
-							},
-						],
-						absoluteBoundingBox: {
-							x: -300.0,
-							y: -407.0,
-							width: 360.0,
-							height: 706.0,
-						},
-						absoluteRenderBounds: {
-							x: -300.0,
-							y: -407.0,
-							width: 360.0,
-							height: 706.0,
-						},
-						constraints: {
-							vertical: "TOP",
-							horizontal: "LEFT",
-						},
-						minWidth: 360.0,
-						minHeight: 360.0,
-						clipsContent: false,
-						background: [
-							{
-								blendMode: "NORMAL",
-								type: "SOLID",
-								color: {
-									r: 1.0,
-									g: 1.0,
-									b: 1.0,
-									a: 1.0,
-								},
-							},
-						],
-						fills: [
-							{
-								blendMode: "NORMAL",
-								type: "SOLID",
-								color: {
-									r: 1.0,
-									g: 1.0,
-									b: 1.0,
-									a: 1.0,
-								},
-							},
-						],
-						strokes: [],
-						strokeWeight: 1.0,
-						strokeAlign: "INSIDE",
-						backgroundColor: {
-							r: 1.0,
-							g: 1.0,
-							b: 1.0,
-							a: 1.0,
-						},
-						layoutMode: "HORIZONTAL",
-						itemSpacing: 12.0,
-						counterAxisAlignItems: "MAX",
-						primaryAxisAlignItems: "CENTER",
-						paddingLeft: 10.0,
-						paddingRight: 10.0,
-						paddingTop: 10.0,
-						paddingBottom: 10.0,
-						layoutWrap: "NO_WRAP",
-						exportSettings: [
-							{
-								suffix: "",
-								format: "PNG",
-								constraint: {
-									type: "SCALE",
-									value: 1.0,
-								},
-							},
-						],
-						effects: [],
-					},
-				],
-				backgroundColor: {
-					r: 0.96078431606292725,
-					g: 0.96078431606292725,
-					b: 0.96078431606292725,
-					a: 1.0,
-				},
-				prototypeStartNodeID: null,
-				flowStartingPoints: [],
-				prototypeDevice: {
-					type: "NONE",
-					rotation: "NONE",
-				},
-			},
-		],
-	},
-	components: {},
-	componentSets: {},
-	schemaVersion: 0,
-	styles: {},
-	name: "Building Blocks - Interactive Activities",
-	lastModified: "2023-08-02T18:14:10Z",
-	thumbnailUrl:
-		"https://s3-alpha.figma.com/thumbnails/5af57754-20ee-4374-b830-9c9e8768205e?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAQ4GOSFWC7ZQJHYXS%2F20230730%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20230730T120000Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=52a38f8bfff62bc8da93edca1578731b18b421ea59787374aa58af67c994e394",
-	version: "3926495748",
-	role: "owner",
-	editorType: "figma",
-	linkAccess: "view",
-};
+    id: "6:2",
+    name: "A base play area Frame",
+    visible: true,
+    type: "FRAME",
+    rotation: 0,
+    componentPropertyReferences: null,
+    boundVariables: {},
+    children: [
+      {
+        id: "6:3",
+        name: "Frame 1",
+        visible: true,
+        type: "FRAME",
+        rotation: 0,
+        componentPropertyReferences: null,
+        boundVariables: {},
+        children: [
+          {
+            id: "6:4",
+            name: "Rectangle 3",
+            visible: true,
+            type: "RECTANGLE",
+            rotation: 0,
+            componentPropertyReferences: null,
+            boundVariables: {},
+            locked: false,
+            exportSettings: [],
+            blendMode: "PASS_THROUGH",
+            constraints: {
+              horizontal: "MIN",
+              vertical: "MIN"
+            },
+            opacity: 1,
+            absoluteBoundingBox: {
+              x: 236,
+              y: 252,
+              width: 48,
+              height: 48
+            },
+            effects: [],
+            isMask: false,
+            fills: [
+              {
+                type: "SOLID",
+                visible: true,
+                opacity: 1,
+                blendMode: "NORMAL",
+                color: {
+                  r: 0.8509804010391235,
+                  g: 0.8509804010391235,
+                  b: 0.8509804010391235
+                },
+                boundVariables: {}
+              }
+            ],
+            fillGeometry: [
+              {
+                windingRule: "NONZERO",
+                data: "M0 0L48 0L48 48L0 48L0 0Z"
+              }
+            ],
+            relativeTransform: [
+              [
+                1,
+                0,
+                0
+              ],
+              [
+                0,
+                1,
+                0
+              ]
+            ],
+            strokes: [],
+            strokeWeight: 1,
+            strokeCap: "NONE",
+            strokeJoin: "MITER",
+            cornerRadius: 0
+          }
+        ],
+        locked: false,
+        fills: [],
+        strokes: [],
+        strokeWeight: 1,
+        strokeAlign: "INSIDE",
+        cornerRadius: 0,
+        exportSettings: [],
+        blendMode: "PASS_THROUGH",
+        constraints: {
+          horizontal: "MIN",
+          vertical: "MIN"
+        },
+        layoutAlign: "INHERIT",
+        opacity: 1,
+        absoluteBoundingBox: {
+          x: 236,
+          y: 252,
+          width: 48,
+          height: 48
+        },
+        effects: [],
+        isMask: false,
+        layoutMode: "VERTICAL",
+        primaryAxisAlignItems: "MAX",
+        counterAxisAlignItems: "MIN",
+        itemSpacing: 10
+      },
+      {
+        id: "6:5",
+        name: "Frame 2",
+        visible: true,
+        type: "FRAME",
+        rotation: 0,
+        componentPropertyReferences: null,
+        boundVariables: {},
+        children: [
+          {
+            id: "6:6",
+            name: "Rectangle 2",
+            visible: true,
+            type: "RECTANGLE",
+            rotation: 0,
+            componentPropertyReferences: null,
+            boundVariables: {},
+            locked: false,
+            exportSettings: [],
+            blendMode: "PASS_THROUGH",
+            constraints: {
+              horizontal: "MIN",
+              vertical: "MIN"
+            },
+            opacity: 1,
+            absoluteBoundingBox: {
+              x: 296,
+              y: 194,
+              width: 48,
+              height: 48
+            },
+            effects: [],
+            isMask: false,
+            fills: [
+              {
+                type: "SOLID",
+                visible: true,
+                opacity: 1,
+                blendMode: "NORMAL",
+                color: {
+                  r: 0.8509804010391235,
+                  g: 0.8509804010391235,
+                  b: 0.8509804010391235
+                },
+                boundVariables: {}
+              }
+            ],
+            fillGeometry: [
+              {
+                windingRule: "NONZERO",
+                data: "M0 0L48 0L48 48L0 48L0 0Z"
+              }
+            ],
+            relativeTransform: [
+              [
+                1,
+                0,
+                0
+              ],
+              [
+                0,
+                1,
+                0
+              ]
+            ],
+            strokes: [],
+            strokeWeight: 1,
+            strokeCap: "NONE",
+            strokeJoin: "MITER",
+            cornerRadius: 0
+          },
+          {
+            id: "6:7",
+            name: "Rectangle 3",
+            visible: true,
+            type: "RECTANGLE",
+            rotation: 0,
+            componentPropertyReferences: null,
+            boundVariables: {},
+            locked: false,
+            exportSettings: [],
+            blendMode: "PASS_THROUGH",
+            constraints: {
+              horizontal: "MIN",
+              vertical: "MIN"
+            },
+            opacity: 1,
+            absoluteBoundingBox: {
+              x: 296,
+              y: 252,
+              width: 48,
+              height: 48
+            },
+            effects: [],
+            isMask: false,
+            fills: [
+              {
+                type: "SOLID",
+                visible: true,
+                opacity: 1,
+                blendMode: "NORMAL",
+                color: {
+                  r: 0.8509804010391235,
+                  g: 0.8509804010391235,
+                  b: 0.8509804010391235
+                },
+                boundVariables: {}
+              }
+            ],
+            fillGeometry: [
+              {
+                windingRule: "NONZERO",
+                data: "M0 0L48 0L48 48L0 48L0 0Z"
+              }
+            ],
+            relativeTransform: [
+              [
+                1,
+                0,
+                0
+              ],
+              [
+                0,
+                1,
+                58
+              ]
+            ],
+            strokes: [],
+            strokeWeight: 1,
+            strokeCap: "NONE",
+            strokeJoin: "MITER",
+            cornerRadius: 0
+          }
+        ],
+        locked: false,
+        fills: [],
+        strokes: [],
+        strokeWeight: 1,
+        strokeAlign: "INSIDE",
+        cornerRadius: 0,
+        exportSettings: [],
+        blendMode: "PASS_THROUGH",
+        constraints: {
+          horizontal: "MIN",
+          vertical: "MIN"
+        },
+        layoutAlign: "INHERIT",
+        opacity: 1,
+        absoluteBoundingBox: {
+          x: 296,
+          y: 194,
+          width: 48,
+          height: 106
+        },
+        effects: [],
+        isMask: false,
+        layoutMode: "VERTICAL",
+        primaryAxisAlignItems: "MAX",
+        counterAxisAlignItems: "MIN",
+        itemSpacing: 10
+      },
+      {
+        id: "6:8",
+        name: "Frame 3",
+        visible: true,
+        type: "FRAME",
+        rotation: 0,
+        componentPropertyReferences: null,
+        boundVariables: {},
+        children: [
+          {
+            id: "6:9",
+            name: "Rectangle 2",
+            visible: true,
+            type: "RECTANGLE",
+            rotation: 0,
+            componentPropertyReferences: null,
+            boundVariables: {},
+            locked: false,
+            exportSettings: [],
+            blendMode: "PASS_THROUGH",
+            constraints: {
+              horizontal: "MIN",
+              vertical: "MIN"
+            },
+            opacity: 1,
+            absoluteBoundingBox: {
+              x: 356,
+              y: 78,
+              width: 48,
+              height: 48
+            },
+            effects: [],
+            isMask: false,
+            fills: [
+              {
+                type: "SOLID",
+                visible: true,
+                opacity: 1,
+                blendMode: "NORMAL",
+                color: {
+                  r: 0.8509804010391235,
+                  g: 0.8509804010391235,
+                  b: 0.8509804010391235
+                },
+                boundVariables: {}
+              }
+            ],
+            fillGeometry: [
+              {
+                windingRule: "NONZERO",
+                data: "M0 0L48 0L48 48L0 48L0 0Z"
+              }
+            ],
+            relativeTransform: [
+              [
+                1,
+                0,
+                0
+              ],
+              [
+                0,
+                1,
+                0
+              ]
+            ],
+            strokes: [],
+            strokeWeight: 1,
+            strokeCap: "NONE",
+            strokeJoin: "MITER",
+            cornerRadius: 0
+          },
+          {
+            id: "6:10",
+            name: "Rectangle 4",
+            visible: true,
+            type: "RECTANGLE",
+            rotation: 0,
+            componentPropertyReferences: null,
+            boundVariables: {},
+            locked: false,
+            exportSettings: [],
+            blendMode: "PASS_THROUGH",
+            constraints: {
+              horizontal: "MIN",
+              vertical: "MIN"
+            },
+            opacity: 1,
+            absoluteBoundingBox: {
+              x: 356,
+              y: 136,
+              width: 48,
+              height: 48
+            },
+            effects: [],
+            isMask: false,
+            fills: [
+              {
+                type: "SOLID",
+                visible: true,
+                opacity: 1,
+                blendMode: "NORMAL",
+                color: {
+                  r: 0.8509804010391235,
+                  g: 0.8509804010391235,
+                  b: 0.8509804010391235
+                },
+                boundVariables: {}
+              }
+            ],
+            fillGeometry: [
+              {
+                windingRule: "NONZERO",
+                data: "M0 0L48 0L48 48L0 48L0 0Z"
+              }
+            ],
+            relativeTransform: [
+              [
+                1,
+                0,
+                0
+              ],
+              [
+                0,
+                1,
+                58
+              ]
+            ],
+            strokes: [],
+            strokeWeight: 1,
+            strokeCap: "NONE",
+            strokeJoin: "MITER",
+            cornerRadius: 0
+          },
+          {
+            id: "6:11",
+            name: "Rectangle 5",
+            visible: true,
+            type: "RECTANGLE",
+            rotation: 0,
+            componentPropertyReferences: null,
+            boundVariables: {},
+            locked: false,
+            exportSettings: [],
+            blendMode: "PASS_THROUGH",
+            constraints: {
+              horizontal: "MIN",
+              vertical: "MIN"
+            },
+            opacity: 1,
+            absoluteBoundingBox: {
+              x: 356,
+              y: 194,
+              width: 48,
+              height: 48
+            },
+            effects: [],
+            isMask: false,
+            fills: [
+              {
+                type: "SOLID",
+                visible: true,
+                opacity: 1,
+                blendMode: "NORMAL",
+                color: {
+                  r: 0.8509804010391235,
+                  g: 0.8509804010391235,
+                  b: 0.8509804010391235
+                },
+                boundVariables: {}
+              }
+            ],
+            fillGeometry: [
+              {
+                windingRule: "NONZERO",
+                data: "M0 0L48 0L48 48L0 48L0 0Z"
+              }
+            ],
+            relativeTransform: [
+              [
+                1,
+                0,
+                0
+              ],
+              [
+                0,
+                1,
+                116
+              ]
+            ],
+            strokes: [],
+            strokeWeight: 1,
+            strokeCap: "NONE",
+            strokeJoin: "MITER",
+            cornerRadius: 0
+          },
+          {
+            id: "6:12",
+            name: "Rectangle 3",
+            visible: true,
+            type: "RECTANGLE",
+            rotation: 0,
+            componentPropertyReferences: null,
+            boundVariables: {},
+            locked: false,
+            exportSettings: [],
+            blendMode: "PASS_THROUGH",
+            constraints: {
+              horizontal: "MIN",
+              vertical: "MIN"
+            },
+            opacity: 1,
+            absoluteBoundingBox: {
+              x: 356,
+              y: 252,
+              width: 48,
+              height: 48
+            },
+            effects: [],
+            isMask: false,
+            fills: [
+              {
+                type: "SOLID",
+                visible: true,
+                opacity: 1,
+                blendMode: "NORMAL",
+                color: {
+                  r: 0.8509804010391235,
+                  g: 0.8509804010391235,
+                  b: 0.8509804010391235
+                },
+                boundVariables: {}
+              }
+            ],
+            fillGeometry: [
+              {
+                windingRule: "NONZERO",
+                data: "M0 0L48 0L48 48L0 48L0 0Z"
+              }
+            ],
+            relativeTransform: [
+              [
+                1,
+                0,
+                0
+              ],
+              [
+                0,
+                1,
+                174
+              ]
+            ],
+            strokes: [],
+            strokeWeight: 1,
+            strokeCap: "NONE",
+            strokeJoin: "MITER",
+            cornerRadius: 0
+          }
+        ],
+        locked: false,
+        fills: [],
+        strokes: [],
+        strokeWeight: 1,
+        strokeAlign: "INSIDE",
+        cornerRadius: 0,
+        exportSettings: [],
+        blendMode: "PASS_THROUGH",
+        constraints: {
+          horizontal: "MIN",
+          vertical: "MIN"
+        },
+        layoutAlign: "INHERIT",
+        opacity: 1,
+        absoluteBoundingBox: {
+          x: 356,
+          y: 78,
+          width: 48,
+          height: 222
+        },
+        effects: [],
+        isMask: false,
+        layoutMode: "VERTICAL",
+        primaryAxisAlignItems: "MAX",
+        counterAxisAlignItems: "MIN",
+        itemSpacing: 10
+      },
+      {
+        id: "6:13",
+        name: "Frame 4",
+        visible: true,
+        type: "FRAME",
+        rotation: 0,
+        componentPropertyReferences: null,
+        boundVariables: {},
+        children: [
+          {
+            id: "6:14",
+            name: "Group 1",
+            visible: true,
+            type: "GROUP",
+            rotation: 0,
+            componentPropertyReferences: null,
+            boundVariables: {},
+            children: [
+              {
+                id: "6:15",
+                name: "Polygon 1",
+                visible: true,
+                type: "POLYGON",
+                rotation: 0,
+                componentPropertyReferences: null,
+                boundVariables: {},
+                locked: false,
+                exportSettings: [],
+                blendMode: "PASS_THROUGH",
+                constraints: {
+                  horizontal: "MIN",
+                  vertical: "MIN"
+                },
+                opacity: 1,
+                absoluteBoundingBox: {
+                  x: 416,
+                  y: 182,
+                  width: 43,
+                  height: 25
+                },
+                effects: [],
+                isMask: false,
+                fills: [
+                  {
+                    type: "SOLID",
+                    visible: true,
+                    opacity: 1,
+                    blendMode: "NORMAL",
+                    color: {
+                      r: 0.20000000298023224,
+                      g: 0.20000000298023224,
+                      b: 0.20000000298023224
+                    },
+                    boundVariables: {}
+                  }
+                ],
+                fillGeometry: [
+                  {
+                    windingRule: "NONZERO",
+                    data: "M21.5 0L40.1195 18.75L2.88045 18.75L21.5 0Z"
+                  }
+                ],
+                relativeTransform: [
+                  [
+                    1,
+                    0,
+                    0
+                  ],
+                  [
+                    0,
+                    1,
+                    568
+                  ]
+                ],
+                strokes: [],
+                strokeWeight: 1,
+                strokeCap: "NONE",
+                strokeJoin: "MITER",
+                cornerRadius: 0
+              },
+              {
+                id: "6:16",
+                name: "Polygon 2",
+                visible: true,
+                type: "POLYGON",
+                rotation: 180,
+                componentPropertyReferences: null,
+                boundVariables: {},
+                locked: false,
+                exportSettings: [],
+                blendMode: "PASS_THROUGH",
+                constraints: {
+                  horizontal: "MIN",
+                  vertical: "MIN"
+                },
+                opacity: 1,
+                absoluteBoundingBox: {
+                  x: 416,
+                  y: 207,
+                  width: 43,
+                  height: 25
+                },
+                effects: [],
+                isMask: false,
+                fills: [
+                  {
+                    type: "SOLID",
+                    visible: true,
+                    opacity: 1,
+                    blendMode: "NORMAL",
+                    color: {
+                      r: 0.20000000298023224,
+                      g: 0.20000000298023224,
+                      b: 0.20000000298023224
+                    },
+                    boundVariables: {}
+                  }
+                ],
+                fillGeometry: [
+                  {
+                    windingRule: "NONZERO",
+                    data: "M21.5 0L40.1195 18.75L2.88045 18.75L21.5 0Z"
+                  }
+                ],
+                relativeTransform: [
+                  [
+                    -1,
+                    1.2246467202362698e-16,
+                    43
+                  ],
+                  [
+                    -1.2246467202362698e-16,
+                    -1,
+                    618
+                  ]
+                ],
+                strokes: [],
+                strokeWeight: 1,
+                strokeCap: "NONE",
+                strokeJoin: "MITER",
+                cornerRadius: 0
+              }
+            ],
+            absoluteBoundingBox: {
+              x: 416,
+              y: 182,
+              width: 43,
+              height: 50
+            },
+            absoluteRenderBounds: {
+              x: 416,
+              y: 182,
+              width: 43,
+              height: 50
+            },
+            effects: [],
+            isMask: false
+          },
+          {
+            id: "6:17",
+            name: "Frame 6",
+            visible: true,
+            type: "FRAME",
+            rotation: 0,
+            componentPropertyReferences: null,
+            boundVariables: {},
+            children: [
+              {
+                id: "6:18",
+                name: "Rectangle 2",
+                visible: true,
+                type: "RECTANGLE",
+                rotation: 0,
+                componentPropertyReferences: null,
+                boundVariables: {},
+                locked: false,
+                exportSettings: [],
+                blendMode: "PASS_THROUGH",
+                constraints: {
+                  horizontal: "MIN",
+                  vertical: "MIN"
+                },
+                opacity: 1,
+                absoluteBoundingBox: {
+                  x: 416,
+                  y: -212,
+                  width: 48,
+                  height: 48
+                },
+                effects: [],
+                isMask: false,
+                fills: [
+                  {
+                    type: "SOLID",
+                    visible: true,
+                    opacity: 1,
+                    blendMode: "NORMAL",
+                    color: {
+                      r: 0.8509804010391235,
+                      g: 0.8509804010391235,
+                      b: 0.8509804010391235
+                    },
+                    boundVariables: {}
+                  }
+                ],
+                fillGeometry: [
+                  {
+                    windingRule: "NONZERO",
+                    data: "M0 0L48 0L48 48L0 48L0 0Z"
+                  }
+                ],
+                relativeTransform: [
+                  [
+                    1,
+                    0,
+                    0
+                  ],
+                  [
+                    0,
+                    1,
+                    -454
+                  ]
+                ],
+                strokes: [],
+                strokeWeight: 1,
+                strokeCap: "NONE",
+                strokeJoin: "MITER",
+                cornerRadius: 0
+              },
+              {
+                id: "6:19",
+                name: "Rectangle 8",
+                visible: true,
+                type: "RECTANGLE",
+                rotation: 0,
+                componentPropertyReferences: null,
+                boundVariables: {},
+                locked: false,
+                exportSettings: [],
+                blendMode: "PASS_THROUGH",
+                constraints: {
+                  horizontal: "MIN",
+                  vertical: "MIN"
+                },
+                opacity: 1,
+                absoluteBoundingBox: {
+                  x: 416,
+                  y: -154,
+                  width: 48,
+                  height: 48
+                },
+                effects: [],
+                isMask: false,
+                fills: [
+                  {
+                    type: "SOLID",
+                    visible: true,
+                    opacity: 1,
+                    blendMode: "NORMAL",
+                    color: {
+                      r: 0.8509804010391235,
+                      g: 0.8509804010391235,
+                      b: 0.8509804010391235
+                    },
+                    boundVariables: {}
+                  }
+                ],
+                fillGeometry: [
+                  {
+                    windingRule: "NONZERO",
+                    data: "M0 0L48 0L48 48L0 48L0 0Z"
+                  }
+                ],
+                relativeTransform: [
+                  [
+                    1,
+                    0,
+                    0
+                  ],
+                  [
+                    0,
+                    1,
+                    -396
+                  ]
+                ],
+                strokes: [],
+                strokeWeight: 1,
+                strokeCap: "NONE",
+                strokeJoin: "MITER",
+                cornerRadius: 0
+              },
+              {
+                id: "6:20",
+                name: "Rectangle 9",
+                visible: true,
+                type: "RECTANGLE",
+                rotation: 0,
+                componentPropertyReferences: null,
+                boundVariables: {},
+                locked: false,
+                exportSettings: [],
+                blendMode: "PASS_THROUGH",
+                constraints: {
+                  horizontal: "MIN",
+                  vertical: "MIN"
+                },
+                opacity: 1,
+                absoluteBoundingBox: {
+                  x: 416,
+                  y: -96,
+                  width: 48,
+                  height: 48
+                },
+                effects: [],
+                isMask: false,
+                fills: [
+                  {
+                    type: "SOLID",
+                    visible: true,
+                    opacity: 1,
+                    blendMode: "NORMAL",
+                    color: {
+                      r: 0.8509804010391235,
+                      g: 0.8509804010391235,
+                      b: 0.8509804010391235
+                    },
+                    boundVariables: {}
+                  }
+                ],
+                fillGeometry: [
+                  {
+                    windingRule: "NONZERO",
+                    data: "M0 0L48 0L48 48L0 48L0 0Z"
+                  }
+                ],
+                relativeTransform: [
+                  [
+                    1,
+                    0,
+                    0
+                  ],
+                  [
+                    0,
+                    1,
+                    -338
+                  ]
+                ],
+                strokes: [],
+                strokeWeight: 1,
+                strokeCap: "NONE",
+                strokeJoin: "MITER",
+                cornerRadius: 0
+              },
+              {
+                id: "6:21",
+                name: "Rectangle 10",
+                visible: true,
+                type: "RECTANGLE",
+                rotation: 0,
+                componentPropertyReferences: null,
+                boundVariables: {},
+                locked: false,
+                exportSettings: [],
+                blendMode: "PASS_THROUGH",
+                constraints: {
+                  horizontal: "MIN",
+                  vertical: "MIN"
+                },
+                opacity: 1,
+                absoluteBoundingBox: {
+                  x: 416,
+                  y: -38,
+                  width: 48,
+                  height: 48
+                },
+                effects: [],
+                isMask: false,
+                fills: [
+                  {
+                    type: "SOLID",
+                    visible: true,
+                    opacity: 1,
+                    blendMode: "NORMAL",
+                    color: {
+                      r: 0.8509804010391235,
+                      g: 0.8509804010391235,
+                      b: 0.8509804010391235
+                    },
+                    boundVariables: {}
+                  }
+                ],
+                fillGeometry: [
+                  {
+                    windingRule: "NONZERO",
+                    data: "M0 0L48 0L48 48L0 48L0 0Z"
+                  }
+                ],
+                relativeTransform: [
+                  [
+                    1,
+                    0,
+                    0
+                  ],
+                  [
+                    0,
+                    1,
+                    -280
+                  ]
+                ],
+                strokes: [],
+                strokeWeight: 1,
+                strokeCap: "NONE",
+                strokeJoin: "MITER",
+                cornerRadius: 0
+              },
+              {
+                id: "6:22",
+                name: "Rectangle 6",
+                visible: true,
+                type: "RECTANGLE",
+                rotation: 0,
+                componentPropertyReferences: null,
+                boundVariables: {},
+                locked: false,
+                exportSettings: [],
+                blendMode: "PASS_THROUGH",
+                constraints: {
+                  horizontal: "MIN",
+                  vertical: "MIN"
+                },
+                opacity: 1,
+                absoluteBoundingBox: {
+                  x: 416,
+                  y: 20,
+                  width: 48,
+                  height: 48
+                },
+                effects: [],
+                isMask: false,
+                fills: [
+                  {
+                    type: "SOLID",
+                    visible: true,
+                    opacity: 1,
+                    blendMode: "NORMAL",
+                    color: {
+                      r: 0.8509804010391235,
+                      g: 0.8509804010391235,
+                      b: 0.8509804010391235
+                    },
+                    boundVariables: {}
+                  }
+                ],
+                fillGeometry: [
+                  {
+                    windingRule: "NONZERO",
+                    data: "M0 0L48 0L48 48L0 48L0 0Z"
+                  }
+                ],
+                relativeTransform: [
+                  [
+                    1,
+                    0,
+                    0
+                  ],
+                  [
+                    0,
+                    1,
+                    -222
+                  ]
+                ],
+                strokes: [],
+                strokeWeight: 1,
+                strokeCap: "NONE",
+                strokeJoin: "MITER",
+                cornerRadius: 0
+              },
+              {
+                id: "6:23",
+                name: "Rectangle 7",
+                visible: true,
+                type: "RECTANGLE",
+                rotation: 0,
+                componentPropertyReferences: null,
+                boundVariables: {},
+                locked: false,
+                exportSettings: [],
+                blendMode: "PASS_THROUGH",
+                constraints: {
+                  horizontal: "MIN",
+                  vertical: "MIN"
+                },
+                opacity: 1,
+                absoluteBoundingBox: {
+                  x: 416,
+                  y: 78,
+                  width: 48,
+                  height: 48
+                },
+                effects: [],
+                isMask: false,
+                fills: [
+                  {
+                    type: "SOLID",
+                    visible: true,
+                    opacity: 1,
+                    blendMode: "NORMAL",
+                    color: {
+                      r: 0.8509804010391235,
+                      g: 0.8509804010391235,
+                      b: 0.8509804010391235
+                    },
+                    boundVariables: {}
+                  }
+                ],
+                fillGeometry: [
+                  {
+                    windingRule: "NONZERO",
+                    data: "M0 0L48 0L48 48L0 48L0 0Z"
+                  }
+                ],
+                relativeTransform: [
+                  [
+                    1,
+                    0,
+                    0
+                  ],
+                  [
+                    0,
+                    1,
+                    -164
+                  ]
+                ],
+                strokes: [],
+                strokeWeight: 1,
+                strokeCap: "NONE",
+                strokeJoin: "MITER",
+                cornerRadius: 0
+              },
+              {
+                id: "6:24",
+                name: "Rectangle 4",
+                visible: true,
+                type: "RECTANGLE",
+                rotation: 0,
+                componentPropertyReferences: null,
+                boundVariables: {},
+                locked: false,
+                exportSettings: [],
+                blendMode: "PASS_THROUGH",
+                constraints: {
+                  horizontal: "MIN",
+                  vertical: "MIN"
+                },
+                opacity: 1,
+                absoluteBoundingBox: {
+                  x: 416,
+                  y: 136,
+                  width: 48,
+                  height: 48
+                },
+                effects: [],
+                isMask: false,
+                fills: [
+                  {
+                    type: "SOLID",
+                    visible: true,
+                    opacity: 1,
+                    blendMode: "NORMAL",
+                    color: {
+                      r: 0.8509804010391235,
+                      g: 0.8509804010391235,
+                      b: 0.8509804010391235
+                    },
+                    boundVariables: {}
+                  }
+                ],
+                fillGeometry: [
+                  {
+                    windingRule: "NONZERO",
+                    data: "M0 0L48 0L48 48L0 48L0 0Z"
+                  }
+                ],
+                relativeTransform: [
+                  [
+                    1,
+                    0,
+                    0
+                  ],
+                  [
+                    0,
+                    1,
+                    -106
+                  ]
+                ],
+                strokes: [],
+                strokeWeight: 1,
+                strokeCap: "NONE",
+                strokeJoin: "MITER",
+                cornerRadius: 0
+              },
+              {
+                id: "6:25",
+                name: "Rectangle 5",
+                visible: true,
+                type: "RECTANGLE",
+                rotation: 0,
+                componentPropertyReferences: null,
+                boundVariables: {},
+                locked: false,
+                exportSettings: [],
+                blendMode: "PASS_THROUGH",
+                constraints: {
+                  horizontal: "MIN",
+                  vertical: "MIN"
+                },
+                opacity: 1,
+                absoluteBoundingBox: {
+                  x: 416,
+                  y: 194,
+                  width: 48,
+                  height: 48
+                },
+                effects: [],
+                isMask: false,
+                fills: [
+                  {
+                    type: "SOLID",
+                    visible: true,
+                    opacity: 1,
+                    blendMode: "NORMAL",
+                    color: {
+                      r: 0.8509804010391235,
+                      g: 0.8509804010391235,
+                      b: 0.8509804010391235
+                    },
+                    boundVariables: {}
+                  }
+                ],
+                fillGeometry: [
+                  {
+                    windingRule: "NONZERO",
+                    data: "M0 0L48 0L48 48L0 48L0 0Z"
+                  }
+                ],
+                relativeTransform: [
+                  [
+                    1,
+                    0,
+                    0
+                  ],
+                  [
+                    0,
+                    1,
+                    -48
+                  ]
+                ],
+                strokes: [],
+                strokeWeight: 1,
+                strokeCap: "NONE",
+                strokeJoin: "MITER",
+                cornerRadius: 0
+              },
+              {
+                id: "6:26",
+                name: "Rectangle 3",
+                visible: true,
+                type: "RECTANGLE",
+                rotation: 0,
+                componentPropertyReferences: null,
+                boundVariables: {},
+                locked: false,
+                exportSettings: [],
+                blendMode: "PASS_THROUGH",
+                constraints: {
+                  horizontal: "MIN",
+                  vertical: "MIN"
+                },
+                opacity: 1,
+                absoluteBoundingBox: {
+                  x: 416,
+                  y: 252,
+                  width: 48,
+                  height: 48
+                },
+                effects: [],
+                isMask: false,
+                fills: [
+                  {
+                    type: "SOLID",
+                    visible: true,
+                    opacity: 1,
+                    blendMode: "NORMAL",
+                    color: {
+                      r: 0.8509804010391235,
+                      g: 0.8509804010391235,
+                      b: 0.8509804010391235
+                    },
+                    boundVariables: {}
+                  }
+                ],
+                fillGeometry: [
+                  {
+                    windingRule: "NONZERO",
+                    data: "M0 0L48 0L48 48L0 48L0 0Z"
+                  }
+                ],
+                relativeTransform: [
+                  [
+                    1,
+                    0,
+                    0
+                  ],
+                  [
+                    0,
+                    1,
+                    10
+                  ]
+                ],
+                strokes: [],
+                strokeWeight: 1,
+                strokeCap: "NONE",
+                strokeJoin: "MITER",
+                cornerRadius: 0
+              }
+            ],
+            locked: false,
+            fills: [],
+            strokes: [],
+            strokeWeight: 1,
+            strokeAlign: "INSIDE",
+            cornerRadius: 0,
+            exportSettings: [],
+            blendMode: "PASS_THROUGH",
+            constraints: {
+              horizontal: "MIN",
+              vertical: "MIN"
+            },
+            layoutAlign: "INHERIT",
+            opacity: 1,
+            absoluteBoundingBox: {
+              x: 416,
+              y: 242,
+              width: 48,
+              height: 58
+            },
+            effects: [],
+            isMask: false,
+            layoutMode: "VERTICAL",
+            primaryAxisAlignItems: "MAX",
+            counterAxisAlignItems: "CENTER",
+            itemSpacing: 10
+          }
+        ],
+        locked: false,
+        fills: [],
+        strokes: [],
+        strokeWeight: 1,
+        strokeAlign: "INSIDE",
+        cornerRadius: 0,
+        exportSettings: [],
+        blendMode: "PASS_THROUGH",
+        constraints: {
+          horizontal: "MIN",
+          vertical: "MIN"
+        },
+        layoutAlign: "INHERIT",
+        opacity: 1,
+        absoluteBoundingBox: {
+          x: 416,
+          y: -386,
+          width: 48,
+          height: 686
+        },
+        effects: [],
+        isMask: false,
+        layoutMode: "VERTICAL",
+        primaryAxisAlignItems: "MAX",
+        counterAxisAlignItems: "MIN",
+        itemSpacing: 10
+      }
+    ],
+    locked: false,
+    fills: [
+      {
+        type: "SOLID",
+        visible: true,
+        opacity: 1,
+        blendMode: "NORMAL",
+        color: {
+          r: 1,
+          g: 1,
+          b: 1
+        },
+        boundVariables: {}
+      }
+    ],
+    strokes: [],
+    strokeWeight: 1,
+    strokeAlign: "INSIDE",
+    cornerRadius: 0,
+    exportSettings: [
+      {
+        format: "PNG",
+        suffix: "",
+        contentsOnly: true,
+        constraint: {
+          type: "SCALE",
+          value: 1
+        }
+      }
+    ],
+    blendMode: "PASS_THROUGH",
+    constraints: {
+      horizontal: "MIN",
+      vertical: "MIN"
+    },
+    layoutAlign: "INHERIT",
+    opacity: 1,
+    absoluteBoundingBox: {
+      x: 170,
+      y: -396,
+      width: 360,
+      height: 706
+    },
+    effects: [],
+    isMask: false,
+    layoutMode: "HORIZONTAL",
+    primaryAxisAlignItems: "CENTER",
+    counterAxisAlignItems: "MAX",
+    itemSpacing: 12
+  }
