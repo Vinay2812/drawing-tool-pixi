@@ -51,6 +51,7 @@ const parseChild = (child, level, minX, minY) => {
 	// if (typeof renderBoundX === "number") renderBoundX += Math.abs(minX);
 	// if (typeof renderBoundY === "number") renderBoundY += Math.abs(minY);
 	const pixiObject = {
+        id: child.id,
 		type: child.type,
 		x: childBoundingX,
 		y: childBoundingY,
@@ -65,7 +66,6 @@ const parseChild = (child, level, minX, minY) => {
 		case "CANVAS":
 			return parseCanvas(child, level, pixiObject);
 		case "FRAME":
-            // return parseFrame(child, level, pixiObject)
 		case "GROUP":
 		case "RECTANGLE":
 		case "POLYGON":
@@ -82,85 +82,24 @@ const parseCanvas = (child, level, pixiObject) => {
 	return pixiObject;
 };
 
-const parseFrame = (child, level, pixiObject) => {
-	pixiObject.zIndex = level;
-	pixiObject.backgroundColor =
-		child?.background?.length > 0
-			? parseColor(child.background[0].color)
-			: child.backgroundColor;
-	let fills = child?.fills?.length > 0 ? child.fills : null;
-	if (fills) {
-		console.log("🚀 ~ file: parser.js:85 ~ parseFrame ~ fills:", fills);
-		pixiObject.fills = fills.map((fill) => {
-			fill.color = parseColor(fill.color);
-			return fill;
-		});
-	}
-	return pixiObject;
-};
 
-const parseRectangle = (child, level, pixiObject) => {
-	console.log("🚀 ~ file: parser.js:99 ~ parseRectangle ~ child:", child);
-	pixiObject.zIndex = level;
-	rectangleKeys.forEach((key) => {
-		if (key === "fills") {
-			pixiObject.fills = child.fills.map((fill) => {
-				if (fill.type === "SOLID") {
-					fill.color = parseColor(fill.color);
-				} else if (fill.type === "IMAGE") {
-					fill.imageTransform =
-						fill.imageTransform?.length > 0
-							? getTransformParameters(fill.imageTransform)
-							: null;
-				}
-				return fill;
-			});
-		} else if (key === "effects") {
-			pixiObject.effects = child.effects.map((effect) => {
-				if (typeof effect.color !== "string") {
-					effect.color = parseColor(effect.color);
-				} else {
-					console.log(
-						"🚀 ~ file: parser.js:120 ~ pixiObject.effects=child.effects.map ~ effect:",
-						effect
-					);
-				}
-				return effect;
-			});
-		}
-		// else if (key === 'size'){
-		//     pixiObject.size = { width: child.width, height: child.height };
-		// }
-		else if (key === "relativeTransform") {
-			pixiObject.relativeTransform =
-				child.relativeTransform?.length > 0
-					? getTransformParameters(child.relativeTransform)
-					: null;
-		} else if (key === "fillGeometry") {
-			pixiObject.fillGeometry = child.fillGeometry?.map((geometry) => {
-				geometry.data = convertToDrawPolygonData(geometry.data);
-				return geometry;
-			});
-		} else {
-			pixiObject[key] = child[key];
-		}
-	});
-	return pixiObject;
-};
 
 const parsePolygon = (child, level, pixiObject, minX, minY) => {
-	if (child.type === "RECTANGLE") {
+	if (child.id === "8:87") {
 		console.log("🚀 ~ file: parser.js:106 ~ parsePolygon ~ child:", child);
 	}
+    rectangleKeys.forEach((key) => {
+        pixiObject[key] = child[key];
+    });
 	const position = calculateAbsoluteRenderBoundPosition(child);
 	const size = calculateSize(child);
 	const rotation = calculateRotation(child);
-	const color = extractColor(child);
+	// const color = extractColor(child);
 	const { stroke, strokeWeight } = calculateStroke(child);
 	pixiObject.position = { x: position.x, y: position.y };
 	pixiObject.size = { width: size.width, height: size.height };
 	pixiObject.rotation = rotation;
-	pixiObject.color = color;
+	// pixiObject.color = color;
 	pixiObject.strokes = child.strokes?.map((stroke) => {
 		stroke.color = parseColor(stroke.color);
 		return stroke;
@@ -190,5 +129,6 @@ const parsePolygon = (child, level, pixiObject, minX, minY) => {
 		child?.relativeTransform?.length > 0
 			? getTransformParameters(child.relativeTransform)
 			: null;
+    
 	return pixiObject;
 };
