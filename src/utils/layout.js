@@ -7,7 +7,7 @@ export const calculateAbsolutePosition = (object) => {
 };
 
 export const calculateAbsoluteRenderBoundPosition = (object) => {
-	const { x, y } = object.absoluteRenderBounds || { x: 0, y: 0 };
+	const { x, y } = object.absoluteBoundingBox || { x: 0, y: 0 };
 	return { x, y };
 };
 
@@ -32,6 +32,7 @@ export const extractColor = (object) => {
 };
 
 function rgbaToHex(color) {
+	console.log("🚀 ~ file: layout.js:35 ~ rgbaToHex ~ color:", color)
 	let r = Math.round(color.r * 255);
 	let g = Math.round(color.g * 255);
 	let b = Math.round(color.b * 255);
@@ -73,3 +74,143 @@ export const calculateEffects = (object) => {
 export const isVisible = (object) => {
 	return object.visible !== false;
 };
+
+export function shiftOrigin(pathData, dx, dy) {
+	// Split the path data into commands and coordinates
+	const commands = pathData
+		.replace("Z", "")
+		.split(/(?=[ML])/)
+		.filter(Boolean);
+	console.log("🚀 ~ file: layout.js:80 ~ shiftOrigin ~ commands:", commands);
+
+	// Process each command and coordinate
+	const shiftedCommands = commands.map((command) => {
+		const cmd = command.charAt(0);
+		const coords = command.slice(1).trim().split(" ");
+		console.log(
+			"🚀 ~ file: layout.js:86 ~ shiftedCommands ~ coords:",
+			coords
+		);
+
+		// If the command is 'M' or 'L', shift the coordinates
+		if (cmd === "M" || cmd === "L") {
+			const shiftedCoords = [];
+			for (let i = 0; i < coords.length; i += 2) {
+				const x = parseFloat(coords[i]) + dx;
+				const y = parseFloat(coords[i + 1]) + dy;
+				shiftedCoords.push(`${x} ${y}`);
+			}
+			return cmd + shiftedCoords.join(" ");
+		}
+
+		// If the command is 'Z', return it unchanged
+		return command;
+	});
+
+	return shiftedCommands.join("");
+}
+
+export function convertToDrawPolygonData(pathData, type="") {
+
+	type === "RECTANGLE" && console.log("🚀 ~ file: layout.js:114 ~ convertToDrawPolygonData ~ pathData:", pathData)
+	// Split the path data into commands and coordinates
+    if(typeof pathData !== 'string'){
+        pathData = pathData.toString()
+    }
+	const commands = pathData.replace("Z", "").split(/(?=[MLC])/);
+	console.log("🚀 ~ file: layout.js:121 ~ convertToDrawPolygonData ~ commands:", commands)
+
+	// Initialize an array to hold the points
+	const points = [];
+
+	// Process each command and coordinate
+	commands.forEach((command) => {
+		const cmd = command.charAt(0);
+		const coords = command.slice(1).trim().split(" ");
+
+		// If the command is 'M' or 'L', add the coordinates to the points array
+		if (cmd === "M" || cmd === "L" || cmd === "C") {
+			for (let i = 0; i < coords.length; i += 2) {
+				let x = parseFloat(coords[i]);
+				let y = parseFloat(coords[i + 1]);
+				points.push(x, y);
+			}
+		}
+	});
+
+	console.log(
+		"🚀 ~ file: layout.js:135 ~ convertToDrawPolygonData ~ points:",
+		pathData,
+        commands,
+		points
+	);
+	return points;
+}
+
+// export function convertToDrawPolygonData(pathData, absX, absY) {
+// 	// Remove any 'Z' command and split the path data by space and 'L'
+// 	const coords = pathData.replace("Z", "").split(/[LM]/);
+// 	console.log(
+// 		"🚀 ~ file: layout.js:107 ~ convertToDrawPolygonData ~ coords:",
+// 		coords
+// 	);
+
+// 	// Initialize an array to hold the points
+// 	const points = [];
+
+// 	// Skip the 'M' command and add the coordinates to the points array
+// 	for (let i = 1; i < coords.length; i += 1) {
+// 		const coordinates = coords[i];
+// 		console.log(
+// 			"🚀 ~ file: layout.js:126 ~ convertToDrawPolygonData ~ coordinates:",
+// 			coordinates
+// 		);
+// 		if (!coordinates) continue;
+// 		const [xC, yC] = coordinates.split(" ");
+// 		const x = parseFloat(xC) + absX;
+// 		const y = parseFloat(yC) + absY;
+// 		points.push(x, y);
+// 	}
+// 	console.log(
+// 		"🚀 ~ file: layout.js:119 ~ convertToDrawPolygonData ~ points:",
+// 		pathData,
+// 		coords,
+// 		absX,
+// 		absY,
+// 		points
+// 	);
+
+// 	return points;
+// }
+
+export function getTransformParameters(relativeTransform) {
+	// Extract the values from the relativeTransform matrix
+	let [a, c, tx] = relativeTransform[0];
+	let [b, d, ty] = relativeTransform[1];
+	// For a, c, b, d. Check if there is e in value.
+	// If there is e, then convert to absolute value
+	// If there is no e, then use the value as it is
+
+	if (a.toString().includes("e")) {
+		a = Math.abs(a);
+	}
+	if (c.toString().includes("e")) {
+		c = Math.abs(c);
+	}
+	if (b.toString().includes("e")) {
+		b = Math.abs(b);
+	}
+	if (d.toString().includes("e")) {
+		d = Math.abs(d);
+	}
+	// Return the parameters in the order for setTransform
+	return {
+		x: tx , // x position
+		y: ty, // y position
+		scaleX: a, // x scale
+		scaleY: d, // y scale
+		rotation: 0, // rotation (you may need to calculate this based on a, b, c, d)
+		skewX: c, // skew x
+		skewY: b, // skew y
+	};
+}

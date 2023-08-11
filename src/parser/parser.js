@@ -5,7 +5,12 @@ import {
   extractColor,
   calculateStroke,
   parseColor,
+  getTransformParameters,
+  convertToDrawPolygonData,
+  shiftOrigin,
 } from "../utils/layout";
+
+import rectangleKeys from "../keys/rectangle";
 
 export const parseFigmaJson = (figmaJson) => {
   const children = [figmaJson];
@@ -41,11 +46,12 @@ const parseChild = (child, level, minX, minY) => {
   let childBoundingY = child?.absoluteBoundingBox?.y;
   let renderBoundX = child?.absoluteRenderBounds?.x;
   let renderBoundY = child?.absoluteRenderBounds?.y;
-  if (typeof childBoundingX === "number") childBoundingX += Math.abs(minX);
-  if (typeof childBoundingY === "number") childBoundingY += Math.abs(minY);
-  if (typeof renderBoundX === "number") renderBoundX += Math.abs(minX);
-  if (typeof renderBoundY === "number") renderBoundY += Math.abs(minY);
+  // if (typeof childBoundingX === "number") childBoundingX += Math.abs(minX);
+  // if (typeof childBoundingY === "number") childBoundingY += Math.abs(minY);
+  // if (typeof renderBoundX === "number") renderBoundX += Math.abs(minX);
+  // if (typeof renderBoundY === "number") renderBoundY += Math.abs(minY);
   const pixiObject = {
+    id: child.id,
     type: child.type,
     x: childBoundingX,
     y: childBoundingY,
@@ -66,13 +72,14 @@ const parseChild = (child, level, minX, minY) => {
     case "CANVAS":
       return parseCanvas(child, level, pixiObject);
     case "FRAME":
-      return parseFrame(child, level, pixiObject);
     case "GROUP":
-      return parseFrame(child, level, pixiObject);
     case "RECTANGLE":
-      return parseRectangle(child, level, pixiObject);
     case "POLYGON":
-      return parsePolygon(child, level, pixiObject);
+    case "VECTOR":
+    case "STAR":
+    case "LINE":
+    case "ELLIPSE":
+      return parsePolygon(child, level, pixiObject, minX, minY);
   }
 };
 
@@ -81,52 +88,51 @@ const parseCanvas = (child, level, pixiObject) => {
   return pixiObject;
 };
 
-const parseFrame = (child, level, pixiObject) => {
+const parsePolygon = (child, level, pixiObject, minX, minY) => {
+  if (child.id === "8:87") {
+    console.log("🚀 ~ file: parser.js:106 ~ parsePolygon ~ child:", child);
+  }
+  rectangleKeys.forEach((key) => {
+    pixiObject[key] = child[key];
+  });
+  const position = calculateAbsoluteRenderBoundPosition(child);
+  const size = calculateSize(child);
+  const rotation = calculateRotation(child);
+  // const color = extractColor(child);
+  const { stroke, strokeWeight } = calculateStroke(child);
+  pixiObject.position = { x: position.x, y: position.y };
+  pixiObject.size = { width: size.width, height: size.height };
+  pixiObject.rotation = rotation;
+  // pixiObject.color = color;
+  pixiObject.strokes = child.strokes?.map((stroke) => {
+    stroke.color = parseColor(stroke.color);
+    return stroke;
+  });
+  pixiObject.arcData = child.arcData;
+  pixiObject.strokeGeometry = child.strokeGeometry;
   pixiObject.zIndex = level;
-  pixiObject.backgroundColor =
-    child?.background?.length > 0
-      ? parseColor(child.background[0].color)
-      : child.backgroundColor;
+  pixiObject.strokeWeight = strokeWeight;
   let fills = child?.fills?.length > 0 ? child.fills : null;
   if (fills) {
-    // console.log("🚀 ~ file: parser.js:85 ~ parseFrame ~ fills:", fills);
+    console.log("🚀 ~ file: parser.js:85 ~ parseFrame ~ fills:", fills);
     pixiObject.fills = fills.map((fill) => {
       fill.color = parseColor(fill.color);
       return fill;
     });
   }
-  return pixiObject;
-};
-
-const parseRectangle = (child, level, pixiObject) => {
-  pixiObject.zIndex = level;
-  pixiObject.fills = child.fills;
-  pixiObject.fillColor =
-    child?.fills?.length > 0 ? parseColor(child.fills[0].color) : 0x000000;
-  return pixiObject;
-};
-
-const parsePolygon = (child, level, pixiObject) => {
-  const position = calculateAbsoluteRenderBoundPosition(child);
-  const size = calculateSize(child);
-  const rotation = calculateRotation(child);
-  const color = extractColor(child);
-  const { stroke, strokeWeight } = calculateStroke(child);
-  pixiObject.position = { x: position.x, y: position.y };
-  pixiObject.size = { width: size.width, height: size.height };
-  pixiObject.rotation = rotation;
-  pixiObject.color = color;
-  pixiObject.stroke = stroke;
-  pixiObject.strokeWeight = strokeWeight;
-  const sides = child.sides || 3; // Default to 5 sides if not specified
-  const points = [];
-  for (let i = 0; i < sides; i++) {
-    const angle = (i / sides) * 2 * Math.PI;
-    points.push(
-      (Math.cos(angle) * size.width) / 2 + size.width / 2,
-      (Math.sin(angle) * size.height) / 2 + size.height / 2
-    );
+  let fillGeometry =
+    child?.fillGeometry?.length > 0 ? child.fillGeometry : null;
+  if (fillGeometry) {
+    console.log("fillGeometry", fillGeometry);
+    pixiObject.fillGeometry = fillGeometry.map((geometry) => {
+      geometry.data = convertToDrawPolygonData(geometry.data, child.type);
+      return geometry;
+    });
   }
-  pixiObject.points = points;
+  pixiObject.relativeTransform =
+    child?.relativeTransform?.length > 0
+      ? getTransformParameters(child.relativeTransform)
+      : null;
+
   return pixiObject;
 };
