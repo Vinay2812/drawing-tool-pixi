@@ -100,6 +100,7 @@ const parseFrame = (child, level, pixiObject) => {
 
 const parseRectangle = (child, level, pixiObject) => {
   pixiObject.zIndex = level;
+  pixiObject.fills = child.fills;
   pixiObject.fillColor =
     child?.fills?.length > 0 ? parseColor(child.fills[0].color) : 0x000000;
   return pixiObject;
