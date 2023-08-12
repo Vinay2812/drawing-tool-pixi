@@ -155,29 +155,162 @@ const renderPolygon = (child) => {
   pixiObject.zIndex = child.zIndex;
 
   pixiObject.position.set(child.position.x, child.position.y);
-  let fillColor =
-    child?.fills?.length > 0 && child.fills[0].visible && child.fills[0].color;
-  fillColor =
-    fillColor && String(fillColor).length === 6 ? `0x${fillColor}` : fillColor;
 
   if (child?.fills?.length > 0) {
     child.fills.forEach((fill) => {
+      const pixiChild = new PIXI.Graphics();
+      pixiChild.zIndex = child.zIndex;
+      pixiChild.position.set(child.position.x, child.position.y);
+
+      let imageSprite;
       if (fill.type === "SOLID") {
-        const pixiChild = new PIXI.Graphics();
-        pixiChild.position.set(child.position.x, child.position.y);
-        pixiChild.beginFill(
-          String(fillColor).length === 6 ? `0x${fillColor}` : fillColor
+        if (fill.visible)
+          pixiChild.beginFill(
+            String(fill?.color).length === 6 ? `0x${fill?.color}` : fill?.color
+          );
+      } else if (fill.type === "IMAGE") {
+        const imageUrl = dataImg.meta.images[fill.imageHash];
+        const imageTexture = PIXI.Texture.from(imageUrl); // Load the texture
+
+        imageSprite = new PIXI.Sprite(imageTexture);
+
+        imageSprite.blendMode = PIXI.BLEND_MODES.NORMAL; // Adjust blend mode if needed
+
+        // // Apply scaling factor
+        // imageSprite.scale.set(fill.scalingFactor);
+
+        // if (fill?.imageTransform?.length === 2) {
+        //   let [a, c, tx] = fill.imageTransform[0];
+        //   let [b, d, ty] = fill.imageTransform[1];
+        //   imageSprite.transform.setFromMatrix(
+        //     new PIXI.Matrix(a, b, c, d, tx, ty)
+        //   );
+        // }
+
+        const rotation = fill.rotation;
+
+        imageSprite.rotation = ((fill.rotation || 0) * Math.PI) / 180;
+        imageSprite.anchor.set(0.5, 0.5);
+
+        const isTilt = [90, 270, -90].includes(rotation);
+
+        if (["FIT"].includes(fill.scaleMode)) {
+          const scaleX =
+            child.size.width /
+            (isTilt ? imageSprite.height : imageSprite.width);
+          const scaleY =
+            child.size.height /
+            (isTilt ? imageSprite.width : imageSprite.height);
+
+          const scale = Math.min(scaleX, scaleY);
+          imageSprite.scale.set(scale);
+
+          imageSprite.position.set(child.size.width / 2, child.size.height / 2);
+        } else if (["FILL", "TILE", "CROP"].includes(fill.scaleMode)) {
+          const imageAspectRatio = isTilt
+            ? imageSprite.height / imageSprite.width
+            : imageSprite.width / imageSprite.height;
+
+          // Calculate the aspect ratio of the polygon
+          const polygonAspectRatio = child.size.width / child.size.height;
+
+          if (imageAspectRatio > polygonAspectRatio) {
+            imageSprite.height = child.size.height;
+            imageSprite.width = child.size.height * imageAspectRatio;
+          } else {
+            if (isTilt) {
+              imageSprite.width = child.size.width / imageAspectRatio;
+              imageSprite.height = child.size.width;
+            } else {
+              imageSprite.width = child.size.width;
+              imageSprite.height = child.size.width / imageAspectRatio;
+            }
+          }
+          imageSprite.position.set(child.size.width / 2, child.size.height / 2);
+          // } else if (fill.scaleMode === "CROP") {
+          //   // Calculate the scale to crop the rectangle
+          //   // const scaleX = child.size.width / imageSprite.width;
+          //   // const scaleY = child.size.height / imageSprite.height;
+          //   // const scale = Math.max(scaleX, scaleY);
+          //   // if (fill?.imageTransform?.length === 2) {
+          //   // let [a, c, tx] = fill.imageTransform[0];
+          //   // let [b, d, ty] = fill.imageTransform[1];
+          //   // imageSprite.transform.setFromMatrix(
+          //   //   new PIXI.Matrix(a, b, c, d, tx, ty)
+          //   // );
+          //   // // }
+          //   // imageSprite.scale.set(fill.scalingFactor);
+          // }
+          // else if (fill.scaleMode === "TILE") {
+        }
+
+        pixiChild.addChild(imageSprite);
+      }
+
+      if (child.fillGeometry?.length > 0) {
+        if (child.type !== "ELLIPSE") {
+          pixiChild.drawPolygon(child.fillGeometry[0].data);
+        }
+      }
+
+      if (child.strokes?.length > 0) {
+        const visibleStrokes = child.strokes.filter(
+          (stroke) => stroke.visible !== false
         );
+        visibleStrokes.forEach((stroke) => {
+          pixiChild.lineStyle(child.strokeWidth, stroke.color, stroke.opacity);
+          pixiChild.drawPolygon(child.strokeGeometry[0].data);
+        });
+      }
+
+      if (child.arcData) {
+        const centerX = child.size.width / 2;
+        const centerY = child.size.height / 2;
+        const startingAngle = child.arcData.startingAngle;
+        const endingAngle = child.arcData.endingAngle;
+        const innerRadius = child.arcData.innerRadius;
+        pixiChild.moveTo(centerX, centerY);
+        pixiChild.arc(
+          centerX,
+          centerY,
+          innerRadius,
+          startingAngle,
+          endingAngle,
+          false
+        );
+        pixiChild.arc(
+          centerX,
+          centerY,
+          child.size.width / 2,
+          endingAngle,
+          startingAngle,
+          true
+        );
+        pixiChild.closePath();
+      }
+
+      if (child.relativeTransform) {
+        const { x, y } = child.relativeTransform;
+        pixiChild.pivot.set(x, y);
+      }
+
+      if (fill.opacity !== undefined) {
+        pixiChild.alpha = fill.opacity;
+      }
+
+      pixiChild.endFill();
+
+      // MASK SECTION
+      let maskContainer = new PIXI.Container();
+      if (imageSprite) {
+        let mask = new PIXI.Graphics();
+        mask.beginFill(0xffffff);
+
+        mask.position.set(child.position.x, child.position.y);
 
         if (child.fillGeometry?.length > 0) {
           if (child.type !== "ELLIPSE") {
-            // pixiObject.drawEllipse(child.fillGeometry[0].data);
-            child.type === "RECTANGLE" &&
-              console.log(
-                "🚀 ~ file: renderer.js:138 ~ renderPolygon ~ child.fillGeometry:",
-                child.fillGeometry
-              );
-            pixiChild.drawPolygon(child.fillGeometry[0].data);
+            mask.drawPolygon(child.fillGeometry[0].data);
           }
         }
 
@@ -186,26 +319,19 @@ const renderPolygon = (child) => {
             (stroke) => stroke.visible !== false
           );
           visibleStrokes.forEach((stroke) => {
-            pixiChild.lineStyle(
-              child.strokeWidth,
-              stroke.color,
-              stroke.opacity
-            );
-            pixiChild.drawPolygon(child.strokeGeometry[0].data);
+            mask.lineStyle(child.strokeWidth, stroke.color, stroke.opacity);
+            mask.drawPolygon(child.strokeGeometry[0].data);
           });
         }
+
         if (child.arcData) {
-          console.log(
-            "🚀 ~ file: renderer.js:171 ~ renderPolygon ~ child.arcData:",
-            child.arcData
-          );
           const centerX = child.size.width / 2;
           const centerY = child.size.height / 2;
           const startingAngle = child.arcData.startingAngle;
           const endingAngle = child.arcData.endingAngle;
           const innerRadius = child.arcData.innerRadius;
-          pixiChild.moveTo(centerX, centerY);
-          pixiChild.arc(
+          mask.moveTo(centerX, centerY);
+          mask.arc(
             centerX,
             centerY,
             innerRadius,
@@ -213,7 +339,7 @@ const renderPolygon = (child) => {
             endingAngle,
             false
           );
-          pixiChild.arc(
+          mask.arc(
             centerX,
             centerY,
             child.size.width / 2,
@@ -221,88 +347,23 @@ const renderPolygon = (child) => {
             startingAngle,
             true
           );
-          pixiChild.closePath();
+          mask.closePath();
         }
 
-        if (fill.opacity !== undefined) {
-          pixiChild.alpha = fill.opacity;
+        if (child.relativeTransform) {
+          const { x, y } = child.relativeTransform;
+          mask.pivot.set(x, y);
         }
-
-        pixiChild.endFill();
-        pixiObject.addChild(pixiChild);
-      } else if (fill.type === "IMAGE") {
-        const imageUrl = dataImg.meta.images[fill.imageHash];
-        const imageTexture = PIXI.Texture.from(imageUrl); // Load the texture
-        const imageSprite = new PIXI.Sprite(imageTexture);
-        // // Set the position and size of the image
-        imageSprite.width = child.size.width;
-        imageSprite.height = child.size.height;
-
-        // if (fill.rotation) {
-        //   const rotation = fill.rotation;
-        //   const rotationInRadians = rotation * (Math.PI / 180);
-        //   imageSprite.rotation = rotationInRadians; // Set rotation angle in radians
-        //   let posX = 1;
-        //   let posY = 1;
-        //   switch (fill.rotation) {
-        //     case 90:
-        //       posX = 1;
-        //       break;
-        //     case 180:
-        //       posX = 1;
-        //       posY = 1;
-        //       break;
-        //     default:
-        //       break;
-        //   }
-        //   // Calculate the center of the box
-        //   const boxCenterX = child.position.x + child.size.width / posX;
-        //   const boxCenterY = child.position.y + child.size.height / posY;
-        //   // Calculate the offset of the rotated image
-        //   const offsetX = child.size.width - imageSprite.width;
-        //   const offsetY = child.size.height - imageSprite.height;
-        //   // Calculate the new position of the image after rotation
-        //   const rotatedImageX =
-        //     boxCenterX +
-        //     offsetX * Math.cos(rotationInRadians) -
-        //     offsetY * Math.sin(rotationInRadians);
-        //   const rotatedImageY =
-        //     boxCenterY +
-        //     offsetX * Math.sin(rotationInRadians) +
-        //     offsetY * Math.cos(rotationInRadians);
-        //   imageSprite.position.set(rotatedImageX, rotatedImageY);
-        // }
-        // } else {
-        //   imageSprite.position.set(child.position.x, child.position.y);
-        // }
-
-        // imageSprite.drawPolygon(child.fillGeometry[0].data);
-
-        // if (child.relativeTransform) {
-        //   const { x, y, scaleX, scaleY, rotation, skewX, skewY } =
-        //     child.relativeTransform;
-        //   imageSprite.setTransform(
-        //     x,
-        //     y,
-        //     scaleX,
-        //     scaleY,
-        //     rotation,
-        //     skewX,
-        //     skewY
-        //   );
-        // }
-
-        // Apply opacity if opacity property is defined
-        if (fill.opacity !== undefined) {
-          imageSprite.alpha = fill.opacity;
-        }
-        // // Add the image sprite to the pixiObject
-        pixiObject.addChild(imageSprite);
+        mask.endFill();
+        maskContainer.mask = mask;
+        maskContainer.addChild(mask);
       }
+      // Add the mask as a child, so that the mask is positioned relative to its parent
+      maskContainer.addChild(pixiChild);
+      // Offset by the window's frame width
+      pixiObject.addChild(maskContainer);
     });
   }
-
-  // fillColor && pixiObject.beginFill(fillColor);
 
   if (child.fillGeometry?.length > 0) {
     if (child.type !== "ELLIPSE") {
@@ -361,17 +422,12 @@ const renderPolygon = (child) => {
     pixiObject.setTransform(x, y, scaleX, scaleY, rotation, skewX, skewY);
   }
 
-  // if (child?.fills?.length > 0)
-  //   // fillColor &&
-  //   pixiObject.endFill();
-
   if (child.type === "RECTANGLE") {
     // pixiObject.position.set(child.x, child.y);
     pixiObject.zIndex = child.zIndex;
     // exampleRects.push(pixiObject);
     console.log(
       "🚀 ~ file: renderer.js:205 ~ renderPolygon ~ pixiObject",
-      fillColor,
       child,
       pixiObject
     );
