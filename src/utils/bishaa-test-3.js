@@ -208,6 +208,19 @@ export default {
             shadows: 0,
           },
           imageHash: "b9c3b38b03c9243343af5a9e3b1bb9a8ff9e5a09",
+          gifRef: "b9c3b38b03c9243343af5a9e3b1bb9a8ff9e5a09",
+        },
+        {
+          type: "SOLID",
+          visible: true,
+          opacity: 0.20000000298023224,
+          blendMode: "NORMAL",
+          color: {
+            r: 0.7134736180305481,
+            g: 0.9458333253860474,
+            b: 0.417743057012558,
+          },
+          boundVariables: {},
         },
       ],
       fillGeometry: [

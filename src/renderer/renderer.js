@@ -1,13 +1,11 @@
 import * as PIXI from "pixi.js";
-import { getFilter } from "../utils/pixiJS";
+// import { getFilter } from "../utils/pixiJS";
+import { AnimatedGIF } from "@pixi/gif";
 
-let exampleRects = [];
 export const renderFigmaFromParsedJson = (children) => {
   const container = new PIXI.Container();
   container.sortableChildren = true;
-  children.forEach((child) => {
-    renderChild(child, container);
-  });
+  children.forEach((child) => renderChild(child, container));
   container.backgroundColor = 0xffffff;
   // const testGraphics = new PIXI.Graphics();
   // testGraphics.zIndex = 1;
@@ -60,7 +58,7 @@ export const renderFigmaFromParsedJson = (children) => {
   return container;
 };
 
-const renderChild = (child, parentContainer) => {
+const renderChild = async (child, parentContainer) => {
   if (!child) return;
   let pixiObject;
   switch (child.type) {
@@ -75,7 +73,7 @@ const renderChild = (child, parentContainer) => {
     case "STAR":
     case "LINE":
     case "ELLIPSE":
-      pixiObject = renderPolygon(child);
+      pixiObject = await renderPolygon(child);
       break;
     default:
       break;
@@ -91,9 +89,7 @@ const renderChild = (child, parentContainer) => {
     parentContainer.addChild(pixiObject);
   }
   if (child.children) {
-    child.children.forEach((grandchild) => {
-      renderChild(grandchild, pixiObject);
-    });
+    child.children.forEach((grandchild) => renderChild(grandchild, pixiObject));
   }
   // if (child.id === "8:87") {
   // 	console.log(
@@ -149,7 +145,7 @@ const dataImg = {
   i18n: null,
 };
 
-const renderPolygon = (child) => {
+const renderPolygon = async (child) => {
   console.log("🚀 ~ file: renderer.js:93 ~ renderPolygon ~ child:", child);
   let pixiObject = new PIXI.Graphics();
   pixiObject.zIndex = child.zIndex;
@@ -157,7 +153,7 @@ const renderPolygon = (child) => {
   pixiObject.position.set(child.position.x, child.position.y);
 
   if (child?.fills?.length > 0) {
-    child.fills.forEach((fill) => {
+    child.fills.forEach(async (fill) => {
       let pixiChild = new PIXI.Graphics();
       pixiChild.zIndex = child.zIndex;
       pixiChild.position.set(child.position.x, child.position.y);
@@ -174,13 +170,12 @@ const renderPolygon = (child) => {
         const imageUrl = dataImg.meta.images[gifRef || fill.imageHash];
         const imageTexture = PIXI.Texture.from(imageUrl); // Load the texture
 
-        // if (gifRef) {
-        //   imageSprite = new PIXI.AnimatedSprite([imageTexture]);
-        //   imageSprite.animationSpeed = 0.2;
-        //   imageSprite.loop = true;
-        //   imageSprite.play();
-        // } else
-        imageSprite = new PIXI.Sprite(imageTexture);
+        if (gifRef) {
+          imageSprite = await fetch(imageUrl)
+            .then((res) => res.arrayBuffer())
+            .then(AnimatedGIF.fromBuffer)
+            .then((image) => pixiChild.addChild(image));
+        } else imageSprite = new PIXI.Sprite(imageTexture);
 
         imageSprite.blendMode = PIXI.BLEND_MODES.NORMAL; // Adjust blend mode if needed
 
