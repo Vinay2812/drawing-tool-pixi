@@ -40,7 +40,7 @@ const calculateMinXY = (children) => {
 	return { minX, minY };
 };
 
-const parseChild = (child, level, minX, minY) => {
+const parseChild = (child, level, minX, minY, parentObject=null) => {
 	if (!level) return;
 	let childBoundingX = child?.absoluteBoundingBox?.x;
 	let childBoundingY = child?.absoluteBoundingBox?.y;
@@ -51,7 +51,7 @@ const parseChild = (child, level, minX, minY) => {
 	// if (typeof renderBoundX === "number") renderBoundX += Math.abs(minX);
 	// if (typeof renderBoundY === "number") renderBoundY += Math.abs(minY);
 	const pixiObject = {
-        id: child.id,
+		id: child.id,
 		type: child.type,
 		x: childBoundingX,
 		y: childBoundingY,
@@ -59,12 +59,12 @@ const parseChild = (child, level, minX, minY) => {
 		height: child?.absoluteBoundingBox?.height || 0,
 		level,
 		children: child.children
-			? child.children.map((c) => parseChild(c, level + 1, minX, minY))
+			? child.children.map((c) => parseChild(c, level + 1, minX, minY, child))
 			: [],
 	};
 	switch (child.type) {
 		case "CANVAS":
-			return parseCanvas(child, level, pixiObject);
+			return parseCanvas(child, level, pixiObject, parentObject);
 		case "FRAME":
 		case "GROUP":
 		case "RECTANGLE":
@@ -73,7 +73,9 @@ const parseChild = (child, level, minX, minY) => {
 		case "STAR":
 		case "LINE":
 		case "ELLIPSE":
-			return parsePolygon(child, level, pixiObject, minX, minY);
+			return parsePolygon(child, level, pixiObject, minX, minY, parentObject);
+		default:
+			console.log("🚀 ~ file: parser.js:106 ~ parseChild ~ child", child);
 	}
 };
 
@@ -82,15 +84,13 @@ const parseCanvas = (child, level, pixiObject) => {
 	return pixiObject;
 };
 
-
-
-const parsePolygon = (child, level, pixiObject, minX, minY) => {
+const parsePolygon = (child, level, pixiObject, minX, minY, parentObject) => {
 	if (child.id === "8:87") {
 		console.log("🚀 ~ file: parser.js:106 ~ parsePolygon ~ child:", child);
 	}
-    rectangleKeys.forEach((key) => {
-        pixiObject[key] = child[key];
-    });
+	rectangleKeys.forEach((key) => {
+		pixiObject[key] = child[key];
+	});
 	const position = calculateAbsoluteRenderBoundPosition(child);
 	const size = calculateSize(child);
 	const rotation = calculateRotation(child);
@@ -127,8 +127,11 @@ const parsePolygon = (child, level, pixiObject, minX, minY) => {
 	}
 	pixiObject.relativeTransform =
 		child?.relativeTransform?.length > 0
-			? getTransformParameters(child.relativeTransform)
+			? getTransformParameters(child.relativeTransform, parentObject)
 			: null;
-    
+	if (child.id === "8:87") {
+        console.log("🚀 ~ file: parser.js:106 ~ parsePolygon ~ pixiObject:", child, pixiObject);
+	}
+
 	return pixiObject;
 };

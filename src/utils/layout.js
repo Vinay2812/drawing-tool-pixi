@@ -184,33 +184,24 @@ export function convertToDrawPolygonData(pathData, type="") {
 // }
 
 export function getTransformParameters(relativeTransform) {
-	// Extract the values from the relativeTransform matrix
-	let [a, c, tx] = relativeTransform[0];
-	let [b, d, ty] = relativeTransform[1];
-	// For a, c, b, d. Check if there is e in value.
-	// If there is e, then convert to absolute value
-	// If there is no e, then use the value as it is
+        // Extract values from the Figma matrix
+        const [a, c, e] = relativeTransform[0];
+        const [b, d, f] = relativeTransform[1];
+    
+        // Calculate skew values from the matrix
+        const skewX = Math.atan2(-c, d); // Negative because of the coordinate system difference
+        const skewY = Math.atan2(b, a);
 
-	if (a.toString().includes("e")) {
-		a = Math.abs(a);
-	}
-	if (c.toString().includes("e")) {
-		c = Math.abs(c);
-	}
-	if (b.toString().includes("e")) {
-		b = Math.abs(b);
-	}
-	if (d.toString().includes("e")) {
-		d = Math.abs(d);
-	}
-	// Return the parameters in the order for setTransform
+        // Calculate rotation values from the matrix, also calculate rotation sign
+        const sign = Math.sign(a * d - b * c);
+        const rotation = Math.acos((a + d) / 2) * sign;
 	return {
-		x: tx , // x position
-		y: ty, // y position
+		x: e , // x position
+		y: f, // y position
 		scaleX: a, // x scale
 		scaleY: d, // y scale
-		rotation: 0, // rotation (you may need to calculate this based on a, b, c, d)
-		skewX: c, // skew x
-		skewY: b, // skew y
+		rotation, // rotation (you may need to calculate this based on a, b, c, d)
+		skewX ,// skew x
+		skewY, // skew y
 	};
 }

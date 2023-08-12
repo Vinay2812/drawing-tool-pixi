@@ -11,44 +11,12 @@ export const renderFigmaFromParsedJson = (children) => {
 	container.backgroundColor = 0xffffff;
 	// const testGraphics = new PIXI.Graphics();
 	// testGraphics.zIndex = 1;
-	// testGraphics.position.set(109, 653);
+	// testGraphics.position.set(157, 16);
+	// testGraphics.skew.set(-1, 1);
+	// testGraphics.rotation = 0;
+	// // testGraphics.scale.set(Math.abs(2.393918396847994e-16), Math.abs(2.393918396847994e-16));
 	// testGraphics.beginFill(0x27ae60);
-	// testGraphics.drawPolygon([
-	//     0,
-	//     4,
-	//     0,
-	//     1.79086,
-	//     1.79086,
-	//     0,
-	//     4,
-	//     0,
-	//     84,
-	//     0,
-	//     86.2091,
-	//     0,
-	//     88,
-	//     1.79086,
-	//     88,
-	//     4,
-	//     88,
-	//     44,
-	//     88,
-	//     46.2091,
-	//     86.2091,
-	//     48,
-	//     84,
-	//     48,
-	//     4,
-	//     48,
-	//     1.79086,
-	//     48,
-	//     0,
-	//     46.2091,
-	//     0,
-	//     44,
-	//     0,
-	//     4
-	// ]);
+	// testGraphics.drawPolygon([0, 0, 109, 0, 109, 102, 0, 102, 0, 0]);
 	// testGraphics.zIndex = 1;
 	// testGraphics.endFill();
 	// container.addChild(testGraphics);
@@ -110,28 +78,33 @@ const renderCanvas = (child) => {
 };
 
 const renderFrame = (child) => {
-    const pixiObject = new PIXI.Container();
+	const pixiObject = new PIXI.Container();
 
-    pixiObject.zIndex = child.zIndex;
-    pixiObject.position.set(child.position.x, child.position.y);
-    pixiObject.width = child.size.x;
-    pixiObject.height = child.size.y;
-    
-    return pixiObject;
-}
+	pixiObject.zIndex = child.zIndex;
+	pixiObject.position.set(child.position.x, child.position.y);
+	pixiObject.width = child.size.x;
+	pixiObject.height = child.size.y;
+
+	return pixiObject;
+};
 
 const renderPolygon = (child) => {
 	console.log("🚀 ~ file: renderer.js:93 ~ renderPolygon ~ child:", child);
 	const pixiObject = new PIXI.Graphics();
 	pixiObject.zIndex = child.zIndex;
 
-	pixiObject.position.set(child.position.x, child.position.y);
+	// pixiObject.position.set(child.position.x, child.position.y);
 	let fillColor =
 		child?.fills?.length > 0 &&
 		child.fills[0].visible &&
 		child.fills[0].color;
-	fillColor = fillColor && String(fillColor).length === 6 ? `0x${fillColor}` : fillColor;
-	fillColor && pixiObject.beginFill(fillColor);
+	fillColor =
+		fillColor && String(fillColor).length === 6
+			? `0x${fillColor}`
+			: fillColor;
+	fillColor
+		? pixiObject.beginFill(fillColor)
+		: pixiObject.beginFill(0xffffcc, 1);
 
 	if (child.fillGeometry?.length > 0) {
 		if (child.type !== "ELLIPSE") {
@@ -144,6 +117,9 @@ const renderPolygon = (child) => {
 			pixiObject.drawPolygon(child.fillGeometry[0].data);
 		}
 	}
+	// if(child.type === "FRAME") {
+	//     pixiObject.drawRect(child.position.x, child.position.y, child.size.width, child.size.height);
+	// }
 
 	if (child.strokes?.length > 0) {
 		const visibleStrokes = child.strokes.filter(
@@ -188,16 +164,43 @@ const renderPolygon = (child) => {
 		pixiObject.closePath();
 	}
 
-	if (child.relativeTransform) {
-		const { x, y, scaleX, scaleY, rotation, skewX, skewY } =
+	if (child.relativeTransform && child.fillGeometry?.length > 0) {
+		let { x, y, scaleX, scaleY, rotation, skewX, skewY } =
 			child.relativeTransform;
-		pixiObject.setTransform(x, y, scaleX, scaleY, rotation, skewX, skewY);
+
+		if (child.type === "FRAME") {
+            if(Math.abs(scaleX) < 0.0001) {
+                scaleX = 1* Math.sign(scaleX);
+            }
+            if(Math.abs(scaleY) < 0.0001) {
+                scaleY = 1* Math.sign(scaleY);
+            }
+			// scaleX = 1;
+			// scaleY = 1;
+			// rotation = rotation * Math.sign(child.rotation);
+            // pivotX = child.size.width / 2;
+            // pivotY = child.size.height / 2;
+		}
+		// pixiObject.setTransform(
+		// 	x,
+		// 	y,
+		// 	scaleX,
+		// 	scaleY,
+		// 	rotation,
+		// 	skewX,
+		// 	skewY,
+		// );
+        pixiObject.position.set(x, y);
+        pixiObject.scale.set(scaleX, scaleY);
+        pixiObject.rotation = rotation;
+        pixiObject.skew.set(skewX, skewY);
+
 	}
 	fillColor && pixiObject.endFill();
-	if (child.type === "RECTANGLE") {
+	if (child.id === "8:87") {
 		// pixiObject.position.set(child.x, child.y);
 		pixiObject.zIndex = child.zIndex;
-		// exampleRects.push(pixiObject);
+		exampleRects.push(pixiObject);
 		console.log(
 			"🚀 ~ file: renderer.js:205 ~ renderPolygon ~ pixiObject",
 			fillColor,
