@@ -151,14 +151,14 @@ const dataImg = {
 
 const renderPolygon = (child) => {
   console.log("🚀 ~ file: renderer.js:93 ~ renderPolygon ~ child:", child);
-  const pixiObject = new PIXI.Graphics();
+  let pixiObject = new PIXI.Graphics();
   pixiObject.zIndex = child.zIndex;
 
   pixiObject.position.set(child.position.x, child.position.y);
 
   if (child?.fills?.length > 0) {
     child.fills.forEach((fill) => {
-      const pixiChild = new PIXI.Graphics();
+      let pixiChild = new PIXI.Graphics();
       pixiChild.zIndex = child.zIndex;
       pixiChild.position.set(child.position.x, child.position.y);
 
@@ -169,9 +169,17 @@ const renderPolygon = (child) => {
             String(fill?.color).length === 6 ? `0x${fill?.color}` : fill?.color
           );
       } else if (fill.type === "IMAGE") {
-        const imageUrl = dataImg.meta.images[fill.imageHash];
+        const gifRef = fill.gifRef;
+
+        const imageUrl = dataImg.meta.images[gifRef || fill.imageHash];
         const imageTexture = PIXI.Texture.from(imageUrl); // Load the texture
 
+        // if (gifRef) {
+        //   imageSprite = new PIXI.AnimatedSprite([imageTexture]);
+        //   imageSprite.animationSpeed = 0.2;
+        //   imageSprite.loop = true;
+        //   imageSprite.play();
+        // } else
         imageSprite = new PIXI.Sprite(imageTexture);
 
         imageSprite.blendMode = PIXI.BLEND_MODES.NORMAL; // Adjust blend mode if needed
@@ -247,47 +255,7 @@ const renderPolygon = (child) => {
         pixiChild.addChild(imageSprite);
       }
 
-      if (child.fillGeometry?.length > 0) {
-        if (child.type !== "ELLIPSE") {
-          pixiChild.drawPolygon(child.fillGeometry[0].data);
-        }
-      }
-
-      if (child.strokes?.length > 0) {
-        const visibleStrokes = child.strokes.filter(
-          (stroke) => stroke.visible !== false
-        );
-        visibleStrokes.forEach((stroke) => {
-          pixiChild.lineStyle(child.strokeWidth, stroke.color, stroke.opacity);
-          pixiChild.drawPolygon(child.strokeGeometry[0].data);
-        });
-      }
-
-      if (child.arcData) {
-        const centerX = child.size.width / 2;
-        const centerY = child.size.height / 2;
-        const startingAngle = child.arcData.startingAngle;
-        const endingAngle = child.arcData.endingAngle;
-        const innerRadius = child.arcData.innerRadius;
-        pixiChild.moveTo(centerX, centerY);
-        pixiChild.arc(
-          centerX,
-          centerY,
-          innerRadius,
-          startingAngle,
-          endingAngle,
-          false
-        );
-        pixiChild.arc(
-          centerX,
-          centerY,
-          child.size.width / 2,
-          endingAngle,
-          startingAngle,
-          true
-        );
-        pixiChild.closePath();
-      }
+      pixiChild = drawShape(child, pixiChild);
 
       if (child.relativeTransform) {
         const { x, y } = child.relativeTransform;
@@ -304,52 +272,10 @@ const renderPolygon = (child) => {
       let maskContainer = new PIXI.Container();
       if (imageSprite) {
         let mask = new PIXI.Graphics();
-        mask.beginFill(0xffffff);
-
         mask.position.set(child.position.x, child.position.y);
 
-        if (child.fillGeometry?.length > 0) {
-          if (child.type !== "ELLIPSE") {
-            mask.drawPolygon(child.fillGeometry[0].data);
-          }
-        }
-
-        if (child.strokes?.length > 0) {
-          const visibleStrokes = child.strokes.filter(
-            (stroke) => stroke.visible !== false
-          );
-          visibleStrokes.forEach((stroke) => {
-            mask.lineStyle(child.strokeWidth, stroke.color, stroke.opacity);
-            mask.drawPolygon(child.strokeGeometry[0].data);
-          });
-        }
-
-        if (child.arcData) {
-          const centerX = child.size.width / 2;
-          const centerY = child.size.height / 2;
-          const startingAngle = child.arcData.startingAngle;
-          const endingAngle = child.arcData.endingAngle;
-          const innerRadius = child.arcData.innerRadius;
-          mask.moveTo(centerX, centerY);
-          mask.arc(
-            centerX,
-            centerY,
-            innerRadius,
-            startingAngle,
-            endingAngle,
-            false
-          );
-          mask.arc(
-            centerX,
-            centerY,
-            child.size.width / 2,
-            endingAngle,
-            startingAngle,
-            true
-          );
-          mask.closePath();
-        }
-
+        mask.beginFill(0xffffff);
+        mask = drawShape(child, mask);
         if (child.relativeTransform) {
           const { x, y } = child.relativeTransform;
           mask.pivot.set(x, y);
@@ -364,15 +290,31 @@ const renderPolygon = (child) => {
       pixiObject.addChild(maskContainer);
     });
   }
+  pixiObject = drawShape(child, pixiObject);
 
+  if (child.relativeTransform) {
+    const { x, y, scaleX, scaleY, rotation, skewX, skewY } =
+      child.relativeTransform;
+    pixiObject.setTransform(x, y, scaleX, scaleY, rotation, skewX, skewY);
+  }
+
+  if (child.type === "RECTANGLE") {
+    // pixiObject.position.set(child.x, child.y);
+    pixiObject.zIndex = child.zIndex;
+    // exampleRects.push(pixiObject);
+    console.log(
+      "🚀 ~ file: renderer.js:205 ~ renderPolygon ~ pixiObject",
+      child,
+      pixiObject
+    );
+  }
+
+  return pixiObject;
+};
+
+const drawShape = (child, pixiObject) => {
   if (child.fillGeometry?.length > 0) {
     if (child.type !== "ELLIPSE") {
-      // pixiObject.drawEllipse(child.fillGeometry[0].data);
-      child.type === "RECTANGLE" &&
-        console.log(
-          "🚀 ~ file: renderer.js:138 ~ renderPolygon ~ child.fillGeometry:",
-          child.fillGeometry
-        );
       pixiObject.drawPolygon(child.fillGeometry[0].data);
     }
   }
@@ -386,11 +328,8 @@ const renderPolygon = (child) => {
       pixiObject.drawPolygon(child.strokeGeometry[0].data);
     });
   }
+
   if (child.arcData) {
-    console.log(
-      "🚀 ~ file: renderer.js:171 ~ renderPolygon ~ child.arcData:",
-      child.arcData
-    );
     const centerX = child.size.width / 2;
     const centerY = child.size.height / 2;
     const startingAngle = child.arcData.startingAngle;
@@ -414,23 +353,6 @@ const renderPolygon = (child) => {
       true
     );
     pixiObject.closePath();
-  }
-
-  if (child.relativeTransform) {
-    const { x, y, scaleX, scaleY, rotation, skewX, skewY } =
-      child.relativeTransform;
-    pixiObject.setTransform(x, y, scaleX, scaleY, rotation, skewX, skewY);
-  }
-
-  if (child.type === "RECTANGLE") {
-    // pixiObject.position.set(child.x, child.y);
-    pixiObject.zIndex = child.zIndex;
-    // exampleRects.push(pixiObject);
-    console.log(
-      "🚀 ~ file: renderer.js:205 ~ renderPolygon ~ pixiObject",
-      child,
-      pixiObject
-    );
   }
 
   return pixiObject;
