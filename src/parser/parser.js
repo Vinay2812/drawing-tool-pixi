@@ -104,6 +104,7 @@ const parsePolygon = (child, level, pixiObject, minX, minY, parentObject) => {
 		stroke.color = parseColor(stroke.color);
 		return stroke;
 	});
+    pixiObject.visible = child.visible;
 	pixiObject.arcData = child.arcData;
 	pixiObject.strokeGeometry = child.strokeGeometry;
 	pixiObject.zIndex = level;

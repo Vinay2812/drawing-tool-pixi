@@ -1,4 +1,4 @@
-export default {
+ export default {
   id: "6:145",
   name: "Landing Page -- Activity",
   visible: true,
