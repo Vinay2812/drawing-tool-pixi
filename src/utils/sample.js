@@ -1,5 +1,5 @@
 export default {
-    id: "8:92",
+    id: "8:51",
     name: "Landing Page -- Activity",
     visible: true,
     type: "FRAME",
@@ -107,8 +107,8 @@ export default {
     strokeAlign: "INSIDE",
     children: [
       {
-        id: "8:93",
-        name: "Frame 390",
+        id: "8:52",
+        name: "Patterns",
         visible: true,
         type: "FRAME",
         rotation: 0,
@@ -120,33 +120,33 @@ export default {
         layoutAlign: "INHERIT",
         layoutGrow: 0,
         constraints: {
-          horizontal: "MIN",
+          horizontal: "CENTER",
           vertical: "MIN"
         },
         opacity: 1,
         absoluteBoundingBox: {
-          x: 54,
-          y: 270,
-          width: 248,
-          height: 310
+          x: 30,
+          y: 55,
+          width: 300,
+          height: 577
         },
         absoluteRenderBounds: {
-          x: 54,
-          y: 270,
-          width: 248,
-          height: 310
+          x: 30,
+          y: 55,
+          width: 300,
+          height: 577
         },
         effects: [],
         relativeTransform: [
           [
             1,
             0,
-            54
+            30
           ],
           [
             0,
             1,
-            270
+            55
           ]
         ],
         isMask: false,
@@ -154,7 +154,7 @@ export default {
         fillGeometry: [
           {
             windingRule: "NONZERO",
-            data: "M0 0L248 0L248 310L0 310L0 0Z"
+            data: "M0 0L300 0L300 577L0 577L0 0Z"
           }
         ],
         strokes: [],
@@ -165,8 +165,8 @@ export default {
         strokeAlign: "INSIDE",
         children: [
           {
-            id: "8:94",
-            name: "Frame 387",
+            id: "8:53",
+            name: "Frame 394",
             visible: true,
             type: "FRAME",
             rotation: 0,
@@ -183,633 +183,23 @@ export default {
             },
             opacity: 1,
             absoluteBoundingBox: {
-              x: 54,
-              y: 478,
-              width: 50,
-              height: 102
+              x: 124.5,
+              y: 55,
+              width: 111,
+              height: 109
             },
             absoluteRenderBounds: {
-              x: 54,
-              y: 478,
-              width: 50,
-              height: 102
+              x: 124.5,
+              y: 55,
+              width: 111,
+              height: 109
             },
             effects: [],
             relativeTransform: [
               [
                 1,
                 0,
-                0
-              ],
-              [
-                0,
-                1,
-                208
-              ]
-            ],
-            isMask: false,
-            fills: [],
-            fillGeometry: [
-              {
-                windingRule: "NONZERO",
-                data: "M0 0L50 0L50 102L0 102L0 0Z"
-              }
-            ],
-            strokes: [],
-            strokeWeight: 1,
-            strokeCap: "NONE",
-            strokeJoin: "MITER",
-            strokeGeometry: [],
-            strokeAlign: "INSIDE",
-            children: [
-              {
-                id: "8:95",
-                name: "Rectangle 160",
-                visible: true,
-                type: "RECTANGLE",
-                rotation: 0,
-                componentPropertyReferences: null,
-                boundVariables: {},
-                locked: false,
-                exportSettings: [],
-                blendMode: "PASS_THROUGH",
-                layoutAlign: "INHERIT",
-                layoutGrow: 0,
-                constraints: {
-                  horizontal: "MIN",
-                  vertical: "MIN"
-                },
-                opacity: 1,
-                absoluteBoundingBox: {
-                  x: 54,
-                  y: 478,
-                  width: 50,
-                  height: 50
-                },
-                absoluteRenderBounds: {
-                  x: 54,
-                  y: 478,
-                  width: 50,
-                  height: 50
-                },
-                effects: [],
-                relativeTransform: [
-                  [
-                    1,
-                    0,
-                    0
-                  ],
-                  [
-                    0,
-                    1,
-                    0
-                  ]
-                ],
-                isMask: false,
-                fills: [
-                  {
-                    type: "SOLID",
-                    visible: true,
-                    opacity: 1,
-                    blendMode: "NORMAL",
-                    color: {
-                      r: 0.5921568870544434,
-                      g: 0.27843138575553894,
-                      b: 1
-                    },
-                    boundVariables: {}
-                  }
-                ],
-                fillGeometry: [
-                  {
-                    windingRule: "NONZERO",
-                    data: "M0 0L50 0L50 50L0 50L0 0Z"
-                  }
-                ],
-                strokes: [],
-                strokeWeight: 1,
-                strokeCap: "NONE",
-                strokeJoin: "MITER",
-                strokeGeometry: [],
-                strokeAlign: "INSIDE",
-                cornerRadius: 0,
-                cornerSmoothing: 0
-              },
-              {
-                id: "8:96",
-                name: "Rectangle 161",
-                visible: true,
-                type: "RECTANGLE",
-                rotation: 0,
-                componentPropertyReferences: null,
-                boundVariables: {},
-                locked: false,
-                exportSettings: [],
-                blendMode: "PASS_THROUGH",
-                layoutAlign: "INHERIT",
-                layoutGrow: 0,
-                constraints: {
-                  horizontal: "MIN",
-                  vertical: "MIN"
-                },
-                opacity: 1,
-                absoluteBoundingBox: {
-                  x: 54,
-                  y: 530,
-                  width: 50,
-                  height: 50
-                },
-                absoluteRenderBounds: {
-                  x: 54,
-                  y: 530,
-                  width: 50,
-                  height: 50
-                },
-                effects: [],
-                relativeTransform: [
-                  [
-                    1,
-                    0,
-                    0
-                  ],
-                  [
-                    0,
-                    1,
-                    52
-                  ]
-                ],
-                isMask: false,
-                fills: [
-                  {
-                    type: "SOLID",
-                    visible: true,
-                    opacity: 1,
-                    blendMode: "NORMAL",
-                    color: {
-                      r: 0.5921568870544434,
-                      g: 0.27843138575553894,
-                      b: 1
-                    },
-                    boundVariables: {}
-                  }
-                ],
-                fillGeometry: [
-                  {
-                    windingRule: "NONZERO",
-                    data: "M0 0L50 0L50 50L0 50L0 0Z"
-                  }
-                ],
-                strokes: [],
-                strokeWeight: 1,
-                strokeCap: "NONE",
-                strokeJoin: "MITER",
-                strokeGeometry: [],
-                strokeAlign: "INSIDE",
-                cornerRadius: 0,
-                cornerSmoothing: 0
-              }
-            ],
-            cornerSmoothing: 0,
-            minWidth: null,
-            maxWidth: null,
-            minHeight: null,
-            maxHeight: null,
-            clipsContent: false,
-            layoutMode: "VERTICAL",
-            layoutWrap: "NO_WRAP",
-            primaryAxisSizingMode: "AUTO",
-            counterAxisSizingMode: "AUTO",
-            primaryAxisAlignItems: "MIN",
-            counterAxisAlignItems: "MIN",
-            counterAxisAlignContent: "AUTO",
-            paddingLeft: 0,
-            paddingRight: 0,
-            paddingTop: 0,
-            paddingBottom: 0,
-            horizontalPadding: 0,
-            verticalPadding: 0,
-            itemSpacing: 2,
-            counterAxisSpacing: 0,
-            layoutPositioning: "AUTO",
-            itemReverseZIndex: false,
-            strokesIncludedInLayout: false,
-            layoutGrids: [],
-            overflowDirection: "NONE"
-          },
-          {
-            id: "8:97",
-            name: "Frame 388",
-            visible: true,
-            type: "FRAME",
-            rotation: 0,
-            componentPropertyReferences: null,
-            boundVariables: {},
-            locked: false,
-            exportSettings: [],
-            blendMode: "PASS_THROUGH",
-            layoutAlign: "INHERIT",
-            layoutGrow: 0,
-            constraints: {
-              horizontal: "MIN",
-              vertical: "MIN"
-            },
-            opacity: 1,
-            absoluteBoundingBox: {
-              x: 120,
-              y: 374,
-              width: 50,
-              height: 206
-            },
-            absoluteRenderBounds: {
-              x: 120,
-              y: 374,
-              width: 50,
-              height: 206
-            },
-            effects: [],
-            relativeTransform: [
-              [
-                1,
-                0,
-                66
-              ],
-              [
-                0,
-                1,
-                104
-              ]
-            ],
-            isMask: false,
-            fills: [],
-            fillGeometry: [
-              {
-                windingRule: "NONZERO",
-                data: "M0 0L50 0L50 206L0 206L0 0Z"
-              }
-            ],
-            strokes: [],
-            strokeWeight: 1,
-            strokeCap: "NONE",
-            strokeJoin: "MITER",
-            strokeGeometry: [],
-            strokeAlign: "INSIDE",
-            children: [
-              {
-                id: "8:98",
-                name: "Rectangle 160",
-                visible: true,
-                type: "RECTANGLE",
-                rotation: 0,
-                componentPropertyReferences: null,
-                boundVariables: {},
-                locked: false,
-                exportSettings: [],
-                blendMode: "PASS_THROUGH",
-                layoutAlign: "INHERIT",
-                layoutGrow: 0,
-                constraints: {
-                  horizontal: "MIN",
-                  vertical: "MIN"
-                },
-                opacity: 1,
-                absoluteBoundingBox: {
-                  x: 120,
-                  y: 374,
-                  width: 50,
-                  height: 50
-                },
-                absoluteRenderBounds: {
-                  x: 120,
-                  y: 374,
-                  width: 50,
-                  height: 50
-                },
-                effects: [],
-                relativeTransform: [
-                  [
-                    1,
-                    0,
-                    0
-                  ],
-                  [
-                    0,
-                    1,
-                    0
-                  ]
-                ],
-                isMask: false,
-                fills: [
-                  {
-                    type: "SOLID",
-                    visible: true,
-                    opacity: 1,
-                    blendMode: "NORMAL",
-                    color: {
-                      r: 0.5921568870544434,
-                      g: 0.27843138575553894,
-                      b: 1
-                    },
-                    boundVariables: {}
-                  }
-                ],
-                fillGeometry: [
-                  {
-                    windingRule: "NONZERO",
-                    data: "M0 0L50 0L50 50L0 50L0 0Z"
-                  }
-                ],
-                strokes: [],
-                strokeWeight: 1,
-                strokeCap: "NONE",
-                strokeJoin: "MITER",
-                strokeGeometry: [],
-                strokeAlign: "INSIDE",
-                cornerRadius: 0,
-                cornerSmoothing: 0
-              },
-              {
-                id: "8:99",
-                name: "Rectangle 162",
-                visible: true,
-                type: "RECTANGLE",
-                rotation: 0,
-                componentPropertyReferences: null,
-                boundVariables: {},
-                locked: false,
-                exportSettings: [],
-                blendMode: "PASS_THROUGH",
-                layoutAlign: "INHERIT",
-                layoutGrow: 0,
-                constraints: {
-                  horizontal: "MIN",
-                  vertical: "MIN"
-                },
-                opacity: 1,
-                absoluteBoundingBox: {
-                  x: 120,
-                  y: 426,
-                  width: 50,
-                  height: 50
-                },
-                absoluteRenderBounds: {
-                  x: 120,
-                  y: 426,
-                  width: 50,
-                  height: 50
-                },
-                effects: [],
-                relativeTransform: [
-                  [
-                    1,
-                    0,
-                    0
-                  ],
-                  [
-                    0,
-                    1,
-                    52
-                  ]
-                ],
-                isMask: false,
-                fills: [
-                  {
-                    type: "SOLID",
-                    visible: true,
-                    opacity: 1,
-                    blendMode: "NORMAL",
-                    color: {
-                      r: 0.5921568870544434,
-                      g: 0.27843138575553894,
-                      b: 1
-                    },
-                    boundVariables: {}
-                  }
-                ],
-                fillGeometry: [
-                  {
-                    windingRule: "NONZERO",
-                    data: "M0 0L50 0L50 50L0 50L0 0Z"
-                  }
-                ],
-                strokes: [],
-                strokeWeight: 1,
-                strokeCap: "NONE",
-                strokeJoin: "MITER",
-                strokeGeometry: [],
-                strokeAlign: "INSIDE",
-                cornerRadius: 0,
-                cornerSmoothing: 0
-              },
-              {
-                id: "8:100",
-                name: "Rectangle 163",
-                visible: true,
-                type: "RECTANGLE",
-                rotation: 0,
-                componentPropertyReferences: null,
-                boundVariables: {},
-                locked: false,
-                exportSettings: [],
-                blendMode: "PASS_THROUGH",
-                layoutAlign: "INHERIT",
-                layoutGrow: 0,
-                constraints: {
-                  horizontal: "MIN",
-                  vertical: "MIN"
-                },
-                opacity: 1,
-                absoluteBoundingBox: {
-                  x: 120,
-                  y: 478,
-                  width: 50,
-                  height: 50
-                },
-                absoluteRenderBounds: {
-                  x: 120,
-                  y: 478,
-                  width: 50,
-                  height: 50
-                },
-                effects: [],
-                relativeTransform: [
-                  [
-                    1,
-                    0,
-                    0
-                  ],
-                  [
-                    0,
-                    1,
-                    104
-                  ]
-                ],
-                isMask: false,
-                fills: [
-                  {
-                    type: "SOLID",
-                    visible: true,
-                    opacity: 1,
-                    blendMode: "NORMAL",
-                    color: {
-                      r: 0.5921568870544434,
-                      g: 0.27843138575553894,
-                      b: 1
-                    },
-                    boundVariables: {}
-                  }
-                ],
-                fillGeometry: [
-                  {
-                    windingRule: "NONZERO",
-                    data: "M0 0L50 0L50 50L0 50L0 0Z"
-                  }
-                ],
-                strokes: [],
-                strokeWeight: 1,
-                strokeCap: "NONE",
-                strokeJoin: "MITER",
-                strokeGeometry: [],
-                strokeAlign: "INSIDE",
-                cornerRadius: 0,
-                cornerSmoothing: 0
-              },
-              {
-                id: "8:101",
-                name: "Rectangle 161",
-                visible: true,
-                type: "RECTANGLE",
-                rotation: 0,
-                componentPropertyReferences: null,
-                boundVariables: {},
-                locked: false,
-                exportSettings: [],
-                blendMode: "PASS_THROUGH",
-                layoutAlign: "INHERIT",
-                layoutGrow: 0,
-                constraints: {
-                  horizontal: "MIN",
-                  vertical: "MIN"
-                },
-                opacity: 1,
-                absoluteBoundingBox: {
-                  x: 120,
-                  y: 530,
-                  width: 50,
-                  height: 50
-                },
-                absoluteRenderBounds: {
-                  x: 120,
-                  y: 530,
-                  width: 50,
-                  height: 50
-                },
-                effects: [],
-                relativeTransform: [
-                  [
-                    1,
-                    0,
-                    0
-                  ],
-                  [
-                    0,
-                    1,
-                    156
-                  ]
-                ],
-                isMask: false,
-                fills: [
-                  {
-                    type: "SOLID",
-                    visible: true,
-                    opacity: 1,
-                    blendMode: "NORMAL",
-                    color: {
-                      r: 0.5921568870544434,
-                      g: 0.27843138575553894,
-                      b: 1
-                    },
-                    boundVariables: {}
-                  }
-                ],
-                fillGeometry: [
-                  {
-                    windingRule: "NONZERO",
-                    data: "M0 0L50 0L50 50L0 50L0 0Z"
-                  }
-                ],
-                strokes: [],
-                strokeWeight: 1,
-                strokeCap: "NONE",
-                strokeJoin: "MITER",
-                strokeGeometry: [],
-                strokeAlign: "INSIDE",
-                cornerRadius: 0,
-                cornerSmoothing: 0
-              }
-            ],
-            cornerSmoothing: 0,
-            minWidth: null,
-            maxWidth: null,
-            minHeight: null,
-            maxHeight: null,
-            clipsContent: false,
-            layoutMode: "VERTICAL",
-            layoutWrap: "NO_WRAP",
-            primaryAxisSizingMode: "AUTO",
-            counterAxisSizingMode: "AUTO",
-            primaryAxisAlignItems: "MIN",
-            counterAxisAlignItems: "MIN",
-            counterAxisAlignContent: "AUTO",
-            paddingLeft: 0,
-            paddingRight: 0,
-            paddingTop: 0,
-            paddingBottom: 0,
-            horizontalPadding: 0,
-            verticalPadding: 0,
-            itemSpacing: 2,
-            counterAxisSpacing: 0,
-            layoutPositioning: "AUTO",
-            itemReverseZIndex: false,
-            strokesIncludedInLayout: false,
-            layoutGrids: [],
-            overflowDirection: "NONE"
-          },
-          {
-            id: "8:102",
-            name: "Frame 389",
-            visible: true,
-            type: "FRAME",
-            rotation: 0,
-            componentPropertyReferences: null,
-            boundVariables: {},
-            locked: false,
-            exportSettings: [],
-            blendMode: "PASS_THROUGH",
-            layoutAlign: "INHERIT",
-            layoutGrow: 0,
-            constraints: {
-              horizontal: "MIN",
-              vertical: "MIN"
-            },
-            opacity: 1,
-            absoluteBoundingBox: {
-              x: 186,
-              y: 270,
-              width: 50,
-              height: 310
-            },
-            absoluteRenderBounds: {
-              x: 186,
-              y: 270,
-              width: 50,
-              height: 310
-            },
-            effects: [],
-            relativeTransform: [
-              [
-                1,
-                0,
-                132
+                94.5
               ],
               [
                 0,
@@ -822,7 +212,7 @@ export default {
             fillGeometry: [
               {
                 windingRule: "NONZERO",
-                data: "M0 0L50 0L50 310L0 310L0 0Z"
+                data: "M0 0L111 0L111 109L0 109L0 0Z"
               }
             ],
             strokes: [],
@@ -833,532 +223,8 @@ export default {
             strokeAlign: "INSIDE",
             children: [
               {
-                id: "8:103",
-                name: "Rectangle 160",
-                visible: true,
-                type: "RECTANGLE",
-                rotation: 0,
-                componentPropertyReferences: null,
-                boundVariables: {},
-                locked: false,
-                exportSettings: [],
-                blendMode: "PASS_THROUGH",
-                layoutAlign: "INHERIT",
-                layoutGrow: 0,
-                constraints: {
-                  horizontal: "MIN",
-                  vertical: "MIN"
-                },
-                opacity: 1,
-                absoluteBoundingBox: {
-                  x: 186,
-                  y: 270,
-                  width: 50,
-                  height: 50
-                },
-                absoluteRenderBounds: {
-                  x: 186,
-                  y: 270,
-                  width: 50,
-                  height: 50
-                },
-                effects: [],
-                relativeTransform: [
-                  [
-                    1,
-                    0,
-                    0
-                  ],
-                  [
-                    0,
-                    1,
-                    0
-                  ]
-                ],
-                isMask: false,
-                fills: [
-                  {
-                    type: "SOLID",
-                    visible: true,
-                    opacity: 1,
-                    blendMode: "NORMAL",
-                    color: {
-                      r: 0.5921568870544434,
-                      g: 0.27843138575553894,
-                      b: 1
-                    },
-                    boundVariables: {}
-                  }
-                ],
-                fillGeometry: [
-                  {
-                    windingRule: "NONZERO",
-                    data: "M0 0L50 0L50 50L0 50L0 0Z"
-                  }
-                ],
-                strokes: [],
-                strokeWeight: 1,
-                strokeCap: "NONE",
-                strokeJoin: "MITER",
-                strokeGeometry: [],
-                strokeAlign: "INSIDE",
-                cornerRadius: 0,
-                cornerSmoothing: 0
-              },
-              {
-                id: "8:104",
-                name: "Rectangle 164",
-                visible: true,
-                type: "RECTANGLE",
-                rotation: 0,
-                componentPropertyReferences: null,
-                boundVariables: {},
-                locked: false,
-                exportSettings: [],
-                blendMode: "PASS_THROUGH",
-                layoutAlign: "INHERIT",
-                layoutGrow: 0,
-                constraints: {
-                  horizontal: "MIN",
-                  vertical: "MIN"
-                },
-                opacity: 1,
-                absoluteBoundingBox: {
-                  x: 186,
-                  y: 322,
-                  width: 50,
-                  height: 50
-                },
-                absoluteRenderBounds: {
-                  x: 186,
-                  y: 322,
-                  width: 50,
-                  height: 50
-                },
-                effects: [],
-                relativeTransform: [
-                  [
-                    1,
-                    0,
-                    0
-                  ],
-                  [
-                    0,
-                    1,
-                    52
-                  ]
-                ],
-                isMask: false,
-                fills: [
-                  {
-                    type: "SOLID",
-                    visible: true,
-                    opacity: 1,
-                    blendMode: "NORMAL",
-                    color: {
-                      r: 0.5921568870544434,
-                      g: 0.27843138575553894,
-                      b: 1
-                    },
-                    boundVariables: {}
-                  }
-                ],
-                fillGeometry: [
-                  {
-                    windingRule: "NONZERO",
-                    data: "M0 0L50 0L50 50L0 50L0 0Z"
-                  }
-                ],
-                strokes: [],
-                strokeWeight: 1,
-                strokeCap: "NONE",
-                strokeJoin: "MITER",
-                strokeGeometry: [],
-                strokeAlign: "INSIDE",
-                cornerRadius: 0,
-                cornerSmoothing: 0
-              },
-              {
-                id: "8:105",
-                name: "Rectangle 165",
-                visible: true,
-                type: "RECTANGLE",
-                rotation: 0,
-                componentPropertyReferences: null,
-                boundVariables: {},
-                locked: false,
-                exportSettings: [],
-                blendMode: "PASS_THROUGH",
-                layoutAlign: "INHERIT",
-                layoutGrow: 0,
-                constraints: {
-                  horizontal: "MIN",
-                  vertical: "MIN"
-                },
-                opacity: 1,
-                absoluteBoundingBox: {
-                  x: 186,
-                  y: 374,
-                  width: 50,
-                  height: 50
-                },
-                absoluteRenderBounds: {
-                  x: 186,
-                  y: 374,
-                  width: 50,
-                  height: 50
-                },
-                effects: [],
-                relativeTransform: [
-                  [
-                    1,
-                    0,
-                    0
-                  ],
-                  [
-                    0,
-                    1,
-                    104
-                  ]
-                ],
-                isMask: false,
-                fills: [
-                  {
-                    type: "SOLID",
-                    visible: true,
-                    opacity: 1,
-                    blendMode: "NORMAL",
-                    color: {
-                      r: 0.5921568870544434,
-                      g: 0.27843138575553894,
-                      b: 1
-                    },
-                    boundVariables: {}
-                  }
-                ],
-                fillGeometry: [
-                  {
-                    windingRule: "NONZERO",
-                    data: "M0 0L50 0L50 50L0 50L0 0Z"
-                  }
-                ],
-                strokes: [],
-                strokeWeight: 1,
-                strokeCap: "NONE",
-                strokeJoin: "MITER",
-                strokeGeometry: [],
-                strokeAlign: "INSIDE",
-                cornerRadius: 0,
-                cornerSmoothing: 0
-              },
-              {
-                id: "8:106",
-                name: "Rectangle 162",
-                visible: true,
-                type: "RECTANGLE",
-                rotation: 0,
-                componentPropertyReferences: null,
-                boundVariables: {},
-                locked: false,
-                exportSettings: [],
-                blendMode: "PASS_THROUGH",
-                layoutAlign: "INHERIT",
-                layoutGrow: 0,
-                constraints: {
-                  horizontal: "MIN",
-                  vertical: "MIN"
-                },
-                opacity: 1,
-                absoluteBoundingBox: {
-                  x: 186,
-                  y: 426,
-                  width: 50,
-                  height: 50
-                },
-                absoluteRenderBounds: {
-                  x: 186,
-                  y: 426,
-                  width: 50,
-                  height: 50
-                },
-                effects: [],
-                relativeTransform: [
-                  [
-                    1,
-                    0,
-                    0
-                  ],
-                  [
-                    0,
-                    1,
-                    156
-                  ]
-                ],
-                isMask: false,
-                fills: [
-                  {
-                    type: "SOLID",
-                    visible: true,
-                    opacity: 1,
-                    blendMode: "NORMAL",
-                    color: {
-                      r: 0.5921568870544434,
-                      g: 0.27843138575553894,
-                      b: 1
-                    },
-                    boundVariables: {}
-                  }
-                ],
-                fillGeometry: [
-                  {
-                    windingRule: "NONZERO",
-                    data: "M0 0L50 0L50 50L0 50L0 0Z"
-                  }
-                ],
-                strokes: [],
-                strokeWeight: 1,
-                strokeCap: "NONE",
-                strokeJoin: "MITER",
-                strokeGeometry: [],
-                strokeAlign: "INSIDE",
-                cornerRadius: 0,
-                cornerSmoothing: 0
-              },
-              {
-                id: "8:107",
-                name: "Rectangle 163",
-                visible: true,
-                type: "RECTANGLE",
-                rotation: 0,
-                componentPropertyReferences: null,
-                boundVariables: {},
-                locked: false,
-                exportSettings: [],
-                blendMode: "PASS_THROUGH",
-                layoutAlign: "INHERIT",
-                layoutGrow: 0,
-                constraints: {
-                  horizontal: "MIN",
-                  vertical: "MIN"
-                },
-                opacity: 1,
-                absoluteBoundingBox: {
-                  x: 186,
-                  y: 478,
-                  width: 50,
-                  height: 50
-                },
-                absoluteRenderBounds: {
-                  x: 186,
-                  y: 478,
-                  width: 50,
-                  height: 50
-                },
-                effects: [],
-                relativeTransform: [
-                  [
-                    1,
-                    0,
-                    0
-                  ],
-                  [
-                    0,
-                    1,
-                    208
-                  ]
-                ],
-                isMask: false,
-                fills: [
-                  {
-                    type: "SOLID",
-                    visible: true,
-                    opacity: 1,
-                    blendMode: "NORMAL",
-                    color: {
-                      r: 0.5921568870544434,
-                      g: 0.27843138575553894,
-                      b: 1
-                    },
-                    boundVariables: {}
-                  }
-                ],
-                fillGeometry: [
-                  {
-                    windingRule: "NONZERO",
-                    data: "M0 0L50 0L50 50L0 50L0 0Z"
-                  }
-                ],
-                strokes: [],
-                strokeWeight: 1,
-                strokeCap: "NONE",
-                strokeJoin: "MITER",
-                strokeGeometry: [],
-                strokeAlign: "INSIDE",
-                cornerRadius: 0,
-                cornerSmoothing: 0
-              },
-              {
-                id: "8:108",
-                name: "Rectangle 161",
-                visible: true,
-                type: "RECTANGLE",
-                rotation: 0,
-                componentPropertyReferences: null,
-                boundVariables: {},
-                locked: false,
-                exportSettings: [],
-                blendMode: "PASS_THROUGH",
-                layoutAlign: "INHERIT",
-                layoutGrow: 0,
-                constraints: {
-                  horizontal: "MIN",
-                  vertical: "MIN"
-                },
-                opacity: 1,
-                absoluteBoundingBox: {
-                  x: 186,
-                  y: 530,
-                  width: 50,
-                  height: 50
-                },
-                absoluteRenderBounds: {
-                  x: 186,
-                  y: 530,
-                  width: 50,
-                  height: 50
-                },
-                effects: [],
-                relativeTransform: [
-                  [
-                    1,
-                    0,
-                    0
-                  ],
-                  [
-                    0,
-                    1,
-                    260
-                  ]
-                ],
-                isMask: false,
-                fills: [
-                  {
-                    type: "SOLID",
-                    visible: true,
-                    opacity: 1,
-                    blendMode: "NORMAL",
-                    color: {
-                      r: 0.5921568870544434,
-                      g: 0.27843138575553894,
-                      b: 1
-                    },
-                    boundVariables: {}
-                  }
-                ],
-                fillGeometry: [
-                  {
-                    windingRule: "NONZERO",
-                    data: "M0 0L50 0L50 50L0 50L0 0Z"
-                  }
-                ],
-                strokes: [],
-                strokeWeight: 1,
-                strokeCap: "NONE",
-                strokeJoin: "MITER",
-                strokeGeometry: [],
-                strokeAlign: "INSIDE",
-                cornerRadius: 0,
-                cornerSmoothing: 0
-              }
-            ],
-            cornerSmoothing: 0,
-            minWidth: null,
-            maxWidth: null,
-            minHeight: null,
-            maxHeight: null,
-            clipsContent: false,
-            layoutMode: "VERTICAL",
-            layoutWrap: "NO_WRAP",
-            primaryAxisSizingMode: "AUTO",
-            counterAxisSizingMode: "AUTO",
-            primaryAxisAlignItems: "MIN",
-            counterAxisAlignItems: "MIN",
-            counterAxisAlignContent: "AUTO",
-            paddingLeft: 0,
-            paddingRight: 0,
-            paddingTop: 0,
-            paddingBottom: 0,
-            horizontalPadding: 0,
-            verticalPadding: 0,
-            itemSpacing: 2,
-            counterAxisSpacing: 0,
-            layoutPositioning: "AUTO",
-            itemReverseZIndex: false,
-            strokesIncludedInLayout: false,
-            layoutGrids: [],
-            overflowDirection: "NONE"
-          },
-          {
-            id: "8:109",
-            name: "Frame 390",
-            visible: true,
-            type: "FRAME",
-            rotation: 0,
-            componentPropertyReferences: null,
-            boundVariables: {},
-            locked: false,
-            exportSettings: [],
-            blendMode: "PASS_THROUGH",
-            layoutAlign: "INHERIT",
-            layoutGrow: 0,
-            constraints: {
-              horizontal: "MIN",
-              vertical: "MIN"
-            },
-            opacity: 1,
-            absoluteBoundingBox: {
-              x: 252,
-              y: 270,
-              width: 50,
-              height: 310
-            },
-            absoluteRenderBounds: {
-              x: 252,
-              y: 270,
-              width: 50,
-              height: 310
-            },
-            effects: [],
-            relativeTransform: [
-              [
-                1,
-                0,
-                198
-              ],
-              [
-                0,
-                1,
-                0
-              ]
-            ],
-            isMask: false,
-            fills: [],
-            fillGeometry: [
-              {
-                windingRule: "NONZERO",
-                data: "M0 0L50 0L50 310L0 310L0 0Z"
-              }
-            ],
-            strokes: [],
-            strokeWeight: 1,
-            strokeCap: "NONE",
-            strokeJoin: "MITER",
-            strokeGeometry: [],
-            strokeAlign: "INSIDE",
-            children: [
-              {
-                id: "8:110",
-                name: "Frame 391",
+                id: "8:54",
+                name: "Frame 396",
                 visible: true,
                 type: "FRAME",
                 rotation: 0,
@@ -1375,16 +241,16 @@ export default {
                 },
                 opacity: 1,
                 absoluteBoundingBox: {
-                  x: 252,
-                  y: 270,
-                  width: 50,
-                  height: 50
+                  x: 124.5,
+                  y: 55,
+                  width: 111,
+                  height: 109
                 },
                 absoluteRenderBounds: {
-                  x: 252,
-                  y: 270,
-                  width: 50,
-                  height: 50
+                  x: 124.5,
+                  y: 55,
+                  width: 111,
+                  height: 109
                 },
                 effects: [],
                 relativeTransform: [
@@ -1404,7 +270,7 @@ export default {
                 fillGeometry: [
                   {
                     windingRule: "NONZERO",
-                    data: "M0 0L50 0L50 50L0 50L0 0Z"
+                    data: "M0 0L111 0L111 109L0 109L0 0Z"
                   }
                 ],
                 strokes: [],
@@ -1415,10 +281,10 @@ export default {
                 strokeAlign: "INSIDE",
                 children: [
                   {
-                    id: "8:111",
-                    name: "Rectangle 163",
+                    id: "8:55",
+                    name: "Group 301",
                     visible: true,
-                    type: "RECTANGLE",
+                    type: "GROUP",
                     rotation: 0,
                     componentPropertyReferences: null,
                     boundVariables: {},
@@ -1427,122 +293,103 @@ export default {
                     blendMode: "PASS_THROUGH",
                     layoutAlign: "INHERIT",
                     layoutGrow: 0,
-                    constraints: {
-                      horizontal: "MIN",
-                      vertical: "MIN"
-                    },
                     opacity: 1,
                     absoluteBoundingBox: {
-                      x: 252,
-                      y: 270,
-                      width: 50,
-                      height: 50
-                    },
-                    absoluteRenderBounds: null,
-                    effects: [],
-                    relativeTransform: [
-                      [
-                        1,
-                        0,
-                        0
-                      ],
-                      [
-                        0,
-                        1,
-                        0
-                      ]
-                    ],
-                    isMask: false,
-                    fills: [
-                      {
-                        type: "SOLID",
-                        visible: false,
-                        opacity: 1,
-                        blendMode: "NORMAL",
-                        color: {
-                          r: 0.8509804010391235,
-                          g: 0.8509804010391235,
-                          b: 0.8509804010391235
-                        },
-                        boundVariables: {}
-                      }
-                    ],
-                    fillGeometry: [
-                      {
-                        windingRule: "NONZERO",
-                        data: "M0 0L50 0L50 50L0 50L0 0Z"
-                      }
-                    ],
-                    strokes: [],
-                    strokeWeight: 1,
-                    strokeCap: "NONE",
-                    strokeJoin: "MITER",
-                    strokeGeometry: [],
-                    strokeAlign: "INSIDE",
-                    cornerRadius: 0,
-                    cornerSmoothing: 0
-                  },
-                  {
-                    id: "8:112",
-                    name: "Frame 392",
-                    visible: true,
-                    type: "FRAME",
-                    rotation: 0,
-                    componentPropertyReferences: null,
-                    boundVariables: {},
-                    locked: false,
-                    exportSettings: [],
-                    blendMode: "PASS_THROUGH",
-                    layoutAlign: "INHERIT",
-                    layoutGrow: 0,
-                    constraints: {
-                      horizontal: "MIN",
-                      vertical: "MIN"
-                    },
-                    opacity: 1,
-                    absoluteBoundingBox: {
-                      x: 266,
-                      y: 280,
-                      width: 22,
-                      height: 30
+                      x: 143,
+                      y: 76,
+                      width: 74,
+                      height: 88
                     },
                     absoluteRenderBounds: {
-                      x: 266,
-                      y: 280,
-                      width: 22,
-                      height: 30
+                      x: 143,
+                      y: 76,
+                      width: 74,
+                      height: 88
                     },
                     effects: [],
                     relativeTransform: [
                       [
                         1,
                         0,
-                        14
+                        18.5
                       ],
                       [
                         0,
                         1,
-                        10
+                        21
                       ]
                     ],
                     isMask: false,
-                    fills: [],
-                    fillGeometry: [
-                      {
-                        windingRule: "NONZERO",
-                        data: "M0 0L22 0L22 30L0 30L0 0Z"
-                      }
-                    ],
-                    strokes: [],
-                    strokeWeight: 1,
-                    strokeCap: "NONE",
-                    strokeJoin: "MITER",
-                    strokeGeometry: [],
-                    strokeAlign: "INSIDE",
                     children: [
                       {
-                        id: "8:113",
-                        name: "Polygon 8",
+                        id: "8:56",
+                        name: "Polygon 11",
+                        visible: false,
+                        type: "POLYGON",
+                        rotation: 180,
+                        componentPropertyReferences: null,
+                        boundVariables: {},
+                        locked: false,
+                        exportSettings: [],
+                        blendMode: "PASS_THROUGH",
+                        layoutAlign: "STRETCH",
+                        layoutGrow: 1,
+                        constraints: {
+                          horizontal: "MIN",
+                          vertical: "MIN"
+                        },
+                        opacity: 1,
+                        absoluteBoundingBox: {
+                          x: 180,
+                          y: 55,
+                          width: 74,
+                          height: 88
+                        },
+                        absoluteRenderBounds: null,
+                        effects: [],
+                        relativeTransform: [
+                          [
+                            -1,
+                            2.498001805406602e-16,
+                            129.5
+                          ],
+                          [
+                            -2.498001805406602e-16,
+                            -1,
+                            88
+                          ]
+                        ],
+                        isMask: false,
+                        fills: [
+                          {
+                            type: "SOLID",
+                            visible: true,
+                            opacity: 1,
+                            blendMode: "NORMAL",
+                            color: {
+                              r: 0.9208333492279053,
+                              g: 0.31641045212745667,
+                              b: 0.08440972119569778
+                            },
+                            boundVariables: {}
+                          }
+                        ],
+                        fillGeometry: [
+                          {
+                            windingRule: "NONZERO",
+                            data: "M37 0L69.0429 66L4.95706 66L37 0Z"
+                          }
+                        ],
+                        strokes: [],
+                        strokeWeight: 1,
+                        strokeCap: "NONE",
+                        strokeJoin: "MITER",
+                        strokeGeometry: [],
+                        strokeAlign: "INSIDE"
+                      },
+                      {
+                        id: "8:57",
+                        name: "Polygon 10",
                         visible: true,
                         type: "POLYGON",
                         rotation: 0,
@@ -1559,28 +406,28 @@ export default {
                         },
                         opacity: 1,
                         absoluteBoundingBox: {
-                          x: 266,
-                          y: 280,
-                          width: 22,
-                          height: 13
+                          x: 143,
+                          y: 76,
+                          width: 74,
+                          height: 88
                         },
                         absoluteRenderBounds: {
-                          x: 268.84686279296875,
-                          y: 280.430908203125,
-                          width: 16.3062744140625,
-                          height: 9.319091796875
+                          x: 147.95706176757812,
+                          y: 76,
+                          width: 64.08587646484375,
+                          height: 66
                         },
                         effects: [],
                         relativeTransform: [
                           [
                             1,
                             0,
-                            0
+                            18.5
                           ],
                           [
                             0,
                             1,
-                            0
+                            21
                           ]
                         ],
                         isMask: false,
@@ -1592,8 +439,8 @@ export default {
                             blendMode: "NORMAL",
                             color: {
                               r: 0.15294118225574493,
-                              g: 0.05882352963089943,
-                              b: 0.21176470816135406
+                              g: 0.6823529601097107,
+                              b: 0.3764705955982208
                             },
                             boundVariables: {}
                           }
@@ -1601,7 +448,7 @@ export default {
                         fillGeometry: [
                           {
                             windingRule: "NONZERO",
-                            data: "M10.2847 0.732062C10.6771 0.330533 11.3229 0.330534 11.7153 0.732063L18.8664 8.05115C19.4851 8.68439 19.0365 9.75 18.1511 9.75L3.84886 9.75C2.96354 9.75 2.51488 8.68439 3.13359 8.05115L10.2847 0.732062Z"
+                            data: "M37 0L69.0429 66L4.95706 66L37 0Z"
                           }
                         ],
                         strokes: [],
@@ -1610,181 +457,8 @@ export default {
                         strokeJoin: "MITER",
                         strokeGeometry: [],
                         strokeAlign: "INSIDE"
-                      },
-                      {
-                        id: "8:114",
-                        name: "Polygon 9",
-                        visible: true,
-                        type: "POLYGON",
-                        rotation: -180,
-                        componentPropertyReferences: null,
-                        boundVariables: {},
-                        locked: false,
-                        exportSettings: [],
-                        blendMode: "PASS_THROUGH",
-                        layoutAlign: "INHERIT",
-                        layoutGrow: 0,
-                        constraints: {
-                          horizontal: "MIN",
-                          vertical: "MIN"
-                        },
-                        opacity: 1,
-                        absoluteBoundingBox: {
-                          x: 266,
-                          y: 297,
-                          width: 22,
-                          height: 13
-                        },
-                        absoluteRenderBounds: {
-                          x: 268.84686279296875,
-                          y: 300.25,
-                          width: 16.3062744140625,
-                          height: 9.319091796875
-                        },
-                        effects: [],
-                        relativeTransform: [
-                          [
-                            -1,
-                            -1.2246468525851679e-16,
-                            22
-                          ],
-                          [
-                            1.2246468525851679e-16,
-                            -1,
-                            30
-                          ]
-                        ],
-                        isMask: false,
-                        fills: [
-                          {
-                            type: "SOLID",
-                            visible: true,
-                            opacity: 1,
-                            blendMode: "NORMAL",
-                            color: {
-                              r: 0.15294118225574493,
-                              g: 0.05882352963089943,
-                              b: 0.21176470816135406
-                            },
-                            boundVariables: {}
-                          }
-                        ],
-                        fillGeometry: [
-                          {
-                            windingRule: "NONZERO",
-                            data: "M10.2847 0.732062C10.6771 0.330533 11.3229 0.330534 11.7153 0.732063L18.8664 8.05115C19.4851 8.68439 19.0365 9.75 18.1511 9.75L3.84886 9.75C2.96354 9.75 2.51488 8.68439 3.13359 8.05115L10.2847 0.732062Z"
-                          }
-                        ],
-                        strokes: [],
-                        strokeWeight: 1,
-                        strokeCap: "NONE",
-                        strokeJoin: "MITER",
-                        strokeGeometry: [],
-                        strokeAlign: "INSIDE"
-                      },
-                      {
-                        id: "8:115",
-                        name: "Ellipse 24",
-                        visible: true,
-                        type: "ELLIPSE",
-                        rotation: 0,
-                        componentPropertyReferences: null,
-                        boundVariables: {},
-                        locked: false,
-                        exportSettings: [],
-                        blendMode: "PASS_THROUGH",
-                        layoutAlign: "INHERIT",
-                        layoutGrow: 0,
-                        constraints: {
-                          horizontal: "MIN",
-                          vertical: "MIN"
-                        },
-                        opacity: 1,
-                        absoluteBoundingBox: {
-                          x: 273,
-                          y: 291,
-                          width: 8,
-                          height: 8
-                        },
-                        absoluteRenderBounds: {
-                          x: 273,
-                          y: 291,
-                          width: 8,
-                          height: 8
-                        },
-                        effects: [],
-                        relativeTransform: [
-                          [
-                            1,
-                            0,
-                            7
-                          ],
-                          [
-                            0,
-                            1,
-                            11
-                          ]
-                        ],
-                        isMask: false,
-                        fills: [
-                          {
-                            type: "SOLID",
-                            visible: true,
-                            opacity: 1,
-                            blendMode: "NORMAL",
-                            color: {
-                              r: 0.15294118225574493,
-                              g: 0.05882352963089943,
-                              b: 0.21176470816135406
-                            },
-                            boundVariables: {}
-                          }
-                        ],
-                        fillGeometry: [
-                          {
-                            windingRule: "NONZERO",
-                            data: "M8 4C8 6.20914 6.20914 8 4 8C1.79086 8 0 6.20914 0 4C0 1.79086 1.79086 0 4 0C6.20914 0 8 1.79086 8 4Z"
-                          }
-                        ],
-                        strokes: [],
-                        strokeWeight: 1,
-                        strokeCap: "NONE",
-                        strokeJoin: "MITER",
-                        strokeGeometry: [],
-                        strokeAlign: "INSIDE",
-                        arcData: {
-                          startingAngle: 0,
-                          endingAngle: 6.2831854820251465,
-                          innerRadius: 0
-                        }
                       }
-                    ],
-                    cornerSmoothing: 0,
-                    minWidth: null,
-                    maxWidth: null,
-                    minHeight: null,
-                    maxHeight: null,
-                    clipsContent: false,
-                    layoutMode: "NONE",
-                    layoutWrap: "NO_WRAP",
-                    primaryAxisSizingMode: "AUTO",
-                    counterAxisSizingMode: "FIXED",
-                    primaryAxisAlignItems: "MIN",
-                    counterAxisAlignItems: "MIN",
-                    counterAxisAlignContent: "AUTO",
-                    paddingLeft: 0,
-                    paddingRight: 0,
-                    paddingTop: 0,
-                    paddingBottom: 0,
-                    horizontalPadding: 0,
-                    verticalPadding: 0,
-                    itemSpacing: 0,
-                    counterAxisSpacing: 0,
-                    layoutPositioning: "AUTO",
-                    itemReverseZIndex: false,
-                    strokesIncludedInLayout: false,
-                    layoutGrids: [],
-                    overflowDirection: "NONE"
+                    ]
                   }
                 ],
                 cornerSmoothing: 0,
@@ -1813,12 +487,98 @@ export default {
                 strokesIncludedInLayout: false,
                 layoutGrids: [],
                 overflowDirection: "NONE"
-              },
+              }
+            ],
+            cornerSmoothing: 0,
+            minWidth: null,
+            maxWidth: 238,
+            minHeight: null,
+            maxHeight: null,
+            clipsContent: false,
+            layoutMode: "VERTICAL",
+            layoutWrap: "NO_WRAP",
+            primaryAxisSizingMode: "AUTO",
+            counterAxisSizingMode: "AUTO",
+            primaryAxisAlignItems: "MIN",
+            counterAxisAlignItems: "MIN",
+            counterAxisAlignContent: "AUTO",
+            paddingLeft: 0,
+            paddingRight: 0,
+            paddingTop: 0,
+            paddingBottom: 0,
+            horizontalPadding: 0,
+            verticalPadding: 0,
+            itemSpacing: 10,
+            counterAxisSpacing: 0,
+            layoutPositioning: "AUTO",
+            itemReverseZIndex: false,
+            strokesIncludedInLayout: false,
+            layoutGrids: [],
+            overflowDirection: "NONE"
+          },
+          {
+            id: "8:58",
+            name: "Frame 397",
+            visible: true,
+            type: "FRAME",
+            rotation: 0,
+            componentPropertyReferences: null,
+            boundVariables: {},
+            locked: false,
+            exportSettings: [],
+            blendMode: "PASS_THROUGH",
+            layoutAlign: "INHERIT",
+            layoutGrow: 0,
+            constraints: {
+              horizontal: "MIN",
+              vertical: "MIN"
+            },
+            opacity: 1,
+            absoluteBoundingBox: {
+              x: 124.5,
+              y: 172,
+              width: 111,
+              height: 109
+            },
+            absoluteRenderBounds: {
+              x: 124.5,
+              y: 172,
+              width: 111,
+              height: 109
+            },
+            effects: [],
+            relativeTransform: [
+              [
+                1,
+                0,
+                94.5
+              ],
+              [
+                0,
+                1,
+                117
+              ]
+            ],
+            isMask: false,
+            fills: [],
+            fillGeometry: [
               {
-                id: "8:116",
-                name: "Rectangle 161",
+                windingRule: "NONZERO",
+                data: "M0 0L111 0L111 109L0 109L0 0Z"
+              }
+            ],
+            strokes: [],
+            strokeWeight: 1,
+            strokeCap: "NONE",
+            strokeJoin: "MITER",
+            strokeGeometry: [],
+            strokeAlign: "INSIDE",
+            children: [
+              {
+                id: "8:59",
+                name: "Frame 396",
                 visible: true,
-                type: "RECTANGLE",
+                type: "FRAME",
                 rotation: 0,
                 componentPropertyReferences: null,
                 boundVariables: {},
@@ -1833,16 +593,16 @@ export default {
                 },
                 opacity: 1,
                 absoluteBoundingBox: {
-                  x: 252,
-                  y: 322,
-                  width: 50,
-                  height: 50
+                  x: 124.5,
+                  y: 172,
+                  width: 111,
+                  height: 109
                 },
                 absoluteRenderBounds: {
-                  x: 252,
-                  y: 322,
-                  width: 50,
-                  height: 50
+                  x: 124.5,
+                  y: 172,
+                  width: 111,
+                  height: 109
                 },
                 effects: [],
                 relativeTransform: [
@@ -1854,28 +614,15 @@ export default {
                   [
                     0,
                     1,
-                    52
+                    0
                   ]
                 ],
                 isMask: false,
-                fills: [
-                  {
-                    type: "SOLID",
-                    visible: true,
-                    opacity: 1,
-                    blendMode: "NORMAL",
-                    color: {
-                      r: 0.5921568870544434,
-                      g: 0.27843138575553894,
-                      b: 1
-                    },
-                    boundVariables: {}
-                  }
-                ],
+                fills: [],
                 fillGeometry: [
                   {
                     windingRule: "NONZERO",
-                    data: "M0 0L50 0L50 50L0 50L0 0Z"
+                    data: "M0 0L111 0L111 109L0 109L0 0Z"
                   }
                 ],
                 strokes: [],
@@ -1884,14 +631,311 @@ export default {
                 strokeJoin: "MITER",
                 strokeGeometry: [],
                 strokeAlign: "INSIDE",
-                cornerRadius: 0,
-                cornerSmoothing: 0
-              },
+                children: [
+                  {
+                    id: "8:60",
+                    name: "Group 301",
+                    visible: true,
+                    type: "GROUP",
+                    rotation: 0,
+                    componentPropertyReferences: null,
+                    boundVariables: {},
+                    locked: false,
+                    exportSettings: [],
+                    blendMode: "PASS_THROUGH",
+                    layoutAlign: "INHERIT",
+                    layoutGrow: 0,
+                    opacity: 1,
+                    absoluteBoundingBox: {
+                      x: 124.5,
+                      y: 172,
+                      width: 111,
+                      height: 109
+                    },
+                    absoluteRenderBounds: {
+                      x: 124.5,
+                      y: 172,
+                      width: 111,
+                      height: 109
+                    },
+                    effects: [],
+                    relativeTransform: [
+                      [
+                        1,
+                        0,
+                        0
+                      ],
+                      [
+                        0,
+                        1,
+                        0
+                      ]
+                    ],
+                    isMask: false,
+                    children: [
+                      {
+                        id: "8:61",
+                        name: "Polygon 11",
+                        visible: true,
+                        type: "POLYGON",
+                        rotation: 180,
+                        componentPropertyReferences: null,
+                        boundVariables: {},
+                        locked: false,
+                        exportSettings: [],
+                        blendMode: "PASS_THROUGH",
+                        layoutAlign: "STRETCH",
+                        layoutGrow: 1,
+                        constraints: {
+                          horizontal: "MIN",
+                          vertical: "MIN"
+                        },
+                        opacity: 1,
+                        absoluteBoundingBox: {
+                          x: 161.5,
+                          y: 172,
+                          width: 74,
+                          height: 88
+                        },
+                        absoluteRenderBounds: {
+                          x: 166.45706176757812,
+                          y: 194,
+                          width: 64.08587646484375,
+                          height: 66
+                        },
+                        effects: [],
+                        relativeTransform: [
+                          [
+                            -1,
+                            2.498001805406602e-16,
+                            111
+                          ],
+                          [
+                            -2.498001805406602e-16,
+                            -1,
+                            88
+                          ]
+                        ],
+                        isMask: false,
+                        fills: [
+                          {
+                            type: "SOLID",
+                            visible: true,
+                            opacity: 1,
+                            blendMode: "NORMAL",
+                            color: {
+                              r: 0.9208333492279053,
+                              g: 0.31641045212745667,
+                              b: 0.08440972119569778
+                            },
+                            boundVariables: {}
+                          }
+                        ],
+                        fillGeometry: [
+                          {
+                            windingRule: "NONZERO",
+                            data: "M37 0L69.0429 66L4.95706 66L37 0Z"
+                          }
+                        ],
+                        strokes: [],
+                        strokeWeight: 1,
+                        strokeCap: "NONE",
+                        strokeJoin: "MITER",
+                        strokeGeometry: [],
+                        strokeAlign: "INSIDE"
+                      },
+                      {
+                        id: "8:62",
+                        name: "Polygon 10",
+                        visible: true,
+                        type: "POLYGON",
+                        rotation: 0,
+                        componentPropertyReferences: null,
+                        boundVariables: {},
+                        locked: false,
+                        exportSettings: [],
+                        blendMode: "PASS_THROUGH",
+                        layoutAlign: "INHERIT",
+                        layoutGrow: 0,
+                        constraints: {
+                          horizontal: "MIN",
+                          vertical: "MIN"
+                        },
+                        opacity: 1,
+                        absoluteBoundingBox: {
+                          x: 124.5,
+                          y: 193,
+                          width: 74,
+                          height: 88
+                        },
+                        absoluteRenderBounds: {
+                          x: 129.45706176757812,
+                          y: 193,
+                          width: 64.08587646484375,
+                          height: 66
+                        },
+                        effects: [],
+                        relativeTransform: [
+                          [
+                            1,
+                            0,
+                            0
+                          ],
+                          [
+                            0,
+                            1,
+                            21
+                          ]
+                        ],
+                        isMask: false,
+                        fills: [
+                          {
+                            type: "SOLID",
+                            visible: true,
+                            opacity: 1,
+                            blendMode: "NORMAL",
+                            color: {
+                              r: 0.15294118225574493,
+                              g: 0.6823529601097107,
+                              b: 0.3764705955982208
+                            },
+                            boundVariables: {}
+                          }
+                        ],
+                        fillGeometry: [
+                          {
+                            windingRule: "NONZERO",
+                            data: "M37 0L69.0429 66L4.95706 66L37 0Z"
+                          }
+                        ],
+                        strokes: [],
+                        strokeWeight: 1,
+                        strokeCap: "NONE",
+                        strokeJoin: "MITER",
+                        strokeGeometry: [],
+                        strokeAlign: "INSIDE"
+                      }
+                    ]
+                  }
+                ],
+                cornerSmoothing: 0,
+                minWidth: null,
+                maxWidth: null,
+                minHeight: null,
+                maxHeight: null,
+                clipsContent: false,
+                layoutMode: "NONE",
+                layoutWrap: "NO_WRAP",
+                primaryAxisSizingMode: "AUTO",
+                counterAxisSizingMode: "FIXED",
+                primaryAxisAlignItems: "MIN",
+                counterAxisAlignItems: "MIN",
+                counterAxisAlignContent: "AUTO",
+                paddingLeft: 0,
+                paddingRight: 0,
+                paddingTop: 0,
+                paddingBottom: 0,
+                horizontalPadding: 0,
+                verticalPadding: 0,
+                itemSpacing: 0,
+                counterAxisSpacing: 0,
+                layoutPositioning: "AUTO",
+                itemReverseZIndex: false,
+                strokesIncludedInLayout: false,
+                layoutGrids: [],
+                overflowDirection: "NONE"
+              }
+            ],
+            cornerSmoothing: 0,
+            minWidth: null,
+            maxWidth: 238,
+            minHeight: null,
+            maxHeight: null,
+            clipsContent: false,
+            layoutMode: "VERTICAL",
+            layoutWrap: "NO_WRAP",
+            primaryAxisSizingMode: "AUTO",
+            counterAxisSizingMode: "AUTO",
+            primaryAxisAlignItems: "MIN",
+            counterAxisAlignItems: "MIN",
+            counterAxisAlignContent: "AUTO",
+            paddingLeft: 0,
+            paddingRight: 0,
+            paddingTop: 0,
+            paddingBottom: 0,
+            horizontalPadding: 0,
+            verticalPadding: 0,
+            itemSpacing: 10,
+            counterAxisSpacing: 0,
+            layoutPositioning: "AUTO",
+            itemReverseZIndex: false,
+            strokesIncludedInLayout: false,
+            layoutGrids: [],
+            overflowDirection: "NONE"
+          },
+          {
+            id: "8:63",
+            name: "Frame 393",
+            visible: true,
+            type: "FRAME",
+            rotation: 0,
+            componentPropertyReferences: null,
+            boundVariables: {},
+            locked: false,
+            exportSettings: [],
+            blendMode: "PASS_THROUGH",
+            layoutAlign: "INHERIT",
+            layoutGrow: 0,
+            constraints: {
+              horizontal: "MIN",
+              vertical: "MIN"
+            },
+            opacity: 1,
+            absoluteBoundingBox: {
+              x: 106,
+              y: 289,
+              width: 148,
+              height: 109
+            },
+            absoluteRenderBounds: {
+              x: 106,
+              y: 289,
+              width: 148,
+              height: 109
+            },
+            effects: [],
+            relativeTransform: [
+              [
+                1,
+                0,
+                76
+              ],
+              [
+                0,
+                1,
+                234
+              ]
+            ],
+            isMask: false,
+            fills: [],
+            fillGeometry: [
               {
-                id: "8:117",
-                name: "Rectangle 164",
+                windingRule: "NONZERO",
+                data: "M0 0L148 0L148 109L0 109L0 0Z"
+              }
+            ],
+            strokes: [],
+            strokeWeight: 1,
+            strokeCap: "NONE",
+            strokeJoin: "MITER",
+            strokeGeometry: [],
+            strokeAlign: "INSIDE",
+            children: [
+              {
+                id: "8:64",
+                name: "Frame 397",
                 visible: true,
-                type: "RECTANGLE",
+                type: "FRAME",
                 rotation: 0,
                 componentPropertyReferences: null,
                 boundVariables: {},
@@ -1906,16 +950,16 @@ export default {
                 },
                 opacity: 1,
                 absoluteBoundingBox: {
-                  x: 252,
-                  y: 374,
-                  width: 50,
-                  height: 50
+                  x: 106,
+                  y: 289,
+                  width: 148,
+                  height: 109
                 },
                 absoluteRenderBounds: {
-                  x: 252,
-                  y: 374,
-                  width: 50,
-                  height: 50
+                  x: 106,
+                  y: 289,
+                  width: 148,
+                  height: 109
                 },
                 effects: [],
                 relativeTransform: [
@@ -1927,101 +971,15 @@ export default {
                   [
                     0,
                     1,
-                    104
-                  ]
-                ],
-                isMask: false,
-                fills: [
-                  {
-                    type: "SOLID",
-                    visible: true,
-                    opacity: 1,
-                    blendMode: "NORMAL",
-                    color: {
-                      r: 0.5921568870544434,
-                      g: 0.27843138575553894,
-                      b: 1
-                    },
-                    boundVariables: {}
-                  }
-                ],
-                fillGeometry: [
-                  {
-                    windingRule: "NONZERO",
-                    data: "M0 0L50 0L50 50L0 50L0 0Z"
-                  }
-                ],
-                strokes: [],
-                strokeWeight: 1,
-                strokeCap: "NONE",
-                strokeJoin: "MITER",
-                strokeGeometry: [],
-                strokeAlign: "INSIDE",
-                cornerRadius: 0,
-                cornerSmoothing: 0
-              },
-              {
-                id: "8:118",
-                name: "Rectangle 165",
-                visible: true,
-                type: "RECTANGLE",
-                rotation: 0,
-                componentPropertyReferences: null,
-                boundVariables: {},
-                locked: false,
-                exportSettings: [],
-                blendMode: "PASS_THROUGH",
-                layoutAlign: "INHERIT",
-                layoutGrow: 0,
-                constraints: {
-                  horizontal: "MIN",
-                  vertical: "MIN"
-                },
-                opacity: 1,
-                absoluteBoundingBox: {
-                  x: 252,
-                  y: 426,
-                  width: 50,
-                  height: 50
-                },
-                absoluteRenderBounds: {
-                  x: 252,
-                  y: 426,
-                  width: 50,
-                  height: 50
-                },
-                effects: [],
-                relativeTransform: [
-                  [
-                    1,
-                    0,
                     0
-                  ],
-                  [
-                    0,
-                    1,
-                    156
                   ]
                 ],
                 isMask: false,
-                fills: [
-                  {
-                    type: "SOLID",
-                    visible: true,
-                    opacity: 1,
-                    blendMode: "NORMAL",
-                    color: {
-                      r: 0.5921568870544434,
-                      g: 0.27843138575553894,
-                      b: 1
-                    },
-                    boundVariables: {}
-                  }
-                ],
+                fills: [],
                 fillGeometry: [
                   {
                     windingRule: "NONZERO",
-                    data: "M0 0L50 0L50 50L0 50L0 0Z"
+                    data: "M0 0L148 0L148 109L0 109L0 0Z"
                   }
                 ],
                 strokes: [],
@@ -2030,154 +988,290 @@ export default {
                 strokeJoin: "MITER",
                 strokeGeometry: [],
                 strokeAlign: "INSIDE",
-                cornerRadius: 0,
-                cornerSmoothing: 0
-              },
-              {
-                id: "8:119",
-                name: "Rectangle 166",
-                visible: true,
-                type: "RECTANGLE",
-                rotation: 0,
-                componentPropertyReferences: null,
-                boundVariables: {},
-                locked: false,
-                exportSettings: [],
-                blendMode: "PASS_THROUGH",
-                layoutAlign: "INHERIT",
-                layoutGrow: 0,
-                constraints: {
-                  horizontal: "MIN",
-                  vertical: "MIN"
-                },
-                opacity: 1,
-                absoluteBoundingBox: {
-                  x: 252,
-                  y: 478,
-                  width: 50,
-                  height: 50
-                },
-                absoluteRenderBounds: {
-                  x: 252,
-                  y: 478,
-                  width: 50,
-                  height: 50
-                },
-                effects: [],
-                relativeTransform: [
-                  [
-                    1,
-                    0,
-                    0
-                  ],
-                  [
-                    0,
-                    1,
-                    208
-                  ]
-                ],
-                isMask: false,
-                fills: [
+                children: [
                   {
-                    type: "SOLID",
+                    id: "8:65",
+                    name: "Group 302",
                     visible: true,
+                    type: "GROUP",
+                    rotation: 0,
+                    componentPropertyReferences: null,
+                    boundVariables: {},
+                    locked: false,
+                    exportSettings: [],
+                    blendMode: "PASS_THROUGH",
+                    layoutAlign: "INHERIT",
+                    layoutGrow: 0,
                     opacity: 1,
-                    blendMode: "NORMAL",
-                    color: {
-                      r: 0.5921568870544434,
-                      g: 0.27843138575553894,
-                      b: 1
+                    absoluteBoundingBox: {
+                      x: 106,
+                      y: 289,
+                      width: 148,
+                      height: 109
                     },
-                    boundVariables: {}
-                  }
-                ],
-                fillGeometry: [
-                  {
-                    windingRule: "NONZERO",
-                    data: "M0 0L50 0L50 50L0 50L0 0Z"
-                  }
-                ],
-                strokes: [],
-                strokeWeight: 1,
-                strokeCap: "NONE",
-                strokeJoin: "MITER",
-                strokeGeometry: [],
-                strokeAlign: "INSIDE",
-                cornerRadius: 0,
-                cornerSmoothing: 0
-              },
-              {
-                id: "8:120",
-                name: "Rectangle 167",
-                visible: true,
-                type: "RECTANGLE",
-                rotation: 0,
-                componentPropertyReferences: null,
-                boundVariables: {},
-                locked: false,
-                exportSettings: [],
-                blendMode: "PASS_THROUGH",
-                layoutAlign: "INHERIT",
-                layoutGrow: 0,
-                constraints: {
-                  horizontal: "MIN",
-                  vertical: "MIN"
-                },
-                opacity: 1,
-                absoluteBoundingBox: {
-                  x: 252,
-                  y: 530,
-                  width: 50,
-                  height: 50
-                },
-                absoluteRenderBounds: {
-                  x: 252,
-                  y: 530,
-                  width: 50,
-                  height: 50
-                },
-                effects: [],
-                relativeTransform: [
-                  [
-                    1,
-                    0,
-                    0
-                  ],
-                  [
-                    0,
-                    1,
-                    260
-                  ]
-                ],
-                isMask: false,
-                fills: [
-                  {
-                    type: "SOLID",
-                    visible: true,
-                    opacity: 1,
-                    blendMode: "NORMAL",
-                    color: {
-                      r: 0.5921568870544434,
-                      g: 0.27843138575553894,
-                      b: 1
+                    absoluteRenderBounds: {
+                      x: 106,
+                      y: 289,
+                      width: 148,
+                      height: 109
                     },
-                    boundVariables: {}
+                    effects: [],
+                    relativeTransform: [
+                      [
+                        1,
+                        0,
+                        0
+                      ],
+                      [
+                        0,
+                        1,
+                        0
+                      ]
+                    ],
+                    isMask: false,
+                    children: [
+                      {
+                        id: "8:66",
+                        name: "Polygon 11",
+                        visible: true,
+                        type: "POLYGON",
+                        rotation: 180,
+                        componentPropertyReferences: null,
+                        boundVariables: {},
+                        locked: false,
+                        exportSettings: [],
+                        blendMode: "PASS_THROUGH",
+                        layoutAlign: "STRETCH",
+                        layoutGrow: 1,
+                        constraints: {
+                          horizontal: "MIN",
+                          vertical: "MIN"
+                        },
+                        opacity: 1,
+                        absoluteBoundingBox: {
+                          x: 143,
+                          y: 289,
+                          width: 74,
+                          height: 88
+                        },
+                        absoluteRenderBounds: {
+                          x: 147.95706176757812,
+                          y: 311,
+                          width: 64.08587646484375,
+                          height: 66
+                        },
+                        effects: [],
+                        relativeTransform: [
+                          [
+                            -1,
+                            2.498001805406602e-16,
+                            111
+                          ],
+                          [
+                            -2.498001805406602e-16,
+                            -1,
+                            88
+                          ]
+                        ],
+                        isMask: false,
+                        fills: [
+                          {
+                            type: "SOLID",
+                            visible: true,
+                            opacity: 1,
+                            blendMode: "NORMAL",
+                            color: {
+                              r: 0.9208333492279053,
+                              g: 0.31641045212745667,
+                              b: 0.08440972119569778
+                            },
+                            boundVariables: {}
+                          }
+                        ],
+                        fillGeometry: [
+                          {
+                            windingRule: "NONZERO",
+                            data: "M37 0L69.0429 66L4.95706 66L37 0Z"
+                          }
+                        ],
+                        strokes: [],
+                        strokeWeight: 1,
+                        strokeCap: "NONE",
+                        strokeJoin: "MITER",
+                        strokeGeometry: [],
+                        strokeAlign: "INSIDE"
+                      },
+                      {
+                        id: "8:67",
+                        name: "Polygon 10",
+                        visible: true,
+                        type: "POLYGON",
+                        rotation: 0,
+                        componentPropertyReferences: null,
+                        boundVariables: {},
+                        locked: false,
+                        exportSettings: [],
+                        blendMode: "PASS_THROUGH",
+                        layoutAlign: "INHERIT",
+                        layoutGrow: 0,
+                        constraints: {
+                          horizontal: "MIN",
+                          vertical: "MIN"
+                        },
+                        opacity: 1,
+                        absoluteBoundingBox: {
+                          x: 106,
+                          y: 310,
+                          width: 74,
+                          height: 88
+                        },
+                        absoluteRenderBounds: {
+                          x: 110.95706176757812,
+                          y: 310,
+                          width: 64.08587646484375,
+                          height: 66
+                        },
+                        effects: [],
+                        relativeTransform: [
+                          [
+                            1,
+                            0,
+                            0
+                          ],
+                          [
+                            0,
+                            1,
+                            21
+                          ]
+                        ],
+                        isMask: false,
+                        fills: [
+                          {
+                            type: "SOLID",
+                            visible: true,
+                            opacity: 1,
+                            blendMode: "NORMAL",
+                            color: {
+                              r: 0.15294118225574493,
+                              g: 0.6823529601097107,
+                              b: 0.3764705955982208
+                            },
+                            boundVariables: {}
+                          }
+                        ],
+                        fillGeometry: [
+                          {
+                            windingRule: "NONZERO",
+                            data: "M37 0L69.0429 66L4.95706 66L37 0Z"
+                          }
+                        ],
+                        strokes: [],
+                        strokeWeight: 1,
+                        strokeCap: "NONE",
+                        strokeJoin: "MITER",
+                        strokeGeometry: [],
+                        strokeAlign: "INSIDE"
+                      },
+                      {
+                        id: "8:68",
+                        name: "Polygon 12",
+                        visible: true,
+                        type: "POLYGON",
+                        rotation: 0,
+                        componentPropertyReferences: null,
+                        boundVariables: {},
+                        locked: false,
+                        exportSettings: [],
+                        blendMode: "PASS_THROUGH",
+                        layoutAlign: "INHERIT",
+                        layoutGrow: 0,
+                        constraints: {
+                          horizontal: "MIN",
+                          vertical: "MIN"
+                        },
+                        opacity: 1,
+                        absoluteBoundingBox: {
+                          x: 180,
+                          y: 310,
+                          width: 74,
+                          height: 88
+                        },
+                        absoluteRenderBounds: {
+                          x: 184.95706176757812,
+                          y: 310,
+                          width: 64.08587646484375,
+                          height: 66
+                        },
+                        effects: [],
+                        relativeTransform: [
+                          [
+                            1,
+                            0,
+                            74
+                          ],
+                          [
+                            0,
+                            1,
+                            21
+                          ]
+                        ],
+                        isMask: false,
+                        fills: [
+                          {
+                            type: "SOLID",
+                            visible: true,
+                            opacity: 1,
+                            blendMode: "NORMAL",
+                            color: {
+                              r: 0.15294118225574493,
+                              g: 0.6823529601097107,
+                              b: 0.3764705955982208
+                            },
+                            boundVariables: {}
+                          }
+                        ],
+                        fillGeometry: [
+                          {
+                            windingRule: "NONZERO",
+                            data: "M37 0L69.0429 66L4.95706 66L37 0Z"
+                          }
+                        ],
+                        strokes: [],
+                        strokeWeight: 1,
+                        strokeCap: "NONE",
+                        strokeJoin: "MITER",
+                        strokeGeometry: [],
+                        strokeAlign: "INSIDE"
+                      }
+                    ]
                   }
                 ],
-                fillGeometry: [
-                  {
-                    windingRule: "NONZERO",
-                    data: "M0 0L50 0L50 50L0 50L0 0Z"
-                  }
-                ],
-                strokes: [],
-                strokeWeight: 1,
-                strokeCap: "NONE",
-                strokeJoin: "MITER",
-                strokeGeometry: [],
-                strokeAlign: "INSIDE",
-                cornerRadius: 0,
-                cornerSmoothing: 0
+                cornerSmoothing: 0,
+                minWidth: null,
+                maxWidth: null,
+                minHeight: null,
+                maxHeight: null,
+                clipsContent: false,
+                layoutMode: "VERTICAL",
+                layoutWrap: "NO_WRAP",
+                primaryAxisSizingMode: "AUTO",
+                counterAxisSizingMode: "AUTO",
+                primaryAxisAlignItems: "MIN",
+                counterAxisAlignItems: "MIN",
+                counterAxisAlignContent: "AUTO",
+                paddingLeft: 0,
+                paddingRight: 0,
+                paddingTop: 0,
+                paddingBottom: 0,
+                horizontalPadding: 0,
+                verticalPadding: 0,
+                itemSpacing: 10,
+                counterAxisSpacing: 0,
+                layoutPositioning: "AUTO",
+                itemReverseZIndex: false,
+                strokesIncludedInLayout: false,
+                layoutGrids: [],
+                overflowDirection: "NONE"
               }
             ],
             cornerSmoothing: 0,
@@ -2199,7 +1293,1764 @@ export default {
             paddingBottom: 0,
             horizontalPadding: 0,
             verticalPadding: 0,
-            itemSpacing: 2,
+            itemSpacing: 10,
+            counterAxisSpacing: 0,
+            layoutPositioning: "AUTO",
+            itemReverseZIndex: false,
+            strokesIncludedInLayout: false,
+            layoutGrids: [],
+            overflowDirection: "NONE"
+          },
+          {
+            id: "8:69",
+            name: "Frame 395",
+            visible: true,
+            type: "FRAME",
+            rotation: 0,
+            componentPropertyReferences: null,
+            boundVariables: {},
+            locked: false,
+            exportSettings: [],
+            blendMode: "PASS_THROUGH",
+            layoutAlign: "INHERIT",
+            layoutGrow: 0,
+            constraints: {
+              horizontal: "MIN",
+              vertical: "MIN"
+            },
+            opacity: 1,
+            absoluteBoundingBox: {
+              x: 87,
+              y: 406,
+              width: 186,
+              height: 109
+            },
+            absoluteRenderBounds: {
+              x: 87,
+              y: 406,
+              width: 186,
+              height: 109
+            },
+            effects: [],
+            relativeTransform: [
+              [
+                1,
+                0,
+                57
+              ],
+              [
+                0,
+                1,
+                351
+              ]
+            ],
+            isMask: false,
+            fills: [],
+            fillGeometry: [
+              {
+                windingRule: "NONZERO",
+                data: "M0 0L186 0L186 109L0 109L0 0Z"
+              }
+            ],
+            strokes: [],
+            strokeWeight: 1,
+            strokeCap: "NONE",
+            strokeJoin: "MITER",
+            strokeGeometry: [],
+            strokeAlign: "INSIDE",
+            children: [
+              {
+                id: "8:70",
+                name: "Frame 397",
+                visible: true,
+                type: "FRAME",
+                rotation: 0,
+                componentPropertyReferences: null,
+                boundVariables: {},
+                locked: false,
+                exportSettings: [],
+                blendMode: "PASS_THROUGH",
+                layoutAlign: "INHERIT",
+                layoutGrow: 0,
+                constraints: {
+                  horizontal: "MIN",
+                  vertical: "MIN"
+                },
+                opacity: 1,
+                absoluteBoundingBox: {
+                  x: 87,
+                  y: 406,
+                  width: 186,
+                  height: 109
+                },
+                absoluteRenderBounds: {
+                  x: 87,
+                  y: 406,
+                  width: 186,
+                  height: 109
+                },
+                effects: [],
+                relativeTransform: [
+                  [
+                    1,
+                    0,
+                    0
+                  ],
+                  [
+                    0,
+                    1,
+                    0
+                  ]
+                ],
+                isMask: false,
+                fills: [],
+                fillGeometry: [
+                  {
+                    windingRule: "NONZERO",
+                    data: "M0 0L186 0L186 109L0 109L0 0Z"
+                  }
+                ],
+                strokes: [],
+                strokeWeight: 1,
+                strokeCap: "NONE",
+                strokeJoin: "MITER",
+                strokeGeometry: [],
+                strokeAlign: "INSIDE",
+                children: [
+                  {
+                    id: "8:71",
+                    name: "Group 302",
+                    visible: true,
+                    type: "GROUP",
+                    rotation: 0,
+                    componentPropertyReferences: null,
+                    boundVariables: {},
+                    locked: false,
+                    exportSettings: [],
+                    blendMode: "PASS_THROUGH",
+                    layoutAlign: "INHERIT",
+                    layoutGrow: 0,
+                    opacity: 1,
+                    absoluteBoundingBox: {
+                      x: 87,
+                      y: 406,
+                      width: 186,
+                      height: 109
+                    },
+                    absoluteRenderBounds: {
+                      x: 87,
+                      y: 406,
+                      width: 186,
+                      height: 109
+                    },
+                    effects: [],
+                    relativeTransform: [
+                      [
+                        1,
+                        0,
+                        0
+                      ],
+                      [
+                        0,
+                        1,
+                        0
+                      ]
+                    ],
+                    isMask: false,
+                    children: [
+                      {
+                        id: "8:72",
+                        name: "Polygon 11",
+                        visible: true,
+                        type: "POLYGON",
+                        rotation: 180,
+                        componentPropertyReferences: null,
+                        boundVariables: {},
+                        locked: false,
+                        exportSettings: [],
+                        blendMode: "PASS_THROUGH",
+                        layoutAlign: "STRETCH",
+                        layoutGrow: 1,
+                        constraints: {
+                          horizontal: "MIN",
+                          vertical: "MIN"
+                        },
+                        opacity: 1,
+                        absoluteBoundingBox: {
+                          x: 124,
+                          y: 406,
+                          width: 74,
+                          height: 88
+                        },
+                        absoluteRenderBounds: {
+                          x: 128.95706176757812,
+                          y: 428,
+                          width: 64.08587646484375,
+                          height: 66
+                        },
+                        effects: [],
+                        relativeTransform: [
+                          [
+                            -1,
+                            2.498001805406602e-16,
+                            111
+                          ],
+                          [
+                            -2.498001805406602e-16,
+                            -1,
+                            88
+                          ]
+                        ],
+                        isMask: false,
+                        fills: [
+                          {
+                            type: "SOLID",
+                            visible: true,
+                            opacity: 1,
+                            blendMode: "NORMAL",
+                            color: {
+                              r: 0.9208333492279053,
+                              g: 0.31641045212745667,
+                              b: 0.08440972119569778
+                            },
+                            boundVariables: {}
+                          }
+                        ],
+                        fillGeometry: [
+                          {
+                            windingRule: "NONZERO",
+                            data: "M37 0L69.0429 66L4.95706 66L37 0Z"
+                          }
+                        ],
+                        strokes: [],
+                        strokeWeight: 1,
+                        strokeCap: "NONE",
+                        strokeJoin: "MITER",
+                        strokeGeometry: [],
+                        strokeAlign: "INSIDE"
+                      },
+                      {
+                        id: "8:73",
+                        name: "Polygon 13",
+                        visible: true,
+                        type: "POLYGON",
+                        rotation: 180,
+                        componentPropertyReferences: null,
+                        boundVariables: {},
+                        locked: false,
+                        exportSettings: [],
+                        blendMode: "PASS_THROUGH",
+                        layoutAlign: "STRETCH",
+                        layoutGrow: 1,
+                        constraints: {
+                          horizontal: "MIN",
+                          vertical: "MIN"
+                        },
+                        opacity: 1,
+                        absoluteBoundingBox: {
+                          x: 199,
+                          y: 406,
+                          width: 74,
+                          height: 88
+                        },
+                        absoluteRenderBounds: {
+                          x: 203.95706176757812,
+                          y: 428,
+                          width: 64.08587646484375,
+                          height: 66
+                        },
+                        effects: [],
+                        relativeTransform: [
+                          [
+                            -1,
+                            2.498001805406602e-16,
+                            186
+                          ],
+                          [
+                            -2.498001805406602e-16,
+                            -1,
+                            88
+                          ]
+                        ],
+                        isMask: false,
+                        fills: [
+                          {
+                            type: "SOLID",
+                            visible: true,
+                            opacity: 1,
+                            blendMode: "NORMAL",
+                            color: {
+                              r: 0.9208333492279053,
+                              g: 0.31641045212745667,
+                              b: 0.08440972119569778
+                            },
+                            boundVariables: {}
+                          }
+                        ],
+                        fillGeometry: [
+                          {
+                            windingRule: "NONZERO",
+                            data: "M37 0L69.0429 66L4.95706 66L37 0Z"
+                          }
+                        ],
+                        strokes: [],
+                        strokeWeight: 1,
+                        strokeCap: "NONE",
+                        strokeJoin: "MITER",
+                        strokeGeometry: [],
+                        strokeAlign: "INSIDE"
+                      },
+                      {
+                        id: "8:74",
+                        name: "Polygon 10",
+                        visible: true,
+                        type: "POLYGON",
+                        rotation: 0,
+                        componentPropertyReferences: null,
+                        boundVariables: {},
+                        locked: false,
+                        exportSettings: [],
+                        blendMode: "PASS_THROUGH",
+                        layoutAlign: "INHERIT",
+                        layoutGrow: 0,
+                        constraints: {
+                          horizontal: "MIN",
+                          vertical: "MIN"
+                        },
+                        opacity: 1,
+                        absoluteBoundingBox: {
+                          x: 87,
+                          y: 427,
+                          width: 74,
+                          height: 88
+                        },
+                        absoluteRenderBounds: {
+                          x: 91.95706176757812,
+                          y: 427,
+                          width: 64.08587646484375,
+                          height: 66
+                        },
+                        effects: [],
+                        relativeTransform: [
+                          [
+                            1,
+                            0,
+                            0
+                          ],
+                          [
+                            0,
+                            1,
+                            21
+                          ]
+                        ],
+                        isMask: false,
+                        fills: [
+                          {
+                            type: "SOLID",
+                            visible: true,
+                            opacity: 1,
+                            blendMode: "NORMAL",
+                            color: {
+                              r: 0.15294118225574493,
+                              g: 0.6823529601097107,
+                              b: 0.3764705955982208
+                            },
+                            boundVariables: {}
+                          }
+                        ],
+                        fillGeometry: [
+                          {
+                            windingRule: "NONZERO",
+                            data: "M37 0L69.0429 66L4.95706 66L37 0Z"
+                          }
+                        ],
+                        strokes: [],
+                        strokeWeight: 1,
+                        strokeCap: "NONE",
+                        strokeJoin: "MITER",
+                        strokeGeometry: [],
+                        strokeAlign: "INSIDE"
+                      },
+                      {
+                        id: "8:75",
+                        name: "Polygon 12",
+                        visible: true,
+                        type: "POLYGON",
+                        rotation: 0,
+                        componentPropertyReferences: null,
+                        boundVariables: {},
+                        locked: false,
+                        exportSettings: [],
+                        blendMode: "PASS_THROUGH",
+                        layoutAlign: "INHERIT",
+                        layoutGrow: 0,
+                        constraints: {
+                          horizontal: "MIN",
+                          vertical: "MIN"
+                        },
+                        opacity: 1,
+                        absoluteBoundingBox: {
+                          x: 161,
+                          y: 427,
+                          width: 74,
+                          height: 88
+                        },
+                        absoluteRenderBounds: {
+                          x: 165.95706176757812,
+                          y: 427,
+                          width: 64.08587646484375,
+                          height: 66
+                        },
+                        effects: [],
+                        relativeTransform: [
+                          [
+                            1,
+                            0,
+                            74
+                          ],
+                          [
+                            0,
+                            1,
+                            21
+                          ]
+                        ],
+                        isMask: false,
+                        fills: [
+                          {
+                            type: "SOLID",
+                            visible: true,
+                            opacity: 1,
+                            blendMode: "NORMAL",
+                            color: {
+                              r: 0.15294118225574493,
+                              g: 0.6823529601097107,
+                              b: 0.3764705955982208
+                            },
+                            boundVariables: {}
+                          }
+                        ],
+                        fillGeometry: [
+                          {
+                            windingRule: "NONZERO",
+                            data: "M37 0L69.0429 66L4.95706 66L37 0Z"
+                          }
+                        ],
+                        strokes: [],
+                        strokeWeight: 1,
+                        strokeCap: "NONE",
+                        strokeJoin: "MITER",
+                        strokeGeometry: [],
+                        strokeAlign: "INSIDE"
+                      }
+                    ]
+                  }
+                ],
+                cornerSmoothing: 0,
+                minWidth: null,
+                maxWidth: null,
+                minHeight: null,
+                maxHeight: null,
+                clipsContent: false,
+                layoutMode: "VERTICAL",
+                layoutWrap: "NO_WRAP",
+                primaryAxisSizingMode: "AUTO",
+                counterAxisSizingMode: "AUTO",
+                primaryAxisAlignItems: "MIN",
+                counterAxisAlignItems: "MIN",
+                counterAxisAlignContent: "AUTO",
+                paddingLeft: 0,
+                paddingRight: 0,
+                paddingTop: 0,
+                paddingBottom: 0,
+                horizontalPadding: 0,
+                verticalPadding: 0,
+                itemSpacing: 10,
+                counterAxisSpacing: 0,
+                layoutPositioning: "AUTO",
+                itemReverseZIndex: false,
+                strokesIncludedInLayout: false,
+                layoutGrids: [],
+                overflowDirection: "NONE"
+              }
+            ],
+            cornerSmoothing: 0,
+            minWidth: null,
+            maxWidth: null,
+            minHeight: null,
+            maxHeight: null,
+            clipsContent: false,
+            layoutMode: "VERTICAL",
+            layoutWrap: "NO_WRAP",
+            primaryAxisSizingMode: "AUTO",
+            counterAxisSizingMode: "AUTO",
+            primaryAxisAlignItems: "MIN",
+            counterAxisAlignItems: "MIN",
+            counterAxisAlignContent: "AUTO",
+            paddingLeft: 0,
+            paddingRight: 0,
+            paddingTop: 0,
+            paddingBottom: 0,
+            horizontalPadding: 0,
+            verticalPadding: 0,
+            itemSpacing: 10,
+            counterAxisSpacing: 0,
+            layoutPositioning: "AUTO",
+            itemReverseZIndex: false,
+            strokesIncludedInLayout: false,
+            layoutGrids: [],
+            overflowDirection: "NONE"
+          },
+          {
+            id: "8:76",
+            name: "Frame 396",
+            visible: true,
+            type: "FRAME",
+            rotation: 0,
+            componentPropertyReferences: null,
+            boundVariables: {},
+            locked: false,
+            exportSettings: [],
+            blendMode: "PASS_THROUGH",
+            layoutAlign: "INHERIT",
+            layoutGrow: 0,
+            constraints: {
+              horizontal: "MIN",
+              vertical: "MIN"
+            },
+            opacity: 1,
+            absoluteBoundingBox: {
+              x: 31,
+              y: 523,
+              width: 298,
+              height: 109
+            },
+            absoluteRenderBounds: {
+              x: 31,
+              y: 523,
+              width: 298,
+              height: 109
+            },
+            effects: [],
+            relativeTransform: [
+              [
+                1,
+                0,
+                1
+              ],
+              [
+                0,
+                1,
+                468
+              ]
+            ],
+            isMask: false,
+            fills: [],
+            fillGeometry: [
+              {
+                windingRule: "NONZERO",
+                data: "M0 0L298 0L298 109L0 109L0 0Z"
+              }
+            ],
+            strokes: [],
+            strokeWeight: 1,
+            strokeCap: "NONE",
+            strokeJoin: "MITER",
+            strokeGeometry: [],
+            strokeAlign: "INSIDE",
+            children: [
+              {
+                id: "8:77",
+                name: "Frame 397",
+                visible: true,
+                type: "FRAME",
+                rotation: 0,
+                componentPropertyReferences: null,
+                boundVariables: {},
+                locked: false,
+                exportSettings: [],
+                blendMode: "PASS_THROUGH",
+                layoutAlign: "INHERIT",
+                layoutGrow: 0,
+                constraints: {
+                  horizontal: "MIN",
+                  vertical: "MIN"
+                },
+                opacity: 1,
+                absoluteBoundingBox: {
+                  x: 31,
+                  y: 523,
+                  width: 298,
+                  height: 109
+                },
+                absoluteRenderBounds: {
+                  x: 31,
+                  y: 523,
+                  width: 298,
+                  height: 109
+                },
+                effects: [],
+                relativeTransform: [
+                  [
+                    1,
+                    0,
+                    0
+                  ],
+                  [
+                    0,
+                    1,
+                    0
+                  ]
+                ],
+                isMask: false,
+                fills: [],
+                fillGeometry: [
+                  {
+                    windingRule: "NONZERO",
+                    data: "M0 0L298 0L298 109L0 109L0 0Z"
+                  }
+                ],
+                strokes: [],
+                strokeWeight: 1,
+                strokeCap: "NONE",
+                strokeJoin: "MITER",
+                strokeGeometry: [],
+                strokeAlign: "INSIDE",
+                children: [
+                  {
+                    id: "8:78",
+                    name: "Group 302",
+                    visible: true,
+                    type: "GROUP",
+                    rotation: 0,
+                    componentPropertyReferences: null,
+                    boundVariables: {},
+                    locked: false,
+                    exportSettings: [],
+                    blendMode: "PASS_THROUGH",
+                    layoutAlign: "INHERIT",
+                    layoutGrow: 0,
+                    opacity: 1,
+                    absoluteBoundingBox: {
+                      x: 31,
+                      y: 523,
+                      width: 298,
+                      height: 109
+                    },
+                    absoluteRenderBounds: {
+                      x: 31,
+                      y: 523,
+                      width: 298,
+                      height: 109
+                    },
+                    effects: [],
+                    relativeTransform: [
+                      [
+                        1,
+                        0,
+                        0
+                      ],
+                      [
+                        0,
+                        1,
+                        0
+                      ]
+                    ],
+                    isMask: false,
+                    children: [
+                      {
+                        id: "8:79",
+                        name: "Polygon 11",
+                        visible: true,
+                        type: "POLYGON",
+                        rotation: 180,
+                        componentPropertyReferences: null,
+                        boundVariables: {},
+                        locked: false,
+                        exportSettings: [],
+                        blendMode: "PASS_THROUGH",
+                        layoutAlign: "STRETCH",
+                        layoutGrow: 1,
+                        constraints: {
+                          horizontal: "MIN",
+                          vertical: "MIN"
+                        },
+                        opacity: 1,
+                        absoluteBoundingBox: {
+                          x: 68,
+                          y: 523,
+                          width: 74,
+                          height: 88
+                        },
+                        absoluteRenderBounds: {
+                          x: 72.95706176757812,
+                          y: 545,
+                          width: 64.08587646484375,
+                          height: 66
+                        },
+                        effects: [],
+                        relativeTransform: [
+                          [
+                            -1,
+                            2.498001805406602e-16,
+                            111
+                          ],
+                          [
+                            -2.498001805406602e-16,
+                            -1,
+                            88
+                          ]
+                        ],
+                        isMask: false,
+                        fills: [
+                          {
+                            type: "SOLID",
+                            visible: true,
+                            opacity: 1,
+                            blendMode: "NORMAL",
+                            color: {
+                              r: 0.9208333492279053,
+                              g: 0.31641045212745667,
+                              b: 0.08440972119569778
+                            },
+                            boundVariables: {}
+                          }
+                        ],
+                        fillGeometry: [
+                          {
+                            windingRule: "NONZERO",
+                            data: "M37 0L69.0429 66L4.95706 66L37 0Z"
+                          }
+                        ],
+                        strokes: [],
+                        strokeWeight: 1,
+                        strokeCap: "NONE",
+                        strokeJoin: "MITER",
+                        strokeGeometry: [],
+                        strokeAlign: "INSIDE"
+                      },
+                      {
+                        id: "8:80",
+                        name: "Polygon 13",
+                        visible: true,
+                        type: "POLYGON",
+                        rotation: 180,
+                        componentPropertyReferences: null,
+                        boundVariables: {},
+                        locked: false,
+                        exportSettings: [],
+                        blendMode: "PASS_THROUGH",
+                        layoutAlign: "STRETCH",
+                        layoutGrow: 1,
+                        constraints: {
+                          horizontal: "MIN",
+                          vertical: "MIN"
+                        },
+                        opacity: 1,
+                        absoluteBoundingBox: {
+                          x: 143,
+                          y: 523,
+                          width: 74,
+                          height: 88
+                        },
+                        absoluteRenderBounds: {
+                          x: 147.95706176757812,
+                          y: 545,
+                          width: 64.08587646484375,
+                          height: 66
+                        },
+                        effects: [],
+                        relativeTransform: [
+                          [
+                            -1,
+                            2.498001805406602e-16,
+                            186
+                          ],
+                          [
+                            -2.498001805406602e-16,
+                            -1,
+                            88
+                          ]
+                        ],
+                        isMask: false,
+                        fills: [
+                          {
+                            type: "SOLID",
+                            visible: true,
+                            opacity: 1,
+                            blendMode: "NORMAL",
+                            color: {
+                              r: 0.8509804010391235,
+                              g: 0.8509804010391235,
+                              b: 0.8509804010391235
+                            },
+                            boundVariables: {}
+                          }
+                        ],
+                        fillGeometry: [
+                          {
+                            windingRule: "NONZERO",
+                            data: "M37 0L69.0429 66L4.95706 66L37 0Z"
+                          }
+                        ],
+                        strokes: [],
+                        strokeWeight: 1,
+                        strokeCap: "NONE",
+                        strokeJoin: "MITER",
+                        strokeGeometry: [],
+                        strokeAlign: "INSIDE"
+                      },
+                      {
+                        id: "8:81",
+                        name: "Polygon 15",
+                        visible: true,
+                        type: "POLYGON",
+                        rotation: 180,
+                        componentPropertyReferences: null,
+                        boundVariables: {},
+                        locked: false,
+                        exportSettings: [],
+                        blendMode: "PASS_THROUGH",
+                        layoutAlign: "STRETCH",
+                        layoutGrow: 1,
+                        constraints: {
+                          horizontal: "MIN",
+                          vertical: "MIN"
+                        },
+                        opacity: 1,
+                        absoluteBoundingBox: {
+                          x: 218,
+                          y: 523,
+                          width: 74,
+                          height: 88
+                        },
+                        absoluteRenderBounds: {
+                          x: 222.95706176757812,
+                          y: 545,
+                          width: 64.08587646484375,
+                          height: 66
+                        },
+                        effects: [],
+                        relativeTransform: [
+                          [
+                            -1,
+                            2.498001805406602e-16,
+                            261
+                          ],
+                          [
+                            -2.498001805406602e-16,
+                            -1,
+                            88
+                          ]
+                        ],
+                        isMask: false,
+                        fills: [
+                          {
+                            type: "SOLID",
+                            visible: true,
+                            opacity: 1,
+                            blendMode: "NORMAL",
+                            color: {
+                              r: 0.8509804010391235,
+                              g: 0.8509804010391235,
+                              b: 0.8509804010391235
+                            },
+                            boundVariables: {}
+                          }
+                        ],
+                        fillGeometry: [
+                          {
+                            windingRule: "NONZERO",
+                            data: "M37 0L69.0429 66L4.95706 66L37 0Z"
+                          }
+                        ],
+                        strokes: [],
+                        strokeWeight: 1,
+                        strokeCap: "NONE",
+                        strokeJoin: "MITER",
+                        strokeGeometry: [],
+                        strokeAlign: "INSIDE"
+                      },
+                      {
+                        id: "8:82",
+                        name: "Polygon 10",
+                        visible: true,
+                        type: "POLYGON",
+                        rotation: 0,
+                        componentPropertyReferences: null,
+                        boundVariables: {},
+                        locked: false,
+                        exportSettings: [],
+                        blendMode: "PASS_THROUGH",
+                        layoutAlign: "INHERIT",
+                        layoutGrow: 0,
+                        constraints: {
+                          horizontal: "MIN",
+                          vertical: "MIN"
+                        },
+                        opacity: 1,
+                        absoluteBoundingBox: {
+                          x: 31,
+                          y: 544,
+                          width: 74,
+                          height: 88
+                        },
+                        absoluteRenderBounds: {
+                          x: 35.957061767578125,
+                          y: 544,
+                          width: 64.08587646484375,
+                          height: 66
+                        },
+                        effects: [
+                          {
+                            type: "DROP_SHADOW",
+                            color: {
+                              r: 0,
+                              g: 0,
+                              b: 0,
+                              a: 0.1599999964237213
+                            },
+                            offset: {
+                              x: 2,
+                              y: 2
+                            },
+                            radius: 16,
+                            spread: 0,
+                            visible: false,
+                            blendMode: "NORMAL",
+                            showShadowBehindNode: false
+                          }
+                        ],
+                        relativeTransform: [
+                          [
+                            1,
+                            0,
+                            0
+                          ],
+                          [
+                            0,
+                            1,
+                            21
+                          ]
+                        ],
+                        isMask: false,
+                        fills: [
+                          {
+                            type: "SOLID",
+                            visible: true,
+                            opacity: 1,
+                            blendMode: "NORMAL",
+                            color: {
+                              r: 0.15294118225574493,
+                              g: 0.6823529601097107,
+                              b: 0.3764705955982208
+                            },
+                            boundVariables: {}
+                          }
+                        ],
+                        fillGeometry: [
+                          {
+                            windingRule: "NONZERO",
+                            data: "M37 0L69.0429 66L4.95706 66L37 0Z"
+                          }
+                        ],
+                        strokes: [],
+                        strokeWeight: 1,
+                        strokeCap: "NONE",
+                        strokeJoin: "MITER",
+                        strokeGeometry: [],
+                        strokeAlign: "INSIDE"
+                      },
+                      {
+                        id: "8:83",
+                        name: "Polygon 12",
+                        visible: true,
+                        type: "POLYGON",
+                        rotation: 0,
+                        componentPropertyReferences: null,
+                        boundVariables: {},
+                        locked: false,
+                        exportSettings: [],
+                        blendMode: "PASS_THROUGH",
+                        layoutAlign: "INHERIT",
+                        layoutGrow: 0,
+                        constraints: {
+                          horizontal: "MIN",
+                          vertical: "MIN"
+                        },
+                        opacity: 1,
+                        absoluteBoundingBox: {
+                          x: 105,
+                          y: 544,
+                          width: 74,
+                          height: 88
+                        },
+                        absoluteRenderBounds: {
+                          x: 109.95706176757812,
+                          y: 544,
+                          width: 64.08587646484375,
+                          height: 66
+                        },
+                        effects: [],
+                        relativeTransform: [
+                          [
+                            1,
+                            0,
+                            74
+                          ],
+                          [
+                            0,
+                            1,
+                            21
+                          ]
+                        ],
+                        isMask: false,
+                        fills: [
+                          {
+                            type: "SOLID",
+                            visible: true,
+                            opacity: 1,
+                            blendMode: "NORMAL",
+                            color: {
+                              r: 0.8980392217636108,
+                              g: 0.8980392217636108,
+                              b: 0.8980392217636108
+                            },
+                            boundVariables: {}
+                          }
+                        ],
+                        fillGeometry: [
+                          {
+                            windingRule: "NONZERO",
+                            data: "M37 0L69.0429 66L4.95706 66L37 0Z"
+                          }
+                        ],
+                        strokes: [],
+                        strokeWeight: 1,
+                        strokeCap: "NONE",
+                        strokeJoin: "MITER",
+                        strokeGeometry: [],
+                        strokeAlign: "INSIDE"
+                      },
+                      {
+                        id: "8:84",
+                        name: "Polygon 14",
+                        visible: true,
+                        type: "POLYGON",
+                        rotation: 0,
+                        componentPropertyReferences: null,
+                        boundVariables: {},
+                        locked: false,
+                        exportSettings: [],
+                        blendMode: "PASS_THROUGH",
+                        layoutAlign: "INHERIT",
+                        layoutGrow: 0,
+                        constraints: {
+                          horizontal: "MIN",
+                          vertical: "MIN"
+                        },
+                        opacity: 1,
+                        absoluteBoundingBox: {
+                          x: 180,
+                          y: 544,
+                          width: 74,
+                          height: 88
+                        },
+                        absoluteRenderBounds: {
+                          x: 184.95706176757812,
+                          y: 544,
+                          width: 64.08587646484375,
+                          height: 66
+                        },
+                        effects: [],
+                        relativeTransform: [
+                          [
+                            1,
+                            0,
+                            149
+                          ],
+                          [
+                            0,
+                            1,
+                            21
+                          ]
+                        ],
+                        isMask: false,
+                        fills: [
+                          {
+                            type: "SOLID",
+                            visible: true,
+                            opacity: 1,
+                            blendMode: "NORMAL",
+                            color: {
+                              r: 0.8980392217636108,
+                              g: 0.8980392217636108,
+                              b: 0.8980392217636108
+                            },
+                            boundVariables: {}
+                          }
+                        ],
+                        fillGeometry: [
+                          {
+                            windingRule: "NONZERO",
+                            data: "M37 0L69.0429 66L4.95706 66L37 0Z"
+                          }
+                        ],
+                        strokes: [],
+                        strokeWeight: 1,
+                        strokeCap: "NONE",
+                        strokeJoin: "MITER",
+                        strokeGeometry: [],
+                        strokeAlign: "INSIDE"
+                      },
+                      {
+                        id: "8:85",
+                        name: "Polygon 16",
+                        visible: true,
+                        type: "POLYGON",
+                        rotation: 0,
+                        componentPropertyReferences: null,
+                        boundVariables: {},
+                        locked: false,
+                        exportSettings: [],
+                        blendMode: "PASS_THROUGH",
+                        layoutAlign: "INHERIT",
+                        layoutGrow: 0,
+                        constraints: {
+                          horizontal: "MIN",
+                          vertical: "MIN"
+                        },
+                        opacity: 1,
+                        absoluteBoundingBox: {
+                          x: 255,
+                          y: 544,
+                          width: 74,
+                          height: 88
+                        },
+                        absoluteRenderBounds: {
+                          x: 259.9570617675781,
+                          y: 544,
+                          width: 64.08587646484375,
+                          height: 66
+                        },
+                        effects: [],
+                        relativeTransform: [
+                          [
+                            1,
+                            0,
+                            224
+                          ],
+                          [
+                            0,
+                            1,
+                            21
+                          ]
+                        ],
+                        isMask: false,
+                        fills: [
+                          {
+                            type: "SOLID",
+                            visible: true,
+                            opacity: 1,
+                            blendMode: "NORMAL",
+                            color: {
+                              r: 0.8980392217636108,
+                              g: 0.8980392217636108,
+                              b: 0.8980392217636108
+                            },
+                            boundVariables: {}
+                          }
+                        ],
+                        fillGeometry: [
+                          {
+                            windingRule: "NONZERO",
+                            data: "M37 0L69.0429 66L4.95706 66L37 0Z"
+                          }
+                        ],
+                        strokes: [],
+                        strokeWeight: 1,
+                        strokeCap: "NONE",
+                        strokeJoin: "MITER",
+                        strokeGeometry: [],
+                        strokeAlign: "INSIDE"
+                      }
+                    ]
+                  }
+                ],
+                cornerSmoothing: 0,
+                minWidth: null,
+                maxWidth: null,
+                minHeight: null,
+                maxHeight: null,
+                clipsContent: false,
+                layoutMode: "VERTICAL",
+                layoutWrap: "NO_WRAP",
+                primaryAxisSizingMode: "AUTO",
+                counterAxisSizingMode: "AUTO",
+                primaryAxisAlignItems: "MIN",
+                counterAxisAlignItems: "MIN",
+                counterAxisAlignContent: "AUTO",
+                paddingLeft: 0,
+                paddingRight: 0,
+                paddingTop: 0,
+                paddingBottom: 0,
+                horizontalPadding: 0,
+                verticalPadding: 0,
+                itemSpacing: 10,
+                counterAxisSpacing: 0,
+                layoutPositioning: "AUTO",
+                itemReverseZIndex: false,
+                strokesIncludedInLayout: false,
+                layoutGrids: [],
+                overflowDirection: "NONE"
+              }
+            ],
+            cornerSmoothing: 0,
+            minWidth: null,
+            maxWidth: null,
+            minHeight: null,
+            maxHeight: null,
+            clipsContent: false,
+            layoutMode: "VERTICAL",
+            layoutWrap: "NO_WRAP",
+            primaryAxisSizingMode: "AUTO",
+            counterAxisSizingMode: "AUTO",
+            primaryAxisAlignItems: "MIN",
+            counterAxisAlignItems: "MIN",
+            counterAxisAlignContent: "AUTO",
+            paddingLeft: 0,
+            paddingRight: 0,
+            paddingTop: 0,
+            paddingBottom: 0,
+            horizontalPadding: 0,
+            verticalPadding: 0,
+            itemSpacing: 10,
+            counterAxisSpacing: 0,
+            layoutPositioning: "AUTO",
+            itemReverseZIndex: false,
+            strokesIncludedInLayout: false,
+            layoutGrids: [],
+            overflowDirection: "NONE"
+          }
+        ],
+        cornerSmoothing: 0,
+        minWidth: 150,
+        maxWidth: 300,
+        minHeight: null,
+        maxHeight: null,
+        clipsContent: false,
+        layoutMode: "VERTICAL",
+        layoutWrap: "NO_WRAP",
+        primaryAxisSizingMode: "AUTO",
+        counterAxisSizingMode: "FIXED",
+        primaryAxisAlignItems: "CENTER",
+        counterAxisAlignItems: "CENTER",
+        counterAxisAlignContent: "AUTO",
+        paddingLeft: 0,
+        paddingRight: 0,
+        paddingTop: 0,
+        paddingBottom: 0,
+        horizontalPadding: 0,
+        verticalPadding: 0,
+        itemSpacing: 8,
+        counterAxisSpacing: 8,
+        layoutPositioning: "AUTO",
+        itemReverseZIndex: false,
+        strokesIncludedInLayout: false,
+        layoutGrids: [],
+        overflowDirection: "NONE"
+      },
+      {
+        id: "8:86",
+        name: "Frame 406",
+        visible: true,
+        type: "FRAME",
+        rotation: 0,
+        componentPropertyReferences: null,
+        boundVariables: {},
+        locked: false,
+        exportSettings: [],
+        blendMode: "PASS_THROUGH",
+        layoutAlign: "INHERIT",
+        layoutGrow: 0,
+        constraints: {
+          horizontal: "CENTER",
+          vertical: "MIN"
+        },
+        opacity: 1,
+        absoluteBoundingBox: {
+          x: 0,
+          y: 637,
+          width: 360,
+          height: 125
+        },
+        absoluteRenderBounds: {
+          x: 0,
+          y: 619,
+          width: 360,
+          height: 101
+        },
+        effects: [
+          {
+            type: "DROP_SHADOW",
+            color: {
+              r: 0,
+              g: 0,
+              b: 0,
+              a: 0.1599999964237213
+            },
+            offset: {
+              x: -2,
+              y: -2
+            },
+            radius: 16,
+            spread: 0,
+            visible: true,
+            blendMode: "NORMAL",
+            showShadowBehindNode: false
+          }
+        ],
+        relativeTransform: [
+          [
+            1,
+            0,
+            0
+          ],
+          [
+            0,
+            1,
+            637
+          ]
+        ],
+        isMask: false,
+        fills: [
+          {
+            type: "SOLID",
+            visible: true,
+            opacity: 1,
+            blendMode: "NORMAL",
+            color: {
+              r: 0.9882352948188782,
+              g: 0.9647058844566345,
+              b: 0.843137264251709
+            },
+            boundVariables: {}
+          }
+        ],
+        fillGeometry: [
+          {
+            windingRule: "NONZERO",
+            data: "M0 16C0 7.16345 7.16344 0 16 0L344 0C352.837 0 360 7.16344 360 16L360 125L0 125L0 16Z"
+          }
+        ],
+        strokes: [],
+        strokeWeight: 1,
+        strokeCap: "NONE",
+        strokeJoin: "MITER",
+        strokeGeometry: [],
+        strokeAlign: "INSIDE",
+        children: [
+          {
+            id: "8:87",
+            name: "Frame 405",
+            visible: true,
+            type: "FRAME",
+            rotation: -89.99999999999999,
+            componentPropertyReferences: null,
+            boundVariables: {},
+            locked: false,
+            exportSettings: [],
+            blendMode: "PASS_THROUGH",
+            layoutAlign: "INHERIT",
+            layoutGrow: 0,
+            constraints: {
+              horizontal: "MIN",
+              vertical: "MIN"
+            },
+            opacity: 1,
+            absoluteBoundingBox: {
+              x: 55,
+              y: 653,
+              width: 102,
+              height: 109
+            },
+            absoluteRenderBounds: {
+              x: 41,
+              y: 639,
+              width: 134,
+              height: 81
+            },
+            effects: [],
+            relativeTransform: [
+              [
+                2.393918396847994e-16,
+                -1,
+                157
+              ],
+              [
+                1,
+                2.393918396847994e-16,
+                16
+              ]
+            ],
+            isMask: false,
+            fills: [],
+            fillGeometry: [
+              {
+                windingRule: "NONZERO",
+                data: "M0 0L109 0L109 102L0 102L0 0Z"
+              }
+            ],
+            strokes: [],
+            strokeWeight: 1,
+            strokeCap: "NONE",
+            strokeJoin: "MITER",
+            strokeGeometry: [],
+            strokeAlign: "INSIDE",
+            children: [
+              {
+                id: "8:88",
+                name: "Rectangle 183",
+                visible: true,
+                type: "RECTANGLE",
+                rotation: 0,
+                componentPropertyReferences: null,
+                boundVariables: {},
+                locked: false,
+                exportSettings: [],
+                blendMode: "PASS_THROUGH",
+                layoutAlign: "INHERIT",
+                layoutGrow: 0,
+                constraints: {
+                  horizontal: "MIN",
+                  vertical: "MIN"
+                },
+                opacity: 1,
+                absoluteBoundingBox: {
+                  x: 109,
+                  y: 653,
+                  width: 48,
+                  height: 88
+                },
+                absoluteRenderBounds: {
+                  x: 95,
+                  y: 639,
+                  width: 80,
+                  height: 81
+                },
+                effects: [
+                  {
+                    type: "DROP_SHADOW",
+                    color: {
+                      r: 0,
+                      g: 0,
+                      b: 0,
+                      a: 0.1599999964237213
+                    },
+                    offset: {
+                      x: 2,
+                      y: 2
+                    },
+                    radius: 16,
+                    spread: 0,
+                    visible: true,
+                    blendMode: "NORMAL",
+                    showShadowBehindNode: false
+                  }
+                ],
+                relativeTransform: [
+                  [
+                    1,
+                    0,
+                    0
+                  ],
+                  [
+                    0,
+                    1,
+                    0
+                  ]
+                ],
+                isMask: false,
+                fills: [
+                  {
+                    type: "SOLID",
+                    visible: true,
+                    opacity: 1,
+                    blendMode: "NORMAL",
+                    color: {
+                      r: 0.15294118225574493,
+                      g: 0.6823529601097107,
+                      b: 0.3764705955982208
+                    },
+                    boundVariables: {}
+                  }
+                ],
+                fillGeometry: [
+                  {
+                    windingRule: "NONZERO",
+                    data: "M0 4C0 1.79086 1.79086 0 4 0L84 0C86.2091 0 88 1.79086 88 4L88 44C88 46.2091 86.2091 48 84 48L4 48C1.79086 48 0 46.2091 0 44L0 4Z"
+                  }
+                ],
+                strokes: [],
+                strokeWeight: 1,
+                strokeCap: "NONE",
+                strokeJoin: "MITER",
+                strokeGeometry: [],
+                strokeAlign: "INSIDE",
+                cornerRadius: 4,
+                cornerSmoothing: 0
+              },
+              {
+                id: "8:89",
+                name: "Rectangle 184",
+                visible: true,
+                type: "RECTANGLE",
+                rotation: 0,
+                componentPropertyReferences: null,
+                boundVariables: {},
+                locked: false,
+                exportSettings: [
+                  {
+                    format: "PNG",
+                    suffix: "",
+                    contentsOnly: true,
+                    colorProfile: "DOCUMENT",
+                    constraint: {
+                      type: "SCALE",
+                      value: 1
+                    }
+                  }
+                ],
+                blendMode: "PASS_THROUGH",
+                layoutAlign: "INHERIT",
+                layoutGrow: 0,
+                constraints: {
+                  horizontal: "MIN",
+                  vertical: "MIN"
+                },
+                opacity: 1,
+                absoluteBoundingBox: {
+                  x: 55,
+                  y: 674,
+                  width: 48,
+                  height: 88
+                },
+                absoluteRenderBounds: {
+                  x: 41,
+                  y: 660,
+                  width: 80,
+                  height: 60
+                },
+                effects: [
+                  {
+                    type: "DROP_SHADOW",
+                    color: {
+                      r: 0,
+                      g: 0,
+                      b: 0,
+                      a: 0.1599999964237213
+                    },
+                    offset: {
+                      x: 2,
+                      y: 2
+                    },
+                    radius: 16,
+                    spread: 0,
+                    visible: true,
+                    blendMode: "NORMAL",
+                    showShadowBehindNode: false
+                  }
+                ],
+                relativeTransform: [
+                  [
+                    1,
+                    0,
+                    21
+                  ],
+                  [
+                    0,
+                    1,
+                    54
+                  ]
+                ],
+                isMask: false,
+                fills: [
+                  {
+                    type: "SOLID",
+                    visible: true,
+                    opacity: 1,
+                    blendMode: "NORMAL",
+                    color: {
+                      r: 0.9208333492279053,
+                      g: 0.31641045212745667,
+                      b: 0.08440972119569778
+                    },
+                    boundVariables: {}
+                  }
+                ],
+                fillGeometry: [
+                  {
+                    windingRule: "NONZERO",
+                    data: "M0 4C0 1.79086 1.79086 0 4 0L84 0C86.2091 0 88 1.79086 88 4L88 44C88 46.2091 86.2091 48 84 48L4 48C1.79086 48 0 46.2091 0 44L0 4Z"
+                  }
+                ],
+                strokes: [],
+                strokeWeight: 1,
+                strokeCap: "NONE",
+                strokeJoin: "MITER",
+                strokeGeometry: [],
+                strokeAlign: "INSIDE",
+                cornerRadius: 4,
+                cornerSmoothing: 0
+              }
+            ],
+            cornerSmoothing: 0,
+            minWidth: null,
+            maxWidth: null,
+            minHeight: null,
+            maxHeight: null,
+            clipsContent: false,
+            layoutMode: "NONE",
+            layoutWrap: "NO_WRAP",
+            primaryAxisSizingMode: "AUTO",
+            counterAxisSizingMode: "FIXED",
+            primaryAxisAlignItems: "MIN",
+            counterAxisAlignItems: "MIN",
+            counterAxisAlignContent: "AUTO",
+            paddingLeft: 0,
+            paddingRight: 0,
+            paddingTop: 0,
+            paddingBottom: 0,
+            horizontalPadding: 0,
+            verticalPadding: 0,
+            itemSpacing: 0,
+            counterAxisSpacing: 0,
+            layoutPositioning: "AUTO",
+            itemReverseZIndex: false,
+            strokesIncludedInLayout: false,
+            layoutGrids: [],
+            overflowDirection: "NONE"
+          },
+          {
+            id: "8:90",
+            name: "Frame 291",
+            visible: true,
+            type: "FRAME",
+            rotation: 0,
+            componentPropertyReferences: null,
+            boundVariables: {},
+            locked: false,
+            exportSettings: [],
+            blendMode: "PASS_THROUGH",
+            layoutAlign: "INHERIT",
+            layoutGrow: 0,
+            constraints: {
+              horizontal: "MIN",
+              vertical: "MIN"
+            },
+            opacity: 1,
+            absoluteBoundingBox: {
+              x: 237,
+              y: 653,
+              width: 68,
+              height: 53
+            },
+            absoluteRenderBounds: {
+              x: 237,
+              y: 653,
+              width: 68,
+              height: 53
+            },
+            effects: [],
+            relativeTransform: [
+              [
+                1,
+                0,
+                237
+              ],
+              [
+                0,
+                1,
+                16
+              ]
+            ],
+            isMask: false,
+            fills: [
+              {
+                type: "SOLID",
+                visible: true,
+                opacity: 1,
+                blendMode: "NORMAL",
+                color: {
+                  r: 1,
+                  g: 1,
+                  b: 1
+                },
+                boundVariables: {}
+              }
+            ],
+            fillGeometry: [
+              {
+                windingRule: "NONZERO",
+                data: "M0 8C0 3.58172 3.58172 0 8 0L60 0C64.4183 0 68 3.58172 68 8L68 45C68 49.4183 64.4183 53 60 53L8 53C3.58172 53 0 49.4183 0 45L0 8Z"
+              }
+            ],
+            strokes: [
+              {
+                type: "SOLID",
+                visible: true,
+                opacity: 1,
+                blendMode: "NORMAL",
+                color: {
+                  r: 0,
+                  g: 0,
+                  b: 0
+                },
+                boundVariables: {}
+              }
+            ],
+            strokeWeight: 1,
+            strokeCap: "NONE",
+            strokeJoin: "MITER",
+            strokeGeometry: [
+              {
+                windingRule: "NONZERO",
+                data: "M8 1L60 1L60 -1L8 -1L8 1ZM67 8L67 45L69 45L69 8L67 8ZM60 52L8 52L8 54L60 54L60 52ZM1 45L1 8L-1 8L-1 45L1 45ZM8 52C4.13401 52 1 48.866 1 45L-1 45C-1 49.9706 3.02944 54 8 54L8 52ZM67 45C67 48.866 63.866 52 60 52L60 54C64.9706 54 69 49.9706 69 45L67 45ZM60 1C63.866 1 67 4.13401 67 8L69 8C69 3.02944 64.9706 -1 60 -1L60 1ZM8 -1C3.02944 -1 -1 3.02944 -1 8L1 8C1 4.13401 4.13401 1 8 1L8 -1Z"
+              }
+            ],
+            strokeAlign: "INSIDE",
+            children: [
+              {
+                id: "8:91",
+                name: "Done",
+                visible: true,
+                type: "TEXT",
+                rotation: 0,
+                componentPropertyReferences: null,
+                boundVariables: {},
+                characters: "Done",
+                textStyleId: ""
+              }
+            ],
+            cornerSmoothing: 0,
+            minWidth: null,
+            maxWidth: null,
+            minHeight: null,
+            maxHeight: null,
+            clipsContent: false,
+            layoutMode: "HORIZONTAL",
+            layoutWrap: "NO_WRAP",
+            primaryAxisSizingMode: "AUTO",
+            counterAxisSizingMode: "AUTO",
+            primaryAxisAlignItems: "CENTER",
+            counterAxisAlignItems: "CENTER",
+            counterAxisAlignContent: "AUTO",
+            paddingLeft: 16,
+            paddingRight: 16,
+            paddingTop: 16,
+            paddingBottom: 16,
+            horizontalPadding: 16,
+            verticalPadding: 16,
+            itemSpacing: 10,
             counterAxisSpacing: 0,
             layoutPositioning: "AUTO",
             itemReverseZIndex: false,
@@ -2216,18 +3067,18 @@ export default {
         clipsContent: false,
         layoutMode: "HORIZONTAL",
         layoutWrap: "NO_WRAP",
-        primaryAxisSizingMode: "AUTO",
+        primaryAxisSizingMode: "FIXED",
         counterAxisSizingMode: "AUTO",
-        primaryAxisAlignItems: "MIN",
-        counterAxisAlignItems: "MAX",
+        primaryAxisAlignItems: "CENTER",
+        counterAxisAlignItems: "MIN",
         counterAxisAlignContent: "AUTO",
         paddingLeft: 0,
         paddingRight: 0,
-        paddingTop: 0,
+        paddingTop: 16,
         paddingBottom: 0,
         horizontalPadding: 0,
-        verticalPadding: 0,
-        itemSpacing: 16,
+        verticalPadding: 16,
+        itemSpacing: 80,
         counterAxisSpacing: 0,
         layoutPositioning: "AUTO",
         itemReverseZIndex: false,

@@ -1,43 +1,43 @@
 import {
-	calculateAbsoluteRenderBoundPosition,
-	calculateSize,
-	calculateRotation,
-	extractColor,
-	calculateStroke,
-	parseColor,
-	getTransformParameters,
-	convertToDrawPolygonData,
-	shiftOrigin,
+  calculateAbsoluteRenderBoundPosition,
+  calculateSize,
+  calculateRotation,
+  extractColor,
+  calculateStroke,
+  parseColor,
+  getTransformParameters,
+  convertToDrawPolygonData,
+  shiftOrigin,
 } from "../utils/layout";
 
 import rectangleKeys from "../keys/rectangle";
 
 export const parseFigmaJson = (figmaJson) => {
-	const children = [figmaJson];
-	const { minX, minY } = calculateMinXY(children);
-	const parsedChildren = children.map((child) => {
-		return parseChild(child, 1, minX, minY);
-	});
-	return { children: parsedChildren, minX, minY };
+  const children = [figmaJson];
+  const { minX, minY } = calculateMinXY(children);
+  const parsedChildren = children.map((child) => {
+    return parseChild(child, 1, minX, minY);
+  });
+  return { children: parsedChildren, minX, minY };
 };
 
 const calculateMinXY = (children) => {
-	let minX = Infinity;
-	let minY = Infinity;
-	children.forEach((child) => {
-		const x = child?.absoluteBoundingBox?.x || 0;
-		const y = child?.absoluteBoundingBox?.y || 0;
-		minX = Math.min(minX, x);
-		minY = Math.min(minY, y);
-		if (child.children) {
-			const { minX: childMinX, minY: childMinY } = calculateMinXY(
-				child.children
-			);
-			minX = Math.min(minX, childMinX);
-			minY = Math.min(minY, childMinY);
-		}
-	});
-	return { minX, minY };
+  let minX = Infinity;
+  let minY = Infinity;
+  children.forEach((child) => {
+    const x = child?.absoluteBoundingBox?.x || 0;
+    const y = child?.absoluteBoundingBox?.y || 0;
+    minX = Math.min(minX, x);
+    minY = Math.min(minY, y);
+    if (child.children) {
+      const { minX: childMinX, minY: childMinY } = calculateMinXY(
+        child.children
+      );
+      minX = Math.min(minX, childMinX);
+      minY = Math.min(minY, childMinY);
+    }
+  });
+  return { minX, minY };
 };
 
 const parseChild = (child, level, minX, minY, parentObject=null) => {
@@ -80,8 +80,8 @@ const parseChild = (child, level, minX, minY, parentObject=null) => {
 };
 
 const parseCanvas = (child, level, pixiObject) => {
-	pixiObject.zIndex = level;
-	return pixiObject;
+  pixiObject.zIndex = level;
+  return pixiObject;
 };
 
 const parsePolygon = (child, level, pixiObject, minX, minY, parentObject) => {
