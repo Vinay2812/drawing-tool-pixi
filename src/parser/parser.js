@@ -170,6 +170,7 @@ const parsePolygon = (child, level, pixiObject, minX, minY, parentObject) => {
 			pixiObject
 		);
 	}
+    // pixiObject.parent = parentObject;
 
 	return pixiObject;
 };

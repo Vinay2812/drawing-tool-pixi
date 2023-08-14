@@ -18,10 +18,10 @@ export const renderFigmaFromParsedJson = (children) => {
 	});
 	container.backgroundColor = 0xffffff;
 	// const pixiChild = new PIXI.Graphics();
-	// pixiChild.position.set(0, 9);
+	// pixiChild.position.set(128, 56);
 	// pixiChild.zIndex = 200;
-	// // pixiChild.rotation = 0.785398;
-	// pixiChild.beginFill(0x0000cc);
+	// // pixiChild.rotation = 1.5707963267948963;
+	// pixiChild.beginFill(0x00cccc);
 	// // pixiChild.drawTorus(180, 24, 36, 18, 0, Math.PI * 2);
 	// pixiChild.drawPolygon([
 	//     0,
@@ -63,6 +63,9 @@ const renderChild = async (
 		case "ELLIPSE":
 			pixiObject = await renderPolygon(child, screenWidth, screenHeight);
 			break;
+        case "TEXT":
+            pixiObject = renderText(child);
+            break;
 	}
 	if (parentContainer && pixiObject) {
 		console.log(
@@ -143,14 +146,24 @@ const renderPolygon = async (child, screenWidth, screenHeight) => {
 		mask = drawShape(child, mask);
 		// mask.position.set(child.position.x, child.position.y);
 		mask.endFill();
-        pixiObject.addChild(mask);
-        pixiObject.mask = mask;
+		pixiObject.addChild(mask);
+		pixiObject.mask = mask;
 	}
 	// pixiObject.position.set(child.position.x, child.position.y);
 	let fillColor =
 		child?.fills?.length > 0 &&
 		child.fills[0].visible &&
 		child.fills[0].color;
+	if (child.id === "71:341") {
+		console.log(
+			"🚀 ~ file: renderer.js:109 ~ renderPolygon ~ fillColor",
+			fillColor,
+			child
+		);
+		fillColor = 0x0000ff;
+		// pixiObject.width = 236;
+		// pixiObject.height = 316;
+	}
 	fillColor
 		? pixiObject.beginFill(fillColor)
 		: pixiObject.beginFill(0xffffcc, 0);
@@ -282,15 +295,27 @@ const renderPolygon = async (child, screenWidth, screenHeight) => {
 	if (child.relativeTransform && child.fillGeometry?.length > 0) {
 		let { x, y, scaleX, scaleY, rotation, skewX, skewY } =
 			child.relativeTransform;
-		pixiObject.position.set(x, y);
-		pixiObject.rotation = rotation;
+            // const rotationSign = Math.sign()
+            pixiObject.position.set(x, y);
+            pixiObject.rotation = rotation;
+            if (skewX < 0 && skewY < 0) {
+
+                pixiObject.rotation = - rotation;
+
+            }
 	}
 	if (child.relativeTransform && child.strokeGeometry?.length > 0) {
 		let { x, y, scaleX, scaleY, rotation, skewX, skewY } =
 			child.relativeTransform;
 		pixiObject.position.set(x, y);
-		pixiObject.rotation = -rotation;
+        pixiObject.rotation = rotation;
+        if(skewX < 0 && skewY < 0){
+            pixiObject.rotation = -rotation;
+
+        }
+
 	}
+
 
 	return pixiObject;
 };
@@ -300,6 +325,14 @@ const drawShape = (child, pixiObject) => {
 		if (child.type !== "ELLIPSE") {
 			pixiObject.drawPolygon(child.fillGeometry[0].data);
 		}
+	}
+	if (child.type === "GROUP") {
+		pixiObject.drawRect(
+			child.relativeTransform.x,
+			child.relativeTransform.y,
+			child.size.width,
+			child.size.height
+		);
 	}
 
 	if (child.strokes?.length > 0) {
