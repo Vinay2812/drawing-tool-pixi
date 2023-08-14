@@ -5,6 +5,7 @@
   "dependencies": {
     "@pixi/filter-drop-shadow": "^5.2.0",
     "@pixi/gif": "^2.1.0",
+    "@pixi/graphics-extras": "^7.2.4",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",

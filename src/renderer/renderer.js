@@ -1,6 +1,8 @@
 import * as PIXI from "pixi.js";
 // import { getFilter } from "../utils/pixiJS";
 import { AnimatedGIF } from "@pixi/gif";
+import "@pixi/graphics-extras";
+import { drawSVGPath } from "../utils/layout";
 
 export const renderFigmaFromParsedJson = (children) => {
 	console.log(
@@ -9,14 +11,41 @@ export const renderFigmaFromParsedJson = (children) => {
 	);
 	const container = new PIXI.Container();
 	container.sortableChildren = true;
+	const screenWidth = children[0].absoluteBoundingBox.width;
+	const screenHeight = children[0].absoluteBoundingBox.height;
 	children.forEach((child) => {
-		renderChild(child, container);
+		renderChild(child, container, screenWidth, screenHeight);
 	});
 	container.backgroundColor = 0xffffff;
+	// const pixiChild = new PIXI.Graphics();
+	// pixiChild.position.set(0, 9);
+	// pixiChild.zIndex = 200;
+	// // pixiChild.rotation = 0.785398;
+	// pixiChild.beginFill(0x0000cc);
+	// // pixiChild.drawTorus(180, 24, 36, 18, 0, Math.PI * 2);
+	// pixiChild.drawPolygon([
+	//     0,
+	//     0,
+	//     56,
+	//     0,
+	//     56,
+	//     56,
+	//     0,
+	//     56,
+	//     0,
+	//     0
+	// ]);
+	// pixiChild.endFill();
+	// container.addChild(pixiChild);
 	return container;
 };
 
-const renderChild = async (child, parentContainer) => {
+const renderChild = async (
+	child,
+	parentContainer,
+	screenWidth,
+	screenHeight
+) => {
 	if (!child) return;
 	let pixiObject;
 	switch (child.type) {
@@ -30,8 +59,9 @@ const renderChild = async (child, parentContainer) => {
 		case "VECTOR":
 		case "STAR":
 		case "LINE":
+		case "INSTANCE":
 		case "ELLIPSE":
-			pixiObject = await renderPolygon(child);
+			pixiObject = await renderPolygon(child, screenWidth, screenHeight);
 			break;
 	}
 	if (parentContainer && pixiObject) {
@@ -45,13 +75,20 @@ const renderChild = async (child, parentContainer) => {
 	}
 	if (child.children) {
 		child.children.forEach((grandchild) => {
-			renderChild(grandchild, pixiObject);
+			renderChild(grandchild, pixiObject, screenWidth, screenHeight);
 		});
 	}
 };
 
 const renderCanvas = (child) => {
 	const pixiObject = new PIXI.Container();
+	pixiObject.zIndex = child.zIndex;
+	return pixiObject;
+};
+
+const renderText = (child) => {
+	console.log("🚀 ~ file: renderer.js:84 ~ renderText ~ child:", child);
+	const pixiObject = new PIXI.Text(child.characters);
 	pixiObject.zIndex = child.zIndex;
 	return pixiObject;
 };
@@ -94,145 +131,165 @@ const dataImg = {
 	i18n: null,
 };
 
-const renderPolygon = async (child) => {
-    if(!child.visible) return;
+const renderPolygon = async (child, screenWidth, screenHeight) => {
+	if (!child.visible) return;
+
 	console.log("🚀 ~ file: renderer.js:93 ~ renderPolygon ~ child:", child);
 	let pixiObject = new PIXI.Graphics();
 	pixiObject.zIndex = child.zIndex;
-
-	pixiObject.position.set(child.position.x, child.position.y);
+	if (child.clipsContent) {
+		let mask = new PIXI.Graphics();
+		mask.beginFill(0x000000);
+		mask = drawShape(child, mask);
+		// mask.position.set(child.position.x, child.position.y);
+		mask.endFill();
+        pixiObject.addChild(mask);
+        pixiObject.mask = mask;
+	}
+	// pixiObject.position.set(child.position.x, child.position.y);
 	let fillColor =
 		child?.fills?.length > 0 &&
 		child.fills[0].visible &&
 		child.fills[0].color;
-	fillColor ? pixiObject.beginFill(fillColor) : pixiObject.beginFill(0xffffcc, 1);
+	fillColor
+		? pixiObject.beginFill(fillColor)
+		: pixiObject.beginFill(0xffffcc, 0);
 	pixiObject = drawShape(child, pixiObject);
 	pixiObject.endFill();
-	// if (child?.fills?.length > 0) {
-	// 	child.fills.forEach(async (fill) => {
-	// 		let pixiChild = new PIXI.Graphics();
-	// 		pixiChild.zIndex = child.zIndex;
-	// 		pixiChild.position.set(child.position.x, child.position.y);
+	if (
+		child?.fills?.length > 0 &&
+		child.fills.filter((f) => f.type === "IMAGE")?.length > 0
+	) {
+		child.fills.forEach(async (fill) => {
+			let pixiChild = new PIXI.Graphics();
+			pixiChild.zIndex = child.zIndex;
+			pixiChild.position.set(child.position.x, child.position.y);
 
-	// 		let imageSprite;
-	// 		if (fill.type === "SOLID") {
-	// 			if (fill.visible)
-	// 				pixiChild.beginFill(
-	// 					String(fill?.color).length === 6
-	// 						? `0x${fill?.color}`
-	// 						: fill?.color
-	// 				);
-	// 		} else if (fill.type === "IMAGE") {
-	// 			const gifRef = fill.gifRef;
+			let imageSprite;
+			if (fill.type === "SOLID") {
+				if (fill.visible)
+					pixiChild.beginFill(
+						String(fill?.color).length === 6
+							? `0x${fill?.color}`
+							: fill?.color
+					);
+			}
+			// else if (fill.type === "IMAGE") {
+			// 	const gifRef = fill.gifRef;
 
-	// 			const imageUrl = dataImg.meta.images[gifRef || fill.imageHash];
-	// 			const imageTexture = PIXI.Texture.from(imageUrl); // Load the texture
+			// 	const imageUrl = dataImg.meta.images[gifRef || fill.imageHash];
+			// 	const imageTexture = PIXI.Texture.from(imageUrl); // Load the texture
 
-	// 			if (gifRef) {
-	// 				imageSprite = await fetch(imageUrl)
-	// 					.then((res) => res.arrayBuffer())
-	// 					.then(AnimatedGIF.fromBuffer)
-	// 					.then((image) => pixiChild.addChild(image));
-	// 			} else imageSprite = new PIXI.Sprite(imageTexture);
+			// 	if (gifRef) {
+			// 		imageSprite = await fetch(imageUrl)
+			// 			.then((res) => res.arrayBuffer())
+			// 			.then(AnimatedGIF.fromBuffer)
+			// 			.then((image) => pixiChild.addChild(image));
+			// 	} else imageSprite = new PIXI.Sprite(imageTexture);
 
-	// 			imageSprite.blendMode = PIXI.BLEND_MODES.NORMAL; // Adjust blend mode if needed
-	// 			const rotation = fill.rotation;
+			// 	imageSprite.blendMode = PIXI.BLEND_MODES.NORMAL; // Adjust blend mode if needed
+			// 	const rotation = fill.rotation;
 
-	// 			imageSprite.rotation = ((fill.rotation || 0) * Math.PI) / 180;
-	// 			imageSprite.anchor.set(0.5, 0.5);
+			// 	imageSprite.rotation = ((fill.rotation || 0) * Math.PI) / 180;
+			// 	imageSprite.anchor.set(0.5, 0.5);
 
-	// 			const isTilt = [90, 270, -90].includes(rotation);
+			// 	const isTilt = [90, 270, -90].includes(rotation);
 
-	// 			if (["FIT"].includes(fill.scaleMode)) {
-	// 				const scaleX =
-	// 					child.size.width /
-	// 					(isTilt ? imageSprite.height : imageSprite.width);
-	// 				const scaleY =
-	// 					child.size.height /
-	// 					(isTilt ? imageSprite.width : imageSprite.height);
+			// 	if (["FIT"].includes(fill.scaleMode)) {
+			// 		const scaleX =
+			// 			child.size.width /
+			// 			(isTilt ? imageSprite.height : imageSprite.width);
+			// 		const scaleY =
+			// 			child.size.height /
+			// 			(isTilt ? imageSprite.width : imageSprite.height);
 
-	// 				const scale = Math.min(scaleX, scaleY);
-	// 				imageSprite.scale.set(scale);
+			// 		const scale = Math.min(scaleX, scaleY);
+			// 		imageSprite.scale.set(scale);
 
-	// 				imageSprite.position.set(
-	// 					child.size.width / 2,
-	// 					child.size.height / 2
-	// 				);
-	// 			} else if (["FILL", "TILE", "CROP"].includes(fill.scaleMode)) {
-	// 				const imageAspectRatio = isTilt
-	// 					? imageSprite.height / imageSprite.width
-	// 					: imageSprite.width / imageSprite.height;
+			// 		imageSprite.position.set(
+			// 			child.size.width / 2,
+			// 			child.size.height / 2
+			// 		);
+			// 	} else if (["FILL", "TILE", "CROP"].includes(fill.scaleMode)) {
+			// 		const imageAspectRatio = isTilt
+			// 			? imageSprite.height / imageSprite.width
+			// 			: imageSprite.width / imageSprite.height;
 
-	// 				// Calculate the aspect ratio of the polygon
-	// 				const polygonAspectRatio =
-	// 					child.size.width / child.size.height;
+			// 		// Calculate the aspect ratio of the polygon
+			// 		const polygonAspectRatio =
+			// 			child.size.width / child.size.height;
 
-	// 				if (imageAspectRatio > polygonAspectRatio) {
-	// 					imageSprite.height = child.size.height;
-	// 					imageSprite.width =
-	// 						child.size.height * imageAspectRatio;
-	// 				} else {
-	// 					if (isTilt) {
-	// 						imageSprite.width =
-	// 							child.size.width / imageAspectRatio;
-	// 						imageSprite.height = child.size.width;
-	// 					} else {
-	// 						imageSprite.width = child.size.width;
-	// 						imageSprite.height =
-	// 							child.size.width / imageAspectRatio;
-	// 					}
-	// 				}
-	// 				imageSprite.position.set(
-	// 					child.size.width / 2,
-	// 					child.size.height / 2
-	// 				);
-	// 			}
+			// 		if (imageAspectRatio > polygonAspectRatio) {
+			// 			imageSprite.height = child.size.height;
+			// 			imageSprite.width =
+			// 				child.size.height * imageAspectRatio;
+			// 		} else {
+			// 			if (isTilt) {
+			// 				imageSprite.width =
+			// 					child.size.width / imageAspectRatio;
+			// 				imageSprite.height = child.size.width;
+			// 			} else {
+			// 				imageSprite.width = child.size.width;
+			// 				imageSprite.height =
+			// 					child.size.width / imageAspectRatio;
+			// 			}
+			// 		}
+			// 		imageSprite.position.set(
+			// 			child.size.width / 2,
+			// 			child.size.height / 2
+			// 		);
+			// 	}
 
-	// 			pixiChild.addChild(imageSprite);
-	// 		}
+			// 	pixiChild.addChild(imageSprite);
+			// }
 
-	// 		pixiChild = drawShape(child, pixiChild);
+			// pixiChild = drawShape(child, pixiChild);
 
-	// 		if (child.relativeTransform) {
-	// 			const { x, y } = child.relativeTransform;
-	// 			pixiChild.pivot.set(x, y);
-	// 		}
+			if (child.relativeTransform) {
+				const { x, y } = child.relativeTransform;
+				pixiChild.pivot.set(x, y);
+			}
 
-	// 		if (fill.opacity !== undefined) {
-	// 			pixiChild.alpha = fill.opacity;
-	// 		}
+			if (fill.opacity !== undefined) {
+				pixiChild.alpha = fill.opacity;
+			}
 
-	// 		pixiChild.endFill();
+			pixiChild.endFill();
 
-	// 		// MASK SECTION
-	// 		let maskContainer = new PIXI.Container();
-	// 		if (imageSprite) {
-	// 			let mask = new PIXI.Graphics();
-	// 			mask.position.set(child.position.x, child.position.y);
+			// MASK SECTION
+			let maskContainer = new PIXI.Container();
+			if (imageSprite) {
+				let mask = new PIXI.Graphics();
+				mask.position.set(child.position.x, child.position.y);
 
-	// 			mask.beginFill(0xffffff);
-	// 			mask = drawShape(child, mask);
-	// 			if (child.relativeTransform) {
-	// 				const { x, y } = child.relativeTransform;
-	// 				mask.pivot.set(x, y);
-	// 			}
-	// 			mask.endFill();
-	// 			maskContainer.mask = mask;
-	// 			maskContainer.addChild(mask);
-	// 		}
-	// 		// Add the mask as a child, so that the mask is positioned relative to its parent
-	// 		maskContainer.addChild(pixiChild);
-	// 		// Offset by the window's frame width
-	// 		pixiObject.addChild(maskContainer);
-	// 	});
-	// }
+				mask.beginFill(0xffffff);
+				mask = drawShape(child, mask);
+				if (child.relativeTransform) {
+					const { x, y } = child.relativeTransform;
+					mask.pivot.set(x, y);
+				}
+				mask.endFill();
+				maskContainer.mask = mask;
+				maskContainer.addChild(mask);
+			}
+			// Add the mask as a child, so that the mask is positioned relative to its parent
+			maskContainer.addChild(pixiChild);
+			// Offset by the window's frame width
+			pixiObject.addChild(maskContainer);
+		});
+	}
 
 	if (child.relativeTransform && child.fillGeometry?.length > 0) {
 		let { x, y, scaleX, scaleY, rotation, skewX, skewY } =
 			child.relativeTransform;
 		pixiObject.position.set(x, y);
 		pixiObject.rotation = rotation;
-        
+	}
+	if (child.relativeTransform && child.strokeGeometry?.length > 0) {
+		let { x, y, scaleX, scaleY, rotation, skewX, skewY } =
+			child.relativeTransform;
+		pixiObject.position.set(x, y);
+		pixiObject.rotation = -rotation;
 	}
 
 	return pixiObject;
@@ -249,14 +306,80 @@ const drawShape = (child, pixiObject) => {
 		const visibleStrokes = child.strokes.filter(
 			(stroke) => stroke.visible !== false
 		);
+		const strokeWeight = child.strokeWeight || 1;
+		const strokeCap = child.strokeCap || "CIRCLE_FILLED";
+		const strokeJoin = child.strokeJoin || "MITER";
+		const strokeAlign = child.strokeAlign || "CENTER";
 		visibleStrokes.forEach((stroke) => {
-			pixiObject.lineStyle(
-				child.strokeWidth,
-				stroke.color,
-				stroke.opacity
+			// pixiObject.lineStyle(strokeWeight, stroke.color, stroke.opacity, 0.5, true);
+			// // pixiObject.lineTextureStyle({
+			// //     color: stroke.color,
+			// //     width: strokeWeight,
+			// //     alpha: stroke.opacity,
+			// //     alignment: 0.5,
+			// //     cap: strokeCap,
+			// //     join: strokeJoin,
+			// // });
+			// pixiObject.lineCap = strokeCap;
+			// pixiObject.lineJoin = strokeJoin;
+			// pixiObject.miterLimit = 1;
+			// pixiObject.strokeAlignment = strokeAlign;
+			// pixiObject.lineTo(child.size.width, child.size.height);
+			// if(strokeCap === "CIRCLE_FILLED") {
+			//     pixiObject.moveTo(child.relativeTransform.x, child.relativeTransform.y);
+			//     pixiObject.arc(
+			//         child.relativeTransform.x,
+			//         child.relativeTransform.y,
+			//         0,
+			//         0,
+			//         Math.PI * 2,
+			//         false
+
+			//     )
+			//     // pixiObject.drawPolygon(child.size.width / 2, child.size.height / 2, 4);
+			// }
+			let pixiChild = new PIXI.Graphics();
+			pixiChild.zIndex = child.zIndex + 1;
+			// pixiChild.pivot.set(
+			// 	child.relativeTransform.x,
+			// 	child.relativeTransform.y
+			// );
+			// pixiChild.pivot.set(
+			//     0,
+			//     0
+			// );
+			pixiChild.beginFill(
+				String(stroke?.color).length === 6
+					? `0x${stroke?.color}`
+					: stroke?.color
 			);
-			pixiObject.drawPolygon(child.strokeGeometry[0].data);
+			drawSVGPath(pixiChild, child.strokeGeometry[0].data);
+			// if (child.type === "ELLIPSE") {
+			// 	pixiChild.drawTorus(
+			// 		child.size.width / 2,
+			// 		child.size.height / 2,
+			// 		child.size.width / 2 - strokeWeight,
+			// 		child.size.width / 2,
+			// 		0,
+			// 		Math.PI * 2
+			// 	);
+			// } else {
+			// 	pixiChild.drawPolygon(child.strokeGeometry[0].data);
+			// }
+			pixiChild.endFill();
+			// pixiChild.rotation =  - child.relativeTransform?.rotation;
+			// pixiChild.position.set(child.relativeTransform.x, child.relativeTransform.y);
+			pixiObject.addChild(pixiChild);
+			console.log(
+				"🚀 ~ file: renderer.js:262 ~ drawShape ~ child:",
+				child,
+				visibleStrokes,
+				pixiChild
+			);
+			// if (child.id === "6:156") {
+			// }
 		});
+		// pixiObject.closePath();
 	}
 
 	if (child.arcData) {
