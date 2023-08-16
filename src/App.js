@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import FigmaRenderer from "./components/FigmaRenderer";
+// import sample from "./utils/bishal-test/6";
 import sample from "./utils/sample";
 
 const App = () => {
@@ -35,13 +36,28 @@ const App = () => {
   return (
     <div
       style={{
-        width: "100vw",
-        height: "100vh",
+        width: "100%",
+        height: "100%",
+        minHeight: "100vh",
+        minWidth: "100vw",
         display: "grid",
         placeItems: "center",
+        background: "green",
       }}
     >
-      {loading ? "Loading ..." : <FigmaRenderer figmaJson={figmaJson} />}
+      <div
+        style={{
+          width: "100%",
+          maxWidth: "410px",
+          height: "100%",
+          minHeight: "100vh",
+          display: "grid",
+          placeItems: "center",
+          overflow: "scroll",
+        }}
+      >
+        {loading ? "Loading ..." : <FigmaRenderer figmaJson={figmaJson} />}
+      </div>
     </div>
   );
 };

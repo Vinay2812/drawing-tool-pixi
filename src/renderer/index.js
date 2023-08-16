@@ -12,20 +12,35 @@ export const renderFigmaJson = (figmaJson, elementId) => {
   if (!canvas) {
     // Parse the Figma JSON into a PIXI Container
     const parsedJson = parseFigmaJson(figmaJson);
-    const container = renderFigmaFromParsedJson(parsedJson.children);
+
+    const screenWidth = window.innerWidth > 400 ? 400 : window.innerWidth;
+    const screenHeight = window.innerHeight;
+
+    const scaleWidth = screenWidth / figmaJson?.absoluteBoundingBox?.width;
+    const scaleHeight = screenHeight / figmaJson?.absoluteBoundingBox?.height;
+
+    const container = renderFigmaFromParsedJson(parsedJson.children, {
+      scaleHeight,
+      scaleWidth,
+    });
 
     // Create a PIXI Application
-    const app = new PIXI.Application({
-      //   width: 1800,
-      //   height: 1800,
-      backgroundColor: "red",
-      resizeTo: window,
-    });
+    const app = new PIXI.Application({});
+
+    app.renderer.plugins.interaction.autoPreventDefault = false;
+    app.renderer.view.style.touchAction = "auto";
 
     // Append the PIXI view to the specified HTML element
     document.getElementById(elementId).appendChild(app.view);
+
     // Add the container to the PIXI stage
     app.stage.addChild(container);
+
+    app.renderer.resize(
+      scaleWidth * figmaJson?.absoluteRenderBounds?.width,
+      scaleWidth * figmaJson?.absoluteRenderBounds?.height
+    );
+
     // app.stage.y = container.height / container.resolution
     // app.stage.x = minX;
     // // app.stage.scale.x = -1;

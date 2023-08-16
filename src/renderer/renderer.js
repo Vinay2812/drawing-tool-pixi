@@ -6,7 +6,10 @@ import { drawSVGPath } from "../utils/layout";
 import TextInput from "./PIXI.TextInput";
 import { debounce } from "lodash";
 
-export const renderFigmaFromParsedJson = (children) => {
+export const renderFigmaFromParsedJson = (
+  children,
+  { scaleHeight, scaleWidth }
+) => {
   console.log(
     "🚀 ~ file: renderer.js:6 ~ renderFigmaFromParsedJson ~ children:",
     children
@@ -16,7 +19,10 @@ export const renderFigmaFromParsedJson = (children) => {
   const screenWidth = children[0].absoluteBoundingBox.width;
   const screenHeight = children[0].absoluteBoundingBox.height;
   children.forEach((child) => {
-    renderChild(child, container, screenWidth, screenHeight);
+    renderChild(child, container, screenWidth, screenHeight, {
+      scaleHeight,
+      scaleWidth,
+    });
   });
   container.backgroundColor = 0xffffff;
   // const pixiChild = new PIXI.Graphics();
@@ -39,6 +45,8 @@ export const renderFigmaFromParsedJson = (children) => {
   // ]);
   // pixiChild.endFill();
   // container.addChild(pixiChild);
+
+  container.scale.set(scaleWidth);
   return container;
 };
 
@@ -46,7 +54,8 @@ const renderChild = async (
   child,
   parentContainer,
   screenWidth,
-  screenHeight
+  screenHeight,
+  { scaleHeight, scaleWidth }
 ) => {
   if (!child) return;
   let pixiObject;
@@ -64,9 +73,12 @@ const renderChild = async (
     case "INSTANCE":
     case "ELLIPSE":
       pixiObject = await renderPolygon(child, screenWidth, screenHeight);
+
       break;
     case "TEXT":
       pixiObject = await renderText(child);
+
+      pixiObject?.scale?.set(1 / scaleWidth);
       break;
     case "INPUT":
       pixiObject = await renderInput(child);
@@ -74,6 +86,7 @@ const renderChild = async (
     default:
       break;
   }
+
   if (parentContainer && pixiObject) {
     console.log(
       "🚀 ~ file: renderer.js:35 ~ renderChild ~ parentContainer:",
@@ -88,7 +101,10 @@ const renderChild = async (
       if (grandchild.type === "TEXT") {
         grandchild.parent = child;
       }
-      renderChild(grandchild, pixiObject, screenWidth, screenHeight);
+      renderChild(grandchild, pixiObject, screenWidth, screenHeight, {
+        scaleHeight,
+        scaleWidth,
+      });
     });
   }
 };
