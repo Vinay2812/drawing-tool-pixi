@@ -75,7 +75,7 @@ const parseChild = (child, level, minX, minY, parentObject = null) => {
 		case "VECTOR":
 		case "STAR":
 		case "LINE":
-        case "INSTANCE":
+		case "INSTANCE":
 		case "ELLIPSE":
 			return parsePolygon(
 				child,
@@ -86,7 +86,7 @@ const parseChild = (child, level, minX, minY, parentObject = null) => {
 				parentObject
 			);
 		case "TEXT":
-			return parseText(child, level, pixiObject, parentObject);
+			return parseText(child, level, pixiObject);
 		default:
 			console.log("🚀 ~ file: parser.js:106 ~ parseChild ~ child", child);
 	}
@@ -97,14 +97,14 @@ const parseCanvas = (child, level, pixiObject) => {
 	return pixiObject;
 };
 
-const parseText = (child, level, pixiObject, parentObject) => {
-    pixiObject.zIndex = level;
-    pixiObject = {
-        ...pixiObject,
-        ...child,
-        parent: parentObject,
-    }
-    return pixiObject;
+const parseText = (child, level, pixiObject) => {
+	pixiObject.zIndex = level;
+	pixiObject = {
+		...pixiObject,
+		...child,
+	};
+	pixiObject = parsePolygon(child, level, pixiObject);
+	return pixiObject;
 };
 
 const parsePolygon = (child, level, pixiObject, minX, minY, parentObject) => {
@@ -170,7 +170,7 @@ const parsePolygon = (child, level, pixiObject, minX, minY, parentObject) => {
 			pixiObject
 		);
 	}
-    // pixiObject.parent = parentObject;
+	// pixiObject.parent = parentObject;
 
 	return pixiObject;
 };

@@ -63,9 +63,9 @@ const renderChild = async (
 		case "ELLIPSE":
 			pixiObject = await renderPolygon(child, screenWidth, screenHeight);
 			break;
-        case "TEXT":
-            pixiObject = renderText(child);
-            break;
+		case "TEXT":
+			pixiObject = await renderText(child);
+			break;
 	}
 	if (parentContainer && pixiObject) {
 		console.log(
@@ -78,6 +78,9 @@ const renderChild = async (
 	}
 	if (child.children) {
 		child.children.forEach((grandchild) => {
+			if (grandchild.type === "TEXT") {
+				grandchild.parent = child;
+			}
 			renderChild(grandchild, pixiObject, screenWidth, screenHeight);
 		});
 	}
@@ -89,13 +92,62 @@ const renderCanvas = (child) => {
 	return pixiObject;
 };
 
-const renderText = (child) => {
+const renderText = async (child) => {
+	if (!child.visible) return;
 	console.log("🚀 ~ file: renderer.js:84 ~ renderText ~ child:", child);
-	const pixiObject = new PIXI.Text(child.characters);
-	pixiObject.zIndex = child.zIndex;
-	return pixiObject;
-};
 
+	const fontNameObj = child.fontName || {};
+	const fontFamily = fontNameObj.family || "Arial"; // Default to 'Arial' if fontFamily is not provided
+	const fontStyle = fontNameObj.style || "normal"; // Default to 'normal' if fontStyle is not provided
+	const fontSize = child.fontSize || 12; // Default to 12 if fontSize is not provided
+	const fontWeight = child.fontWeight || "500"; // Default to 'normal' if fontWeight is not provided
+	const textAlignHorizontal = child.textAlignHorizontal || "left"; // Default to 'left' if textAlignHorizontal is not provided
+	const textDecoration = child.textDecoration || "none"; // Default to 'none' if textDecoration is not provided
+
+	const lineHeightObj = child.lineHeight || {};
+	let lineHeightValue = lineHeightObj.value || fontSize * 1.2; // Default to 1.2 times the fontSize if lineHeightValue is not provided
+	if (lineHeightObj.unit === "PERCENT") {
+		lineHeightValue = (lineHeightValue / 100) * fontSize;
+	}
+
+	const letterSpacingObj = child.letterSpacing || {};
+	let letterSpacingValue = letterSpacingObj.value || 0; // Default to 0 if letterSpacingValue is not provided
+	if (letterSpacingObj.unit === "PERCENT") {
+		letterSpacingValue = (letterSpacingValue / 100) * fontSize;
+	}
+
+	let wrapperPixiObject = await renderPolygon(child);
+    if(child.id === "72:327"){
+        wrapperPixiObject.beginFill(0x0000ff);
+        wrapperPixiObject.drawRect(0, 0, child.absoluteBoundingBox.width, child.absoluteBoundingBox.height);
+        wrapperPixiObject.endFill();
+    }
+	console.log(
+		"🚀 ~ file: renderer.js:107 ~ renderText ~ wrapperPixiObject:",
+		wrapperPixiObject
+	);
+	// wrapperPixiObject.width = child.absoluteBoundingBox.width;
+	// wrapperPixiObject.height = child.absoluteBoundingBox.height;
+
+	const style = new PIXI.TextStyle({
+	    fontFamily: fontFamily,
+	    // fontStyle: fontStyle,
+	    fontSize: fontSize,
+	    fontWeight: fontWeight,
+	    align: textAlignHorizontal,
+	    textDecoration: textDecoration,
+	    wordWrap: true,
+	    wordWrapWidth: child.absoluteBoundingBox.width,
+	    lineHeight: lineHeightValue,
+	    letterSpacing: letterSpacingValue
+	});
+
+	const pixiObject = new PIXI.Text(child.characters, style);
+	pixiObject.zIndex = child.zIndex;
+	wrapperPixiObject.addChild(pixiObject);
+
+	return wrapperPixiObject;
+};
 const dataImg = {
 	error: false,
 	status: 200,
@@ -136,8 +188,10 @@ const dataImg = {
 
 const renderPolygon = async (child, screenWidth, screenHeight) => {
 	if (!child.visible) return;
+    if(child.id === "72:325"){
+        console.log("🚀 ~ file: renderer.js:93 ~ renderPolygon ~ child:", child);
 
-	console.log("🚀 ~ file: renderer.js:93 ~ renderPolygon ~ child:", child);
+    }
 	let pixiObject = new PIXI.Graphics();
 	pixiObject.zIndex = child.zIndex;
 	if (child.clipsContent) {
@@ -154,20 +208,22 @@ const renderPolygon = async (child, screenWidth, screenHeight) => {
 		child?.fills?.length > 0 &&
 		child.fills[0].visible &&
 		child.fills[0].color;
-	if (child.id === "71:341") {
-		console.log(
-			"🚀 ~ file: renderer.js:109 ~ renderPolygon ~ fillColor",
-			fillColor,
-			child
-		);
-		fillColor = 0x0000ff;
-		// pixiObject.width = 236;
-		// pixiObject.height = 316;
-	}
+	// if (child.id === "71:341") {
+	// 	console.log(
+	// 		"🚀 ~ file: renderer.js:109 ~ renderPolygon ~ fillColor",
+	// 		fillColor,
+	// 		child
+	// 	);
+	// 	fillColor = 0x0000ff;
+	// 	// pixiObject.width = 236;
+	// 	// pixiObject.height = 316;
+	// }
 	fillColor
 		? pixiObject.beginFill(fillColor)
 		: pixiObject.beginFill(0xffffcc, 0);
-	pixiObject = drawShape(child, pixiObject);
+	if (child.type !== "TEXT") {
+        pixiObject = drawShape(child, pixiObject);
+	}
 	pixiObject.endFill();
 	if (
 		child?.fills?.length > 0 &&
@@ -295,27 +351,23 @@ const renderPolygon = async (child, screenWidth, screenHeight) => {
 	if (child.relativeTransform && child.fillGeometry?.length > 0) {
 		let { x, y, scaleX, scaleY, rotation, skewX, skewY } =
 			child.relativeTransform;
-            // const rotationSign = Math.sign()
-            pixiObject.position.set(x, y);
-            pixiObject.rotation = rotation;
-            if (skewX < 0 && skewY < 0) {
-
-                pixiObject.rotation = - rotation;
-
-            }
+		// const rotationSign = Math.sign()
+		pixiObject.position.set(x, y);
+		pixiObject.rotation = rotation;
+		if (skewX < 0 && skewY < 0) {
+			pixiObject.rotation = -rotation;
+		}
 	}
 	if (child.relativeTransform && child.strokeGeometry?.length > 0) {
 		let { x, y, scaleX, scaleY, rotation, skewX, skewY } =
 			child.relativeTransform;
 		pixiObject.position.set(x, y);
-        pixiObject.rotation = rotation;
-        if(skewX < 0 && skewY < 0){
-            pixiObject.rotation = -rotation;
-
-        }
-
+		pixiObject.rotation = rotation;
+		if (skewX < 0 && skewY < 0) {
+			pixiObject.rotation = -rotation;
+		}
+        
 	}
-
 
 	return pixiObject;
 };
@@ -339,10 +391,6 @@ const drawShape = (child, pixiObject) => {
 		const visibleStrokes = child.strokes.filter(
 			(stroke) => stroke.visible !== false
 		);
-		const strokeWeight = child.strokeWeight || 1;
-		const strokeCap = child.strokeCap || "CIRCLE_FILLED";
-		const strokeJoin = child.strokeJoin || "MITER";
-		const strokeAlign = child.strokeAlign || "CENTER";
 		visibleStrokes.forEach((stroke) => {
 			// pixiObject.lineStyle(strokeWeight, stroke.color, stroke.opacity, 0.5, true);
 			// // pixiObject.lineTextureStyle({
@@ -401,7 +449,7 @@ const drawShape = (child, pixiObject) => {
 			// }
 			pixiChild.endFill();
 			// pixiChild.rotation =  - child.relativeTransform?.rotation;
-			// pixiChild.position.set(child.relativeTransform.x, child.relativeTransform.y);
+			pixiChild.position.set(0, 0);
 			pixiObject.addChild(pixiChild);
 			console.log(
 				"🚀 ~ file: renderer.js:262 ~ drawShape ~ child:",
@@ -439,6 +487,8 @@ const drawShape = (child, pixiObject) => {
 			true
 		);
 		pixiObject.closePath();
+		pixiObject.height = child.absoluteBoundingBox.height;
+		pixiObject.width = child.absoluteBoundingBox.width;
 	}
 
 	return pixiObject;
