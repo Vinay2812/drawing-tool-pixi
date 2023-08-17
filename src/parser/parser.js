@@ -145,10 +145,7 @@ const parsePolygon = (child, level, pixiObject, minX, minY, parentObject) => {
 		child?.fillGeometry?.length > 0 ? child.fillGeometry : null;
 	if (fillGeometry) {
 		console.log("fillGeometry", fillGeometry);
-		pixiObject.fillGeometry = fillGeometry.map((geometry) => {
-			geometry.data = convertToDrawPolygonData(geometry.data, child.type);
-			return geometry;
-		});
+		pixiObject.fillGeometry = fillGeometry
 	}
 	// let strokeGeometry =
 	//     child?.strokeGeometry?.length > 0 ? child.strokeGeometry : null;
