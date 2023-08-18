@@ -6,14 +6,6 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { renderFigmaJson } from '../renderer';
 
-// Create a PIXI Application
-const app = new PIXI.Application({
-  //   width: 1800,
-  //   height: 1800,
-  backgroundColor: 'red',
-  resizeTo: window
-});
-
 const FigmaRenderer = ({ figmaJson }) => {
   const [figmaJsonState, setFigmaJson] = React.useState(figmaJson);
   const [isUpdated, setIsUpdated] = React.useState(false);
@@ -23,7 +15,6 @@ const FigmaRenderer = ({ figmaJson }) => {
   useEffect(() => {
     // Render the Figma JSON inside the container element
     renderFigmaJson(
-      app,
       figmaJsonState,
       elementId,
       e => {

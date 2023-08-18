@@ -6,7 +6,9 @@ import { AnimatedGIF } from '@pixi/gif';
 import '@pixi/graphics-extras';
 import { drawSVGPath } from '../utils/layout';
 
-export const renderFigmaFromParsedJson = (parsedJson, setFigmaJson) => {
+let dragTarget = null;
+
+export const renderFigmaFromParsedJson = (app, parsedJson, setFigmaJson) => {
   const children = parsedJson.children;
   // console.log('🚀 ~ file: renderer.js:6 ~ renderFigmaFromParsedJson ~ children:', children);
   const container = new PIXI.Container();
@@ -14,7 +16,7 @@ export const renderFigmaFromParsedJson = (parsedJson, setFigmaJson) => {
   const screenWidth = children[0].absoluteBoundingBox.width;
   const screenHeight = children[0].absoluteBoundingBox.height;
   children.forEach((child, idx) => {
-    renderChild(child, container, screenWidth, screenHeight, parsedJson, ['children', idx], setFigmaJson);
+    renderChild(child, container, screenWidth, screenHeight, parsedJson, ['children', idx], setFigmaJson, app);
   });
   container.backgroundColor = 0xffffff;
   // const pixiChild = new PIXI.Graphics();
@@ -40,7 +42,16 @@ export const renderFigmaFromParsedJson = (parsedJson, setFigmaJson) => {
   return container;
 };
 
-const renderChild = async (child, parentContainer, screenWidth, screenHeight, originalJson, path = [], setFigmaJson) => {
+const renderChild = async (
+  child,
+  parentContainer,
+  screenWidth,
+  screenHeight,
+  originalJson,
+  path = [],
+  setFigmaJson,
+  app
+) => {
   if (!child) return;
   let pixiObject;
   switch (child.type) {
@@ -56,7 +67,7 @@ const renderChild = async (child, parentContainer, screenWidth, screenHeight, or
     case 'LINE':
     case 'INSTANCE':
     case 'ELLIPSE':
-      pixiObject = await renderPolygon(child, screenWidth, screenHeight, originalJson, path, setFigmaJson);
+      pixiObject = await renderPolygon(child, screenWidth, screenHeight, originalJson, path, setFigmaJson, app);
       break;
     case 'TEXT':
       pixiObject = await renderText(child, originalJson);
@@ -72,7 +83,16 @@ const renderChild = async (child, parentContainer, screenWidth, screenHeight, or
       if (grandchild.type === 'TEXT') {
         grandchild.parent = child;
       }
-      renderChild(grandchild, pixiObject, screenWidth, screenHeight, originalJson, [...path, 'children', idx], setFigmaJson);
+      renderChild(
+        grandchild,
+        pixiObject,
+        screenWidth,
+        screenHeight,
+        originalJson,
+        [...path, 'children', idx],
+        setFigmaJson,
+        app
+      );
     });
   }
 };
@@ -174,7 +194,7 @@ const dataImg = {
   i18n: null
 };
 
-const renderPolygon = async (child, screenWidth, screenHeight, originalJson, path = [], setFigmaJson) => {
+const renderPolygon = async (child, screenWidth, screenHeight, originalJson, path = [], setFigmaJson, app) => {
   if (!child.visible) return;
   // if (child.id === '72:325') {
   //   console.log('🚀 ~ file: renderer.js:93 ~ renderPolygon ~ child:', get(child, 'fills'));
@@ -419,6 +439,57 @@ const renderPolygon = async (child, screenWidth, screenHeight, originalJson, pat
         default:
       }
     });
+  }
+
+  // add drag controllers
+  if (child.dragConfig && child.dragConfig.canDrag) {
+    pixiObject.eventMode = 'static';
+    pixiObject.cursor = 'pointer';
+
+    // pixiObject.anchor.set(0.5);
+    // pixiObject.scale.set(3);
+
+    function onDragEnd() {
+      if (dragTarget) {
+        app.stage.off('pointermove', onDragMove);
+        dragTarget.alpha = 1;
+        dragTarget = null;
+      }
+    }
+
+    function onDragMove(event) {
+      if (dragTarget) {
+        const min = child.dragConfig.dragRange[0];
+        const max = child.dragConfig.dragRange[1];
+
+        function nearestStepIntersection(rangeStart, rangeEnd, step, value) {
+          if (value < rangeStart) return rangeStart;
+          if (value > rangeEnd) return rangeEnd;
+          return Math.round((value - rangeStart) / step) * step + rangeStart;
+        }
+
+        if (child.dragConfig.axis === '90')
+          dragTarget.y = Math.min(
+            Math.max(
+              nearestStepIntersection(min, max, child.dragConfig.stepSize, dragTarget.parent.toLocal(event.global).y),
+              min
+            ),
+            max
+          );
+        if (child.dragConfig.axis === '0')
+          dragTarget.x = Math.min(Math.max(dragTarget.parent.toLocal(event.global).x, min), max);
+      }
+    }
+
+    function onDragStart() {
+      this.alpha = 0.5;
+      dragTarget = this;
+      app.stage.on('pointermove', onDragMove);
+    }
+
+    pixiObject.on('pointerdown', onDragStart, pixiObject);
+    pixiObject.on('pointerup', onDragEnd);
+    pixiObject.on('pointerupoutside', onDragEnd);
   }
 
   return pixiObject;
