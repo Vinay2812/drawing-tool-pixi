@@ -3,6 +3,8 @@ import * as PIXI from "pixi.js";
 import { AnimatedGIF } from "@pixi/gif";
 import "@pixi/graphics-extras";
 import { drawSVGPath } from "../utils/layout";
+import TextInput from "./PIXI.TextInput";
+import { debounce } from "lodash";
 
 export const renderFigmaFromParsedJson = (children) => {
   console.log(
@@ -66,6 +68,11 @@ const renderChild = async (
     case "TEXT":
       pixiObject = await renderText(child);
       break;
+    case "INPUT":
+      pixiObject = await renderInput(child);
+      break;
+    default:
+      break;
   }
   if (parentContainer && pixiObject) {
     console.log(
@@ -76,7 +83,7 @@ const renderChild = async (
 
     parentContainer.addChild(pixiObject);
   }
-  if (child.children) {
+  if (child?.type !== "INPUT" && child.children) {
     child.children.forEach((grandchild) => {
       if (grandchild.type === "TEXT") {
         grandchild.parent = child;
@@ -154,6 +161,106 @@ const renderText = async (child) => {
   return wrapperPixiObject;
 };
 
+const renderInput = async (child) => {
+  console.log(child);
+  let pixiObject = new PIXI.Graphics();
+  pixiObject.zIndex = child.zIndex;
+
+  let fillColor =
+    child?.fills?.length > 0 && child.fills[0].visible && child.fills[0].color;
+
+  let strokesColor =
+    child?.strokes?.length > 0 &&
+    child.strokes[0].visible &&
+    child.strokes[0].color;
+
+  const textData = child?.children ? child?.children[0] : {};
+
+  const paddingX = textData?.relativeTransform?.x || 8;
+  const paddingY = textData?.relativeTransform?.y || 8;
+  const textColor =
+    textData?.fills?.length > 0 &&
+    textData.fills[0].visible &&
+    textData.fills[0].color;
+
+  const fontFamily = textData?.fontName?.family || "Arial"; // Default to 'Arial' if fontFamily is not provided
+  const fontSize = textData.fontSize || 12; // Default to 12 if fontSize is not provided
+  const fontWeight = textData.fontWeight || "500"; // Default to 'normal' if fontWeight is not provided
+  const textAlignHorizontal = textData.textAlignHorizontal || "left"; // Default to 'left' if textAlignHorizontal is not provided
+  const textDecoration = textData.textDecoration || "none"; // Default to 'none' if textDecoration is not provided
+
+  const lineHeightObj = textData.lineHeight || {};
+  let lineHeightValue = lineHeightObj.value || fontSize * 1.2; // Default to 1.2 times the fontSize if lineHeightValue is not provided
+  if (lineHeightObj.unit === "PERCENT") {
+    lineHeightValue = (lineHeightValue / 100) * fontSize;
+  }
+
+  const letterSpacingObj = textData.letterSpacing || {};
+  let letterSpacingValue = letterSpacingObj.value || 0; // Default to 0 if letterSpacingValue is not provided
+  if (letterSpacingObj.unit === "PERCENT") {
+    letterSpacingValue = (letterSpacingValue / 100) * fontSize;
+  }
+
+  const inputField = new TextInput({
+    input: {
+      fontFamily,
+      fontWeight,
+      letterSpacing: `${letterSpacingValue}px`,
+      textAlign: textAlignHorizontal,
+      textDecoration,
+      fontSize: `${fontSize}px`,
+      padding: `${paddingY}px ${paddingX}px`,
+      width: `${child.width - paddingX * 2}px`,
+      height: `${child.height - paddingY * 2}px`, // Set a specific height for multiline
+      color: "#26272E",
+      multiline: child.height - paddingY * 2 >= lineHeightValue * 2,
+    },
+    box: {
+      default: {
+        stroke: {
+          color: strokesColor || 0xcbcee0,
+          width: Number(child?.strokeWeight) || 0,
+        },
+        ...(fillColor ? { fill: fillColor } : {}),
+      },
+      focused: {
+        ...(fillColor ? { fill: fillColor } : {}),
+        stroke: { color: 0xabafc6, width: Number(child?.strokeWeight) || 0 },
+      },
+      disabled: {
+        fill: 0xdbdbdb,
+      },
+    },
+  });
+
+  inputField.placeholderColor = textColor;
+  inputField.placeholder = textData?.characters || "Type something...";
+
+  if (child.relativeTransform) {
+    let { x, y } = child.relativeTransform;
+    inputField.x = x;
+    inputField.y = y;
+  }
+
+  inputField.on(
+    "input",
+    debounce((event) => {
+      const inputValue = event; // Get the text from the input field
+
+      console.log("Input changed:", child.id, inputValue);
+    }, 500)
+  );
+
+  const ncontainer = new PIXI.Container();
+  ncontainer.addChild(inputField);
+
+  const pxChild = await renderPolygon(child, 0, 0);
+  pixiObject.addChild(pxChild);
+  pixiObject.addChild(ncontainer);
+
+  return pixiObject;
+};
+
 const renderPolygon = async (child, screenWidth, screenHeight) => {
   if (!child.visible) return;
   if (child.id === "72:325") {
@@ -183,8 +290,11 @@ const renderPolygon = async (child, screenWidth, screenHeight) => {
   // 	// pixiObject.width = 236;
   // 	// pixiObject.height = 316;
   // }
+
+  const fillOpacity = child?.fills?.length > 0 && child.fills[0].opacity;
+
   fillColor
-    ? pixiObject.beginFill(fillColor)
+    ? pixiObject.beginFill(fillColor, fillOpacity || 1)
     : pixiObject.beginFill(0xffffcc, 0);
   if (child.type !== "TEXT") {
     pixiObject = drawShape(child, pixiObject);
