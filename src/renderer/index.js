@@ -20,7 +20,7 @@ export const renderFigmaJson = (figmaJson, elementId) => {
       //   height: 1800,
       backgroundColor: "red",
       resizeTo: window,
-      antialias: true,
+    //   antialias: true,
     //   resolution: window.devicePixelRatio*3,
     });
 
