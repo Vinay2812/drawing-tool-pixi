@@ -52,6 +52,18 @@
       0
     ]
   ],
+  absoluteTransform: [
+    [
+      1,
+      0,
+      0
+    ],
+    [
+      0,
+      1,
+      0
+    ]
+  ],
   isMask: false,
   fills: [
     {
@@ -149,6 +161,18 @@
           270
         ]
       ],
+      absoluteTransform: [
+        [
+          1,
+          0,
+          54
+        ],
+        [
+          0,
+          1,
+          270
+        ]
+      ],
       isMask: false,
       fills: [],
       fillGeometry: [
@@ -205,6 +229,18 @@
               0,
               1,
               208
+            ]
+          ],
+          absoluteTransform: [
+            [
+              1,
+              0,
+              54
+            ],
+            [
+              0,
+              1,
+              478
             ]
           ],
           isMask: false,
@@ -265,6 +301,18 @@
                   0
                 ]
               ],
+              absoluteTransform: [
+                [
+                  1,
+                  0,
+                  54
+                ],
+                [
+                  0,
+                  1,
+                  478
+                ]
+              ],
               isMask: false,
               fills: [
                 {
@@ -293,7 +341,8 @@
               strokeGeometry: [],
               strokeAlign: "INSIDE",
               cornerRadius: 0,
-              cornerSmoothing: 0
+              cornerSmoothing: 0,
+              children: []
             },
             {
               id: "8:96",
@@ -338,6 +387,18 @@
                   52
                 ]
               ],
+              absoluteTransform: [
+                [
+                  1,
+                  0,
+                  54
+                ],
+                [
+                  0,
+                  1,
+                  530
+                ]
+              ],
               isMask: false,
               fills: [
                 {
@@ -366,7 +427,8 @@
               strokeGeometry: [],
               strokeAlign: "INSIDE",
               cornerRadius: 0,
-              cornerSmoothing: 0
+              cornerSmoothing: 0,
+              children: []
             }
           ],
           cornerSmoothing: 0,
@@ -439,6 +501,18 @@
               104
             ]
           ],
+          absoluteTransform: [
+            [
+              1,
+              0,
+              120
+            ],
+            [
+              0,
+              1,
+              374
+            ]
+          ],
           isMask: false,
           fills: [],
           fillGeometry: [
@@ -497,6 +571,18 @@
                   0
                 ]
               ],
+              absoluteTransform: [
+                [
+                  1,
+                  0,
+                  120
+                ],
+                [
+                  0,
+                  1,
+                  374
+                ]
+              ],
               isMask: false,
               fills: [
                 {
@@ -525,7 +611,8 @@
               strokeGeometry: [],
               strokeAlign: "INSIDE",
               cornerRadius: 0,
-              cornerSmoothing: 0
+              cornerSmoothing: 0,
+              children: []
             },
             {
               id: "8:99",
@@ -570,6 +657,18 @@
                   52
                 ]
               ],
+              absoluteTransform: [
+                [
+                  1,
+                  0,
+                  120
+                ],
+                [
+                  0,
+                  1,
+                  426
+                ]
+              ],
               isMask: false,
               fills: [
                 {
@@ -598,7 +697,8 @@
               strokeGeometry: [],
               strokeAlign: "INSIDE",
               cornerRadius: 0,
-              cornerSmoothing: 0
+              cornerSmoothing: 0,
+              children: []
             },
             {
               id: "8:100",
@@ -643,6 +743,18 @@
                   104
                 ]
               ],
+              absoluteTransform: [
+                [
+                  1,
+                  0,
+                  120
+                ],
+                [
+                  0,
+                  1,
+                  478
+                ]
+              ],
               isMask: false,
               fills: [
                 {
@@ -671,7 +783,8 @@
               strokeGeometry: [],
               strokeAlign: "INSIDE",
               cornerRadius: 0,
-              cornerSmoothing: 0
+              cornerSmoothing: 0,
+              children: []
             },
             {
               id: "8:101",
@@ -716,6 +829,18 @@
                   156
                 ]
               ],
+              absoluteTransform: [
+                [
+                  1,
+                  0,
+                  120
+                ],
+                [
+                  0,
+                  1,
+                  530
+                ]
+              ],
               isMask: false,
               fills: [
                 {
@@ -744,7 +869,8 @@
               strokeGeometry: [],
               strokeAlign: "INSIDE",
               cornerRadius: 0,
-              cornerSmoothing: 0
+              cornerSmoothing: 0,
+              children: []
             }
           ],
           cornerSmoothing: 0,
@@ -817,6 +943,18 @@
               0
             ]
           ],
+          absoluteTransform: [
+            [
+              1,
+              0,
+              186
+            ],
+            [
+              0,
+              1,
+              270
+            ]
+          ],
           isMask: false,
           fills: [],
           fillGeometry: [
@@ -875,6 +1013,18 @@
                   0
                 ]
               ],
+              absoluteTransform: [
+                [
+                  1,
+                  0,
+                  186
+                ],
+                [
+                  0,
+                  1,
+                  270
+                ]
+              ],
               isMask: false,
               fills: [
                 {
@@ -903,7 +1053,8 @@
               strokeGeometry: [],
               strokeAlign: "INSIDE",
               cornerRadius: 0,
-              cornerSmoothing: 0
+              cornerSmoothing: 0,
+              children: []
             },
             {
               id: "8:104",
@@ -948,6 +1099,18 @@
                   52
                 ]
               ],
+              absoluteTransform: [
+                [
+                  1,
+                  0,
+                  186
+                ],
+                [
+                  0,
+                  1,
+                  322
+                ]
+              ],
               isMask: false,
               fills: [
                 {
@@ -976,7 +1139,8 @@
               strokeGeometry: [],
               strokeAlign: "INSIDE",
               cornerRadius: 0,
-              cornerSmoothing: 0
+              cornerSmoothing: 0,
+              children: []
             },
             {
               id: "8:105",
@@ -1021,6 +1185,18 @@
                   104
                 ]
               ],
+              absoluteTransform: [
+                [
+                  1,
+                  0,
+                  186
+                ],
+                [
+                  0,
+                  1,
+                  374
+                ]
+              ],
               isMask: false,
               fills: [
                 {
@@ -1049,7 +1225,8 @@
               strokeGeometry: [],
               strokeAlign: "INSIDE",
               cornerRadius: 0,
-              cornerSmoothing: 0
+              cornerSmoothing: 0,
+              children: []
             },
             {
               id: "8:106",
@@ -1094,6 +1271,18 @@
                   156
                 ]
               ],
+              absoluteTransform: [
+                [
+                  1,
+                  0,
+                  186
+                ],
+                [
+                  0,
+                  1,
+                  426
+                ]
+              ],
               isMask: false,
               fills: [
                 {
@@ -1122,7 +1311,8 @@
               strokeGeometry: [],
               strokeAlign: "INSIDE",
               cornerRadius: 0,
-              cornerSmoothing: 0
+              cornerSmoothing: 0,
+              children: []
             },
             {
               id: "8:107",
@@ -1167,6 +1357,18 @@
                   208
                 ]
               ],
+              absoluteTransform: [
+                [
+                  1,
+                  0,
+                  186
+                ],
+                [
+                  0,
+                  1,
+                  478
+                ]
+              ],
               isMask: false,
               fills: [
                 {
@@ -1195,7 +1397,8 @@
               strokeGeometry: [],
               strokeAlign: "INSIDE",
               cornerRadius: 0,
-              cornerSmoothing: 0
+              cornerSmoothing: 0,
+              children: []
             },
             {
               id: "8:108",
@@ -1240,6 +1443,18 @@
                   260
                 ]
               ],
+              absoluteTransform: [
+                [
+                  1,
+                  0,
+                  186
+                ],
+                [
+                  0,
+                  1,
+                  530
+                ]
+              ],
               isMask: false,
               fills: [
                 {
@@ -1268,7 +1483,8 @@
               strokeGeometry: [],
               strokeAlign: "INSIDE",
               cornerRadius: 0,
-              cornerSmoothing: 0
+              cornerSmoothing: 0,
+              children: []
             }
           ],
           cornerSmoothing: 0,
@@ -1341,6 +1557,18 @@
               0
             ]
           ],
+          absoluteTransform: [
+            [
+              1,
+              0,
+              252
+            ],
+            [
+              0,
+              1,
+              270
+            ]
+          ],
           isMask: false,
           fills: [],
           fillGeometry: [
@@ -1399,6 +1627,18 @@
                   0
                 ]
               ],
+              absoluteTransform: [
+                [
+                  1,
+                  0,
+                  252
+                ],
+                [
+                  0,
+                  1,
+                  270
+                ]
+              ],
               isMask: false,
               fills: [],
               fillGeometry: [
@@ -1452,6 +1692,18 @@
                       0
                     ]
                   ],
+                  absoluteTransform: [
+                    [
+                      1,
+                      0,
+                      252
+                    ],
+                    [
+                      0,
+                      1,
+                      270
+                    ]
+                  ],
                   isMask: false,
                   fills: [
                     {
@@ -1480,7 +1732,8 @@
                   strokeGeometry: [],
                   strokeAlign: "INSIDE",
                   cornerRadius: 0,
-                  cornerSmoothing: 0
+                  cornerSmoothing: 0,
+                  children: []
                 },
                 {
                   id: "8:112",
@@ -1523,6 +1776,18 @@
                       0,
                       1,
                       10
+                    ]
+                  ],
+                  absoluteTransform: [
+                    [
+                      1,
+                      0,
+                      266
+                    ],
+                    [
+                      0,
+                      1,
+                      280
                     ]
                   ],
                   isMask: false,
@@ -1583,6 +1848,18 @@
                           0
                         ]
                       ],
+                      absoluteTransform: [
+                        [
+                          1,
+                          0,
+                          266
+                        ],
+                        [
+                          0,
+                          1,
+                          280
+                        ]
+                      ],
                       isMask: false,
                       fills: [
                         {
@@ -1609,7 +1886,8 @@
                       strokeCap: "NONE",
                       strokeJoin: "MITER",
                       strokeGeometry: [],
-                      strokeAlign: "INSIDE"
+                      strokeAlign: "INSIDE",
+                      children: []
                     },
                     {
                       id: "8:114",
@@ -1654,6 +1932,18 @@
                           30
                         ]
                       ],
+                      absoluteTransform: [
+                        [
+                          -1,
+                          -1.2246468525851679e-16,
+                          288
+                        ],
+                        [
+                          1.2246468525851679e-16,
+                          -1,
+                          310
+                        ]
+                      ],
                       isMask: false,
                       fills: [
                         {
@@ -1680,7 +1970,8 @@
                       strokeCap: "NONE",
                       strokeJoin: "MITER",
                       strokeGeometry: [],
-                      strokeAlign: "INSIDE"
+                      strokeAlign: "INSIDE",
+                      children: []
                     },
                     {
                       id: "8:115",
@@ -1725,6 +2016,18 @@
                           11
                         ]
                       ],
+                      absoluteTransform: [
+                        [
+                          1,
+                          0,
+                          273
+                        ],
+                        [
+                          0,
+                          1,
+                          291
+                        ]
+                      ],
                       isMask: false,
                       fills: [
                         {
@@ -1756,7 +2059,8 @@
                         startingAngle: 0,
                         endingAngle: 6.2831854820251465,
                         innerRadius: 0
-                      }
+                      },
+                      children: []
                     }
                   ],
                   cornerSmoothing: 0,
@@ -1857,6 +2161,18 @@
                   52
                 ]
               ],
+              absoluteTransform: [
+                [
+                  1,
+                  0,
+                  252
+                ],
+                [
+                  0,
+                  1,
+                  322
+                ]
+              ],
               isMask: false,
               fills: [
                 {
@@ -1885,7 +2201,8 @@
               strokeGeometry: [],
               strokeAlign: "INSIDE",
               cornerRadius: 0,
-              cornerSmoothing: 0
+              cornerSmoothing: 0,
+              children: []
             },
             {
               id: "8:117",
@@ -1930,6 +2247,18 @@
                   104
                 ]
               ],
+              absoluteTransform: [
+                [
+                  1,
+                  0,
+                  252
+                ],
+                [
+                  0,
+                  1,
+                  374
+                ]
+              ],
               isMask: false,
               fills: [
                 {
@@ -1958,7 +2287,8 @@
               strokeGeometry: [],
               strokeAlign: "INSIDE",
               cornerRadius: 0,
-              cornerSmoothing: 0
+              cornerSmoothing: 0,
+              children: []
             },
             {
               id: "8:118",
@@ -2003,6 +2333,18 @@
                   156
                 ]
               ],
+              absoluteTransform: [
+                [
+                  1,
+                  0,
+                  252
+                ],
+                [
+                  0,
+                  1,
+                  426
+                ]
+              ],
               isMask: false,
               fills: [
                 {
@@ -2031,7 +2373,8 @@
               strokeGeometry: [],
               strokeAlign: "INSIDE",
               cornerRadius: 0,
-              cornerSmoothing: 0
+              cornerSmoothing: 0,
+              children: []
             },
             {
               id: "8:119",
@@ -2076,6 +2419,18 @@
                   208
                 ]
               ],
+              absoluteTransform: [
+                [
+                  1,
+                  0,
+                  252
+                ],
+                [
+                  0,
+                  1,
+                  478
+                ]
+              ],
               isMask: false,
               fills: [
                 {
@@ -2104,7 +2459,8 @@
               strokeGeometry: [],
               strokeAlign: "INSIDE",
               cornerRadius: 0,
-              cornerSmoothing: 0
+              cornerSmoothing: 0,
+              children: []
             },
             {
               id: "8:120",
@@ -2149,6 +2505,18 @@
                   260
                 ]
               ],
+              absoluteTransform: [
+                [
+                  1,
+                  0,
+                  252
+                ],
+                [
+                  0,
+                  1,
+                  530
+                ]
+              ],
               isMask: false,
               fills: [
                 {
@@ -2177,7 +2545,8 @@
               strokeGeometry: [],
               strokeAlign: "INSIDE",
               cornerRadius: 0,
-              cornerSmoothing: 0
+              cornerSmoothing: 0,
+              children: []
             }
           ],
           cornerSmoothing: 0,

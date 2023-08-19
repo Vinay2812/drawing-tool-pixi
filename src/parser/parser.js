@@ -13,7 +13,33 @@ import {
 import rectangleKeys from "../keys/rectangle";
 import textKeys from "../keys/text";
 
+const getImageHashes = (obj) => {
+    let hashes = [];
+
+    if (Array.isArray(obj)) {
+        obj.forEach((item) => {
+            hashes = hashes.concat(getImageHashes(item));
+        });
+    } else if (obj && typeof obj === "object") {
+        if (obj.imageRef) {
+            console.log("🚀 ~ file: controller.ts:158 ~ getImageHashes ~ obj.imageRef:", obj.imageRef)
+            const imageRef = obj.imageRef;
+            if (imageRef) {
+                const imageHash = imageRef.split("/").pop();
+                hashes.push(imageHash);
+            }
+        }
+        for (const key in obj) {
+            hashes = hashes.concat(getImageHashes(obj[key]));
+        }
+    }
+
+    return hashes;
+};
+
 export const parseFigmaJson = (figmaJson) => {
+    const imageHashes = getImageHashes(figmaJson);
+    console.log("🚀 ~ file: parser.js:42 ~ parseFigmaJson ~ imageHashes:", imageHashes)
 	const children = [figmaJson];
 	const { minX, minY } = calculateMinXY(children);
 	const parsedChildren = children.map((child) => {
@@ -75,7 +101,7 @@ const parseChild = (child, level, minX, minY, parentObject = null) => {
 		case "VECTOR":
 		case "STAR":
 		case "LINE":
-        case "INSTANCE":
+		case "INSTANCE":
 		case "ELLIPSE":
 			return parsePolygon(
 				child,
@@ -86,7 +112,7 @@ const parseChild = (child, level, minX, minY, parentObject = null) => {
 				parentObject
 			);
 		case "TEXT":
-			return parseText(child, level, pixiObject, parentObject);
+			return parseText(child, level, pixiObject);
 		default:
 			console.log("🚀 ~ file: parser.js:106 ~ parseChild ~ child", child);
 	}
@@ -97,14 +123,14 @@ const parseCanvas = (child, level, pixiObject) => {
 	return pixiObject;
 };
 
-const parseText = (child, level, pixiObject, parentObject) => {
-    pixiObject.zIndex = level;
-    pixiObject = {
-        ...pixiObject,
-        ...child,
-        parent: parentObject,
-    }
-    return pixiObject;
+const parseText = (child, level, pixiObject) => {
+	pixiObject.zIndex = level;
+	pixiObject = {
+		...pixiObject,
+		...child,
+	};
+	pixiObject = parsePolygon(child, level, pixiObject);
+	return pixiObject;
 };
 
 const parsePolygon = (child, level, pixiObject, minX, minY, parentObject) => {
@@ -145,10 +171,7 @@ const parsePolygon = (child, level, pixiObject, minX, minY, parentObject) => {
 		child?.fillGeometry?.length > 0 ? child.fillGeometry : null;
 	if (fillGeometry) {
 		console.log("fillGeometry", fillGeometry);
-		pixiObject.fillGeometry = fillGeometry.map((geometry) => {
-			geometry.data = convertToDrawPolygonData(geometry.data, child.type);
-			return geometry;
-		});
+		pixiObject.fillGeometry = fillGeometry
 	}
 	// let strokeGeometry =
 	//     child?.strokeGeometry?.length > 0 ? child.strokeGeometry : null;
@@ -170,7 +193,7 @@ const parsePolygon = (child, level, pixiObject, minX, minY, parentObject) => {
 			pixiObject
 		);
 	}
-    // pixiObject.parent = parentObject;
+	// pixiObject.parent = parentObject;
 
 	return pixiObject;
 };
