@@ -8,10 +8,6 @@ import "@pixi/graphics-extras";
 import { drawSVGPath, fillSVGPath, parseColor } from "../utils/layout";
 
 export const renderFigmaFromParsedJson = (children) => {
-	console.log(
-		"🚀 ~ file: renderer.js:6 ~ renderFigmaFromParsedJson ~ children:",
-		children
-	);
 	const container = new PIXI.Container();
 	container.sortableChildren = true;
 	const screenWidth = children[0].absoluteBoundingBox.width;
@@ -62,12 +58,6 @@ const renderChild = async (
 			break;
 	}
 	if (parentContainer && pixiObject) {
-		console.log(
-			"🚀 ~ file: renderer.js:35 ~ renderChild ~ parentContainer:",
-			parentContainer,
-			pixiObject
-		);
-
 		parentContainer.addChild(pixiObject);
 	}
 	if (child.children) {
@@ -88,8 +78,6 @@ const renderCanvas = (child) => {
 
 const renderText = async (child) => {
 	if (!child.visible) return;
-	console.log("🚀 ~ file: renderer.js:84 ~ renderText ~ child:", child);
-
 	const fontNameObj = child.fontName || {};
 	const fontFamily = fontNameObj.family || "Arial"; // Default to 'Arial' if fontFamily is not provided
 	const fontStyle = fontNameObj.style || "normal"; // Default to 'normal' if fontStyle is not provided
@@ -121,10 +109,6 @@ const renderText = async (child) => {
 	// 	);
 	// 	wrapperPixiObject.endFill();
 	// }
-	console.log(
-		"🚀 ~ file: renderer.js:107 ~ renderText ~ wrapperPixiObject:",
-		wrapperPixiObject
-	);
 	// wrapperPixiObject.width = child.absoluteBoundingBox.width;
 	// wrapperPixiObject.height = child.absoluteBoundingBox.height;
 
@@ -230,54 +214,22 @@ const renderPolygon = async (child, screenWidth, screenHeight) => {
 							: fill?.color
 					);
 			} else if (fill.type === "IMAGE") {
-				console.log(
-					"🚀 ~ file: renderer.js:236 ~ child.fills.forEach ~ fill:",
-					fill
-				);
 				const gifRef = fill.gifRef;
-				console.log(
-					"🚀 ~ file: renderer.js:238 ~ child.fills.forEach ~ gifRef:",
-					gifRef
-				);
-
-				const imageUrl = fill.gifRef;
+				const imageUrl = fill.imageRef;
 				let imageTexture;
-				try {
-					imageTexture = PIXI.Texture.from(imageUrl); // Load the texture
-				} catch (e) {
-					console.log(
-						"🚀 ~ file: renderer.js:245 ~ child.fills.forEach ~ e:",
-						e
-					);
-					return;
-				}
+                imageTexture = imageUrl && PIXI.Texture.from(imageUrl); // Load the texture
 
 				if (gifRef) {
 					imageSprite = await fetch(gifRef)
 						.then((res) => {
-							// console.log(
-							// 	"🚀 ~ file: renderer.js:254 ~ .then ~ res:",
-							// 	res.arrayBuffer()
-							// );
-
 							return res.arrayBuffer();
 						})
-						.then((buff)=>{
-                            console.log("🚀 ~ file: renderer.js:259 ~ .then ~ buff:", buff);
-                            return AnimatedGIF.fromBuffer(buff)
-                        })
+						.then((buff) => {
+							return AnimatedGIF.fromBuffer(buff);
+						})
 						.then((image) => pixiChild.addChild(image))
-						.catch((e) => {
-							console.log("🚀 ~ file: renderer.js:259 ~ e:", e);
-						});
-					console.log(
-						"🚀 ~ file: renderer.js:256 ~ child.fills.forEach ~ gifRef:",
-						gifRef,
-						imageSprite
-					);
 				} else {
 					imageSprite = new PIXI.Sprite(imageTexture);
-					return;
 				}
 
 				imageSprite.blendMode = PIXI.BLEND_MODES.NORMAL; // Adjust blend mode if needed
@@ -417,11 +369,6 @@ const renderPolygon = async (child, screenWidth, screenHeight) => {
 					// pixiObject.beginFill(0x0000ff);
 					// pixiObject.drawRect(0, 0, child.absoluteBoundingBox.width, child.absoluteBoundingBox.height);
 					// pixiObject.endFill();
-					console.log(
-						"🚀 ~ file: renderer.js:222 ~ renderPolygon ~ pixiObject:",
-						child,
-						pixiObject
-					);
 				}
 
 				filters.push(filter);
