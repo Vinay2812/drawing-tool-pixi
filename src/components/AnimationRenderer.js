@@ -1,19 +1,8 @@
 import Matter from 'matter-js';
 
 function AnimaionRenderer(props) {
-  const { app, type, other } = props;
-  const engine = Matter.Engine.create();
-  const currentElement = document.getElementById('matterJs');
-  let render = Matter.Render.create({
-    element: currentElement,
-    engine: engine,
-    options: {
-      width: 1870,
-      height: 944,
-      wireframes: false,
-      background: 'transparent'
-    }
-  });
+  const { engine, app, type, other } = props;
+
   const { World, Bodies, Constraint, Body, Events, Composite, Vector } = Matter;
 
   if (type == 'balloon') {
@@ -35,7 +24,8 @@ function AnimaionRenderer(props) {
     balloonSprite.y += balloonSprite.height / 2;
 
     const ground = Bodies.rectangle(groundSprite.x, groundSprite.y, groundSprite.width, groundSprite.height, {
-      isStatic: true
+      isStatic: true,
+      label: groundName
     });
     const balloon = Bodies.circle(
       balloonSprite.x - Math.max(balloonSprite.width, balloonSprite.height) / 2,
@@ -148,9 +138,9 @@ function AnimaionRenderer(props) {
     const body1Sprite = app.stage.getChildByName(weight1Name);
     const body2Sprite = app.stage.getChildByName(weight2Name);
 
-    groundSprite.pivot.set(groundSprite.width / 2, groundSprite.height / 2);
-    groundSprite.x += groundSprite.width / 2;
-    groundSprite.y += groundSprite.height / 2;
+    // groundSprite.pivot.set(groundSprite.width / 2, groundSprite.height / 2);
+    // groundSprite.x += groundSprite.width / 2;
+    // groundSprite.y += groundSprite.height / 2;
 
     catapultSprite.pivot.set(catapultSprite.width / 2, catapultSprite.height / 2);
     catapultSprite.x += catapultSprite.width / 2;
@@ -164,10 +154,11 @@ function AnimaionRenderer(props) {
     body2Sprite.x += body2Sprite.width / 2;
     body2Sprite.y += body2Sprite.height / 2;
 
-    const ground = Bodies.rectangle(groundSprite.x, groundSprite.y, groundSprite.width, groundSprite.height, {
-      isStatic: true
-    });
-
+    // const hasGround = engine.world.bodies.filter(b => b.label == groundName).length > 0;
+    // const ground = Bodies.rectangle(groundSprite.x, groundSprite.y, groundSprite.width, groundSprite.height, {
+    //   isStatic: true,
+    //   label: groundName
+    // });
     const catapult = Bodies.rectangle(catapultSprite.x, catapultSprite.y, catapultSprite.width, catapultSprite.height, {
       collisionFilter: { group: group }
     });
@@ -180,7 +171,7 @@ function AnimaionRenderer(props) {
       mass: weight2Mass
     });
     Composite.add(engine.world, [
-      ground,
+      // ground,
       catapult,
       body1,
       body2,
@@ -215,9 +206,6 @@ function AnimaionRenderer(props) {
       updateSprites();
     });
   }
-
-  Matter.Runner.run(engine);
-  Matter.Render.run(render);
 }
 
 export default AnimaionRenderer;

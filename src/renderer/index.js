@@ -71,7 +71,46 @@ export const renderFigmaJson = (app, figmaJson, elementId, props) => {
     body2.drawRect(0, 0, 40, 40);
     body2.endFill();
     app.stage.addChild(body2);
+    const engine = Matter.Engine.create();
+    const currentElement = document.getElementById('matterJs');
+    let render = Matter.Render.create({
+      element: currentElement,
+      engine: engine,
+      options: {
+        width: 1870,
+        height: 944,
+        wireframes: false,
+        background: 'transparent'
+      }
+    });
+    Matter.Runner.run(engine);
+    Matter.Render.run(render);
+  }
+  if (canvas && clicked) {
     // AnimaionRenderer({
+    // engine,
+    //   app,
+    //   type: 'balloon',
+    //   other: {
+    //     balloonName: 'balloonSprite',
+    //     weightName: 'rectangleSprite',
+    //     groundName: 'groundSprite',
+    //     ballonMass: 1,
+    //     weightMass: 1,
+    //     ballonForce: { x: 0, y: -0.002 }
+    //   }
+    // });
+    // AnimaionRenderer({
+    // engine,
+    //   app,
+    //   type: 'rotate',
+    //   other: {
+    //     groundName: 'rectangleSprite1',
+    //     speed: 0.1
+    //   }
+    // });
+    // AnimaionRenderer({
+    // engine,
     //   app,
     //   type: 'seesaw',
     //   other: {
@@ -83,49 +122,5 @@ export const renderFigmaJson = (app, figmaJson, elementId, props) => {
     //     weight2Mass: 1
     //   }
     // });
-    // AnimaionRenderer({
-    //   app,
-    //   type: 'balloon',
-    //   other: {
-    //     balloonName: 'balloonSprite',
-    //     weightName: 'rectangleSprite',
-    //     groundName: 'groundSprite',
-    //     ballonMass: 1,
-    //     weightMass: 1,
-    //     ballonForce: { x: 0, y: -0.002 }
-    //   }
-    // });
-  }
-  if (canvas && clicked) {
-    // AnimaionRenderer({
-    //   app,
-    //   type: 'balloon',
-    //   other: {
-    //     balloonName: 'balloonSprite',
-    //     weightName: 'rectangleSprite',
-    //     groundName: 'groundSprite',
-    //     ballonMass: 1,
-    //     weightMass: 1,
-    //     ballonForce: { x: 0, y: -0.002 }
-    //   }
-    // });
-    // AnimaionRenderer({
-    //   app,
-    //   type: 'rotate',
-    //   other: {
-    //     groundName: 'rectangleSprite1',
-    //     speed: 0.1
-    //   }
-    // });
-    AnimaionRenderer({
-      app,
-      type: 'seesaw',
-      other: {
-        groundName: 'groundSprite',
-        weight1Name: 'body1',
-        weight2Name: 'body2',
-        seesawName: 'catapult'
-      }
-    });
   }
 };
