@@ -1,6 +1,12 @@
+const axios = require("axios");
+const fs = require("fs");
+
 // CONSTANTS
-const ACCESS_TOKEN = "figd_2IJungaIDY7IDq0MjWDJit5hur_N5g3F9mfj7pq1";
+// FIGMA
+const ACCESS_TOKEN = "figd_icnuQc-GqAz-jhQ0YBFus9byzWlroQ5al6FGBBsr";
 const FILE_KEY = "ixE1TVyHYZObrzeNW1wvrD";
+
+// S3
 const BUCKET_NAME = "sets-gamify-assets";
 const FILE_PATH = "dev/figma/assets/";
 const S3_PRESIGN_URL =
@@ -64,37 +70,51 @@ const uploadToS3 = async (imageMap) => {
       const filename = element;
 
       try {
-        const response = await fetch(imageMap[element]);
-        if (!response.ok) {
-          throw new Error(
-            `Failed to fetch file from URL: ${imageMap[element]}`
-          );
-        }
+        const response = await axios({
+          method: "GET",
+          url: imageMap[element],
+          responseType: "stream", // Set the response type to 'stream'
+        });
 
-        const fileBlob = await response.blob();
-        const contentType = fileBlob.type;
+        const contentType = response.headers["content-type"];
+
+        // Pipe the response stream to a local file
+        response.data.pipe(fs.createWriteStream(`data/${filename}`));
+
+        // Wait for the download to complete
+        await new Promise((resolve, reject) => {
+          response.data.on("end", resolve);
+          response.data.on("error", reject);
+        });
 
         const { url, bucket_url } = await getPresignedURL(filename);
 
-        const headers = new Headers();
-        headers.append("Content-Type", contentType);
+        const fileContent = fs.readFileSync(`data/${filename}`);
 
-        const uploadResponse = await fetch(url, {
-          method: "PUT",
-          headers,
-          body: fileBlob,
+        const uploadResponse = await axios.put(url, fileContent, {
+          headers: {
+            "Content-Type": contentType, // Set the content type appropriately
+          },
         });
 
-        if (uploadResponse.ok) {
-          const uploadedImageUrl = replaceUrl(bucket_url);
-          console.log("File uploaded successfully: ", uploadedImageUrl);
+        try {
+          fs.unlinkSync(`data/${filename}`);
+        } catch (error) {
+          console.error("Error deleting local file:", error);
+        }
 
+        if (uploadResponse.status === 200) {
+          const uploadedImageUrl = replaceUrl(bucket_url);
+          // console.log("File uploaded successfully: ", uploadedImageUrl, i);
           updatedImageMap[element] = {
             type: contentType,
             url: uploadedImageUrl,
           };
         } else {
-          console.log("Failed to upload file", uploadResponse);
+          console.log(
+            "Failed to upload file to S3 using presigned URL:",
+            uploadResponse.data
+          );
         }
       } catch (error) {
         console.log("Error:", error);
