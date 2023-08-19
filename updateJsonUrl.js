@@ -1,5 +1,4 @@
 const axios = require("axios");
-const fs = require("fs");
 
 // CONSTANTS
 // FIGMA
@@ -73,35 +72,20 @@ const uploadToS3 = async (imageMap) => {
         const response = await axios({
           method: "GET",
           url: imageMap[element],
-          responseType: "stream", // Set the response type to 'stream'
+          responseType: "arraybuffer",
         });
 
         const contentType = response.headers["content-type"];
 
-        // Pipe the response stream to a local file
-        response.data.pipe(fs.createWriteStream(`data/${filename}`));
-
-        // Wait for the download to complete
-        await new Promise((resolve, reject) => {
-          response.data.on("end", resolve);
-          response.data.on("error", reject);
-        });
-
         const { url, bucket_url } = await getPresignedURL(filename);
 
-        const fileContent = fs.readFileSync(`data/${filename}`);
+        const fileContent = response.data;
 
         const uploadResponse = await axios.put(url, fileContent, {
           headers: {
             "Content-Type": contentType, // Set the content type appropriately
           },
         });
-
-        try {
-          fs.unlinkSync(`data/${filename}`);
-        } catch (error) {
-          console.error("Error deleting local file:", error);
-        }
 
         if (uploadResponse.status === 200) {
           const uploadedImageUrl = replaceUrl(bucket_url);
