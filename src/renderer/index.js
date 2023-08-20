@@ -65,12 +65,29 @@ export const renderFigmaJson = (app, figmaJson, elementId, props) => {
     app.stage.addChild(body1);
 
     const body2 = new PIXI.Graphics();
-    body2.beginFill(0xff0000);
+    body2.beginFill(0x0f4020);
     body2.name = 'body2';
-    body2.position.set(catapult.position.x + catapult.width - 20 - 40, catapult.position.y - 50);
+    body2.position.set(catapult.position.x + 80, catapult.position.y - 50);
     body2.drawRect(0, 0, 40, 40);
     body2.endFill();
     app.stage.addChild(body2);
+
+    const body3 = new PIXI.Graphics();
+    body3.beginFill(0xff0000);
+    body3.name = 'body3';
+    body3.position.set(catapult.position.x + catapult.width - 80 - 40, catapult.position.y - 50);
+    body3.drawRect(0, 0, 40, 40);
+    body3.endFill();
+    app.stage.addChild(body3);
+
+    const body4 = new PIXI.Graphics();
+    body4.beginFill(0x0f4020);
+    body4.name = 'body4';
+    body4.position.set(catapult.position.x + catapult.width - 20 - 40, catapult.position.y - 50);
+    body4.drawRect(0, 0, 40, 40);
+    body4.endFill();
+    app.stage.addChild(body4);
+
     const engine = Matter.Engine.create();
     const currentElement = document.getElementById('matterJs');
     let render = Matter.Render.create({
@@ -83,6 +100,19 @@ export const renderFigmaJson = (app, figmaJson, elementId, props) => {
         background: 'transparent'
       }
     });
+    // AnimaionRenderer({
+    //   engine,
+    //   app,
+    //   type: 'seesaw',
+    //   other: {
+    //     groundName: 'groundSprite',
+    //     weight1Names: ['body1', 'body2'],
+    //     weight2Names: ['body4', 'body3'],
+    //     seesawName: 'catapult',
+    //     weight1Mass: 1,
+    //     weight2Mass: 1
+    //   }
+    // });
     Matter.Runner.run(engine);
     Matter.Render.run(render);
   }

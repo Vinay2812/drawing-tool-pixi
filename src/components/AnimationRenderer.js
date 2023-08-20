@@ -132,49 +132,64 @@ function AnimaionRenderer(props) {
     });
   } else if (type == 'seesaw') {
     var group = Body.nextGroup(true);
-    const { groundName, weight1Name, weight2Name, seesawName, weight1Mass, weight2Mass } = other;
+    const { groundName, weight1Names, weight2Names, seesawName, weight1Mass, weight2Mass } = other;
     const groundSprite = app.stage.getChildByName(groundName);
     const catapultSprite = app.stage.getChildByName(seesawName);
-    const body1Sprite = app.stage.getChildByName(weight1Name);
-    const body2Sprite = app.stage.getChildByName(weight2Name);
-
-    // groundSprite.pivot.set(groundSprite.width / 2, groundSprite.height / 2);
-    // groundSprite.x += groundSprite.width / 2;
-    // groundSprite.y += groundSprite.height / 2;
 
     catapultSprite.pivot.set(catapultSprite.width / 2, catapultSprite.height / 2);
     catapultSprite.x += catapultSprite.width / 2;
     catapultSprite.y += catapultSprite.height / 2;
 
-    body1Sprite.pivot.set(body1Sprite.width / 2, body1Sprite.height / 2);
-    body1Sprite.x += body1Sprite.width / 2;
-    body1Sprite.y += body1Sprite.height / 2;
-
-    body2Sprite.pivot.set(body2Sprite.width / 2, body2Sprite.height / 2);
-    body2Sprite.x += body2Sprite.width / 2;
-    body2Sprite.y += body2Sprite.height / 2;
-
-    // const hasGround = engine.world.bodies.filter(b => b.label == groundName).length > 0;
-    // const ground = Bodies.rectangle(groundSprite.x, groundSprite.y, groundSprite.width, groundSprite.height, {
-    //   isStatic: true,
-    //   label: groundName
-    // });
     const catapult = Bodies.rectangle(catapultSprite.x, catapultSprite.y, catapultSprite.width, catapultSprite.height, {
       collisionFilter: { group: group }
+      // isStatic: true
     });
 
-    const body1 = Bodies.rectangle(body1Sprite.x, body1Sprite.y, body1Sprite.width, body1Sprite.height, {
-      mass: weight1Mass
+    const elements = [];
+    if (!checkMatterJsElement(groundName, groundSprite, engine)) {
+      const ground = Bodies.rectangle(groundSprite.x, groundSprite.y, groundSprite.width, groundSprite.height, {
+        isStatic: true,
+        label: groundName
+      });
+      elements.push(ground);
+    }
+
+    const leftSprites = [];
+    const rightSprites = [];
+
+    weight1Names.forEach(name => {
+      const sprite = app.stage.getChildByName(name);
+      leftSprites.push(sprite);
+    });
+    weight2Names.forEach(name => {
+      const sprite = app.stage.getChildByName(name);
+      rightSprites.push(sprite);
     });
 
-    const body2 = Bodies.rectangle(body2Sprite.x, body2Sprite.y, body2Sprite.width, body2Sprite.height, {
-      mass: weight2Mass
+    const leftBodies = [];
+    const rightBodies = [];
+    leftSprites.forEach((sprite, i) => {
+      if (!checkMatterJsElement(sprite.name, sprite, engine)) {
+        const body = Bodies.rectangle(sprite.x, sprite.y, sprite.width, sprite.height, {
+          // mass: weight1Mass
+        });
+        leftBodies.push(body);
+        elements.push(body);
+      }
     });
+    rightSprites.forEach((sprite, i) => {
+      if (!checkMatterJsElement(sprite.name, sprite, engine)) {
+        const body = Bodies.rectangle(sprite.x, sprite.y, sprite.width, sprite.height, {
+          // mass: weight2Mass
+        });
+        rightBodies.push(body);
+        elements.push(body);
+      }
+    });
+
     Composite.add(engine.world, [
-      // ground,
+      ...elements,
       catapult,
-      body1,
-      body2,
       Constraint.create({
         bodyA: catapult,
         pointB: Vector.clone(catapult.position),
@@ -183,21 +198,32 @@ function AnimaionRenderer(props) {
     ]);
 
     Matter.Events.on(engine, 'collisionActive', () => {
-      // Iterate through all bodies in the world
-      if (Math.abs(catapult.angle) < 0.00001) {
+      if (Math.abs(catapult.angle) < 0.00017) {
         catapult.isStatic = true;
-        body1.isStatic = true;
-        body2.isStatic = true;
+        leftBodies.forEach(body => {
+          body.isStatic = true;
+        });
+        rightBodies.forEach(body => {
+          body.isStatic = true;
+        });
       }
       Matter.Events.off(engine, 'collisionActive');
     });
 
     function updateSprites() {
       catapultSprite.rotation = catapult.angle;
-      body1Sprite.rotation = body1.angle;
-      body2Sprite.rotation = body2.angle;
-      body1Sprite.position.set(body1.position.x, body1.position.y);
-      body2Sprite.position.set(body2.position.x, body2.position.y);
+      leftBodies.forEach((body, i) => {
+        const sprite = leftSprites[i];
+        sprite.position.set(body.position.x, body.position.y);
+        sprite.rotation = body.angle;
+      });
+      rightBodies.forEach((body, i) => {
+        const sprite = rightSprites[i];
+        // const sprite = rightSprites.find(sprite => sprite.name == body.label);
+        sprite.position.set(body.position.x, body.position.y);
+        sprite.rotation = body.angle;
+      });
+
       catapultSprite.position.set(catapult.position.x, catapult.position.y);
     }
 
@@ -225,4 +251,20 @@ function isStableSimulation(engine) {
 
   // Return true if both velocity and force criteria are met
   return areVelocitiesStable && areForcesStable;
+}
+
+function checkMatterJsElement(name, pixiElement, engine) {
+  let hasGround = false;
+  for (let i = 0; i < engine.world.bodies; i++) {
+    if (engine.world.bodies[i].label == name) {
+      hasGround = true;
+      break;
+    }
+  }
+  if (!hasGround) {
+    pixiElement.pivot.set(pixiElement.width / 2, pixiElement.height / 2);
+    pixiElement.x += pixiElement.width / 2;
+    pixiElement.y += pixiElement.height / 2;
+  }
+  return hasGround;
 }
