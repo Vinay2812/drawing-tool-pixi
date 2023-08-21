@@ -132,6 +132,8 @@ export default {
             shadows: 0,
           },
           imageHash: "73f232b70d771c1860f382422bf4176f36d8f736",
+          imageRef:
+            "https://sets-gamify-assets.s3.ap-south-1.amazonaws.com/dev/figma/assets/73f232b70d771c1860f382422bf4176f36d8f736",
         },
       ],
       fillGeometry: [
@@ -208,7 +210,8 @@ export default {
             shadows: 0,
           },
           imageHash: "b9c3b38b03c9243343af5a9e3b1bb9a8ff9e5a09",
-          gifRef: "b9c3b38b03c9243343af5a9e3b1bb9a8ff9e5a09",
+          gifRef:
+            "https://sets-gamify-assets.s3.ap-south-1.amazonaws.com/dev/figma/assets/b9c3b38b03c9243343af5a9e3b1bb9a8ff9e5a09",
         },
         {
           type: "SOLID",
@@ -297,6 +300,8 @@ export default {
             shadows: 0,
           },
           imageHash: "eb87f2161fa7bcc55538de6500359a7afa0f4cd8",
+          imageRef:
+            "https://sets-gamify-assets.s3.ap-south-1.amazonaws.com/dev/figma/assets/eb87f2161fa7bcc55538de6500359a7afa0f4cd8",
         },
       ],
       fillGeometry: [
@@ -384,6 +389,8 @@ export default {
             shadows: 0,
           },
           imageHash: "eb87f2161fa7bcc55538de6500359a7afa0f4cd8",
+          imageRef:
+            "https://sets-gamify-assets.s3.ap-south-1.amazonaws.com/dev/figma/assets/eb87f2161fa7bcc55538de6500359a7afa0f4cd8",
         },
       ],
       fillGeometry: [
@@ -528,6 +535,8 @@ export default {
             shadows: 0,
           },
           imageHash: "03d858945a14d7fbae9835d3b94b4bb0e838736e",
+          imageRef:
+            "https://sets-gamify-assets.s3.ap-south-1.amazonaws.com/dev/figma/assets/03d858945a14d7fbae9835d3b94b4bb0e838736e",
         },
       ],
       fillGeometry: [
@@ -607,6 +616,8 @@ export default {
             shadows: 0,
           },
           imageHash: "11ad928f675435c65ecb0238a07a0ed360aeb9c3",
+          imageRef:
+            "https://sets-gamify-assets.s3.ap-south-1.amazonaws.com/dev/figma/assets/11ad928f675435c65ecb0238a07a0ed360aeb9c3",
         },
         {
           type: "SOLID",
@@ -698,6 +709,8 @@ export default {
             shadows: 0,
           },
           imageHash: "8298bcb5910feacae668828fd0e7fbff877baf5e",
+          imageRef:
+            "https://sets-gamify-assets.s3.ap-south-1.amazonaws.com/dev/figma/assets/8298bcb5910feacae668828fd0e7fbff877baf5e",
         },
       ],
       fillGeometry: [
@@ -776,6 +789,8 @@ export default {
             shadows: 0,
           },
           imageHash: "677bdcb70d07d093cbabd8111f0d7a65a4f5f9ef",
+          imageRef:
+            "https://sets-gamify-assets.s3.ap-south-1.amazonaws.com/dev/figma/assets/677bdcb70d07d093cbabd8111f0d7a65a4f5f9ef",
         },
       ],
       fillGeometry: [
