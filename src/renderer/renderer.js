@@ -6,8 +6,10 @@ import { FXAAFilter } from '@pixi/filter-fxaa';
 
 import '@pixi/graphics-extras';
 import { drawSVGPath, fillSVGPath, parseColor } from '../utils/layout';
+import TextInput from './PIXI.TextInput';
+import { debounce } from 'lodash';
 
-export const renderFigmaFromParsedJson = children => {
+export const renderFigmaFromParsedJson = (children, { scaleHeight, scaleWidth }) => {
   const container = new PIXI.Container();
   container.sortableChildren = true;
   const screenWidth = children[0].absoluteBoundingBox.width;
@@ -127,6 +129,99 @@ const renderText = async child => {
   return wrapperPixiObject;
 };
 
+const renderInput = async child => {
+  console.log(child);
+  let pixiObject = new PIXI.Graphics();
+  pixiObject.zIndex = child.zIndex;
+
+  let fillColor = child?.fills?.length > 0 && child.fills[0].visible && child.fills[0].color;
+
+  let strokesColor = child?.strokes?.length > 0 && child.strokes[0].visible && child.strokes[0].color;
+
+  const textData = child?.children ? child?.children[0] : {};
+
+  const paddingX = textData?.relativeTransform?.x || 8;
+  const paddingY = textData?.relativeTransform?.y || 8;
+  const textColor = textData?.fills?.length > 0 && textData.fills[0].visible && textData.fills[0].color;
+
+  const fontFamily = textData?.fontName?.family || 'Arial'; // Default to 'Arial' if fontFamily is not provided
+  const fontSize = textData.fontSize || 12; // Default to 12 if fontSize is not provided
+  const fontWeight = textData.fontWeight || '500'; // Default to 'normal' if fontWeight is not provided
+  const textAlignHorizontal = textData.textAlignHorizontal || 'left'; // Default to 'left' if textAlignHorizontal is not provided
+  const textDecoration = textData.textDecoration || 'none'; // Default to 'none' if textDecoration is not provided
+
+  const lineHeightObj = textData.lineHeight || {};
+  let lineHeightValue = lineHeightObj.value || fontSize * 1.2; // Default to 1.2 times the fontSize if lineHeightValue is not provided
+  if (lineHeightObj.unit === 'PERCENT') {
+    lineHeightValue = (lineHeightValue / 100) * fontSize;
+  }
+
+  const letterSpacingObj = textData.letterSpacing || {};
+  let letterSpacingValue = letterSpacingObj.value || 0; // Default to 0 if letterSpacingValue is not provided
+  if (letterSpacingObj.unit === 'PERCENT') {
+    letterSpacingValue = (letterSpacingValue / 100) * fontSize;
+  }
+
+  const inputField = new TextInput({
+    input: {
+      fontFamily,
+      fontWeight,
+      letterSpacing: `${letterSpacingValue}px`,
+      textAlign: textAlignHorizontal,
+      textDecoration,
+      fontSize: `${fontSize}px`,
+      padding: `${paddingY}px ${paddingX}px`,
+      width: `${child.width - paddingX * 2}px`,
+      height: `${child.height - paddingY * 2}px`, // Set a specific height for multiline
+      color: '#26272E',
+      multiline: child.height - paddingY * 2 >= lineHeightValue * 2
+    },
+    box: {
+      default: {
+        stroke: {
+          color: strokesColor || 0xcbcee0,
+          width: Number(child?.strokeWeight) || 0
+        },
+        ...(fillColor ? { fill: fillColor } : {})
+      },
+      focused: {
+        ...(fillColor ? { fill: fillColor } : {}),
+        stroke: { color: 0xabafc6, width: Number(child?.strokeWeight) || 0 }
+      },
+      disabled: {
+        fill: 0xdbdbdb
+      }
+    }
+  });
+
+  inputField.placeholderColor = textColor;
+  inputField.placeholder = textData?.characters || 'Type something...';
+
+  if (child.relativeTransform) {
+    let { x, y } = child.relativeTransform;
+    inputField.x = x;
+    inputField.y = y;
+  }
+
+  inputField.on(
+    'input',
+    debounce(event => {
+      const inputValue = event; // Get the text from the input field
+
+      console.log('Input changed:', child.id, inputValue);
+    }, 500)
+  );
+
+  const ncontainer = new PIXI.Container();
+  ncontainer.addChild(inputField);
+
+  const pxChild = await renderPolygon(child, 0, 0);
+  pixiObject.addChild(pxChild);
+  pixiObject.addChild(ncontainer);
+
+  return pixiObject;
+};
+
 const renderPolygon = async (child, screenWidth, screenHeight) => {
   if (!child.visible) return;
 
@@ -166,8 +261,6 @@ const renderPolygon = async (child, screenWidth, screenHeight) => {
       } else if (fill.type === 'IMAGE') {
         const gifRef = fill.gifRef;
         const imageUrl = fill.imageRef;
-        let imageTexture;
-        imageTexture = imageUrl && PIXI.Texture.from(imageUrl); // Load the texture
 
         if (gifRef) {
           imageSprite = await fetch(gifRef)
@@ -179,6 +272,7 @@ const renderPolygon = async (child, screenWidth, screenHeight) => {
             })
             .then(image => pixiChild.addChild(image));
         } else {
+          const imageTexture = PIXI.Texture.from(imageUrl); // Load the texture
           imageSprite = new PIXI.Sprite(imageTexture);
         }
 
@@ -226,6 +320,7 @@ const renderPolygon = async (child, screenWidth, screenHeight) => {
 
       if (child.relativeTransform) {
         const { x, y } = child.relativeTransform;
+        pixiChild.position.set(x, y);
         pixiChild.pivot.set(x, y);
       }
 
@@ -236,26 +331,26 @@ const renderPolygon = async (child, screenWidth, screenHeight) => {
       pixiChild.endFill();
 
       // MASK SECTION
-      // let maskContainer = new PIXI.Container();
-      // if (imageSprite) {
-      // 	let mask = new PIXI.Graphics();
-      // 	mask.position.set(child.position.x, child.position.y);
+      let maskContainer = new PIXI.Container();
+      if (imageSprite) {
+        let mask = new PIXI.Graphics();
+        mask.position.set(child.position.x, child.position.y);
 
-      // 	mask.beginFill(0xffffff);
-      // 	mask = drawShape(child, mask);
-      // 	if (child.relativeTransform) {
-      // 		const { x, y } = child.relativeTransform;
-      // 		mask.pivot.set(x, y);
-      // 	}
-      // 	mask.endFill();
-      // 	maskContainer.mask = mask;
-      // 	maskContainer.addChild(mask);
-      // }
-      // // Add the mask as a child, so that the mask is positioned relative to its parent
-      // maskContainer.addChild(pixiChild);
-      // // Offset by the window's frame width
-      // pixiObject.addChild(maskContainer);
-      pixiObject.addChild(pixiChild);
+        mask.beginFill(0xffffff);
+        mask = drawShape(child, mask);
+        if (child.relativeTransform) {
+          const { x, y } = child.relativeTransform;
+          mask.position.set(x, y);
+          mask.pivot.set(x, y);
+        }
+        mask.endFill();
+        maskContainer.mask = mask;
+        maskContainer.addChild(mask);
+      }
+      // Add the mask as a child, so that the mask is positioned relative to its parent
+      maskContainer.addChild(pixiChild);
+      // Offset by the window's frame width
+      pixiObject.addChild(maskContainer);
     });
   }
 

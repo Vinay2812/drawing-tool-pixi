@@ -13,10 +13,26 @@ export const renderFigmaJson = (app, figmaJson, elementId, props) => {
   if (!canvas) {
     // Parse the Figma JSON into a PIXI Container
     const parsedJson = parseFigmaJson(figmaJson);
-    const container = renderFigmaFromParsedJson(parsedJson.children, app);
+    const screenWidth = window.innerWidth > 400 ? 400 : window.innerWidth;
+    const screenHeight = window.innerHeight;
+
+    const scaleWidth = screenWidth / figmaJson?.absoluteBoundingBox?.width;
+    const scaleHeight = screenHeight / figmaJson?.absoluteBoundingBox?.height;
+
+    const container = renderFigmaFromParsedJson(parsedJson.children, {
+      scaleHeight,
+      scaleWidth
+    });
+    app.renderer.plugins.interaction.autoPreventDefault = false;
+    app.renderer.view.style.touchAction = 'auto';
     container.name = 'root';
     document.getElementById(elementId).appendChild(app.view);
     app.stage.addChild(container);
+
+    app.renderer.resize(
+      scaleWidth * figmaJson?.absoluteRenderBounds?.width,
+      scaleWidth * figmaJson?.absoluteRenderBounds?.height
+    );
   }
   if (canvas && clicked) {
     const engine = Matter.Engine.create();
