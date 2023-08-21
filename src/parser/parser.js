@@ -77,6 +77,7 @@ const parseChild = (child, level, minX, minY, parentObject = null) => {
   // if (typeof renderBoundY === "number") renderBoundY += Math.abs(minY);
   const pixiObject = {
     id: child.id,
+    name: child.name,
     type: child.type,
     x: childBoundingX,
     y: childBoundingY,
