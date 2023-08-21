@@ -1,7 +1,7 @@
 import Matter from 'matter-js';
 
 function AnimaionRenderer(props) {
-  const { engine, app, type, other } = props;
+  const { parentContainer, engine, app, type, other } = props;
 
   const { World, Bodies, Constraint, Body, Events, Composite, Vector } = Matter;
 
@@ -132,64 +132,62 @@ function AnimaionRenderer(props) {
     });
   } else if (type == 'seesaw') {
     var group = Body.nextGroup(true);
-    const { groundName, weight1Names, weight2Names, seesawName, weight1Mass, weight2Mass } = other;
-    const groundSprite = app.stage.getChildByName(groundName);
-    const catapultSprite = app.stage.getChildByName(seesawName);
+    const { groundName, weight1Name, weight2Name, seesawName, weight1Mass, weight2Mass } = other;
+    let world = engine.world;
+    const catapultSprite = findChildByNameDeep(parentContainer, seesawName);
+    // console.log(catapultSprite, (catapultSprite.rotation * 180) / Math.PI);
 
-    catapultSprite.pivot.set(catapultSprite.width / 2, catapultSprite.height / 2);
-    catapultSprite.x += catapultSprite.width / 2;
-    catapultSprite.y += catapultSprite.height / 2;
-
-    const catapult = Bodies.rectangle(catapultSprite.x, catapultSprite.y, catapultSprite.width, catapultSprite.height, {
-      collisionFilter: { group: group }
-      // isStatic: true
-    });
-
-    const elements = [];
-    if (!checkMatterJsElement(groundName, groundSprite, engine)) {
-      const ground = Bodies.rectangle(groundSprite.x, groundSprite.y, groundSprite.width, groundSprite.height, {
-        isStatic: true,
-        label: groundName
-      });
-      elements.push(ground);
+    const body1Sprite = findChildByNameDeep(parentContainer, weight1Name);
+    const body2Sprite = findChildByNameDeep(parentContainer, weight2Name);
+    if (catapultSprite.rotation == 0) {
+      catapultSprite.pivot.set(catapultSprite.width / 2, catapultSprite.height / 2);
+      catapultSprite.x += catapultSprite.width / 2;
+      catapultSprite.y += catapultSprite.height / 2;
+    } else {
+      catapultSprite.pivot.set(catapultSprite.width / 2, catapultSprite.height /* / 2 */);
+      catapultSprite.x += catapultSprite.width / 2;
+      // catapultSprite.y += catapultSprite.height / 2;
     }
 
-    const leftSprites = [];
-    const rightSprites = [];
+    body1Sprite.pivot.set(body1Sprite.width / 2, body1Sprite.height / 2);
+    body1Sprite.x += body1Sprite.width / 2;
+    body1Sprite.y += body1Sprite.height / 2;
 
-    weight1Names.forEach(name => {
-      const sprite = app.stage.getChildByName(name);
-      leftSprites.push(sprite);
-    });
-    weight2Names.forEach(name => {
-      const sprite = app.stage.getChildByName(name);
-      rightSprites.push(sprite);
-    });
+    body2Sprite.pivot.set(body2Sprite.width / 2, body2Sprite.height / 2);
+    body2Sprite.x += body2Sprite.width / 2;
+    body2Sprite.y += body2Sprite.height / 2;
 
-    const leftBodies = [];
-    const rightBodies = [];
-    leftSprites.forEach((sprite, i) => {
-      if (!checkMatterJsElement(sprite.name, sprite, engine)) {
-        const body = Bodies.rectangle(sprite.x, sprite.y, sprite.width, sprite.height, {
-          // mass: weight1Mass
-        });
-        leftBodies.push(body);
-        elements.push(body);
+    const ground = Bodies.rectangle(catapultSprite.x + 10, catapultSprite.y + 40, catapultSprite.width + 200, 10, {
+      isStatic: true,
+      label: groundName
+    });
+    var catapult = Bodies.rectangle(catapultSprite.x, catapultSprite.y, catapultSprite.width, catapultSprite.height, {
+      collisionFilter: { group: group }
+    });
+    const initail = {
+      catapult: {
+        x: catapult.position.x,
+        y: catapult.position.y,
+        angle: (catapultSprite.rotation * 180) / Math.PI,
+        rotation: catapultSprite.rotation
+      },
+      body1: {
+        x: body1Sprite.x,
+        y: body1Sprite.y
+      },
+      body2: {
+        x: body2Sprite.x,
+        y: body2Sprite.y
       }
-    });
-    rightSprites.forEach((sprite, i) => {
-      if (!checkMatterJsElement(sprite.name, sprite, engine)) {
-        const body = Bodies.rectangle(sprite.x, sprite.y, sprite.width, sprite.height, {
-          // mass: weight2Mass
-        });
-        rightBodies.push(body);
-        elements.push(body);
-      }
-    });
+    };
+    var body1 = Bodies.rectangle(catapult.position.x - 100, catapult.position.y - 80, 40, 40, { mass: 1 });
+    var body2 = Bodies.rectangle(catapult.position.x + 100, catapult.position.y - 80, 40, 40, { mass: 1 });
 
-    Composite.add(engine.world, [
-      ...elements,
+    Composite.add(world, [
+      ground,
       catapult,
+      body1,
+      body2,
       Constraint.create({
         bodyA: catapult,
         pointB: Vector.clone(catapult.position),
@@ -198,33 +196,43 @@ function AnimaionRenderer(props) {
     ]);
 
     Matter.Events.on(engine, 'collisionActive', () => {
-      if (Math.abs(catapult.angle) < 0.00017) {
+      // Iterate through all bodies in the world
+      if (Math.abs(catapult.angle) < 0.00001) {
         catapult.isStatic = true;
-        leftBodies.forEach(body => {
-          body.isStatic = true;
-        });
-        rightBodies.forEach(body => {
-          body.isStatic = true;
-        });
+        body1.isStatic = true;
+        body2.isStatic = true;
+        // body1Sprite.y += initail.catapult.rotation * (catapultSprite.width / 2);
       }
       Matter.Events.off(engine, 'collisionActive');
     });
 
-    function updateSprites() {
-      catapultSprite.rotation = catapult.angle;
-      leftBodies.forEach((body, i) => {
-        const sprite = leftSprites[i];
-        sprite.position.set(body.position.x, body.position.y);
-        sprite.rotation = body.angle;
-      });
-      rightBodies.forEach((body, i) => {
-        const sprite = rightSprites[i];
-        // const sprite = rightSprites.find(sprite => sprite.name == body.label);
-        sprite.position.set(body.position.x, body.position.y);
-        sprite.rotation = body.angle;
-      });
+    Matter.Events.on(engine, 'collisionEnd', () => {
+      setTimeout(() => {
+        catapult.isStatic = true;
+        body1.isStatic = true;
+        body2.isStatic = true;
+        app.ticker.destroy();
+      }, 2500);
+      Matter.Events.off(engine, 'collisionEnd');
+    });
 
-      catapultSprite.position.set(catapult.position.x, catapult.position.y);
+    function updateSprites() {
+      // if (catapult.angle !== 0 && Math.abs(catapult.angle) < 0.00001) {
+      //   app.ticker.destroy();
+      //   // return;
+      // }
+      catapultSprite.rotation = catapult.angle;
+      body1Sprite.rotation = body1.angle;
+      body2Sprite.rotation = body2.angle;
+
+      const a = (initail.catapult.rotation - catapult.angle) * (catapultSprite.width / 2);
+      if (a < 0) {
+        body1Sprite.y = initail.body1.y + a;
+        body2Sprite.y = initail.body2.y - a;
+      } else {
+        body1Sprite.y = initail.body1.y - a;
+        body2Sprite.y = initail.body2.y + a;
+      }
     }
 
     // Add the ticker to update both Matter.js and Pixi.js
@@ -267,4 +275,20 @@ function checkMatterJsElement(name, pixiElement, engine) {
     pixiElement.y += pixiElement.height / 2;
   }
   return hasGround;
+}
+
+function findChildByNameDeep(parent, name) {
+  if (parent.name === name) {
+    return parent;
+  }
+
+  for (let i = 0; i < parent.children.length; i++) {
+    const child = parent.children[i];
+    const foundChild = findChildByNameDeep(child, name);
+    if (foundChild) {
+      return foundChild;
+    }
+  }
+
+  return null;
 }

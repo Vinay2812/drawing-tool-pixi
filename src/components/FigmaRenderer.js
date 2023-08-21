@@ -48,7 +48,7 @@ const FigmaRenderer = ({ figmaJson }) => {
         id={'matterJs'}
         style={{
           position: 'absolute',
-          marginTop: '42px'
+          marginTop: '37px'
         }}
       />
     </>
