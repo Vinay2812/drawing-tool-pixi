@@ -281,9 +281,6 @@ const renderPolygon = async (child, screenWidth, screenHeight) => {
     child.fills.filter((f) => f.type === "IMAGE")?.length === 0 &&
     child.fills[0].visible &&
     child.fills[0].color;
-  if (child.id === "8:128") {
-    fillColor = 0x0000cc;
-  }
 
   const fillOpacity = child?.fills?.length > 0 && child.fills[0].opacity;
 
@@ -312,13 +309,6 @@ const renderPolygon = async (child, screenWidth, screenHeight) => {
       } else if (fill.type === "IMAGE") {
         const gifRef = fill.gifRef;
         const imageUrl = fill.imageRef;
-        console.log(
-          "🚀 ~ file: renderer.js:219 ~ child.fills.forEach ~ imageUrl:",
-          imageUrl,
-          child
-        );
-        let imageTexture;
-        imageTexture = imageUrl && PIXI.Texture.from(imageUrl); // Load the texture
 
         if (gifRef) {
           imageSprite = await fetch(gifRef)
@@ -330,6 +320,7 @@ const renderPolygon = async (child, screenWidth, screenHeight) => {
             })
             .then((image) => pixiChild.addChild(image));
         } else {
+          const imageTexture = PIXI.Texture.from(imageUrl); // Load the texture
           imageSprite = new PIXI.Sprite(imageTexture);
         }
 
@@ -383,6 +374,7 @@ const renderPolygon = async (child, screenWidth, screenHeight) => {
 
       if (child.relativeTransform) {
         const { x, y } = child.relativeTransform;
+        pixiChild.position.set(x, y);
         pixiChild.pivot.set(x, y);
       }
 
@@ -402,6 +394,7 @@ const renderPolygon = async (child, screenWidth, screenHeight) => {
         mask = drawShape(child, mask);
         if (child.relativeTransform) {
           const { x, y } = child.relativeTransform;
+          mask.position.set(x, y);
           mask.pivot.set(x, y);
         }
         mask.endFill();
