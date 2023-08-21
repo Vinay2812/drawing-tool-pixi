@@ -7,6 +7,7 @@ import '@pixi/graphics-extras';
 import { drawSVGPath } from '../utils/layout';
 
 let dragTarget = null;
+const dropAreas = [];
 
 export const renderFigmaFromParsedJson = (app, parsedJson, setFigmaJson) => {
   const children = parsedJson.children;
@@ -200,6 +201,11 @@ const renderPolygon = async (child, screenWidth, screenHeight, originalJson, pat
   //   console.log('🚀 ~ file: renderer.js:93 ~ renderPolygon ~ child:', get(child, 'fills'));
   // }
   let pixiObject = new PIXI.Graphics();
+
+  if (child.dropConfig && child.dropConfig.droppable) {
+    pixiObject.lineStyle(1, 0x808080, 1, 0.5, true);
+  }
+
   pixiObject.zIndex = child.zIndex;
   if (child.clipsContent) {
     let mask = new PIXI.Graphics();
@@ -449,8 +455,44 @@ const renderPolygon = async (child, screenWidth, screenHeight, originalJson, pat
     // pixiObject.anchor.set(0.5);
     // pixiObject.scale.set(3);
 
-    function onDragEnd() {
+    function onDragEnd(event) {
       if (dragTarget) {
+        const dropAreaIndex = dropAreas.findIndex(item => {
+          const width = item.width;
+          const height = item.height;
+          const areaBounds = { ...item.area.getBounds(), width, height };
+          const dragX = event.global.x;
+          const dragY = event.global.y;
+          function pointInRectangle(rectX, rectY, rectWidth, rectHeight, pointX, pointY) {
+            const rectRight = rectX + rectWidth;
+            const rectBottom = rectY + rectHeight;
+            if (rectX <= pointX && pointX <= rectRight && rectY <= pointY && pointY <= rectBottom) {
+              return true;
+            } else {
+              return false;
+            }
+          }
+          return pointInRectangle(areaBounds.x, areaBounds.y, areaBounds.width, areaBounds.height, dragX, dragY);
+        });
+
+        // move to original position
+        dragTarget.x = child.relativeTransform.x;
+        dragTarget.y = child.relativeTransform.y;
+
+        if (dropAreaIndex !== -1) {
+          // hide original child
+          set(originalJson, [...path, 'visible'], false);
+          // show original child in dropped area
+          set(
+            originalJson,
+            [...get(dropAreas, [dropAreaIndex, 'path']), 'children', get(path, [path.length - 1]), 'visible'],
+            true
+          );
+          // update canvas
+          setFigmaJson(originalJson);
+        }
+
+        // end
         app.stage.off('pointermove', onDragMove);
         dragTarget.alpha = 1;
         dragTarget = null;
@@ -459,8 +501,8 @@ const renderPolygon = async (child, screenWidth, screenHeight, originalJson, pat
 
     function onDragMove(event) {
       if (dragTarget) {
-        const min = child.dragConfig.dragRange[0];
-        const max = child.dragConfig.dragRange[1];
+        const min = get(child.dragConfig.dragRange, [0]);
+        const max = get(child.dragConfig.dragRange, [1]);
 
         function nearestStepIntersection(rangeStart, rangeEnd, step, value) {
           if (value < rangeStart) return rangeStart;
@@ -468,16 +510,38 @@ const renderPolygon = async (child, screenWidth, screenHeight, originalJson, pat
           return Math.round((value - rangeStart) / step) * step + rangeStart;
         }
 
-        if (child.dragConfig.axis === '90')
-          dragTarget.y = Math.min(
-            Math.max(
-              nearestStepIntersection(min, max, child.dragConfig.stepSize, dragTarget.parent.toLocal(event.global).y),
-              min
-            ),
-            max
-          );
-        if (child.dragConfig.axis === '0')
-          dragTarget.x = Math.min(Math.max(dragTarget.parent.toLocal(event.global).x, min), max);
+        if (min != null && max != null) {
+          if (child.dragConfig.axis === '90')
+            dragTarget.y = Math.min(
+              Math.max(
+                nearestStepIntersection(min, max, child.dragConfig.stepSize, dragTarget.parent.toLocal(event.global).y),
+                min
+              ),
+              max
+            );
+          if (child.dragConfig.axis === '0')
+            dragTarget.x = Math.min(Math.max(dragTarget.parent.toLocal(event.global).x, min), max);
+        }
+
+        if (!child.dragConfig.axis) {
+          const maxDragRange = child.dragConfig.maxDragRange;
+          if (!maxDragRange) {
+            dragTarget.parent.toLocal(event.global, null, dragTarget.position);
+            return;
+          }
+
+          const newPosition = event.data.getLocalPosition(dragTarget.parent);
+          dragTarget.x = newPosition.x;
+          dragTarget.y = newPosition.y;
+
+          // causing irregular constraints
+          // const minX = 0;
+          // const minY = 0;
+          // const maxX = get(maxDragRange, 0);
+          // const maxY = get(maxDragRange, 1);
+          // dragTarget.x = Math.min(Math.max(newPosition.x, minX), maxX);
+          // dragTarget.y = Math.min(Math.max(newPosition.y, minY), maxY);
+        }
       }
     }
 
@@ -492,6 +556,9 @@ const renderPolygon = async (child, screenWidth, screenHeight, originalJson, pat
     pixiObject.on('pointerupoutside', onDragEnd);
   }
 
+  if (child.dropConfig && child.dropConfig.droppable) {
+    dropAreas.push({ area: pixiObject, width: pixiObject.getBounds().width, height: pixiObject.getBounds().height, path });
+  }
   return pixiObject;
 };
 
