@@ -278,7 +278,7 @@ const renderPolygon = async (child, screenWidth, screenHeight) => {
 
   let fillColor =
     child?.fills?.length > 0 &&
-    child.fills[0].type !== "IMAGE" &&
+    child.fills.filter((f) => f.type === "IMAGE")?.length === 0 &&
     child.fills[0].visible &&
     child.fills[0].color;
   if (child.id === "8:128") {
@@ -393,26 +393,25 @@ const renderPolygon = async (child, screenWidth, screenHeight) => {
       pixiChild.endFill();
 
       // MASK SECTION
-      // let maskContainer = new PIXI.Container();
-      // if (imageSprite) {
-      // 	let mask = new PIXI.Graphics();
-      // 	mask.position.set(child.position.x, child.position.y);
+      let maskContainer = new PIXI.Container();
+      if (imageSprite) {
+        let mask = new PIXI.Graphics();
+        mask.position.set(child.position.x, child.position.y);
 
-      // 	mask.beginFill(0xffffff);
-      // 	mask = drawShape(child, mask);
-      // 	if (child.relativeTransform) {
-      // 		const { x, y } = child.relativeTransform;
-      // 		mask.pivot.set(x, y);
-      // 	}
-      // 	mask.endFill();
-      // 	maskContainer.mask = mask;
-      // 	maskContainer.addChild(mask);
-      // }
-      // // Add the mask as a child, so that the mask is positioned relative to its parent
-      // maskContainer.addChild(pixiChild);
-      // // Offset by the window's frame width
-      // pixiObject.addChild(maskContainer);
-      pixiObject.addChild(pixiChild);
+        mask.beginFill(0xffffff);
+        mask = drawShape(child, mask);
+        if (child.relativeTransform) {
+          const { x, y } = child.relativeTransform;
+          mask.pivot.set(x, y);
+        }
+        mask.endFill();
+        maskContainer.mask = mask;
+        maskContainer.addChild(mask);
+      }
+      // Add the mask as a child, so that the mask is positioned relative to its parent
+      maskContainer.addChild(pixiChild);
+      // Offset by the window's frame width
+      pixiObject.addChild(maskContainer);
     });
   }
 
