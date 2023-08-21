@@ -1,14 +1,38 @@
 import React, { useEffect } from "react";
 import FigmaRenderer from "./components/FigmaRenderer";
-// import sample from "./utils/bishal-test/6";
-import sample from "./utils/sample";
+// import sample from "./utils/sample";
+import sample from "./utils/bishal-test/6";
+import useGraphqlCall from "./api/useGraphqlCall";
 
 const App = () => {
   // Assume figmaJson is the JSON data from Figma
-  const figmaJson = sample;
+  // const figmaJson = sample;
   const [loading, setLoading] = React.useState(true);
+  const [figmaContextId, setFigmaContextId] = React.useState(null);
+  const [figmaJson, setFigmaJson] = React.useState(null);
 
   useEffect(() => {
+    // First url path is the figma context id
+    let figmaContextId = window.location.pathname.split("/")[1];
+    // URL decode the figma context id
+    figmaContextId = decodeURIComponent(figmaContextId);
+
+    if (!figmaContextId) setFigmaJson(sample);
+    else setFigmaContextId(figmaContextId);
+  }, []);
+
+  const { data } = useGraphqlCall(figmaContextId);
+  console.log("🚀 ~ file: App.js:20 ~ App ~ data:", data);
+  useEffect(() => {
+    if (!data) return;
+    if (data?.other_generic_data?.length === 0) return;
+    if (!data?.other_generic_data[0]?.data) return;
+    const figmaJson = JSON.parse(data.other_generic_data[0].data);
+    setFigmaJson(figmaJson);
+  }, [data]);
+
+  useEffect(() => {
+    if (!figmaJson) return;
     // Load Epilogue font
     const epilogueFont = new FontFace(
       "Epilogue",
@@ -24,11 +48,11 @@ const App = () => {
       .load()
       .then((loadedFont) => {
         document.fonts.add(loadedFont);
-        // console.log("Epilogue font loaded successfully");
+        console.log("Epilogue font loaded successfully");
         setLoading(false);
       })
       .catch((error) => {
-        // console.log("Failed to load Epilogue font: " + error);
+        console.log("Failed to load Epilogue font: " + error);
         setLoading(false);
       });
   }, [figmaJson]);

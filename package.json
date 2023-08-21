@@ -3,7 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@pixi/filter-blur": "^7.2.4",
     "@pixi/filter-drop-shadow": "^5.2.0",
+    "@pixi/filter-fxaa": "^7.2.4",
     "@pixi/gif": "^2.1.0",
     "@pixi/graphics-extras": "^7.2.4",
     "@testing-library/jest-dom": "^5.17.0",

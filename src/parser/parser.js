@@ -13,7 +13,39 @@ import {
 import rectangleKeys from "../keys/rectangle";
 import textKeys from "../keys/text";
 
+const getImageHashes = (obj) => {
+  let hashes = [];
+
+  if (Array.isArray(obj)) {
+    obj.forEach((item) => {
+      hashes = hashes.concat(getImageHashes(item));
+    });
+  } else if (obj && typeof obj === "object") {
+    if (obj.imageRef) {
+      console.log(
+        "🚀 ~ file: controller.ts:158 ~ getImageHashes ~ obj.imageRef:",
+        obj.imageRef
+      );
+      const imageRef = obj.imageRef;
+      if (imageRef) {
+        const imageHash = imageRef.split("/").pop();
+        hashes.push(imageHash);
+      }
+    }
+    for (const key in obj) {
+      hashes = hashes.concat(getImageHashes(obj[key]));
+    }
+  }
+
+  return hashes;
+};
+
 export const parseFigmaJson = (figmaJson) => {
+  const imageHashes = getImageHashes(figmaJson);
+  console.log(
+    "🚀 ~ file: parser.js:42 ~ parseFigmaJson ~ imageHashes:",
+    imageHashes
+  );
   const children = [figmaJson];
   const { minX, minY } = calculateMinXY(children);
   const parsedChildren = children.map((child) => {
@@ -138,10 +170,7 @@ const parsePolygon = (child, level, pixiObject, minX, minY, parentObject) => {
     child?.fillGeometry?.length > 0 ? child.fillGeometry : null;
   if (fillGeometry) {
     console.log("fillGeometry", fillGeometry);
-    pixiObject.fillGeometry = fillGeometry.map((geometry) => {
-      geometry.data = convertToDrawPolygonData(geometry.data, child.type);
-      return geometry;
-    });
+    pixiObject.fillGeometry = fillGeometry;
   }
   // let strokeGeometry =
   //     child?.strokeGeometry?.length > 0 ? child.strokeGeometry : null;

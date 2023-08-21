@@ -25,7 +25,10 @@ export const renderFigmaJson = (figmaJson, elementId) => {
     });
 
     // Create a PIXI Application
-    const app = new PIXI.Application({});
+    const app = new PIXI.Application({
+      //   antialias: true,
+      //   resolution: window.devicePixelRatio*3,
+    });
 
     app.renderer.plugins.interaction.autoPreventDefault = false;
     app.renderer.view.style.touchAction = "auto";
