@@ -230,3 +230,30 @@ export function drawSVGPath(graphics, path) {
     }
 
 }
+
+export function fillSVGPath(graphics, path) {
+    const commands = path.split(/(?=[MLCZ])/);
+
+
+    for (let command of commands) {
+        const type = command.charAt(0);
+        const values = command.slice(1).trim().split(/[ ,]+/).map(Number);
+
+        switch (type) {
+            case 'M':
+                graphics.moveTo(values[0], values[1]);
+                break;
+            case 'L':
+                graphics.lineTo(values[0], values[1]);
+                break;
+            case 'C':
+                graphics.bezierCurveTo(values[0], values[1], values[2], values[3], values[4], values[5]);
+                break;
+            case 'Z':
+                graphics.closePath();
+                break;
+        }
+    }
+
+    graphics.endFill(); // End the fill
+}
