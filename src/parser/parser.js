@@ -22,7 +22,6 @@ const getImageHashes = obj => {
     });
   } else if (obj && typeof obj === 'object') {
     if (obj.imageRef) {
-      console.log('🚀 ~ file: controller.ts:158 ~ getImageHashes ~ obj.imageRef:', obj.imageRef);
       const imageRef = obj.imageRef;
       if (imageRef) {
         const imageHash = imageRef.split('/').pop();
@@ -39,7 +38,6 @@ const getImageHashes = obj => {
 
 export const parseFigmaJson = figmaJson => {
   const imageHashes = getImageHashes(figmaJson);
-  console.log('🚀 ~ file: parser.js:42 ~ parseFigmaJson ~ imageHashes:', imageHashes);
   const children = [figmaJson];
   const { minX, minY } = calculateMinXY(children);
   const parsedChildren = children.map(child => {
@@ -106,7 +104,6 @@ const parseChild = (child, level, minX, minY, parentObject = null) => {
     case 'TEXT':
       return parseText(child, level, pixiObject);
     default:
-    // console.log('🚀 ~ file: parser.js:106 ~ parseChild ~ child', child);
   }
 };
 
@@ -126,9 +123,9 @@ const parseText = (child, level, pixiObject) => {
 };
 
 const parsePolygon = (child, level, pixiObject, minX, minY, parentObject) => {
-  if (child.id === '8:87') {
-    console.log('🚀 ~ file: parser.js:106 ~ parsePolygon ~ child:', child);
-  }
+  // if (child.id === "8:87") {
+  // 	console.log("🚀 ~ file: parser.js:106 ~ parsePolygon ~ child:", child);
+  // }
   rectangleKeys.forEach(key => {
     pixiObject[key] = child[key];
   });
@@ -153,7 +150,6 @@ const parsePolygon = (child, level, pixiObject, minX, minY, parentObject) => {
   pixiObject.strokeWeight = strokeWeight;
   let fills = child?.fills?.length > 0 ? child.fills : null;
   if (fills) {
-    console.log('🚀 ~ file: parser.js:85 ~ parseFrame ~ fills:', fills);
     pixiObject.fills = fills.map(fill => {
       fill.color = parseColor(fill.color);
       return fill;
@@ -161,7 +157,6 @@ const parsePolygon = (child, level, pixiObject, minX, minY, parentObject) => {
   }
   let fillGeometry = child?.fillGeometry?.length > 0 ? child.fillGeometry : null;
   if (fillGeometry) {
-    console.log('fillGeometry', fillGeometry);
     pixiObject.fillGeometry = fillGeometry;
   }
   // let strokeGeometry =
@@ -175,9 +170,13 @@ const parsePolygon = (child, level, pixiObject, minX, minY, parentObject) => {
   // }
   pixiObject.relativeTransform =
     child?.relativeTransform?.length > 0 ? getTransformParameters(child.relativeTransform, parentObject) : null;
-  if (child.id === '8:87') {
-    console.log('🚀 ~ file: parser.js:106 ~ parsePolygon ~ pixiObject:', child, pixiObject);
-  }
+  // if (child.id === "8:87") {
+  // 	console.log(
+  // 		"🚀 ~ file: parser.js:106 ~ parsePolygon ~ pixiObject:",
+  // 		child,
+  // 		pixiObject
+  // 	);
+  // }
   // pixiObject.parent = parentObject;
 
   return pixiObject;

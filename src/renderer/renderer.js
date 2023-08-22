@@ -270,9 +270,11 @@ const renderPolygon = async (child, screenWidth, screenHeight, originalJson, pat
     pixiObject.lineStyle(1, 0x808080, 1, 0.5, true);
   }
 
+  pixiObject.name = child.id;
   pixiObject.zIndex = child.zIndex;
   if (child.clipsContent) {
     let mask = new PIXI.Graphics();
+    mask.name = child.id;
     mask.beginFill(0x000000);
     mask = drawShape(child, mask);
     mask.endFill();

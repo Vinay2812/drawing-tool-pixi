@@ -2,6 +2,8 @@
 import * as PIXI from 'pixi.js';
 import { parseFigmaJson } from '../parser/parser';
 import { renderFigmaFromParsedJson } from './renderer';
+import Matter from 'matter-js';
+import AnimaionRenderer from '../components/AnimationRenderer';
 
 // Create a PIXI Application
 export const app = new PIXI.Application({
@@ -20,8 +22,10 @@ export const renderFigmaJson = (
   elementId,
   setFigmaJson,
   isUpdated,
-  setIsUpdated
+  setIsUpdated,
+  props
 ) => {
+  const { clicked } = props;
   // Check if canvas already exists
   const currentElement = document.getElementById(elementId);
   const canvas = currentElement?.querySelector('canvas');
@@ -45,29 +49,69 @@ export const renderFigmaJson = (
     app.renderer.view.style.touchAction = 'auto';
 
     // Append the PIXI view to the specified HTML element
+    container.name = 'root';
     document.getElementById(elementId).appendChild(app.view);
-
-    // Add the container to the PIXI stage
     app.stage.addChild(container);
 
     app.renderer.resize(
       scaleWidth * orgFigmaJson?.absoluteRenderBounds?.width,
       scaleWidth * orgFigmaJson?.absoluteRenderBounds?.height
     );
-
-    // app.stage.y = container.height / container.resolution
-    // app.stage.x = minX;
-    // // app.stage.scale.x = -1;
-    // app.stage.y = minY;
-    // app.stage.scale.y = -1;
-    // console.log("🚀 ~ file: index.js:50 ~ renderFigmaJson ~ app:", app);
-    // app.x = -minX;
-    // app.y = -minY;
-    // const debugGraphics = new PIXI.Graphics();
-    // debugGraphics.lineStyle(2, 0x00ff00);
-    // debugGraphics.drawRect(0, 0, 800, 600);
-    // container.addChild(debugGraphics);
-    // Optionally, you can add code here to set up interactivity, animations, etc.
+  }
+  if (canvas && clicked) {
+    const engine = Matter.Engine.create();
+    const currentElement = document.getElementById('matterJs');
+    let render = Matter.Render.create({
+      element: currentElement,
+      engine: engine,
+      options: {
+        width: 1870,
+        height: 944,
+        wireframes: false,
+        background: 'transparent'
+      }
+    });
+    const container = app.stage.getChildByName('root');
+    // AnimaionRenderer({
+    // engine,
+    //   app,
+    //   type: 'balloon',
+    //   other: {
+    //     balloonName: 'balloonSprite',
+    //     weightName: 'rectangleSprite',
+    //     groundName: 'groundSprite',
+    //     ballonMass: 1,
+    //     weightMass: 1,
+    //     ballonForce: { x: 0, y: -0.002 }
+    //   }
+    // });
+    // AnimaionRenderer({
+    // engine,
+    //   app,
+    //   type: 'rotate',
+    //   other: {
+    //     groundName: 'rectangleSprite1',
+    //     speed: 0.1
+    //   }
+    // });
+    // const catapultSprite = findChildByNameDeep(container, '8:136');
+    // console.log((catapultSprite.rotation * 180) / Math.PI);
+    AnimaionRenderer({
+      parentContainer: container,
+      engine,
+      app,
+      type: 'seesaw',
+      other: {
+        groundName: 'groundSprite',
+        weight1Name: '217:190',
+        weight2Name: '217:191',
+        seesawName: '217:184',
+        weight1Mass: 1,
+        weight2Mass: 1
+      }
+    });
+    Matter.Runner.run(engine);
+    // Matter.Render.run(render);
   }
 
   if (canvas && isUpdated) {
