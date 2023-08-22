@@ -15,7 +15,10 @@ export const renderFigmaFromParsedJson = (children, { scaleHeight, scaleWidth })
   const screenWidth = children[0].absoluteBoundingBox.width;
   const screenHeight = children[0].absoluteBoundingBox.height;
   children.forEach(child => {
-    renderChild(child, container, screenWidth, screenHeight);
+    renderChild(child, container, screenWidth, screenHeight, {
+      scaleHeight,
+      scaleWidth
+    });
   });
   container.backgroundColor = 0xffffff;
   // const pixiChild = new PIXI.Graphics();
@@ -29,10 +32,12 @@ export const renderFigmaFromParsedJson = (children, { scaleHeight, scaleWidth })
   // )
   // pixiChild.endFill();
   // container.addChild(pixiChild);
+
+  container.scale.set(scaleWidth);
   return container;
 };
 
-const renderChild = async (child, parentContainer, screenWidth, screenHeight) => {
+const renderChild = async (child, parentContainer, screenWidth, screenHeight, { scaleHeight, scaleWidth }) => {
   if (!child) return;
   let pixiObject;
   switch (child.type) {
@@ -53,16 +58,27 @@ const renderChild = async (child, parentContainer, screenWidth, screenHeight) =>
     case 'TEXT':
       pixiObject = await renderText(child);
       break;
+    case 'INPUT':
+      pixiObject = await renderInput(child);
+      break;
+    default:
+      break;
   }
+
+  // pixiObject?.scale?.set(1 / scaleWidth);
+
   if (parentContainer && pixiObject) {
     parentContainer.addChild(pixiObject);
   }
-  if (child.children) {
+  if (child?.type !== 'INPUT' && child.children) {
     child.children.forEach(grandchild => {
       if (grandchild.type === 'TEXT') {
         grandchild.parent = child;
       }
-      renderChild(grandchild, pixiObject, screenWidth, screenHeight);
+      renderChild(grandchild, pixiObject, screenWidth, screenHeight, screenHeight, {
+        scaleHeight,
+        scaleWidth
+      });
     });
   }
 };
@@ -239,12 +255,14 @@ const renderPolygon = async (child, screenWidth, screenHeight) => {
   }
 
   let fillColor =
-    child?.fills?.length > 0 && child.fills[0].type !== 'IMAGE' && child.fills[0].visible && child.fills[0].color;
-  if (child.id === '8:128') {
-    fillColor = 0x0000cc;
-  }
+    child?.fills?.length > 0 &&
+    child.fills.filter(f => f.type === 'IMAGE')?.length === 0 &&
+    child.fills[0].visible &&
+    child.fills[0].color;
 
-  fillColor ? pixiObject.beginFill(fillColor) : pixiObject.beginFill(0xffffcc, 0);
+  const fillOpacity = child?.fills?.length > 0 && child.fills[0].opacity;
+
+  fillColor ? pixiObject.beginFill(fillColor, fillOpacity || 1) : pixiObject.beginFill(0xffffcc, 0);
   if (child.type !== 'TEXT') {
     pixiObject = drawShape(child, pixiObject);
   }
