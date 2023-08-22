@@ -1,63 +1,45 @@
 import Matter from 'matter-js';
 
 function AnimaionRenderer(props) {
-  const { parentContainer, engine, app, type, other } = props;
+  const { parentContainer, engine, app, type, other, onCompleted } = props;
 
   const { World, Bodies, Constraint, Body, Events, Composite, Vector } = Matter;
 
   if (type == 'balloon') {
-    const { balloonName, weightName, groundName, ballonMass, weightMass, ballonForce = { x: 0, y: 0 } } = other;
-    const groundSprite = app.stage.getChildByName(groundName);
-    const balloonSprite = app.stage.getChildByName(balloonName);
-    const rectangleSprite = app.stage.getChildByName(weightName);
-
-    groundSprite.pivot.set(groundSprite.width / 2, groundSprite.height / 2);
-    groundSprite.x += groundSprite.width / 2;
-    groundSprite.y += groundSprite.height / 2;
-
-    rectangleSprite.pivot.set(rectangleSprite.width / 2, rectangleSprite.height / 2);
-    rectangleSprite.x += rectangleSprite.width / 2;
-    rectangleSprite.y += rectangleSprite.height / 2;
+    const { balloonName, groundName, ballonMass, weightMass } = other;
+    const balloonSprite = findChildByNameDeep(parentContainer, balloonName);
 
     balloonSprite.pivot.set(balloonSprite.width / 2, balloonSprite.height / 2);
     balloonSprite.x += balloonSprite.width / 2;
     balloonSprite.y += balloonSprite.height / 2;
 
-    const ground = Bodies.rectangle(groundSprite.x, groundSprite.y, groundSprite.width, groundSprite.height, {
-      isStatic: true,
-      label: groundName
-    });
-    const balloon = Bodies.circle(
-      balloonSprite.x - Math.max(balloonSprite.width, balloonSprite.height) / 2,
-      balloonSprite.y - Math.max(balloonSprite.width, balloonSprite.height) / 2,
-      Math.max(balloonSprite.width, balloonSprite.height) / 2,
-      { mass: ballonMass }
+    const ground = Bodies.rectangle(
+      balloonSprite.x + 10,
+      balloonSprite.y + balloonSprite.height / 2 + 40,
+      balloonSprite.width + 200,
+      10,
+      {
+        isStatic: true,
+        label: groundName
+      }
     );
-    const rectangle = Bodies.rectangle(rectangleSprite.x, rectangleSprite.y, rectangleSprite.width, rectangleSprite.height, {
-      mass: weightMass
+    const balloon = Bodies.rectangle(balloonSprite.x, balloonSprite.y, balloonSprite.width, balloonSprite.height, {
+      mass: ballonMass
     });
 
-    let sling = Constraint.create({
-      bodyA: rectangle,
-      bodyB: balloon,
-      stiffness: 1
-    });
-
-    World.add(engine.world, [ground, sling, rectangle, balloon]);
-
+    World.add(engine.world, [ground, balloon]);
     function applyFlyingForces() {
-      Body.applyForce(balloon, balloon.position, ballonForce);
+      Body.applyForce(balloon, balloon.position, {
+        x: 0,
+        y: ballonMass - weightMass == 0 ? -0.001 * ballonMass : -0.001 * (ballonMass - weightMass)
+      });
     }
 
     Events.on(engine, 'beforeUpdate', applyFlyingForces);
 
     // Function to update Pixi.js sprites based on Matter.js bodies' positions
     function updateSprites() {
-      balloonSprite.position.set(
-        balloon.position.x + Math.max(balloonSprite.width, balloonSprite.height) / 2,
-        balloon.position.y + Math.max(balloonSprite.width, balloonSprite.height) / 2
-      );
-      rectangleSprite.position.set(rectangle.position.x, rectangle.position.y);
+      balloonSprite.position.set(balloon.position.x, balloon.position.y);
     }
 
     // Add the ticker to update both Matter.js and Pixi.js
@@ -65,16 +47,19 @@ function AnimaionRenderer(props) {
       updateSprites();
     });
 
-    // Events.on(engine, 'afterUpdate', () => {
-    //   // Check if the simulation is stable based on your criteria
-    //   const isSimulationStable = isStableSimulation(engine);
+    Events.on(engine, 'afterUpdate', () => {
+      // Check if the simulation is stable based on your criteria
+      const isSimulationStable = isStableSimulation(balloon);
 
-    //   if (isSimulationStable) {
-    //     Events.off(engine);
-    //     console.log('Simulation is now stable.');
-    //     // Do something here, e.g., stop applying forces or perform an action
-    //   }
-    // });
+      if (isSimulationStable) {
+        balloon.isStatic = true;
+        Events.off(engine);
+        app.ticker.destroy();
+        console.log('Simulation is now stable.');
+        onCompleted && onCompleted();
+        // Do something here, e.g., stop applying forces or perform an action
+      }
+    });
   } else if (type == 'rotate') {
     const { groundName, speed = 0.04 } = other;
     const rectangleSprite = app.stage.getChildByName(groundName);
@@ -180,8 +165,8 @@ function AnimaionRenderer(props) {
         y: body2Sprite.y
       }
     };
-    var body1 = Bodies.rectangle(catapult.position.x - 100, catapult.position.y - 80, 40, 40, { mass: 1 });
-    var body2 = Bodies.rectangle(catapult.position.x + 100, catapult.position.y - 80, 40, 40, { mass: 1 });
+    var body1 = Bodies.rectangle(catapult.position.x - 100, catapult.position.y - 80, 40, 40, { mass: weight1Mass });
+    var body2 = Bodies.rectangle(catapult.position.x + 100, catapult.position.y - 80, 40, 40, { mass: weight2Mass });
 
     Composite.add(world, [
       ground,
@@ -212,6 +197,7 @@ function AnimaionRenderer(props) {
         body1.isStatic = true;
         body2.isStatic = true;
         app.ticker.destroy();
+        onCompleted();
       }, 2500);
       Matter.Events.off(engine, 'collisionEnd');
     });
@@ -226,7 +212,7 @@ function AnimaionRenderer(props) {
       body2Sprite.rotation = body2.angle;
 
       const a = (initail.catapult.rotation - catapult.angle) * (catapultSprite.width / 2);
-      if (a < 0) {
+      if (a > 0) {
         body1Sprite.y = initail.body1.y + a;
         body2Sprite.y = initail.body2.y - a;
       } else {
@@ -246,16 +232,14 @@ export default AnimaionRenderer;
 const stableVelocityThreshold = 0.001; // Adjust this threshold as needed
 const stableForceThreshold = 0.001; // Adjust this threshold as needed
 
-function isStableSimulation(engine) {
+function isStableSimulation(balloon) {
   // Check if velocities of all bodies are below the threshold
-  const areVelocitiesStable = engine.world.bodies.every(
-    body => Math.abs(body.velocity.x) < stableVelocityThreshold && Math.abs(body.velocity.y) < stableVelocityThreshold
-  );
+  const areVelocitiesStable =
+    Math.abs(balloon.velocity.x) < stableVelocityThreshold && Math.abs(balloon.velocity.y) < stableVelocityThreshold;
 
   // Check if forces applied to all bodies are below the threshold
-  const areForcesStable = engine.world.bodies.every(
-    body => Math.abs(body.force.x) < stableForceThreshold && Math.abs(body.force.y) < stableForceThreshold
-  );
+  const areForcesStable =
+    Math.abs(balloon.force.x) < stableForceThreshold && Math.abs(balloon.force.y) < stableForceThreshold;
 
   // Return true if both velocity and force criteria are met
   return areVelocitiesStable && areForcesStable;
