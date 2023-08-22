@@ -15,20 +15,26 @@ app.stage.eventMode = 'static';
 app.stage.hitArea = app.screen;
 
 // Function to render the Figma JSON using PIXI.js
-export const renderFigmaJson = (figmaJson, elementId, setFigmaJson, isUpdated, setIsUpdated) => {
+export const renderFigmaJson = (
+  { figmaJsonState: figmaJson, figmaJson: orgFigmaJson },
+  elementId,
+  setFigmaJson,
+  isUpdated,
+  setIsUpdated
+) => {
   // Check if canvas already exists
   const currentElement = document.getElementById(elementId);
   const canvas = currentElement?.querySelector('canvas');
 
+  const screenWidth = window.innerWidth > 400 ? 400 : window.innerWidth;
+  const screenHeight = window.innerHeight;
+
+  const scaleWidth = screenWidth / orgFigmaJson?.absoluteBoundingBox?.width;
+  const scaleHeight = screenHeight / orgFigmaJson?.absoluteBoundingBox?.height;
+
   if (!canvas) {
     // Parse the Figma JSON into a PIXI Container
     const parsedJson = !figmaJson.variables ? parseFigmaJson(figmaJson) : figmaJson;
-
-    const screenWidth = window.innerWidth > 400 ? 400 : window.innerWidth;
-    const screenHeight = window.innerHeight;
-
-    const scaleWidth = screenWidth / figmaJson?.absoluteBoundingBox?.width;
-    const scaleHeight = screenHeight / figmaJson?.absoluteBoundingBox?.height;
 
     const container = renderFigmaFromParsedJson(app, parsedJson, setFigmaJson, {
       scaleHeight,
@@ -45,8 +51,8 @@ export const renderFigmaJson = (figmaJson, elementId, setFigmaJson, isUpdated, s
     app.stage.addChild(container);
 
     app.renderer.resize(
-      scaleWidth * figmaJson?.absoluteRenderBounds?.width,
-      scaleWidth * figmaJson?.absoluteRenderBounds?.height
+      scaleWidth * orgFigmaJson?.absoluteRenderBounds?.width,
+      scaleWidth * orgFigmaJson?.absoluteRenderBounds?.height
     );
 
     // app.stage.y = container.height / container.resolution
@@ -68,9 +74,22 @@ export const renderFigmaJson = (figmaJson, elementId, setFigmaJson, isUpdated, s
     if (app.stage.children.length) app.stage.removeChild(app.stage.children[0]);
 
     const parsedJson = figmaJson;
-    const container = renderFigmaFromParsedJson(app, parsedJson, setFigmaJson);
-    // console.log('called');
+    const container = renderFigmaFromParsedJson(app, parsedJson, setFigmaJson, {
+      scaleHeight,
+      scaleWidth
+    });
+
+    app.renderer.plugins.interaction.autoPreventDefault = false;
+    app.renderer.view.style.touchAction = 'auto';
+
+    // Add the container to the PIXI stage
     app.stage.addChild(container);
+
+    app.renderer.resize(
+      scaleWidth * orgFigmaJson?.absoluteRenderBounds?.width,
+      scaleWidth * orgFigmaJson?.absoluteRenderBounds?.height
+    );
+
     setIsUpdated(false);
   }
 };

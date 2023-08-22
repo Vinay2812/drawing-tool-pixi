@@ -15,7 +15,7 @@ const FigmaRenderer = ({ figmaJson }) => {
   useEffect(() => {
     // Render the Figma JSON inside the container element
     renderFigmaJson(
-      figmaJsonState,
+      { figmaJsonState, figmaJson },
       elementId,
       e => {
         setIsUpdated(true);

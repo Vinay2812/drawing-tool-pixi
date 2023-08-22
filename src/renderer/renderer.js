@@ -564,11 +564,10 @@ const renderPolygon = async (child, screenWidth, screenHeight, originalJson, pat
           // hide original child
           set(originalJson, [...path, 'visible'], false);
           // show original child in dropped area
-          set(
-            originalJson,
-            [...get(dropAreas, [dropAreaIndex, 'path']), 'children', get(path, [path.length - 1]), 'visible'],
-            true
+          const hiddenItemIndex = get(originalJson, [...get(dropAreas, [dropAreaIndex, 'path']), 'children']).findIndex(
+            i => !i.visible
           );
+          set(originalJson, [...get(dropAreas, [dropAreaIndex, 'path']), 'children', hiddenItemIndex, 'visible'], true);
           // update canvas
           setFigmaJson(originalJson);
         }
@@ -576,6 +575,7 @@ const renderPolygon = async (child, screenWidth, screenHeight, originalJson, pat
         // end
         app.stage.off('pointermove', onDragMove);
         dragTarget.alpha = 1;
+        dragTarget.pivot.set(0);
         dragTarget = null;
       }
     }
@@ -627,6 +627,7 @@ const renderPolygon = async (child, screenWidth, screenHeight, originalJson, pat
     }
 
     function onDragStart() {
+      this.pivot.set(50);
       this.alpha = 0.5;
       dragTarget = this;
       app.stage.on('pointermove', onDragMove);
