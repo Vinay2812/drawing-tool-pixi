@@ -51,14 +51,21 @@ const FigmaRenderer = ({ figmaJson }) => {
           down
         </button>
       </div>
-      <div id={elementId} />
       <div
-        id={'matterJs'}
         style={{
-          position: 'absolute',
-          marginTop: '37px'
+          position: 'relative'
         }}
-      />
+      >
+        <div id={elementId} />
+        <div
+          id={'matterJs'}
+          style={{
+            top: 0,
+            position: 'absolute',
+            marginTop: 50
+          }}
+        />
+      </div>
     </>
   );
 };

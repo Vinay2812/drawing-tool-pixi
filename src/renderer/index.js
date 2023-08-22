@@ -2,7 +2,7 @@
 import * as PIXI from 'pixi.js';
 import { parseFigmaJson } from '../parser/parser';
 import { renderFigmaFromParsedJson } from './renderer';
-import Matter from 'matter-js';
+import Matter, { Bodies, Engine, World } from 'matter-js';
 import AnimaionRenderer from '../components/AnimationRenderer';
 
 // Create a PIXI Application
@@ -75,24 +75,22 @@ export const renderFigmaJson = (
       element: currentElement,
       engine: engine,
       options: {
-        width: 1870,
-        height: 944,
+        width: canvas.width,
+        height: canvas.height,
         wireframes: false,
         background: 'transparent'
       }
     });
     const container = app.stage.getChildByName('root');
     // AnimaionRenderer({
-    // engine,
+    //   parentContainer: container,
+    //   engine,
     //   app,
     //   type: 'balloon',
     //   other: {
-    //     balloonName: 'balloonSprite',
-    //     weightName: 'rectangleSprite',
-    //     groundName: 'groundSprite',
+    //     balloonName: '244:180',
     //     ballonMass: 1,
-    //     weightMass: 1,
-    //     ballonForce: { x: 0, y: -0.002 }
+    //     weightMass: 1
     //   }
     // });
     // AnimaionRenderer({
@@ -104,22 +102,23 @@ export const renderFigmaJson = (
     //     speed: 0.1
     //   }
     // });
-    // const catapultSprite = findChildByNameDeep(container, '8:136');
-    // console.log((catapultSprite.rotation * 180) / Math.PI);
-    AnimaionRenderer({
-      parentContainer: container,
-      engine,
-      app,
-      type: 'seesaw',
-      other: {
-        groundName: 'groundSprite',
-        weight1Name: '243:150',
-        weight2Name: '243:153',
-        seesawName: '217:184',
-        weight1Mass: 2,
-        weight2Mass: 1
-      }
-    });
+    // AnimaionRenderer({
+    //   parentContainer: container,
+    //   engine,
+    //   app,
+    //   type: 'seesaw',
+    //   other: {
+    //     groundName: 'groundSprite',
+    //     weight1Name: '243:150',
+    //     weight2Name: '243:153',
+    //     seesawName: '217:184',
+    //     weight1Mass: 1.1,
+    //     weight2Mass: 1
+    //   },
+    //   onCompleted: () => {
+    //     console.log('called');
+    //   }
+    // });
     Matter.Runner.run(engine);
     // Matter.Render.run(render);
   }
