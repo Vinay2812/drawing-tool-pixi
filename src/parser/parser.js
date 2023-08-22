@@ -84,6 +84,7 @@ const parseChild = (child, level, minX, minY, parentObject = null) => {
     level,
     children: child.children ? child.children.map(c => parseChild(c, level + 1, minX, minY, child)) : [],
     interactions: child.interactions,
+    properties: child.properties,
     variants: child.variants ? child.variants.map(i => i.map(c => parseChild(c, level + 1, minX, minY, child))) : [],
     dragConfig: child.dragConfig,
     dropConfig: child.dropConfig

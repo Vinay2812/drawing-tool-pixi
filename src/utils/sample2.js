@@ -1,9 +1,20 @@
+const WProperties = {
+  type: 'watermelon',
+  mass: 2
+};
+
+const SProperties = {
+  type: 'slice',
+  mass: 1
+};
+
 const interactionsAnimation = [
   {
     event: 'onClick',
     effects: [
       {
-        type: 'toggleAnimation'
+        type: 'toggleAnimation',
+        action: 'seesaw'
       }
     ]
   }
@@ -71,6 +82,7 @@ const value = {
   strokeGeometry: [],
   strokeAlign: 'INSIDE',
   children: [
+    // seesaw triangle
     {
       id: '217:182',
       name: 'Polygon 7',
@@ -127,7 +139,11 @@ const value = {
       strokeAlign: 'INSIDE',
       children: []
     },
+    // seesaw line
     {
+      properties: {
+        type: 'seeSawLine'
+      },
       id: '217:184',
       name: 'Pan with handle',
       visible: true,
@@ -456,71 +472,12 @@ const value = {
       layoutGrids: [],
       overflowDirection: 'NONE'
     },
-    {
-      id: '243:149',
-      name: 'Frame 409',
-      visible: true,
-      type: 'FRAME',
-      rotation: 0,
-      componentPropertyReferences: null,
-      boundVariables: {},
-      locked: false,
-      exportSettings: [],
-      blendMode: 'PASS_THROUGH',
-      layoutAlign: 'INHERIT',
-      layoutGrow: 0,
-      constraints: { horizontal: 'MIN', vertical: 'MIN' },
-      opacity: 1,
-      absoluteBoundingBox: { x: 35, y: 235, width: 71, height: 62 },
-      absoluteRenderBounds: { x: 35, y: 235, width: 71, height: 62 },
-      effects: [],
-      relativeTransform: [
-        [1, 0, 35],
-        [0, 1, 235]
-      ],
-      absoluteTransform: [
-        [1, 0, 35],
-        [0, 1, 235]
-      ],
-      isMask: false,
-      fills: [],
-      fillGeometry: [{ windingRule: 'NONZERO', data: 'M0 0L71 0L71 62L0 62L0 0Z' }],
-      strokes: [],
-      strokeWeight: 1,
-      strokeCap: 'NONE',
-      strokeJoin: 'MITER',
-      strokeGeometry: [],
-      strokeAlign: 'INSIDE',
-      children: [],
-      cornerSmoothing: 0,
-      minWidth: null,
-      maxWidth: null,
-      minHeight: null,
-      maxHeight: null,
-      clipsContent: true,
-      layoutMode: 'NONE',
-      layoutWrap: 'NO_WRAP',
-      primaryAxisSizingMode: 'AUTO',
-      counterAxisSizingMode: 'FIXED',
-      primaryAxisAlignItems: 'MIN',
-      counterAxisAlignItems: 'MIN',
-      counterAxisAlignContent: 'AUTO',
-      paddingLeft: 0,
-      paddingRight: 0,
-      paddingTop: 0,
-      paddingBottom: 0,
-      horizontalPadding: 0,
-      verticalPadding: 0,
-      itemSpacing: 0,
-      counterAxisSpacing: 0,
-      layoutPositioning: 'AUTO',
-      itemReverseZIndex: false,
-      strokesIncludedInLayout: false,
-      layoutGrids: [],
-      overflowDirection: 'NONE'
-    },
+    // seesaw left
     {
       dropConfig,
+      properties: {
+        type: 'seeSawLeft'
+      },
       id: '243:150',
       name: 'Frame 410',
       visible: true,
@@ -557,7 +514,8 @@ const value = {
       strokeAlign: 'INSIDE',
       children: [
         {
-          // dragConfig,
+          dragConfig,
+          properties: WProperties,
           id: '243:156',
           name: 'Rectangle 153',
           visible: !true,
@@ -613,74 +571,10 @@ const value = {
           cornerRadius: 0,
           cornerSmoothing: 0,
           children: []
-        }
-      ],
-      cornerSmoothing: 0,
-      minWidth: null,
-      maxWidth: null,
-      minHeight: null,
-      maxHeight: null,
-      clipsContent: true,
-      layoutMode: 'NONE',
-      layoutWrap: 'NO_WRAP',
-      primaryAxisSizingMode: 'AUTO',
-      counterAxisSizingMode: 'FIXED',
-      primaryAxisAlignItems: 'MIN',
-      counterAxisAlignItems: 'MIN',
-      counterAxisAlignContent: 'AUTO',
-      paddingLeft: 0,
-      paddingRight: 0,
-      paddingTop: 0,
-      paddingBottom: 0,
-      horizontalPadding: 0,
-      verticalPadding: 0,
-      itemSpacing: 0,
-      counterAxisSpacing: 0,
-      layoutPositioning: 'AUTO',
-      itemReverseZIndex: false,
-      strokesIncludedInLayout: false,
-      layoutGrids: [],
-      overflowDirection: 'NONE'
-    },
-    {
-      dropConfig,
-      id: '243:153',
-      name: 'Frame 411',
-      visible: true,
-      type: 'FRAME',
-      rotation: 0,
-      componentPropertyReferences: null,
-      boundVariables: {},
-      locked: false,
-      exportSettings: [],
-      blendMode: 'PASS_THROUGH',
-      layoutAlign: 'INHERIT',
-      layoutGrow: 0,
-      constraints: { horizontal: 'MIN', vertical: 'MIN' },
-      opacity: 1,
-      absoluteBoundingBox: { x: 249, y: 237, width: 79, height: 62 },
-      absoluteRenderBounds: { x: 249, y: 237, width: 79, height: 62 },
-      effects: [],
-      relativeTransform: [
-        [1, 0, 249],
-        [0, 1, 237]
-      ],
-      absoluteTransform: [
-        [1, 0, 249],
-        [0, 1, 237]
-      ],
-      isMask: false,
-      fills: [],
-      fillGeometry: [{ windingRule: 'NONZERO', data: 'M0 0L79 0L79 62L0 62L0 0Z' }],
-      strokes: [],
-      strokeWeight: 1,
-      strokeCap: 'NONE',
-      strokeJoin: 'MITER',
-      strokeGeometry: [],
-      strokeAlign: 'INSIDE',
-      children: [
+        },
         {
-          // dragConfig,
+          dragConfig,
+          properties: SProperties,
           id: '243:157',
           name: 'Rectangle 157',
           visible: !true,
@@ -738,7 +632,8 @@ const value = {
           children: []
         },
         {
-          // dragConfig,
+          dragConfig,
+          properties: SProperties,
           id: '243:158',
           name: 'Rectangle 158',
           visible: !true,
@@ -796,7 +691,8 @@ const value = {
           children: []
         },
         {
-          // dragConfig,
+          dragConfig,
+          properties: SProperties,
           id: '243:159',
           name: 'Rectangle 159',
           visible: !true,
@@ -881,6 +777,312 @@ const value = {
       layoutGrids: [],
       overflowDirection: 'NONE'
     },
+    // seesaw right
+    {
+      dropConfig,
+      properties: {
+        type: 'seeSawRight'
+      },
+      id: '243:153',
+      name: 'Frame 411',
+      visible: true,
+      type: 'FRAME',
+      rotation: 0,
+      componentPropertyReferences: null,
+      boundVariables: {},
+      locked: false,
+      exportSettings: [],
+      blendMode: 'PASS_THROUGH',
+      layoutAlign: 'INHERIT',
+      layoutGrow: 0,
+      constraints: { horizontal: 'MIN', vertical: 'MIN' },
+      opacity: 1,
+      absoluteBoundingBox: { x: 249, y: 237, width: 79, height: 62 },
+      absoluteRenderBounds: { x: 249, y: 237, width: 79, height: 62 },
+      effects: [],
+      relativeTransform: [
+        [1, 0, 249],
+        [0, 1, 237]
+      ],
+      absoluteTransform: [
+        [1, 0, 249],
+        [0, 1, 237]
+      ],
+      isMask: false,
+      fills: [],
+      fillGeometry: [{ windingRule: 'NONZERO', data: 'M0 0L79 0L79 62L0 62L0 0Z' }],
+      strokes: [],
+      strokeWeight: 1,
+      strokeCap: 'NONE',
+      strokeJoin: 'MITER',
+      strokeGeometry: [],
+      strokeAlign: 'INSIDE',
+      children: [
+        {
+          dragConfig,
+          properties: WProperties,
+          id: '243:156',
+          name: 'Rectangle 153',
+          visible: !true,
+          type: 'RECTANGLE',
+          rotation: 0,
+          componentPropertyReferences: null,
+          boundVariables: {},
+          locked: false,
+          exportSettings: [],
+          blendMode: 'PASS_THROUGH',
+          layoutAlign: 'INHERIT',
+          layoutGrow: 0,
+          constraints: { horizontal: 'MIN', vertical: 'MIN' },
+          opacity: 1,
+          absoluteBoundingBox: { x: 35, y: 225, width: 74, height: 74 },
+          absoluteRenderBounds: { x: 35, y: 237, width: 74, height: 62 },
+          effects: [],
+          relativeTransform: [
+            [1, 0, 0],
+            [0, 1, -12]
+          ],
+          absoluteTransform: [
+            [1, 0, 35],
+            [0, 1, 225]
+          ],
+          isMask: false,
+          fills: [
+            {
+              type: 'IMAGE',
+              visible: true,
+              opacity: 1,
+              blendMode: 'NORMAL',
+              scaleMode: 'FILL',
+              imageTransform: [
+                [1, 0, 0],
+                [0, 1, 0]
+              ],
+              scalingFactor: 0.5,
+              rotation: 0,
+              filters: { exposure: 0, contrast: 0, saturation: 0, temperature: 0, tint: 0, highlights: 0, shadows: 0 },
+              imageHash: '187d57dbdafb511550fa3e853842b6cdb16f3473',
+              imageRef:
+                'https://sets-gamify-assets.s3.ap-south-1.amazonaws.com/dev/figma/assets/187d57dbdafb511550fa3e853842b6cdb16f3473'
+            }
+          ],
+          fillGeometry: [{ windingRule: 'NONZERO', data: 'M0 0L74 0L74 74L0 74L0 0Z' }],
+          strokes: [],
+          strokeWeight: 1,
+          strokeCap: 'NONE',
+          strokeJoin: 'MITER',
+          strokeGeometry: [],
+          strokeAlign: 'INSIDE',
+          cornerRadius: 0,
+          cornerSmoothing: 0,
+          children: []
+        },
+        {
+          dragConfig,
+          properties: SProperties,
+          id: '243:157',
+          name: 'Rectangle 157',
+          visible: !true,
+          type: 'RECTANGLE',
+          rotation: 0,
+          componentPropertyReferences: null,
+          boundVariables: {},
+          locked: false,
+          exportSettings: [],
+          blendMode: 'PASS_THROUGH',
+          layoutAlign: 'INHERIT',
+          layoutGrow: 0,
+          constraints: { horizontal: 'MIN', vertical: 'MIN' },
+          opacity: 1,
+          absoluteBoundingBox: { x: 249, y: 236, width: 64, height: 64 },
+          absoluteRenderBounds: { x: 249, y: 237, width: 64, height: 62 },
+          effects: [],
+          relativeTransform: [
+            [1, 0, 0],
+            [0, 1, -1]
+          ],
+          absoluteTransform: [
+            [1, 0, 249],
+            [0, 1, 236]
+          ],
+          isMask: false,
+          fills: [
+            {
+              type: 'IMAGE',
+              visible: true,
+              opacity: 1,
+              blendMode: 'NORMAL',
+              scaleMode: 'FILL',
+              imageTransform: [
+                [1, 0, 0],
+                [0, 1, 0]
+              ],
+              scalingFactor: 0.5,
+              rotation: 0,
+              filters: { exposure: 0, contrast: 0, saturation: 0, temperature: 0, tint: 0, highlights: 0, shadows: 0 },
+              imageHash: 'a1dabcff6fda50dfd43a60dc6d78fa21ccd180ea',
+              imageRef:
+                'https://sets-gamify-assets.s3.ap-south-1.amazonaws.com/dev/figma/assets/a1dabcff6fda50dfd43a60dc6d78fa21ccd180ea'
+            }
+          ],
+          fillGeometry: [{ windingRule: 'NONZERO', data: 'M0 0L64 0L64 64L0 64L0 0Z' }],
+          strokes: [],
+          strokeWeight: 1,
+          strokeCap: 'NONE',
+          strokeJoin: 'MITER',
+          strokeGeometry: [],
+          strokeAlign: 'INSIDE',
+          cornerRadius: 0,
+          cornerSmoothing: 0,
+          children: []
+        },
+        {
+          dragConfig,
+          properties: SProperties,
+          id: '243:158',
+          name: 'Rectangle 158',
+          visible: !true,
+          type: 'RECTANGLE',
+          rotation: 0,
+          componentPropertyReferences: null,
+          boundVariables: {},
+          locked: false,
+          exportSettings: [],
+          blendMode: 'PASS_THROUGH',
+          layoutAlign: 'INHERIT',
+          layoutGrow: 0,
+          constraints: { horizontal: 'MIN', vertical: 'MIN' },
+          opacity: 1,
+          absoluteBoundingBox: { x: 256, y: 237, width: 64, height: 64 },
+          absoluteRenderBounds: { x: 256, y: 237, width: 64, height: 62 },
+          effects: [],
+          relativeTransform: [
+            [1, 0, 7],
+            [0, 1, 0]
+          ],
+          absoluteTransform: [
+            [1, 0, 256],
+            [0, 1, 237]
+          ],
+          isMask: false,
+          fills: [
+            {
+              type: 'IMAGE',
+              visible: true,
+              opacity: 1,
+              blendMode: 'NORMAL',
+              scaleMode: 'FILL',
+              imageTransform: [
+                [1, 0, 0],
+                [0, 1, 0]
+              ],
+              scalingFactor: 0.5,
+              rotation: 0,
+              filters: { exposure: 0, contrast: 0, saturation: 0, temperature: 0, tint: 0, highlights: 0, shadows: 0 },
+              imageHash: 'a1dabcff6fda50dfd43a60dc6d78fa21ccd180ea',
+              imageRef:
+                'https://sets-gamify-assets.s3.ap-south-1.amazonaws.com/dev/figma/assets/a1dabcff6fda50dfd43a60dc6d78fa21ccd180ea'
+            }
+          ],
+          fillGeometry: [{ windingRule: 'NONZERO', data: 'M0 0L64 0L64 64L0 64L0 0Z' }],
+          strokes: [],
+          strokeWeight: 1,
+          strokeCap: 'NONE',
+          strokeJoin: 'MITER',
+          strokeGeometry: [],
+          strokeAlign: 'INSIDE',
+          cornerRadius: 0,
+          cornerSmoothing: 0,
+          children: []
+        },
+        {
+          dragConfig,
+          properties: SProperties,
+          id: '243:159',
+          name: 'Rectangle 159',
+          visible: !true,
+          type: 'RECTANGLE',
+          rotation: 0,
+          componentPropertyReferences: null,
+          boundVariables: {},
+          locked: false,
+          exportSettings: [],
+          blendMode: 'PASS_THROUGH',
+          layoutAlign: 'INHERIT',
+          layoutGrow: 0,
+          constraints: { horizontal: 'MIN', vertical: 'MIN' },
+          opacity: 1,
+          absoluteBoundingBox: { x: 264, y: 237, width: 64, height: 64 },
+          absoluteRenderBounds: { x: 264, y: 237, width: 64, height: 62 },
+          effects: [],
+          relativeTransform: [
+            [1, 0, 15],
+            [0, 1, 0]
+          ],
+          absoluteTransform: [
+            [1, 0, 264],
+            [0, 1, 237]
+          ],
+          isMask: false,
+          fills: [
+            {
+              type: 'IMAGE',
+              visible: true,
+              opacity: 1,
+              blendMode: 'NORMAL',
+              scaleMode: 'FILL',
+              imageTransform: [
+                [1, 0, 0],
+                [0, 1, 0]
+              ],
+              scalingFactor: 0.5,
+              rotation: 0,
+              filters: { exposure: 0, contrast: 0, saturation: 0, temperature: 0, tint: 0, highlights: 0, shadows: 0 },
+              imageHash: 'a1dabcff6fda50dfd43a60dc6d78fa21ccd180ea',
+              imageRef:
+                'https://sets-gamify-assets.s3.ap-south-1.amazonaws.com/dev/figma/assets/a1dabcff6fda50dfd43a60dc6d78fa21ccd180ea'
+            }
+          ],
+          fillGeometry: [{ windingRule: 'NONZERO', data: 'M0 0L64 0L64 64L0 64L0 0Z' }],
+          strokes: [],
+          strokeWeight: 1,
+          strokeCap: 'NONE',
+          strokeJoin: 'MITER',
+          strokeGeometry: [],
+          strokeAlign: 'INSIDE',
+          cornerRadius: 0,
+          cornerSmoothing: 0,
+          children: []
+        }
+      ],
+      cornerSmoothing: 0,
+      minWidth: null,
+      maxWidth: null,
+      minHeight: null,
+      maxHeight: null,
+      clipsContent: true,
+      layoutMode: 'NONE',
+      layoutWrap: 'NO_WRAP',
+      primaryAxisSizingMode: 'AUTO',
+      counterAxisSizingMode: 'FIXED',
+      primaryAxisAlignItems: 'MIN',
+      counterAxisAlignItems: 'MIN',
+      counterAxisAlignContent: 'AUTO',
+      paddingLeft: 0,
+      paddingRight: 0,
+      paddingTop: 0,
+      paddingBottom: 0,
+      horizontalPadding: 0,
+      verticalPadding: 0,
+      itemSpacing: 0,
+      counterAxisSpacing: 0,
+      layoutPositioning: 'AUTO',
+      itemReverseZIndex: false,
+      strokesIncludedInLayout: false,
+      layoutGrids: [],
+      overflowDirection: 'NONE'
+    },
+    // seesaw items
     {
       dropConfig,
       id: '243:160',
@@ -920,6 +1122,7 @@ const value = {
       children: [
         {
           dragConfig,
+          properties: WProperties,
           id: '243:161',
           name: 'Rectangle 153',
           visible: true,
@@ -978,6 +1181,7 @@ const value = {
         },
         {
           dragConfig,
+          properties: SProperties,
           id: '243:163',
           name: 'Rectangle 157',
           visible: true,
@@ -1036,6 +1240,7 @@ const value = {
         },
         {
           dragConfig,
+          properties: SProperties,
           id: '243:164',
           name: 'Rectangle 158',
           visible: true,
@@ -1094,6 +1299,7 @@ const value = {
         },
         {
           dragConfig,
+          properties: SProperties,
           id: '243:166',
           name: 'Rectangle 159',
           visible: true,
@@ -1178,6 +1384,7 @@ const value = {
       layoutGrids: [],
       overflowDirection: 'NONE'
     },
+    // submit
     {
       id: '8:99',
       name: 'Rectangle 163',

@@ -12,6 +12,7 @@ import TextInput from './PIXI.TextInput';
 import { debounce } from 'lodash';
 
 let dragTarget = null;
+let dragData = null;
 const dropAreas = [];
 
 export const renderFigmaFromParsedJson = (app, parsedJson, setFigmaJson, { scaleHeight, scaleWidth }, rest) => {
@@ -275,7 +276,7 @@ const renderInput = async child => {
 };
 
 const renderPolygon = async (child, screenWidth, screenHeight, originalJson, path = [], setFigmaJson, app, rest) => {
-  const { setClicked } = rest || {};
+  const { setAnimationType } = rest || {};
   if (!child.visible) return;
 
   let pixiObject = new PIXI.Graphics();
@@ -532,7 +533,7 @@ const renderPolygon = async (child, screenWidth, screenHeight, originalJson, pat
                   set(originalJson, [...newPath, 'children'], get(originalJson, [...newPath, 'variants', 0]));
                   break;
                 case 'toggleAnimation':
-                  setClicked('down');
+                  setAnimationType(effect.action);
                   break;
                 default:
               }
@@ -556,6 +557,9 @@ const renderPolygon = async (child, screenWidth, screenHeight, originalJson, pat
     // pixiObject.scale.set(3);
 
     function onDragEnd(event) {
+      console.log('🚀 ~ file: renderer.js:561 ~ onDragEnd ~ dragData:');
+      if (dragData && dragData.id !== child.id) return;
+
       if (dragTarget) {
         const dropAreaIndex = dropAreas.findIndex(item => {
           const width = item.width;
@@ -584,7 +588,7 @@ const renderPolygon = async (child, screenWidth, screenHeight, originalJson, pat
           set(originalJson, [...path, 'visible'], false);
           // show original child in dropped area
           const hiddenItemIndex = get(originalJson, [...get(dropAreas, [dropAreaIndex, 'path']), 'children']).findIndex(
-            i => !i.visible
+            i => !i.visible && child.properties === i.properties
           );
           set(originalJson, [...get(dropAreas, [dropAreaIndex, 'path']), 'children', hiddenItemIndex, 'visible'], true);
           // update canvas
@@ -596,6 +600,7 @@ const renderPolygon = async (child, screenWidth, screenHeight, originalJson, pat
         dragTarget.alpha = 1;
         dragTarget.pivot.set(0);
         dragTarget = null;
+        dragData = null;
       }
     }
 
@@ -649,6 +654,7 @@ const renderPolygon = async (child, screenWidth, screenHeight, originalJson, pat
       this.pivot.set(50);
       this.alpha = 0.5;
       dragTarget = this;
+      dragData = child;
       app.stage.on('pointermove', onDragMove);
     }
 

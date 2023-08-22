@@ -14,6 +14,7 @@ const FigmaRenderer = ({ figmaJson }) => {
   const [figmaJsonState, setFigmaJson] = React.useState(figmaJson);
   const [isUpdated, setIsUpdated] = React.useState(false);
   const [clicked, setClicked] = useState('');
+  const [animationType, setAnimationType] = useState(null);
   // Create a unique ID for the container element
   const elementId = 'figma-canvas-container';
 
@@ -28,9 +29,9 @@ const FigmaRenderer = ({ figmaJson }) => {
       },
       isUpdated,
       setIsUpdated,
-      { clicked, setClicked, engine }
+      { clicked, engine, animationType, setAnimationType }
     );
-  }, [figmaJsonState, isUpdated, clicked]);
+  }, [figmaJsonState, isUpdated, clicked, animationType]);
 
   Matter.Runner.run(engine);
   return (

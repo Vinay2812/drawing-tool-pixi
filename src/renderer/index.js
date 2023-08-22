@@ -4,6 +4,7 @@ import { parseFigmaJson } from '../parser/parser';
 import { renderFigmaFromParsedJson } from './renderer';
 import Matter, { Bodies, Engine, World } from 'matter-js';
 import AnimaionRenderer from '../components/AnimationRenderer';
+import get from 'lodash/get';
 
 // Create a PIXI Application
 export const app = new PIXI.Application({
@@ -28,7 +29,7 @@ export const renderFigmaJson = (
   setIsUpdated,
   props
 ) => {
-  const { clicked, setClicked } = props;
+  const { clicked, animationType, setAnimationType } = props;
   // Check if canvas already exists
   const currentElement = document.getElementById(elementId);
   const canvas = currentElement?.querySelector('canvas');
@@ -38,7 +39,7 @@ export const renderFigmaJson = (
 
   const scaleWidth = screenWidth / orgFigmaJson?.absoluteBoundingBox?.width;
   const scaleHeight = screenHeight / orgFigmaJson?.absoluteBoundingBox?.height;
-  const rest = { setClicked };
+  const rest = { animationType, setAnimationType };
 
   if (!canvas) {
     // Parse the Figma JSON into a PIXI Container
@@ -68,7 +69,8 @@ export const renderFigmaJson = (
       scaleWidth * orgFigmaJson?.absoluteRenderBounds?.height
     );
   }
-  if (canvas && clicked) {
+
+  if (canvas && (clicked || animationType)) {
     const engine = Matter.Engine.create();
     const currentElement = document.getElementById('matterJs');
     let render = Matter.Render.create({
@@ -82,6 +84,7 @@ export const renderFigmaJson = (
       }
     });
     const container = app.stage.getChildByName('root');
+
     // AnimaionRenderer({
     //   parentContainer: container,
     //   engine,
@@ -93,6 +96,7 @@ export const renderFigmaJson = (
     //     weightMass: 1
     //   }
     // });
+
     // AnimaionRenderer({
     // engine,
     //   app,
@@ -102,23 +106,43 @@ export const renderFigmaJson = (
     //     speed: 0.1
     //   }
     // });
-    // AnimaionRenderer({
-    //   parentContainer: container,
-    //   engine,
-    //   app,
-    //   type: 'seesaw',
-    //   other: {
-    //     groundName: 'groundSprite',
-    //     weight1Name: '243:150',
-    //     weight2Name: '243:153',
-    //     seesawName: '217:184',
-    //     weight1Mass: 1.1,
-    //     weight2Mass: 1
-    //   },
-    //   onCompleted: () => {
-    //     console.log('called');
-    //   }
-    // });
+
+    switch (animationType) {
+      case 'seesaw':
+        const seeSawLeft = get(figmaJson, ['children', 0, 'children']).filter(i => i.properties?.type === 'seeSawLeft');
+        const seeSawRight = get(figmaJson, ['children', 0, 'children']).filter(i => i.properties?.type === 'seeSawRight');
+        const seeSawLine = get(figmaJson, ['children', 0, 'children']).filter(i => i.properties?.type === 'seeSawLine');
+
+        if (!seeSawLeft.length || !seeSawRight.length || !seeSawLine.length) break;
+        const getWeight = obj =>
+          get(obj, [0, 'children'])
+            ?.filter(i => i.visible)
+            ?.map(i => i.properties?.mass)
+            .reduce((sum, i) => sum + i, 0);
+        const seeSawLeftWeight = getWeight(seeSawLeft);
+        const seeSawRightWeight = getWeight(seeSawRight);
+
+        AnimaionRenderer({
+          parentContainer: container,
+          engine,
+          app,
+          type: 'seesaw',
+          other: {
+            groundName: 'groundSprite',
+            weight1Name: get(seeSawLeft, [0, 'id']),
+            weight2Name: get(seeSawRight, [0, 'id']),
+            seesawName: get(seeSawLine, [0, 'id']),
+            weight1Mass: seeSawLeftWeight,
+            weight2Mass: seeSawRightWeight
+          },
+          onCompleted: () => {
+            console.log('called');
+          }
+        });
+        break;
+      default:
+    }
+
     Matter.Runner.run(engine);
     // Matter.Render.run(render);
   }
