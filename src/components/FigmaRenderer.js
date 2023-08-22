@@ -28,7 +28,7 @@ const FigmaRenderer = ({ figmaJson }) => {
       },
       isUpdated,
       setIsUpdated,
-      { clicked, engine }
+      { clicked, setClicked, engine }
     );
   }, [figmaJsonState, isUpdated, clicked]);
 

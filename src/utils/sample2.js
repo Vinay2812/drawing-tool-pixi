@@ -1,3 +1,14 @@
+const interactionsAnimation = [
+  {
+    event: 'onClick',
+    effects: [
+      {
+        type: 'toggleAnimation'
+      }
+    ]
+  }
+];
+
 const dragConfig = {
   canDrag: true,
   maxDragRange: [200, 150]
@@ -1166,6 +1177,169 @@ const value = {
       strokesIncludedInLayout: false,
       layoutGrids: [],
       overflowDirection: 'NONE'
+    },
+    {
+      id: '8:99',
+      name: 'Rectangle 163',
+      visible: true,
+      type: 'RECTANGLE',
+      rotation: 0,
+      componentPropertyReferences: null,
+      boundVariables: {},
+      locked: false,
+      exportSettings: [],
+      blendMode: 'PASS_THROUGH',
+      layoutAlign: 'INHERIT',
+      layoutGrow: 0,
+      constraints: {
+        horizontal: 'MIN',
+        vertical: 'MIN'
+      },
+      opacity: 1,
+      absoluteBoundingBox: {
+        x: 120,
+        y: 478,
+        width: 50,
+        height: 50
+      },
+      absoluteRenderBounds: {
+        x: 120,
+        y: 478,
+        width: 50,
+        height: 50
+      },
+      effects: [],
+      relativeTransform: [
+        [1, 0, 10],
+        [0, 1, 10]
+      ],
+      absoluteTransform: [
+        [1, 0, 120],
+        [0, 1, 478]
+      ],
+      isMask: false,
+      fills: [
+        {
+          type: 'SOLID',
+          visible: true,
+          opacity: 1,
+          blendMode: 'NORMAL',
+          color: {
+            r: 0.5921568870544434,
+            g: 0.27843138575553894,
+            b: 1
+          },
+          boundVariables: {}
+        }
+      ],
+      fillGeometry: [
+        {
+          windingRule: 'NONZERO',
+          data: 'M0 0L50 0L50 50L0 50L0 0Z'
+        }
+      ],
+      strokes: [],
+      strokeWeight: 1,
+      strokeCap: 'NONE',
+      strokeJoin: 'MITER',
+      strokeGeometry: [],
+      strokeAlign: 'INSIDE',
+      cornerRadius: 0,
+      cornerSmoothing: 0,
+      interactions: interactionsAnimation,
+      children: [
+        {
+          id: '72:276',
+          name: '1',
+          visible: true,
+          type: 'TEXT',
+          rotation: 0,
+          componentPropertyReferences: null,
+          boundVariables: {},
+          locked: false,
+          exportSettings: [],
+          blendMode: 'PASS_THROUGH',
+          layoutAlign: 'INHERIT',
+          layoutGrow: 0,
+          constraints: {
+            horizontal: 'MIN',
+            vertical: 'MIN'
+          },
+          opacity: 1,
+          absoluteBoundingBox: {
+            x: 144,
+            y: 244,
+            width: 8,
+            height: 24
+          },
+          absoluteRenderBounds: {
+            x: 144.95199584960938,
+            y: 248.17599487304688,
+            width: 4.32000732421875,
+            height: 11.824005126953125
+          },
+          effects: [],
+          relativeTransform: [
+            [1, 0, 24],
+            [0, 1, 16]
+          ],
+          absoluteTransform: [
+            [1, 0, 144],
+            [0, 1, 244]
+          ],
+          isMask: false,
+          fills: [
+            {
+              type: 'SOLID',
+              visible: true,
+              opacity: 1,
+              blendMode: 'NORMAL',
+              color: {
+                r: 0,
+                g: 0,
+                b: 0
+              },
+              boundVariables: {}
+            }
+          ],
+          fillGeometry: [
+            {
+              windingRule: 'NONZERO',
+              data: 'M5.272 4.176L5.272 16L3.176 16L3.176 6.216C3.12267 6.26933 2.98133 6.34133 2.752 6.432C2.528 6.51733 2.256 6.6 1.936 6.68C1.62133 6.75467 1.29333 6.808 0.952 6.84L0.952 5.128C1.29333 5.08533 1.62133 5.01067 1.936 4.904C2.256 4.79733 2.53067 4.68 2.76 4.552C2.98933 4.41867 3.144 4.29333 3.224 4.176L5.272 4.176Z'
+            }
+          ],
+          strokes: [],
+          strokeWeight: 1,
+          strokeCap: 'NONE',
+          strokeJoin: 'MITER',
+          strokeGeometry: [],
+          strokeAlign: 'OUTSIDE',
+          characters: 'Submit',
+          fontName: {
+            family: 'Epilogue',
+            style: 'SemiBold'
+          },
+          fontSize: 16,
+          fontWeight: 600,
+          letterSpacing: {
+            unit: 'PERCENT',
+            value: 0
+          },
+          lineHeight: {
+            unit: 'PERCENT',
+            value: 150
+          },
+          listSpacing: 0,
+          paragraphIndent: 0,
+          paragraphSpacing: 0,
+          textAlignHorizontal: 'LEFT',
+          textAlignVertical: 'TOP',
+          textAutoResize: 'WIDTH_AND_HEIGHT',
+          textCase: 'ORIGINAL',
+          textDecoration: 'NONE',
+          textStyleId: ''
+        }
+      ]
     }
   ],
   cornerSmoothing: 0,

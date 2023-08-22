@@ -13,6 +13,9 @@ export const app = new PIXI.Application({
   resizeTo: window
 });
 
+// eslint-disable-next-line no-undef
+globalThis.__PIXI_APP__ = app;
+
 app.stage.eventMode = 'static';
 app.stage.hitArea = app.screen;
 
@@ -25,7 +28,7 @@ export const renderFigmaJson = (
   setIsUpdated,
   props
 ) => {
-  const { clicked } = props;
+  const { clicked, setClicked } = props;
   // Check if canvas already exists
   const currentElement = document.getElementById(elementId);
   const canvas = currentElement?.querySelector('canvas');
@@ -35,15 +38,22 @@ export const renderFigmaJson = (
 
   const scaleWidth = screenWidth / orgFigmaJson?.absoluteBoundingBox?.width;
   const scaleHeight = screenHeight / orgFigmaJson?.absoluteBoundingBox?.height;
+  const rest = { setClicked };
 
   if (!canvas) {
     // Parse the Figma JSON into a PIXI Container
     const parsedJson = !figmaJson.variables ? parseFigmaJson(figmaJson) : figmaJson;
 
-    const container = renderFigmaFromParsedJson(app, parsedJson, setFigmaJson, {
-      scaleHeight,
-      scaleWidth
-    });
+    const container = renderFigmaFromParsedJson(
+      app,
+      parsedJson,
+      setFigmaJson,
+      {
+        scaleHeight,
+        scaleWidth
+      },
+      rest
+    );
 
     app.renderer.plugins.interaction.autoPreventDefault = false;
     app.renderer.view.style.touchAction = 'auto';
@@ -103,10 +113,10 @@ export const renderFigmaJson = (
       type: 'seesaw',
       other: {
         groundName: 'groundSprite',
-        weight1Name: '217:190',
-        weight2Name: '217:191',
+        weight1Name: '243:150',
+        weight2Name: '243:153',
         seesawName: '217:184',
-        weight1Mass: 1,
+        weight1Mass: 2,
         weight2Mass: 1
       }
     });
@@ -118,15 +128,22 @@ export const renderFigmaJson = (
     if (app.stage.children.length) app.stage.removeChild(app.stage.children[0]);
 
     const parsedJson = figmaJson;
-    const container = renderFigmaFromParsedJson(app, parsedJson, setFigmaJson, {
-      scaleHeight,
-      scaleWidth
-    });
+    const container = renderFigmaFromParsedJson(
+      app,
+      parsedJson,
+      setFigmaJson,
+      {
+        scaleHeight,
+        scaleWidth
+      },
+      rest
+    );
 
     app.renderer.plugins.interaction.autoPreventDefault = false;
     app.renderer.view.style.touchAction = 'auto';
 
     // Add the container to the PIXI stage
+    container.name = 'root';
     app.stage.addChild(container);
 
     app.renderer.resize(

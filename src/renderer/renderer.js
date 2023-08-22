@@ -14,17 +14,28 @@ import { debounce } from 'lodash';
 let dragTarget = null;
 const dropAreas = [];
 
-export const renderFigmaFromParsedJson = (app, parsedJson, setFigmaJson, { scaleHeight, scaleWidth }) => {
+export const renderFigmaFromParsedJson = (app, parsedJson, setFigmaJson, { scaleHeight, scaleWidth }, rest) => {
   const children = parsedJson.children;
   const container = new PIXI.Container();
   container.sortableChildren = true;
   const screenWidth = children[0].absoluteBoundingBox.width;
   const screenHeight = children[0].absoluteBoundingBox.height;
   children.forEach((child, idx) => {
-    renderChild(child, container, screenWidth, screenHeight, parsedJson, ['children', idx], setFigmaJson, app, {
-      scaleHeight,
-      scaleWidth
-    });
+    renderChild(
+      child,
+      container,
+      screenWidth,
+      screenHeight,
+      parsedJson,
+      ['children', idx],
+      setFigmaJson,
+      app,
+      {
+        scaleHeight,
+        scaleWidth
+      },
+      rest
+    );
   });
   container.backgroundColor = 0xffffff;
   // const pixiChild = new PIXI.Graphics();
@@ -52,7 +63,8 @@ const renderChild = async (
   path = [],
   setFigmaJson,
   app,
-  { scaleHeight, scaleWidth }
+  { scaleHeight, scaleWidth },
+  rest
 ) => {
   if (!child) return;
   let pixiObject;
@@ -69,7 +81,7 @@ const renderChild = async (
     case 'LINE':
     case 'INSTANCE':
     case 'ELLIPSE':
-      pixiObject = await renderPolygon(child, screenWidth, screenHeight, originalJson, path, setFigmaJson, app);
+      pixiObject = await renderPolygon(child, screenWidth, screenHeight, originalJson, path, setFigmaJson, app, rest);
       break;
     case 'TEXT':
       pixiObject = await renderText(child, originalJson);
@@ -100,7 +112,8 @@ const renderChild = async (
         {
           scaleHeight,
           scaleWidth
-        }
+        },
+        rest
       );
     });
   }
@@ -261,7 +274,8 @@ const renderInput = async child => {
   return pixiObject;
 };
 
-const renderPolygon = async (child, screenWidth, screenHeight, originalJson, path = [], setFigmaJson, app) => {
+const renderPolygon = async (child, screenWidth, screenHeight, originalJson, path = [], setFigmaJson, app, rest) => {
+  const { setClicked } = rest || {};
   if (!child.visible) return;
 
   let pixiObject = new PIXI.Graphics();
@@ -517,11 +531,14 @@ const renderPolygon = async (child, screenWidth, screenHeight, originalJson, pat
                   // set new variant value
                   set(originalJson, [...newPath, 'children'], get(originalJson, [...newPath, 'variants', 0]));
                   break;
+                case 'toggleAnimation':
+                  setClicked('down');
+                  break;
                 default:
               }
             });
 
-            setFigmaJson(originalJson);
+            if (!i?.effects?.filter(i => i.type === 'toggleAnimation')?.length) setFigmaJson(originalJson);
           });
 
           break;
