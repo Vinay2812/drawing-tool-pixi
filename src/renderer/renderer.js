@@ -287,15 +287,15 @@ const renderPolygon = async (child, screenWidth, screenHeight, originalJson, pat
 
   pixiObject.name = child.id;
   pixiObject.zIndex = child.zIndex;
-  if (child.clipsContent) {
-    let mask = new PIXI.Graphics();
-    mask.name = child.id;
-    mask.beginFill(0x000000);
-    mask = drawShape(child, mask);
-    mask.endFill();
-    pixiObject.addChild(mask);
-    pixiObject.mask = mask;
-  }
+  // if (child.clipsContent) {
+  //   let mask = new PIXI.Graphics();
+  //   mask.name = child.id;
+  //   mask.beginFill(0x000000);
+  //   mask = drawShape(child, mask);
+  //   mask.endFill();
+  //   pixiObject.addChild(mask);
+  //   pixiObject.mask = mask;
+  // }
 
   let fillColor =
     child?.fills?.length > 0 &&
@@ -557,7 +557,6 @@ const renderPolygon = async (child, screenWidth, screenHeight, originalJson, pat
     // pixiObject.scale.set(3);
 
     function onDragEnd(event) {
-      console.log('🚀 ~ file: renderer.js:561 ~ onDragEnd ~ dragData:');
       if (dragData && dragData.id !== child.id) return;
 
       if (dragTarget) {
