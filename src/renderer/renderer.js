@@ -40,6 +40,16 @@ export const renderFigmaFromParsedJson = (
   return container;
 };
 
+const getScaleWidth = (scaleWidth, { maxWidth, width, minWidth }) => {
+  let scale = 1;
+  if (minWidth && scaleWidth * width < minWidth) {
+    scale = minWidth / width;
+  } else if (maxWidth && scaleWidth * width > maxWidth) {
+    scale = maxWidth / width;
+  }
+  return scale;
+};
+
 const renderChild = async (
   child,
   parentContainer,
@@ -74,7 +84,13 @@ const renderChild = async (
       break;
   }
 
-  // pixiObject?.scale?.set(1 / scaleWidth);
+  pixiObject?.scale?.set(
+    getScaleWidth(scaleWidth, {
+      width: child?.size?.width,
+      maxWIdth: child?.maxWIdth,
+      minWidth: child?.minWidth,
+    })
+  );
 
   if (parentContainer && pixiObject) {
     parentContainer.addChild(pixiObject);
