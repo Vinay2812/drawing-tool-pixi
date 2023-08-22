@@ -212,13 +212,8 @@ function AnimaionRenderer(props) {
       body2Sprite.rotation = body2.angle;
 
       const a = (initail.catapult.rotation - catapult.angle) * (catapultSprite.width / 2);
-      if (a > 0) {
-        body1Sprite.y = initail.body1.y + a;
-        body2Sprite.y = initail.body2.y - a;
-      } else {
-        body1Sprite.y = initail.body1.y - a;
-        body2Sprite.y = initail.body2.y + a;
-      }
+      body1Sprite.y = initail.body1.y + a;
+      body2Sprite.y = initail.body2.y - a;
     }
 
     // Add the ticker to update both Matter.js and Pixi.js
