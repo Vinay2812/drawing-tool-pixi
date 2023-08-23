@@ -86,8 +86,10 @@ const parseChild = (child, level, minX, minY, parentObject = null) => {
     interactions: child.interactions,
     properties: child.properties,
     variants: child.variants ? child.variants.map(i => i.map(c => parseChild(c, level + 1, minX, minY, child))) : [],
+    // need to remove this
     dragConfig: child.dragConfig,
-    dropConfig: child.dropConfig
+    dropConfig: child.dropConfig,
+    modifiers: child.modifiers
   };
   switch (child.type) {
     case 'CANVAS':

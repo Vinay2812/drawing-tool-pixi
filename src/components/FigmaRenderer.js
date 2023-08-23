@@ -2,6 +2,7 @@
 
 import * as PIXI from 'pixi.js';
 import { parseFigmaJson } from '../parser/parser';
+import set from 'lodash/set';
 import PropTypes from 'prop-types';
 import { renderFigmaJson } from '../renderer';
 import React, { useEffect, useState } from 'react';
@@ -24,6 +25,7 @@ const FigmaRenderer = ({ figmaJson }) => {
       { figmaJsonState, figmaJson },
       elementId,
       e => {
+        set(e, 'isParsed', true);
         setIsUpdated(true);
         setFigmaJson(e);
       },
