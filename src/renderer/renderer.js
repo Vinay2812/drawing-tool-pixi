@@ -243,10 +243,14 @@ const renderPolygon = async (child, screenWidth, screenHeight) => {
 
   let pixiObject = new PIXI.Graphics();
   pixiObject.name = child.id;
+  pixiObject.matterHeight = child.absoluteBoundingBox.height;
+  pixiObject.mattterWidth = child.absoluteBoundingBox.width;
   pixiObject.zIndex = child.zIndex;
   if (child.clipsContent) {
     let mask = new PIXI.Graphics();
     mask.name = child.id;
+    mask.matterHeight = child.absoluteBoundingBox.height;
+    mask.mattterWidth = child.absoluteBoundingBox.width;
     mask.beginFill(0x000000);
     mask = drawShape(child, mask);
     mask.endFill();

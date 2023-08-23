@@ -62,7 +62,7 @@ export const renderFigmaJson = (app, figmaJson, elementId, props) => {
     //   app,
     //   type: 'balloon',
     //   other: {
-    //     balloonName: '244:180',
+    //     balloonName: '265:161',
     //     ballonMass: 1,
     //     weightMass: 1
     //   }

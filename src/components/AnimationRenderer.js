@@ -9,29 +9,47 @@ function AnimaionRenderer(props) {
     const { balloonName, groundName, ballonMass, weightMass } = other;
     const balloonSprite = findChildByNameDeep(parentContainer, balloonName);
 
-    balloonSprite.pivot.set(balloonSprite.width / 2, balloonSprite.height / 2);
-    balloonSprite.x += balloonSprite.width / 2;
-    balloonSprite.y += balloonSprite.height / 2;
+    balloonSprite.pivot.set(balloonSprite.mattterWidth / 2, balloonSprite.matterHeight / 2);
+    balloonSprite.x += balloonSprite.mattterWidth / 2;
+    balloonSprite.y += balloonSprite.matterHeight / 2;
 
     const ground = Bodies.rectangle(
       balloonSprite.x + 10,
-      balloonSprite.y + balloonSprite.height / 2 + 40,
-      balloonSprite.width + 200,
+      balloonSprite.y + balloonSprite.matterHeight / 2 + 40,
+      balloonSprite.mattterWidth + 200,
       10,
       {
         isStatic: true,
         label: groundName
       }
     );
-    const balloon = Bodies.rectangle(balloonSprite.x, balloonSprite.y, balloonSprite.width, balloonSprite.height, {
-      mass: ballonMass
-    });
+    const balloon = Bodies.rectangle(
+      balloonSprite.x,
+      balloonSprite.y,
+      balloonSprite.mattterWidth,
+      balloonSprite.matterHeight,
+      {
+        mass: weightMass
+      }
+    );
 
     World.add(engine.world, [ground, balloon]);
+    console.log(
+      ballonMass - weightMass == 0
+        ? -0.001 * ballonMass
+        : ballonMass - weightMass <= 1
+        ? -0.001 * (ballonMass + 1 - weightMass)
+        : -0.001 * (ballonMass - weightMass)
+    );
     function applyFlyingForces() {
       Body.applyForce(balloon, balloon.position, {
         x: 0,
-        y: ballonMass - weightMass == 0 ? -0.001 * ballonMass : -0.001 * (ballonMass - weightMass)
+        y:
+          ballonMass - weightMass == 0
+            ? -0.001 * ballonMass
+            : ballonMass - weightMass <= 1
+            ? -0.001 * (ballonMass + 1 - weightMass)
+            : -0.001 * (ballonMass - weightMass)
       });
     }
 
@@ -125,30 +143,36 @@ function AnimaionRenderer(props) {
     const body1Sprite = findChildByNameDeep(parentContainer, weight1Name);
     const body2Sprite = findChildByNameDeep(parentContainer, weight2Name);
     if (catapultSprite.rotation == 0) {
-      catapultSprite.pivot.set(catapultSprite.width / 2, catapultSprite.height / 2);
-      catapultSprite.x += catapultSprite.width / 2;
-      catapultSprite.y += catapultSprite.height / 2;
+      catapultSprite.pivot.set(catapultSprite.mattterWidth / 2, catapultSprite.matterHeight / 2);
+      catapultSprite.x += catapultSprite.mattterWidth / 2;
+      catapultSprite.y += catapultSprite.matterHeight / 2;
     } else {
-      catapultSprite.pivot.set(catapultSprite.width / 2, catapultSprite.height /* / 2 */);
-      catapultSprite.x += catapultSprite.width / 2;
-      // catapultSprite.y += catapultSprite.height / 2;
+      catapultSprite.pivot.set(catapultSprite.mattterWidth / 2, catapultSprite.matterHeight /* / 2 */);
+      catapultSprite.x += catapultSprite.mattterWidth / 2;
+      // catapultSprite.y += catapultSprite.matterHeight / 2;
     }
 
-    body1Sprite.pivot.set(body1Sprite.width / 2, body1Sprite.height / 2);
-    body1Sprite.x += body1Sprite.width / 2;
-    body1Sprite.y += body1Sprite.height / 2;
+    body1Sprite.pivot.set(body1Sprite.mattterWidth / 2, body1Sprite.matterHeight / 2);
+    body1Sprite.x += body1Sprite.mattterWidth / 2;
+    body1Sprite.y += body1Sprite.matterHeight / 2;
 
-    body2Sprite.pivot.set(body2Sprite.width / 2, body2Sprite.height / 2);
-    body2Sprite.x += body2Sprite.width / 2;
-    body2Sprite.y += body2Sprite.height / 2;
+    body2Sprite.pivot.set(body2Sprite.mattterWidth / 2, body2Sprite.matterHeight / 2);
+    body2Sprite.x += body2Sprite.mattterWidth / 2;
+    body2Sprite.y += body2Sprite.matterHeight / 2;
 
-    const ground = Bodies.rectangle(catapultSprite.x + 10, catapultSprite.y + 40, catapultSprite.width + 200, 10, {
+    const ground = Bodies.rectangle(catapultSprite.x + 10, catapultSprite.y + 40, catapultSprite.mattterWidth + 200, 10, {
       isStatic: true,
       label: groundName
     });
-    var catapult = Bodies.rectangle(catapultSprite.x, catapultSprite.y, catapultSprite.width, catapultSprite.height, {
-      collisionFilter: { group: group }
-    });
+    var catapult = Bodies.rectangle(
+      catapultSprite.x,
+      catapultSprite.y,
+      catapultSprite.mattterWidth,
+      catapultSprite.matterHeight,
+      {
+        collisionFilter: { group: group }
+      }
+    );
     const initail = {
       catapult: {
         x: catapult.position.x,
@@ -186,7 +210,7 @@ function AnimaionRenderer(props) {
         catapult.isStatic = true;
         body1.isStatic = true;
         body2.isStatic = true;
-        // body1Sprite.y += initail.catapult.rotation * (catapultSprite.width / 2);
+        // body1Sprite.y += initail.catapult.rotation * (catapultSprite.mattterWidth / 2);
       }
       Matter.Events.off(engine, 'collisionActive');
     });
@@ -211,7 +235,7 @@ function AnimaionRenderer(props) {
       body1Sprite.rotation = body1.angle;
       body2Sprite.rotation = body2.angle;
 
-      const a = (initail.catapult.rotation - catapult.angle) * (catapultSprite.width / 2);
+      const a = (initail.catapult.rotation - catapult.angle) * (catapultSprite.mattterWidth / 2);
       body1Sprite.y = initail.body1.y + a;
       body2Sprite.y = initail.body2.y - a;
     }
