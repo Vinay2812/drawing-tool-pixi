@@ -43,7 +43,13 @@ export const parseFigmaJson = figmaJson => {
   const parsedChildren = children.map(child => {
     return parseChild(child, 1, minX, minY);
   });
-  return { children: parsedChildren, minX, minY };
+  return {
+    children: parsedChildren,
+    minX,
+    minY,
+    variables: figmaJson.variables || {},
+    computeFunctions: figmaJson.computeFunctions || {}
+  };
 };
 
 const calculateMinXY = children => {
