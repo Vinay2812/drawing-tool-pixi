@@ -5,6 +5,7 @@ import set from 'lodash/set';
 import { AnimatedGIF } from '@pixi/gif';
 import { DropShadowFilter } from '@pixi/filter-drop-shadow';
 import { FXAAFilter } from '@pixi/filter-fxaa';
+import * as math from 'mathjs';
 
 import '@pixi/graphics-extras';
 import { drawSVGPath, fillSVGPath, parseColor } from '../utils/layout';
@@ -465,20 +466,23 @@ const renderPolygon = async (child, screenWidth, screenHeight, originalJson, pat
     pixiObject.filters = filters;
   }
 
-  // add events
+  // add events -> part 1
   const interactions = child.interactions;
-  if (interactions?.length) {
-    function effectComputeFunction(type, args) {
-      switch (type) {
-        case 'increment':
-          return (get(originalJson, ['variables', args.variable_1]) || 0) + 1;
-        case 'decrement':
-          return (get(originalJson, ['variables', args.variable_1]) || 0) - 1;
-        default:
-      }
+  const dragEvents = ['ON_DRAG'];
+  const nonDragInteractions = interactions?.filter(i => dragEvents.indexOf(i.event) === -1);
+  const dragInteractions = interactions?.filter(i => dragEvents.indexOf(i.event) !== -1);
+  function effectComputeFunction(type, args) {
+    switch (type) {
+      case 'increment':
+        return (get(originalJson, ['variables', args.variable_1]) || 0) + 1;
+      case 'decrement':
+        return (get(originalJson, ['variables', args.variable_1]) || 0) - 1;
+      default:
     }
+  }
 
-    interactions.forEach(i => {
+  if (nonDragInteractions?.length) {
+    nonDragInteractions.forEach(i => {
       switch (i.event) {
         case 'onClick':
           pixiObject.eventMode = 'static';
@@ -583,6 +587,17 @@ const renderPolygon = async (child, screenWidth, screenHeight, originalJson, pat
     // pixiObject.anchor.set(0.5);
     // pixiObject.scale.set(3);
 
+    // parse events
+    let onDrag = null;
+    for (const dragInteraction of dragInteractions) {
+      switch (dragInteraction.event) {
+        case 'ON_DRAG':
+          onDrag = dragInteraction;
+          break;
+        default:
+      }
+    }
+
     function onDragEnd(event) {
       if (dragData && dragData.id !== child.id) return;
 
@@ -620,6 +635,60 @@ const renderPolygon = async (child, screenWidth, screenHeight, originalJson, pat
           // update canvas
           setFigmaJson(originalJson);
         }
+      }
+
+      // add events -> part 2
+      if (onDrag) {
+        onDrag.effects?.forEach(d => {
+          switch (d.type) {
+            case 'UPDATE_VARIABLE':
+              const varIndex = originalJson.variables?.findIndex(i => i.name === d.config?.variableName);
+              if (varIndex === -1) break;
+              const currentVal = get(originalJson, ['variables', varIndex, 'value']);
+              const defaultVal = get(originalJson, ['variables', varIndex, 'default']);
+              let newVal = null;
+
+              switch (d.valueType) {
+                case 'LAYER_PROPERTY':
+                  newVal = get(dragTarget, [d.config?.value]);
+                  if ((currentVal || defaultVal) === newVal) break;
+                  set(originalJson, ['variables', varIndex, 'value'], newVal);
+                  ['absoluteBoundingBox', 'absoluteRenderBounds', 'position', 'relativeTransform'].forEach(i => {
+                    set(originalJson, [...path, i, d.config?.value], newVal);
+                  });
+                  setFigmaJson(originalJson);
+                  break;
+
+                case 'COMPUTE_FUNCTION':
+                  const computeFunctionIndex = originalJson.computeFunctions?.findIndex(
+                    i => i.name === d.config?.computeFunction?.type
+                  );
+                  const computeFunction = get(originalJson.computeFunctions, computeFunctionIndex);
+                  const valueObj = {};
+                  Object.keys(d.config.computeFunction.params).forEach(key => {
+                    const variableName = d.config.computeFunction.params[key];
+                    const varIndex = originalJson.variables?.findIndex(i => i.name === variableName);
+                    if (varIndex === -1) return;
+                    const currentVal = get(originalJson, ['variables', varIndex, 'value']);
+                    const defaultVal = get(originalJson, ['variables', varIndex, 'default']);
+                    valueObj[key] = currentVal || defaultVal;
+                  });
+                  let mathEval = computeFunction.output;
+                  computeFunction.params.forEach(p => {
+                    mathEval = mathEval.replace(new RegExp(p, 'g'), valueObj[p]);
+                  });
+                  newVal = math.evaluate(mathEval);
+
+                  if ((currentVal || defaultVal) === newVal) break;
+                  set(originalJson, ['variables', varIndex, 'value'], newVal);
+                  break;
+                default:
+              }
+
+              break;
+            default:
+          }
+        });
       }
 
       // end

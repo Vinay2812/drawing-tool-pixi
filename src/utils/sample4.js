@@ -23,36 +23,17 @@ const ladder = {
     {
       name: 'dragControlPosition',
       type: 'LOCAL',
-      default: 483,
-      reference: {
-        type: 'LAYER_PROPERTY',
-        id: '8:110',
-        property: 'y'
-      }
+      default: 483
     },
     {
       name: 'lastRowHeight',
       type: 'LOCAL',
-      defaultValue: 50,
-      reference: {
-        type: 'COMPUTE_FUNCTION',
-        id: 'convert_drag_position_to_height',
-        paramMapping: {
-          input: 'dragControlPosition'
-        }
-      }
+      defaultValue: 50
     },
     {
       name: 'lastRowYPosition',
       type: 'LOCAL',
-      default: 260,
-      reference: {
-        type: 'COMPUTE_FUNCTION',
-        id: 'modify_tile_parent_y_position',
-        paramMapping: {
-          height: 'lastRowHeight'
-        }
-      }
+      default: 260
     }
   ],
   computeFunctions: [
@@ -142,7 +123,6 @@ const ladder = {
   strokeGeometry: [],
   strokeAlign: 'INSIDE',
   children: [
-    // ladder group
     {
       id: '8:93',
       name: 'Frame 390',
@@ -197,7 +177,6 @@ const ladder = {
       strokeGeometry: [],
       strokeAlign: 'INSIDE',
       children: [
-        // col 1
         {
           id: '8:94',
           name: 'Frame 387',
@@ -420,7 +399,6 @@ const ladder = {
           layoutGrids: [],
           overflowDirection: 'NONE'
         },
-        // col 2
         {
           id: '8:97',
           name: 'Frame 388',
@@ -783,7 +761,6 @@ const ladder = {
           layoutGrids: [],
           overflowDirection: 'NONE'
         },
-        // col 3
         {
           id: '8:102',
           name: 'Frame 389',
@@ -1286,7 +1263,6 @@ const ladder = {
           layoutGrids: [],
           overflowDirection: 'NONE'
         },
-        // col 4
         {
           id: '8:109',
           name: 'Frame 390',
@@ -1317,6 +1293,7 @@ const ladder = {
             width: 50,
             height: 50
           },
+
           modifiers: [
             {
               type: 'AUTO_TILE'
@@ -1482,7 +1459,6 @@ const ladder = {
       layoutGrids: [],
       overflowDirection: 'NONE'
     },
-    // drag handle
     {
       id: '8:110',
       name: 'Frame 391',
@@ -1500,7 +1476,6 @@ const ladder = {
         horizontal: 'MIN',
         vertical: 'MIN'
       },
-      // drag config
       modifiers: [
         {
           type: 'DRAGGABLE',
@@ -1509,6 +1484,47 @@ const ladder = {
             stepSize: 52,
             dragRange: [483, 90]
           }
+        }
+      ],
+      interactions: [
+        {
+          event: 'ON_DRAG',
+          effects: [
+            {
+              type: 'UPDATE_VARIABLE',
+              valueType: 'LAYER_PROPERTY',
+              config: {
+                variableName: 'dragControlPosition',
+                value: 'y'
+              }
+            },
+            {
+              type: 'UPDATE_VARIABLE',
+              valueType: 'COMPUTE_FUNCTION',
+              config: {
+                variableName: 'lastRowHeight',
+                computeFunction: {
+                  type: 'convert_drag_position_to_height',
+                  params: {
+                    input: 'dragControlPosition'
+                  }
+                }
+              }
+            },
+            {
+              type: 'UPDATE_VARIABLE',
+              valueType: 'COMPUTE_FUNCTION',
+              config: {
+                variableName: 'lastRowYPosition',
+                computeFunction: {
+                  type: 'modify_tile_parent_y_position',
+                  params: {
+                    height: 'lastRowHeight'
+                  }
+                }
+              }
+            }
+          ]
         }
       ],
       opacity: 1,
