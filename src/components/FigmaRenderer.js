@@ -53,8 +53,7 @@ const FigmaRenderer = ({ figmaJson }) => {
           id={'matterJs'}
           style={{
             top: 0,
-            position: 'absolute',
-            marginTop: 50
+            position: 'absolute'
           }}
         />
       </div>

@@ -40,6 +40,8 @@ export const renderFigmaJson = (app, figmaJson, elementId, props) => {
   if (canvas && clicked) {
     const engine = Matter.Engine.create();
     const currentElement = document.getElementById('matterJs');
+    const screenWidth = window.innerWidth > 400 ? 400 : window.innerWidth;
+    const scaleWidth = screenWidth / figmaJson?.absoluteBoundingBox?.width;
     let render = Matter.Render.create({
       element: currentElement,
       engine: engine,
@@ -47,9 +49,12 @@ export const renderFigmaJson = (app, figmaJson, elementId, props) => {
         width: canvas.width,
         height: canvas.height,
         wireframes: false,
-        background: 'transparent'
+        background: 'transparent',
+        pixelRatio: 'auto'
       }
     });
+    const canvas1 = currentElement?.querySelector('canvas');
+    canvas1.style.zoom = scaleWidth;
     const container = app.stage.getChildByName('root');
     // AnimaionRenderer({
     //   parentContainer: container,
