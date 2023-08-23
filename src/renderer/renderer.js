@@ -85,7 +85,7 @@ const renderChild = async (
       pixiObject = await renderPolygon(child, screenWidth, screenHeight, originalJson, path, setFigmaJson, app, rest);
       break;
     case 'TEXT':
-      pixiObject = await renderText(child, originalJson);
+      pixiObject = await renderText(child, screenWidth, screenHeight, originalJson, path, setFigmaJson, app, rest);
       break;
     case 'INPUT':
       pixiObject = await renderInput(child);
@@ -126,7 +126,7 @@ const renderCanvas = child => {
   return pixiObject;
 };
 
-const renderText = async child => {
+const renderText = async (child, screenWidth, screenHeight, originalJson, path, setFigmaJson, app, rest) => {
   if (!child.visible) return;
   const fontNameObj = child.fontName || {};
   const fontFamily = fontNameObj.family || 'Arial'; // Default to 'Arial' if fontFamily is not provided
@@ -148,7 +148,7 @@ const renderText = async child => {
     letterSpacingValue = (letterSpacingValue / 100) * fontSize;
   }
 
-  let wrapperPixiObject = await renderPolygon(child);
+  let wrapperPixiObject = await renderPolygon(child, screenWidth, screenHeight, originalJson, path, setFigmaJson, app, rest);
   // if (child.id === "72:325") {
   // 	wrapperPixiObject.beginFill(0x0000ff);
   // 	wrapperPixiObject.drawRect(
@@ -471,12 +471,13 @@ const renderPolygon = async (child, screenWidth, screenHeight, originalJson, pat
     function effectComputeFunction(type, args) {
       switch (type) {
         case 'increment':
-          return (get(originalJson, args.variable_1) || 0) + 1;
+          return (get(originalJson, ['variables', args.variable_1]) || 0) + 1;
         case 'decrement':
-          return (get(originalJson, args.variable_1) || 0) - 1;
+          return (get(originalJson, ['variables', args.variable_1]) || 0) - 1;
         default:
       }
     }
+
     interactions.forEach(i => {
       switch (i.event) {
         case 'onClick':
@@ -496,6 +497,23 @@ const renderPolygon = async (child, screenWidth, screenHeight, originalJson, pat
                     ['variables', effect.variable],
                     effectComputeFunction(effect.computeFunction.type, effect.computeFunction.arguments)
                   );
+                  break;
+
+                case 'updateLoon':
+                  if (effect.action === 'next') {
+                    const index = get(originalJson, effect.path)?.findIndex(
+                      i => i.properties?.type === effect.itemType && !i.visible
+                    );
+
+                    if (index !== -1) set(originalJson, [...effect.path, index, 'visible'], true);
+                    break;
+                  }
+
+                  const arr = get(originalJson, effect.path);
+                  const index =
+                    arr.length - 1 - [...arr].reverse()?.findIndex(i => i.properties?.type === effect.itemType && i.visible);
+
+                  if (index !== -1) set(originalJson, [...effect.path, index, 'visible'], false);
                   break;
 
                 case 'updateVariant':
@@ -532,6 +550,7 @@ const renderPolygon = async (child, screenWidth, screenHeight, originalJson, pat
                   // set new variant value
                   set(originalJson, [...newPath, 'children'], get(originalJson, [...newPath, 'variants', 0]));
                   break;
+
                 case 'toggleAnimation':
                   setAnimationType(effect.action);
                   break;
