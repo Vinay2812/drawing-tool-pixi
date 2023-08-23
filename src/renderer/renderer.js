@@ -626,7 +626,7 @@ const renderPolygon = async (child, screenWidth, screenHeight, originalJson, pat
         // end
         app.stage.off('pointermove', onDragMove);
         dragTarget.alpha = 1;
-        dragTarget.pivot.set(0);
+        if (!dragConfig.axis) dragTarget.pivot.set(0);
         dragTarget = null;
         dragData = null;
       }
@@ -634,8 +634,8 @@ const renderPolygon = async (child, screenWidth, screenHeight, originalJson, pat
 
     function onDragMove(event) {
       if (dragTarget) {
-        const min = get(dragConfig.dragRange, [0]);
-        const max = get(dragConfig.dragRange, [1]);
+        const min = get(dragConfig.dragRange, [1]);
+        const max = get(dragConfig.dragRange, [0]);
 
         function nearestStepIntersection(rangeStart, rangeEnd, step, value) {
           if (value < rangeStart) return rangeStart;
@@ -644,7 +644,7 @@ const renderPolygon = async (child, screenWidth, screenHeight, originalJson, pat
         }
 
         if (min != null && max != null) {
-          if (dragConfig.axis === '90')
+          if (dragConfig.axis === 90) {
             dragTarget.y = Math.min(
               Math.max(
                 nearestStepIntersection(min, max, dragConfig.stepSize, dragTarget.parent.toLocal(event.global).y),
@@ -652,8 +652,8 @@ const renderPolygon = async (child, screenWidth, screenHeight, originalJson, pat
               ),
               max
             );
-          if (dragConfig.axis === '0')
-            dragTarget.x = Math.min(Math.max(dragTarget.parent.toLocal(event.global).x, min), max);
+          }
+          if (dragConfig.axis === 0) dragTarget.x = Math.min(Math.max(dragTarget.parent.toLocal(event.global).x, min), max);
         }
 
         if (!dragConfig.axis) {
@@ -679,7 +679,7 @@ const renderPolygon = async (child, screenWidth, screenHeight, originalJson, pat
     }
 
     function onDragStart() {
-      this.pivot.set(50);
+      if (!dragConfig.axis) this.pivot.set(50);
       this.alpha = 0.5;
       dragTarget = this;
       dragData = child;
