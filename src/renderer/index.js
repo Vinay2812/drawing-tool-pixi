@@ -43,7 +43,7 @@ export const renderFigmaJson = (
 
   if (!canvas) {
     // Parse the Figma JSON into a PIXI Container
-    const parsedJson = !figmaJson.variables ? parseFigmaJson(figmaJson) : figmaJson;
+    const parsedJson = !figmaJson.isParsed ? parseFigmaJson(figmaJson) : figmaJson;
 
     const container = renderFigmaFromParsedJson(
       app,

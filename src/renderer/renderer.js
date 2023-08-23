@@ -570,7 +570,15 @@ const renderPolygon = async (child, screenWidth, screenHeight, originalJson, pat
   }
 
   // add drag controllers
-  if (child.dragConfig && child.dragConfig.canDrag) {
+  let dragConfig = child.dragConfig && child.dragConfig;
+  if (child.modifiers?.length) {
+    dragConfig = get(
+      child.modifiers.filter(i => i.type === 'DRAGGABLE'),
+      [0, 'config']
+    );
+  }
+
+  if (dragConfig != null) {
     pixiObject.eventMode = 'static';
     pixiObject.cursor = 'pointer';
 
@@ -626,8 +634,8 @@ const renderPolygon = async (child, screenWidth, screenHeight, originalJson, pat
 
     function onDragMove(event) {
       if (dragTarget) {
-        const min = get(child.dragConfig.dragRange, [0]);
-        const max = get(child.dragConfig.dragRange, [1]);
+        const min = get(dragConfig.dragRange, [0]);
+        const max = get(dragConfig.dragRange, [1]);
 
         function nearestStepIntersection(rangeStart, rangeEnd, step, value) {
           if (value < rangeStart) return rangeStart;
@@ -636,20 +644,20 @@ const renderPolygon = async (child, screenWidth, screenHeight, originalJson, pat
         }
 
         if (min != null && max != null) {
-          if (child.dragConfig.axis === '90')
+          if (dragConfig.axis === '90')
             dragTarget.y = Math.min(
               Math.max(
-                nearestStepIntersection(min, max, child.dragConfig.stepSize, dragTarget.parent.toLocal(event.global).y),
+                nearestStepIntersection(min, max, dragConfig.stepSize, dragTarget.parent.toLocal(event.global).y),
                 min
               ),
               max
             );
-          if (child.dragConfig.axis === '0')
+          if (dragConfig.axis === '0')
             dragTarget.x = Math.min(Math.max(dragTarget.parent.toLocal(event.global).x, min), max);
         }
 
-        if (!child.dragConfig.axis) {
-          const maxDragRange = child.dragConfig.maxDragRange;
+        if (!dragConfig.axis) {
+          const maxDragRange = dragConfig.maxDragRange;
           if (!maxDragRange) {
             dragTarget.parent.toLocal(event.global, null, dragTarget.position);
             return;
