@@ -586,7 +586,7 @@ const renderPolygon = async (child, screenWidth, screenHeight, originalJson, pat
     function onDragEnd(event) {
       if (dragData && dragData.id !== child.id) return;
 
-      if (dragTarget) {
+      if (dragTarget && dropAreas?.length > 0) {
         const dropAreaIndex = dropAreas.findIndex(item => {
           const width = item.width;
           const height = item.height;
@@ -620,14 +620,14 @@ const renderPolygon = async (child, screenWidth, screenHeight, originalJson, pat
           // update canvas
           setFigmaJson(originalJson);
         }
-
-        // end
-        app.stage.off('pointermove', onDragMove);
-        dragTarget.alpha = 1;
-        if (!dragConfig.axis) dragTarget.pivot.set(0);
-        dragTarget = null;
-        dragData = null;
       }
+
+      // end
+      app.stage.off('pointermove', onDragMove);
+      dragTarget.alpha = 1;
+      if (!dragConfig.axis) dragTarget.pivot.set(0);
+      dragTarget = null;
+      dragData = null;
     }
 
     function onDragMove(event) {
