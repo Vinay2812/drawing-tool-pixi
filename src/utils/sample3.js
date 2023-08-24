@@ -1,119 +1,3 @@
-const interactionsAnimation = [
-  {
-    event: 'onClick',
-    effects: [
-      {
-        type: 'toggleAnimation',
-        action: 'balloon'
-      }
-    ]
-  }
-];
-
-const interactionsDesc = [
-  {
-    event: 'onClick',
-    effects: [
-      {
-        type: 'updateVariable',
-        variable: 'currentCountOfBalloon_1',
-        // valueType: 'constant',
-        valueType: 'computeFunction',
-        computeFunction: {
-          type: 'decrement',
-          arguments: {
-            variable_1: 'currentCountOfBalloon_1'
-          }
-        }
-      },
-      {
-        type: 'updateLoon',
-        action: 'prev',
-        path: ['children', 0, 'children', 2, 'children'],
-        itemType: 'loon'
-      }
-    ]
-  }
-];
-
-const interactionsInc = [
-  {
-    event: 'onClick',
-    effects: [
-      {
-        type: 'updateVariable',
-        variable: 'currentCountOfBalloon_1',
-        // valueType: 'constant',
-        valueType: 'computeFunction',
-        computeFunction: {
-          type: 'increment',
-          arguments: {
-            variable_1: 'currentCountOfBalloon_1'
-          }
-        }
-      },
-      {
-        type: 'updateLoon',
-        action: 'next',
-        path: ['children', 0, 'children', 2, 'children'],
-        itemType: 'loon'
-      }
-    ]
-  }
-];
-
-const interactionsDesc2 = [
-  {
-    event: 'onClick',
-    effects: [
-      {
-        type: 'updateVariable',
-        variable: 'currentCountOfBalloon_2',
-        // valueType: 'constant',
-        valueType: 'computeFunction',
-        computeFunction: {
-          type: 'decrement',
-          arguments: {
-            variable_1: 'currentCountOfBalloon_2'
-          }
-        }
-      },
-      {
-        type: 'updateLoon',
-        action: 'prev',
-        path: ['children', 0, 'children', 3, 'children'],
-        itemType: 'loon'
-      }
-    ]
-  }
-];
-
-const interactionsInc2 = [
-  {
-    event: 'onClick',
-    effects: [
-      {
-        type: 'updateVariable',
-        variable: 'currentCountOfBalloon_2',
-        // valueType: 'constant',
-        valueType: 'computeFunction',
-        computeFunction: {
-          type: 'increment',
-          arguments: {
-            variable_1: 'currentCountOfBalloon_2'
-          }
-        }
-      },
-      {
-        type: 'updateLoon',
-        action: 'next',
-        path: ['children', 0, 'children', 3, 'children'],
-        itemType: 'loon'
-      }
-    ]
-  }
-];
-
 const balloon = {
   id: '244:149',
   name: 'iPhone 14 - 1',
@@ -153,7 +37,6 @@ const balloon = {
   strokeAlign: 'INSIDE',
   children: [
     {
-      interactions: interactionsAnimation,
       id: '245:218',
       name: 'Rectangle 187',
       visible: true,
@@ -198,11 +81,9 @@ const balloon = {
       strokeGeometry: [],
       strokeAlign: 'INSIDE',
       cornerRadius: 0,
-      cornerSmoothing: 0,
-      children: []
+      cornerSmoothing: 0
     },
     {
-      interactions: interactionsAnimation,
       id: '245:219',
       name: 'Submit',
       visible: true,
@@ -260,13 +141,14 @@ const balloon = {
       textDecoration: 'NONE',
       textStyleId: ''
     },
-    // loon group 1
     {
-      properties: {
-        type: 'loonFrame'
-      },
       id: '265:161',
       name: 'Frame 418',
+      modifiers: [
+        {
+          type: 'GRAVITATIONAL_FORCE'
+        }
+      ],
       visible: true,
       type: 'FRAME',
       rotation: 0,
@@ -300,14 +182,20 @@ const balloon = {
       strokeGeometry: [],
       strokeAlign: 'INSIDE',
       children: [
-        // duck
         {
-          properties: {
-            type: 'duck',
-            mass: 2
-          },
           id: '265:162',
           name: 'Duck Box 1',
+          modifiers: [
+            {
+              type: 'STACK_CHILDREN',
+              config: {
+                direction: 'HORIZONTAL'
+              }
+            },
+            {
+              type: 'DROPPABLE'
+            }
+          ],
           visible: true,
           type: 'FRAME',
           rotation: 0,
@@ -357,6 +245,14 @@ const balloon = {
           children: [
             {
               id: '265:163',
+              modifiers: [
+                {
+                  type: 'RIGID_BODY',
+                  config: {
+                    weight: 2
+                  }
+                }
+              ],
               name: 'Group',
               visible: true,
               type: 'GROUP',
@@ -491,218 +387,24 @@ const balloon = {
           layoutGrids: [],
           overflowDirection: 'NONE'
         },
-        // loon 1
         {
-          properties: {
-            type: 'loon',
-            mass: 1
-          },
-          id: '265:170',
-          name: 'Frame 415',
-          visible: true,
-          type: 'FRAME',
-          rotation: 0,
-          componentPropertyReferences: null,
-          boundVariables: {},
-          locked: false,
-          exportSettings: [],
-          blendMode: 'PASS_THROUGH',
-          layoutAlign: 'INHERIT',
-          layoutGrow: 0,
-          constraints: { horizontal: 'MIN', vertical: 'MIN' },
-          opacity: 1,
-          absoluteBoundingBox: { x: 69, y: 114, width: 59, height: 446 },
-          absoluteRenderBounds: { x: 69, y: 114, width: 59, height: 446 },
-          effects: [],
-          relativeTransform: [
-            [1, 0, 37],
-            [0, 1, 34]
-          ],
-          absoluteTransform: [
-            [1, 0, 69],
-            [0, 1, 114]
-          ],
-          isMask: false,
-          fills: [],
-          fillGeometry: [{ windingRule: 'NONZERO', data: 'M0 0L59 0L59 446L0 446L0 0Z' }],
-          strokes: [],
-          strokeWeight: 1,
-          strokeCap: 'NONE',
-          strokeJoin: 'MITER',
-          strokeGeometry: [],
-          strokeAlign: 'INSIDE',
-          children: [
-            {
-              id: '265:171',
-              name: 'Group',
-              visible: true,
-              type: 'GROUP',
-              rotation: 0,
-              componentPropertyReferences: null,
-              boundVariables: {},
-              locked: false,
-              exportSettings: [],
-              blendMode: 'PASS_THROUGH',
-              layoutAlign: 'INHERIT',
-              layoutGrow: 0,
-              opacity: 1,
-              absoluteBoundingBox: { x: 82.54098510742188, y: 140, width: 29.988494873046875, height: 60.99504089355469 },
-              absoluteRenderBounds: { x: 82.54098510742188, y: 140, width: 29.988502502441406, height: 60.99504089355469 },
-              effects: [],
-              relativeTransform: [
-                [1, 0, 13.540983200073242],
-                [0, 1, 26]
-              ],
-              absoluteTransform: [
-                [1, 0, 82.54098510742188],
-                [0, 1, 140]
-              ],
-              isMask: false,
-              children: [
-                {
-                  id: '265:172',
-                  name: 'Vector',
-                  visible: true,
-                  type: 'VECTOR',
-                  rotation: 0,
-                  componentPropertyReferences: null,
-                  boundVariables: {},
-                  locked: false,
-                  exportSettings: [],
-                  blendMode: 'PASS_THROUGH',
-                  layoutAlign: 'INHERIT',
-                  layoutGrow: 0,
-                  constraints: { horizontal: 'SCALE', vertical: 'SCALE' },
-                  opacity: 1,
-                  absoluteBoundingBox: {
-                    x: 82.54098510742188,
-                    y: 140,
-                    width: 29.988494873046875,
-                    height: 60.99504089355469
-                  },
-                  absoluteRenderBounds: {
-                    x: 82.54098510742188,
-                    y: 140,
-                    width: 29.988502502441406,
-                    height: 60.99504089355469
-                  },
-                  effects: [],
-                  relativeTransform: [
-                    [1, 0, 13.540983200073242],
-                    [0, 1, 26]
-                  ],
-                  absoluteTransform: [
-                    [1, 0, 82.54098510742188],
-                    [0, 1, 140]
-                  ],
-                  isMask: false,
-                  fills: [
-                    {
-                      type: 'SOLID',
-                      visible: true,
-                      opacity: 1,
-                      blendMode: 'NORMAL',
-                      color: { r: 0, g: 0, b: 0 },
-                      boundVariables: {}
-                    }
-                  ],
-                  fillGeometry: [
-                    {
-                      windingRule: 'EVENODD',
-                      data: 'M15.0138 0C23.2939 0 29.9885 8.11149 29.9885 18.1243C29.9885 27.3676 24.2776 37.9513 16.8881 39.0831L18.3268 41.6148C19.2322 43.2083 18.7232 43.6452 17.1719 43.6452L16.2275 43.6452C19.1832 51.2255 19.4377 52.9183 16.5455 60.4986C16.5455 60.7667 16.3204 60.995 16.0562 60.995L14.6028 60.995C14.3385 60.995 14.1134 60.7667 14.1134 60.4986C17.0447 52.9183 16.7168 51.2255 13.7953 43.6452L12.1706 43.6452C10.9961 43.665 11.0744 42.5133 11.5638 41.7091L13.1689 39.0831C5.74519 37.986 0 27.3875 0 18.1243C0 8.11149 6.70924 0 14.9747 0L15.0138 0ZM17.7102 6.03646C17.2943 5.80811 17.1377 5.2819 17.3628 4.85994C17.5879 4.43799 18.1066 4.27913 18.5226 4.50749C19.9564 5.29183 21.3903 6.45345 22.6431 7.76896C23.935 9.12419 25.0361 10.6482 25.7359 12.0878C25.9463 12.5197 25.7701 13.036 25.3493 13.2494C24.9235 13.4629 24.4146 13.2842 24.2042 12.8573C23.5778 11.5765 22.5844 10.2064 21.4099 8.9703C20.2794 7.77889 18.9875 6.73145 17.7102 6.03646Z'
-                    }
-                  ],
-                  strokes: [],
-                  strokeWeight: 1,
-                  strokeCap: 'NONE',
-                  strokeJoin: 'MITER',
-                  strokeGeometry: [],
-                  strokeAlign: 'INSIDE'
-                }
-              ]
-            },
-            {
-              id: '265:173',
-              name: 'Line 11',
-              visible: true,
-              type: 'LINE',
-              rotation: -90,
-              componentPropertyReferences: null,
-              boundVariables: {},
-              locked: false,
-              exportSettings: [],
-              blendMode: 'PASS_THROUGH',
-              layoutAlign: 'INHERIT',
-              layoutGrow: 0,
-              constraints: { horizontal: 'SCALE', vertical: 'SCALE' },
-              opacity: 1,
-              absoluteBoundingBox: { x: 98.01639556884766, y: 197, width: 0, height: 363 },
-              absoluteRenderBounds: { x: 98.01639556884766, y: 197, width: 1, height: 363 },
-              effects: [],
-              relativeTransform: [
-                [6.123234262925839e-17, -1, 29.016393661499023],
-                [1, 6.123234262925839e-17, 83]
-              ],
-              absoluteTransform: [
-                [6.123234262925839e-17, -1, 98.01639556884766],
-                [1, 6.123234262925839e-17, 197]
-              ],
-              isMask: false,
-              fills: [],
-              fillGeometry: [],
-              strokes: [
-                {
-                  type: 'SOLID',
-                  visible: true,
-                  opacity: 1,
-                  blendMode: 'NORMAL',
-                  color: { r: 0, g: 0, b: 0 },
-                  boundVariables: {}
-                }
-              ],
-              strokeWeight: 1,
-              strokeCap: 'NONE',
-              strokeJoin: 'MITER',
-              strokeGeometry: [{ windingRule: 'NONZERO', data: 'M0 0L363 0L363 -1L0 -1L0 0Z' }],
-              strokeAlign: 'CENTER'
-            }
-          ],
-          cornerSmoothing: 0,
-          minWidth: null,
-          maxWidth: null,
-          minHeight: null,
-          maxHeight: null,
-          clipsContent: false,
-          layoutMode: 'NONE',
-          layoutWrap: 'NO_WRAP',
-          primaryAxisSizingMode: 'AUTO',
-          counterAxisSizingMode: 'FIXED',
-          primaryAxisAlignItems: 'MIN',
-          counterAxisAlignItems: 'MIN',
-          counterAxisAlignContent: 'AUTO',
-          paddingLeft: 0,
-          paddingRight: 0,
-          paddingTop: 0,
-          paddingBottom: 0,
-          horizontalPadding: 0,
-          verticalPadding: 0,
-          itemSpacing: 0,
-          counterAxisSpacing: 0,
-          layoutPositioning: 'AUTO',
-          itemReverseZIndex: false,
-          strokesIncludedInLayout: false,
-          layoutGrids: [],
-          overflowDirection: 'NONE'
-        },
-        // loon 2
-        {
-          properties: {
-            type: 'loon',
-            mass: 1
-          },
           id: '265:166',
           name: 'Frame 417',
-          visible: !true,
+          variableLink: [
+            {
+              variableName: 'baloonLeft1Visible',
+              property: 'visible'
+            }
+          ],
+          modifiers: [
+            {
+              type: 'RIGID_BODY',
+              config: {
+                weight: -1
+              }
+            }
+          ],
+          visible: true,
           type: 'FRAME',
           rotation: 4.832885352695006,
           componentPropertyReferences: null,
@@ -917,15 +619,236 @@ const balloon = {
           layoutGrids: [],
           overflowDirection: 'NONE'
         },
-        // loon 3
         {
-          properties: {
-            type: 'loon',
-            mass: 1
-          },
+          id: '265:170',
+          name: 'Frame 415',
+          variableLink: [
+            {
+              variableName: 'baloonLeft2Visible',
+              property: 'visible'
+            }
+          ],
+          modifiers: [
+            {
+              type: 'RIGID_BODY',
+              config: {
+                weight: -1
+              }
+            }
+          ],
+          visible: true,
+          type: 'FRAME',
+          rotation: 0,
+          componentPropertyReferences: null,
+          boundVariables: {},
+          locked: false,
+          exportSettings: [],
+          blendMode: 'PASS_THROUGH',
+          layoutAlign: 'INHERIT',
+          layoutGrow: 0,
+          constraints: { horizontal: 'MIN', vertical: 'MIN' },
+          opacity: 1,
+          absoluteBoundingBox: { x: 69, y: 114, width: 59, height: 446 },
+          absoluteRenderBounds: { x: 69, y: 114, width: 59, height: 446 },
+          effects: [],
+          relativeTransform: [
+            [1, 0, 37],
+            [0, 1, 34]
+          ],
+          absoluteTransform: [
+            [1, 0, 69],
+            [0, 1, 114]
+          ],
+          isMask: false,
+          fills: [],
+          fillGeometry: [{ windingRule: 'NONZERO', data: 'M0 0L59 0L59 446L0 446L0 0Z' }],
+          strokes: [],
+          strokeWeight: 1,
+          strokeCap: 'NONE',
+          strokeJoin: 'MITER',
+          strokeGeometry: [],
+          strokeAlign: 'INSIDE',
+          children: [
+            {
+              id: '265:171',
+              name: 'Group',
+              visible: true,
+              type: 'GROUP',
+              rotation: 0,
+              componentPropertyReferences: null,
+              boundVariables: {},
+              locked: false,
+              exportSettings: [],
+              blendMode: 'PASS_THROUGH',
+              layoutAlign: 'INHERIT',
+              layoutGrow: 0,
+              opacity: 1,
+              absoluteBoundingBox: { x: 82.54098510742188, y: 140, width: 29.988494873046875, height: 60.99504089355469 },
+              absoluteRenderBounds: { x: 82.54098510742188, y: 140, width: 29.988494873046875, height: 60.99504089355469 },
+              effects: [],
+              relativeTransform: [
+                [1, 0, 13.540983200073242],
+                [0, 1, 26]
+              ],
+              absoluteTransform: [
+                [1, 0, 82.54098510742188],
+                [0, 1, 140]
+              ],
+              isMask: false,
+              children: [
+                {
+                  id: '265:172',
+                  name: 'Vector',
+                  visible: true,
+                  type: 'VECTOR',
+                  rotation: 0,
+                  componentPropertyReferences: null,
+                  boundVariables: {},
+                  locked: false,
+                  exportSettings: [],
+                  blendMode: 'PASS_THROUGH',
+                  layoutAlign: 'INHERIT',
+                  layoutGrow: 0,
+                  constraints: { horizontal: 'SCALE', vertical: 'SCALE' },
+                  opacity: 1,
+                  absoluteBoundingBox: {
+                    x: 82.54098510742188,
+                    y: 140,
+                    width: 29.988494873046875,
+                    height: 60.99504089355469
+                  },
+                  absoluteRenderBounds: {
+                    x: 82.54098510742188,
+                    y: 140,
+                    width: 29.988494873046875,
+                    height: 60.99504089355469
+                  },
+                  effects: [],
+                  relativeTransform: [
+                    [1, 0, 13.540983200073242],
+                    [0, 1, 26]
+                  ],
+                  absoluteTransform: [
+                    [1, 0, 82.54098510742188],
+                    [0, 1, 140]
+                  ],
+                  isMask: false,
+                  fills: [
+                    {
+                      type: 'SOLID',
+                      visible: true,
+                      opacity: 1,
+                      blendMode: 'NORMAL',
+                      color: { r: 0, g: 0, b: 0 },
+                      boundVariables: {}
+                    }
+                  ],
+                  fillGeometry: [
+                    {
+                      windingRule: 'EVENODD',
+                      data: 'M15.0138 0C23.2939 0 29.9885 8.11149 29.9885 18.1243C29.9885 27.3676 24.2776 37.9513 16.8881 39.0831L18.3268 41.6148C19.2322 43.2083 18.7232 43.6452 17.1719 43.6452L16.2275 43.6452C19.1832 51.2255 19.4377 52.9183 16.5455 60.4986C16.5455 60.7667 16.3204 60.995 16.0562 60.995L14.6028 60.995C14.3385 60.995 14.1134 60.7667 14.1134 60.4986C17.0447 52.9183 16.7168 51.2255 13.7953 43.6452L12.1706 43.6452C10.9961 43.665 11.0744 42.5133 11.5638 41.7091L13.1689 39.0831C5.74519 37.986 0 27.3875 0 18.1243C0 8.11149 6.70924 0 14.9747 0L15.0138 0ZM17.7102 6.03646C17.2943 5.80811 17.1377 5.2819 17.3628 4.85994C17.5879 4.43799 18.1066 4.27913 18.5226 4.50749C19.9564 5.29183 21.3903 6.45345 22.6431 7.76896C23.935 9.12419 25.0361 10.6482 25.7359 12.0878C25.9463 12.5197 25.7701 13.036 25.3493 13.2494C24.9235 13.4629 24.4146 13.2842 24.2042 12.8573C23.5778 11.5765 22.5844 10.2064 21.4099 8.9703C20.2794 7.77889 18.9875 6.73145 17.7102 6.03646Z'
+                    }
+                  ],
+                  strokes: [],
+                  strokeWeight: 1,
+                  strokeCap: 'NONE',
+                  strokeJoin: 'MITER',
+                  strokeGeometry: [],
+                  strokeAlign: 'INSIDE'
+                }
+              ]
+            },
+            {
+              id: '265:173',
+              name: 'Line 11',
+              visible: true,
+              type: 'LINE',
+              rotation: -90,
+              componentPropertyReferences: null,
+              boundVariables: {},
+              locked: false,
+              exportSettings: [],
+              blendMode: 'PASS_THROUGH',
+              layoutAlign: 'INHERIT',
+              layoutGrow: 0,
+              constraints: { horizontal: 'SCALE', vertical: 'SCALE' },
+              opacity: 1,
+              absoluteBoundingBox: { x: 98.01639556884766, y: 197, width: 0, height: 363 },
+              absoluteRenderBounds: { x: 98.01639556884766, y: 197, width: 1, height: 363 },
+              effects: [],
+              relativeTransform: [
+                [6.123234262925839e-17, -1, 29.016393661499023],
+                [1, 6.123234262925839e-17, 83]
+              ],
+              absoluteTransform: [
+                [6.123234262925839e-17, -1, 98.01639556884766],
+                [1, 6.123234262925839e-17, 197]
+              ],
+              isMask: false,
+              fills: [],
+              fillGeometry: [],
+              strokes: [
+                {
+                  type: 'SOLID',
+                  visible: true,
+                  opacity: 1,
+                  blendMode: 'NORMAL',
+                  color: { r: 0, g: 0, b: 0 },
+                  boundVariables: {}
+                }
+              ],
+              strokeWeight: 1,
+              strokeCap: 'NONE',
+              strokeJoin: 'MITER',
+              strokeGeometry: [{ windingRule: 'NONZERO', data: 'M0 0L363 0L363 -1L0 -1L0 0Z' }],
+              strokeAlign: 'CENTER'
+            }
+          ],
+          cornerSmoothing: 0,
+          minWidth: null,
+          maxWidth: null,
+          minHeight: null,
+          maxHeight: null,
+          clipsContent: false,
+          layoutMode: 'NONE',
+          layoutWrap: 'NO_WRAP',
+          primaryAxisSizingMode: 'AUTO',
+          counterAxisSizingMode: 'FIXED',
+          primaryAxisAlignItems: 'MIN',
+          counterAxisAlignItems: 'MIN',
+          counterAxisAlignContent: 'AUTO',
+          paddingLeft: 0,
+          paddingRight: 0,
+          paddingTop: 0,
+          paddingBottom: 0,
+          horizontalPadding: 0,
+          verticalPadding: 0,
+          itemSpacing: 0,
+          counterAxisSpacing: 0,
+          layoutPositioning: 'AUTO',
+          itemReverseZIndex: false,
+          strokesIncludedInLayout: false,
+          layoutGrids: [],
+          overflowDirection: 'NONE'
+        },
+        {
           id: '265:174',
           name: 'Frame 416',
-          visible: !true,
+          variableLink: [
+            {
+              variableName: 'baloonLeft3Visible',
+              property: 'visible'
+            }
+          ],
+          modifiers: [
+            {
+              type: 'RIGID_BODY',
+              config: {
+                weight: -1
+              }
+            }
+          ],
+          visible: true,
           type: 'FRAME',
           rotation: -4.864856961501801,
           componentPropertyReferences: null,
@@ -1168,11 +1091,7 @@ const balloon = {
       layoutGrids: [],
       overflowDirection: 'NONE'
     },
-    // loon group 2
     {
-      properties: {
-        type: 'loonFrame'
-      },
       id: '265:178',
       name: 'Frame 419',
       visible: true,
@@ -1208,12 +1127,7 @@ const balloon = {
       strokeGeometry: [],
       strokeAlign: 'INSIDE',
       children: [
-        // duck
         {
-          properties: {
-            type: 'duck',
-            mass: 2
-          },
           id: '265:179',
           name: 'Duck Box 1',
           visible: true,
@@ -1399,218 +1313,10 @@ const balloon = {
           layoutGrids: [],
           overflowDirection: 'NONE'
         },
-        // loon 1
         {
-          properties: {
-            type: 'loon',
-            mass: 1
-          },
-          id: '265:170',
-          name: 'Frame 415',
-          visible: true,
-          type: 'FRAME',
-          rotation: 0,
-          componentPropertyReferences: null,
-          boundVariables: {},
-          locked: false,
-          exportSettings: [],
-          blendMode: 'PASS_THROUGH',
-          layoutAlign: 'INHERIT',
-          layoutGrow: 0,
-          constraints: { horizontal: 'MIN', vertical: 'MIN' },
-          opacity: 1,
-          absoluteBoundingBox: { x: 69, y: 114, width: 59, height: 446 },
-          absoluteRenderBounds: { x: 69, y: 114, width: 59, height: 446 },
-          effects: [],
-          relativeTransform: [
-            [1, 0, 37],
-            [0, 1, 34]
-          ],
-          absoluteTransform: [
-            [1, 0, 69],
-            [0, 1, 114]
-          ],
-          isMask: false,
-          fills: [],
-          fillGeometry: [{ windingRule: 'NONZERO', data: 'M0 0L59 0L59 446L0 446L0 0Z' }],
-          strokes: [],
-          strokeWeight: 1,
-          strokeCap: 'NONE',
-          strokeJoin: 'MITER',
-          strokeGeometry: [],
-          strokeAlign: 'INSIDE',
-          children: [
-            {
-              id: '265:171',
-              name: 'Group',
-              visible: true,
-              type: 'GROUP',
-              rotation: 0,
-              componentPropertyReferences: null,
-              boundVariables: {},
-              locked: false,
-              exportSettings: [],
-              blendMode: 'PASS_THROUGH',
-              layoutAlign: 'INHERIT',
-              layoutGrow: 0,
-              opacity: 1,
-              absoluteBoundingBox: { x: 82.54098510742188, y: 140, width: 29.988494873046875, height: 60.99504089355469 },
-              absoluteRenderBounds: { x: 82.54098510742188, y: 140, width: 29.988502502441406, height: 60.99504089355469 },
-              effects: [],
-              relativeTransform: [
-                [1, 0, 13.540983200073242],
-                [0, 1, 26]
-              ],
-              absoluteTransform: [
-                [1, 0, 82.54098510742188],
-                [0, 1, 140]
-              ],
-              isMask: false,
-              children: [
-                {
-                  id: '265:172',
-                  name: 'Vector',
-                  visible: true,
-                  type: 'VECTOR',
-                  rotation: 0,
-                  componentPropertyReferences: null,
-                  boundVariables: {},
-                  locked: false,
-                  exportSettings: [],
-                  blendMode: 'PASS_THROUGH',
-                  layoutAlign: 'INHERIT',
-                  layoutGrow: 0,
-                  constraints: { horizontal: 'SCALE', vertical: 'SCALE' },
-                  opacity: 1,
-                  absoluteBoundingBox: {
-                    x: 82.54098510742188,
-                    y: 140,
-                    width: 29.988494873046875,
-                    height: 60.99504089355469
-                  },
-                  absoluteRenderBounds: {
-                    x: 82.54098510742188,
-                    y: 140,
-                    width: 29.988502502441406,
-                    height: 60.99504089355469
-                  },
-                  effects: [],
-                  relativeTransform: [
-                    [1, 0, 13.540983200073242],
-                    [0, 1, 26]
-                  ],
-                  absoluteTransform: [
-                    [1, 0, 82.54098510742188],
-                    [0, 1, 140]
-                  ],
-                  isMask: false,
-                  fills: [
-                    {
-                      type: 'SOLID',
-                      visible: true,
-                      opacity: 1,
-                      blendMode: 'NORMAL',
-                      color: { r: 0, g: 0, b: 0 },
-                      boundVariables: {}
-                    }
-                  ],
-                  fillGeometry: [
-                    {
-                      windingRule: 'EVENODD',
-                      data: 'M15.0138 0C23.2939 0 29.9885 8.11149 29.9885 18.1243C29.9885 27.3676 24.2776 37.9513 16.8881 39.0831L18.3268 41.6148C19.2322 43.2083 18.7232 43.6452 17.1719 43.6452L16.2275 43.6452C19.1832 51.2255 19.4377 52.9183 16.5455 60.4986C16.5455 60.7667 16.3204 60.995 16.0562 60.995L14.6028 60.995C14.3385 60.995 14.1134 60.7667 14.1134 60.4986C17.0447 52.9183 16.7168 51.2255 13.7953 43.6452L12.1706 43.6452C10.9961 43.665 11.0744 42.5133 11.5638 41.7091L13.1689 39.0831C5.74519 37.986 0 27.3875 0 18.1243C0 8.11149 6.70924 0 14.9747 0L15.0138 0ZM17.7102 6.03646C17.2943 5.80811 17.1377 5.2819 17.3628 4.85994C17.5879 4.43799 18.1066 4.27913 18.5226 4.50749C19.9564 5.29183 21.3903 6.45345 22.6431 7.76896C23.935 9.12419 25.0361 10.6482 25.7359 12.0878C25.9463 12.5197 25.7701 13.036 25.3493 13.2494C24.9235 13.4629 24.4146 13.2842 24.2042 12.8573C23.5778 11.5765 22.5844 10.2064 21.4099 8.9703C20.2794 7.77889 18.9875 6.73145 17.7102 6.03646Z'
-                    }
-                  ],
-                  strokes: [],
-                  strokeWeight: 1,
-                  strokeCap: 'NONE',
-                  strokeJoin: 'MITER',
-                  strokeGeometry: [],
-                  strokeAlign: 'INSIDE'
-                }
-              ]
-            },
-            {
-              id: '265:173',
-              name: 'Line 11',
-              visible: true,
-              type: 'LINE',
-              rotation: -90,
-              componentPropertyReferences: null,
-              boundVariables: {},
-              locked: false,
-              exportSettings: [],
-              blendMode: 'PASS_THROUGH',
-              layoutAlign: 'INHERIT',
-              layoutGrow: 0,
-              constraints: { horizontal: 'SCALE', vertical: 'SCALE' },
-              opacity: 1,
-              absoluteBoundingBox: { x: 98.01639556884766, y: 197, width: 0, height: 363 },
-              absoluteRenderBounds: { x: 98.01639556884766, y: 197, width: 1, height: 363 },
-              effects: [],
-              relativeTransform: [
-                [6.123234262925839e-17, -1, 29.016393661499023],
-                [1, 6.123234262925839e-17, 83]
-              ],
-              absoluteTransform: [
-                [6.123234262925839e-17, -1, 98.01639556884766],
-                [1, 6.123234262925839e-17, 197]
-              ],
-              isMask: false,
-              fills: [],
-              fillGeometry: [],
-              strokes: [
-                {
-                  type: 'SOLID',
-                  visible: true,
-                  opacity: 1,
-                  blendMode: 'NORMAL',
-                  color: { r: 0, g: 0, b: 0 },
-                  boundVariables: {}
-                }
-              ],
-              strokeWeight: 1,
-              strokeCap: 'NONE',
-              strokeJoin: 'MITER',
-              strokeGeometry: [{ windingRule: 'NONZERO', data: 'M0 0L363 0L363 -1L0 -1L0 0Z' }],
-              strokeAlign: 'CENTER'
-            }
-          ],
-          cornerSmoothing: 0,
-          minWidth: null,
-          maxWidth: null,
-          minHeight: null,
-          maxHeight: null,
-          clipsContent: false,
-          layoutMode: 'NONE',
-          layoutWrap: 'NO_WRAP',
-          primaryAxisSizingMode: 'AUTO',
-          counterAxisSizingMode: 'FIXED',
-          primaryAxisAlignItems: 'MIN',
-          counterAxisAlignItems: 'MIN',
-          counterAxisAlignContent: 'AUTO',
-          paddingLeft: 0,
-          paddingRight: 0,
-          paddingTop: 0,
-          paddingBottom: 0,
-          horizontalPadding: 0,
-          verticalPadding: 0,
-          itemSpacing: 0,
-          counterAxisSpacing: 0,
-          layoutPositioning: 'AUTO',
-          itemReverseZIndex: false,
-          strokesIncludedInLayout: false,
-          layoutGrids: [],
-          overflowDirection: 'NONE'
-        },
-        // loon 2
-        {
-          properties: {
-            type: 'loon',
-            mass: 1
-          },
           id: '265:183',
           name: 'Frame 417',
-          visible: !true,
+          visible: true,
           type: 'FRAME',
           rotation: 4.832885352695006,
           componentPropertyReferences: null,
@@ -1825,15 +1531,10 @@ const balloon = {
           layoutGrids: [],
           overflowDirection: 'NONE'
         },
-        // loon 3
         {
-          properties: {
-            type: 'loon',
-            mass: 1
-          },
           id: '265:191',
           name: 'Frame 416',
-          visible: !true,
+          visible: true,
           type: 'FRAME',
           rotation: -4.864856961501801,
           componentPropertyReferences: null,
@@ -2076,10 +1777,69 @@ const balloon = {
       layoutGrids: [],
       overflowDirection: 'NONE'
     },
+    // left btn -
     {
-      interactions: interactionsDesc,
-      id: '8:499',
-      name: 'Rectangle 163',
+      id: '326:149',
+      name: 'Rectangle 188',
+      interactions: [
+        {
+          event: 'ON_CLICK',
+          effects: [
+            {
+              type: 'UPDATE_VARIABLE',
+              valueType: 'COMPUTE_FUNCTION',
+              config: {
+                variableName: 'baloonCountLeft',
+                computeFunction: {
+                  type: 'decreaseBaloonCount',
+                  params: {
+                    count: 'baloonCountLeft'
+                  }
+                }
+              }
+            },
+            {
+              type: 'UPDATE_VARIABLE',
+              valueType: 'COMPUTE_FUNCTION',
+              config: {
+                variableName: 'baloonLeft1Visible',
+                computeFunction: {
+                  type: 'getLeftBaloon1Visible',
+                  params: {
+                    count: 'baloonCountLeft'
+                  }
+                }
+              }
+            },
+            {
+              type: 'UPDATE_VARIABLE',
+              valueType: 'COMPUTE_FUNCTION',
+              config: {
+                variableName: 'baloonLeft2Visible',
+                computeFunction: {
+                  type: 'getLeftBaloon2Visible',
+                  params: {
+                    count: 'baloonCountLeft'
+                  }
+                }
+              }
+            },
+            {
+              type: 'UPDATE_VARIABLE',
+              valueType: 'COMPUTE_FUNCTION',
+              config: {
+                variableName: 'baloonLeft3Visible',
+                computeFunction: {
+                  type: 'getLeftBaloon3Visible',
+                  params: {
+                    count: 'baloonCountLeft'
+                  }
+                }
+              }
+            }
+          ]
+        }
+      ],
       visible: true,
       type: 'RECTANGLE',
       rotation: 0,
@@ -2090,21 +1850,18 @@ const balloon = {
       blendMode: 'PASS_THROUGH',
       layoutAlign: 'INHERIT',
       layoutGrow: 0,
-      constraints: {
-        horizontal: 'MIN',
-        vertical: 'MIN'
-      },
+      constraints: { horizontal: 'MIN', vertical: 'MIN' },
       opacity: 1,
-      absoluteBoundingBox: { x: 46, y: 80, width: 249, height: 53 },
-      absoluteRenderBounds: { x: 46, y: 80, width: 249, height: 53 },
+      absoluteBoundingBox: { x: 36, y: 43, width: 47, height: 44 },
+      absoluteRenderBounds: { x: 36, y: 43, width: 47, height: 44 },
       effects: [],
       relativeTransform: [
-        [1, 0, 46],
-        [0, 1, 80]
+        [1, 0, 36],
+        [0, 1, 43]
       ],
       absoluteTransform: [
-        [1, 0, 46],
-        [0, 1, 80]
+        [1, 0, 36],
+        [0, 1, 43]
       ],
       isMask: false,
       fills: [
@@ -2113,20 +1870,11 @@ const balloon = {
           visible: true,
           opacity: 1,
           blendMode: 'NORMAL',
-          color: {
-            r: 0.5921568870544434,
-            g: 0.27843138575553894,
-            b: 1
-          },
+          color: { r: 0.9541666507720947, g: 0.727552056312561, b: 0.7819396257400513 },
           boundVariables: {}
         }
       ],
-      fillGeometry: [
-        {
-          windingRule: 'NONZERO',
-          data: 'M0 0L50 0L50 50L0 50L0 0Z'
-        }
-      ],
+      fillGeometry: [{ windingRule: 'NONZERO', data: 'M0 0L47 0L47 44L0 44L0 0Z' }],
       strokes: [],
       strokeWeight: 1,
       strokeCap: 'NONE',
@@ -2134,105 +1882,118 @@ const balloon = {
       strokeGeometry: [],
       strokeAlign: 'INSIDE',
       cornerRadius: 0,
-      cornerSmoothing: 0,
-      children: [
+      cornerSmoothing: 0
+    },
+    // left btn +
+    {
+      id: '326:151',
+      name: 'Rectangle 190',
+      interactions: [
         {
-          id: '72:276',
-          name: '1',
-          visible: true,
-          type: 'TEXT',
-          rotation: 0,
-          componentPropertyReferences: null,
-          boundVariables: {},
-          locked: false,
-          exportSettings: [],
-          blendMode: 'PASS_THROUGH',
-          layoutAlign: 'INHERIT',
-          layoutGrow: 0,
-          constraints: {
-            horizontal: 'MIN',
-            vertical: 'MIN'
-          },
-          opacity: 1,
-          absoluteBoundingBox: {
-            x: 144,
-            y: 244,
-            width: 8,
-            height: 24
-          },
-          absoluteRenderBounds: {
-            x: 144.95199584960938,
-            y: 248.17599487304688,
-            width: 4.32000732421875,
-            height: 11.824005126953125
-          },
-          effects: [],
-          relativeTransform: [
-            [1, 0, 24],
-            [0, 1, 16]
-          ],
-          absoluteTransform: [
-            [1, 0, 144],
-            [0, 1, 244]
-          ],
-          isMask: false,
-          fills: [
+          event: 'ON_CLICK',
+          effects: [
             {
-              type: 'SOLID',
-              visible: true,
-              opacity: 1,
-              blendMode: 'NORMAL',
-              color: {
-                r: 0,
-                g: 0,
-                b: 0
-              },
-              boundVariables: {}
-            }
-          ],
-          fillGeometry: [
+              type: 'UPDATE_VARIABLE',
+              valueType: 'COMPUTE_FUNCTION',
+              config: {
+                variableName: 'baloonCountLeft',
+                computeFunction: {
+                  type: 'increaseBaloonCount',
+                  params: {
+                    count: 'baloonCountLeft'
+                  }
+                }
+              }
+            },
             {
-              windingRule: 'NONZERO',
-              data: 'M5.272 4.176L5.272 16L3.176 16L3.176 6.216C3.12267 6.26933 2.98133 6.34133 2.752 6.432C2.528 6.51733 2.256 6.6 1.936 6.68C1.62133 6.75467 1.29333 6.808 0.952 6.84L0.952 5.128C1.29333 5.08533 1.62133 5.01067 1.936 4.904C2.256 4.79733 2.53067 4.68 2.76 4.552C2.98933 4.41867 3.144 4.29333 3.224 4.176L5.272 4.176Z'
+              type: 'UPDATE_VARIABLE',
+              valueType: 'COMPUTE_FUNCTION',
+              config: {
+                variableName: 'baloonLeft1Visible',
+                computeFunction: {
+                  type: 'getLeftBaloon1Visible',
+                  params: {
+                    count: 'baloonCountLeft'
+                  }
+                }
+              }
+            },
+            {
+              type: 'UPDATE_VARIABLE',
+              valueType: 'COMPUTE_FUNCTION',
+              config: {
+                variableName: 'baloonLeft2Visible',
+                computeFunction: {
+                  type: 'getLeftBaloon2Visible',
+                  params: {
+                    count: 'baloonCountLeft'
+                  }
+                }
+              }
+            },
+            {
+              type: 'UPDATE_VARIABLE',
+              valueType: 'COMPUTE_FUNCTION',
+              config: {
+                variableName: 'baloonLeft3Visible',
+                computeFunction: {
+                  type: 'getLeftBaloon3Visible',
+                  params: {
+                    count: 'baloonCountLeft'
+                  }
+                }
+              }
             }
-          ],
-          strokes: [],
-          strokeWeight: 1,
-          strokeCap: 'NONE',
-          strokeJoin: 'MITER',
-          strokeGeometry: [],
-          strokeAlign: 'OUTSIDE',
-          characters: '-',
-          fontName: {
-            family: 'Epilogue',
-            style: 'SemiBold'
-          },
-          fontSize: 16,
-          fontWeight: 600,
-          letterSpacing: {
-            unit: 'PERCENT',
-            value: 0
-          },
-          lineHeight: {
-            unit: 'PERCENT',
-            value: 150
-          },
-          listSpacing: 0,
-          paragraphIndent: 0,
-          paragraphSpacing: 0,
-          textAlignHorizontal: 'LEFT',
-          textAlignVertical: 'TOP',
-          textAutoResize: 'WIDTH_AND_HEIGHT',
-          textCase: 'ORIGINAL',
-          textDecoration: 'NONE',
-          textStyleId: ''
+          ]
         }
-      ]
+      ],
+      visible: true,
+      type: 'RECTANGLE',
+      rotation: 0,
+      componentPropertyReferences: null,
+      boundVariables: {},
+      locked: false,
+      exportSettings: [],
+      blendMode: 'PASS_THROUGH',
+      layoutAlign: 'INHERIT',
+      layoutGrow: 0,
+      constraints: { horizontal: 'MIN', vertical: 'MIN' },
+      opacity: 1,
+      absoluteBoundingBox: { x: 98, y: 43, width: 47, height: 44 },
+      absoluteRenderBounds: { x: 98, y: 43, width: 47, height: 44 },
+      effects: [],
+      relativeTransform: [
+        [1, 0, 98],
+        [0, 1, 43]
+      ],
+      absoluteTransform: [
+        [1, 0, 98],
+        [0, 1, 43]
+      ],
+      isMask: false,
+      fills: [
+        {
+          type: 'SOLID',
+          visible: true,
+          opacity: 1,
+          blendMode: 'NORMAL',
+          color: { r: 0.5694791674613953, g: 0.887499988079071, b: 0.7348499894142151 },
+          boundVariables: {}
+        }
+      ],
+      fillGeometry: [{ windingRule: 'NONZERO', data: 'M0 0L47 0L47 44L0 44L0 0Z' }],
+      strokes: [],
+      strokeWeight: 1,
+      strokeCap: 'NONE',
+      strokeJoin: 'MITER',
+      strokeGeometry: [],
+      strokeAlign: 'INSIDE',
+      cornerRadius: 0,
+      cornerSmoothing: 0
     },
     {
-      interactions: interactionsInc,
-      id: '8:399',
-      name: 'Rectangle 163',
+      id: '326:153',
+      name: 'Rectangle 191',
       visible: true,
       type: 'RECTANGLE',
       rotation: 0,
@@ -2243,21 +2004,18 @@ const balloon = {
       blendMode: 'PASS_THROUGH',
       layoutAlign: 'INHERIT',
       layoutGrow: 0,
-      constraints: {
-        horizontal: 'MIN',
-        vertical: 'MIN'
-      },
+      constraints: { horizontal: 'MIN', vertical: 'MIN' },
       opacity: 1,
-      absoluteBoundingBox: { x: 106, y: 80, width: 249, height: 53 },
-      absoluteRenderBounds: { x: 106, y: 80, width: 249, height: 53 },
+      absoluteBoundingBox: { x: 302, y: 43, width: 47, height: 44 },
+      absoluteRenderBounds: { x: 302, y: 43, width: 47, height: 44 },
       effects: [],
       relativeTransform: [
-        [1, 0, 106],
-        [0, 1, 80]
+        [1, 0, 302],
+        [0, 1, 43]
       ],
       absoluteTransform: [
-        [1, 0, 106],
-        [0, 1, 80]
+        [1, 0, 302],
+        [0, 1, 43]
       ],
       isMask: false,
       fills: [
@@ -2266,20 +2024,11 @@ const balloon = {
           visible: true,
           opacity: 1,
           blendMode: 'NORMAL',
-          color: {
-            r: 0.5921568870544434,
-            g: 0.27843138575553894,
-            b: 1
-          },
+          color: { r: 0.5694791674613953, g: 0.887499988079071, b: 0.7348499894142151 },
           boundVariables: {}
         }
       ],
-      fillGeometry: [
-        {
-          windingRule: 'NONZERO',
-          data: 'M0 0L50 0L50 50L0 50L0 0Z'
-        }
-      ],
+      fillGeometry: [{ windingRule: 'NONZERO', data: 'M0 0L47 0L47 44L0 44L0 0Z' }],
       strokes: [],
       strokeWeight: 1,
       strokeCap: 'NONE',
@@ -2287,105 +2036,11 @@ const balloon = {
       strokeGeometry: [],
       strokeAlign: 'INSIDE',
       cornerRadius: 0,
-      cornerSmoothing: 0,
-      children: [
-        {
-          id: '72:276',
-          name: '1',
-          visible: true,
-          type: 'TEXT',
-          rotation: 0,
-          componentPropertyReferences: null,
-          boundVariables: {},
-          locked: false,
-          exportSettings: [],
-          blendMode: 'PASS_THROUGH',
-          layoutAlign: 'INHERIT',
-          layoutGrow: 0,
-          constraints: {
-            horizontal: 'MIN',
-            vertical: 'MIN'
-          },
-          opacity: 1,
-          absoluteBoundingBox: {
-            x: 144,
-            y: 244,
-            width: 8,
-            height: 24
-          },
-          absoluteRenderBounds: {
-            x: 144.95199584960938,
-            y: 248.17599487304688,
-            width: 4.32000732421875,
-            height: 11.824005126953125
-          },
-          effects: [],
-          relativeTransform: [
-            [1, 0, 24],
-            [0, 1, 16]
-          ],
-          absoluteTransform: [
-            [1, 0, 144],
-            [0, 1, 244]
-          ],
-          isMask: false,
-          fills: [
-            {
-              type: 'SOLID',
-              visible: true,
-              opacity: 1,
-              blendMode: 'NORMAL',
-              color: {
-                r: 0,
-                g: 0,
-                b: 0
-              },
-              boundVariables: {}
-            }
-          ],
-          fillGeometry: [
-            {
-              windingRule: 'NONZERO',
-              data: 'M5.272 4.176L5.272 16L3.176 16L3.176 6.216C3.12267 6.26933 2.98133 6.34133 2.752 6.432C2.528 6.51733 2.256 6.6 1.936 6.68C1.62133 6.75467 1.29333 6.808 0.952 6.84L0.952 5.128C1.29333 5.08533 1.62133 5.01067 1.936 4.904C2.256 4.79733 2.53067 4.68 2.76 4.552C2.98933 4.41867 3.144 4.29333 3.224 4.176L5.272 4.176Z'
-            }
-          ],
-          strokes: [],
-          strokeWeight: 1,
-          strokeCap: 'NONE',
-          strokeJoin: 'MITER',
-          strokeGeometry: [],
-          strokeAlign: 'OUTSIDE',
-          characters: '+',
-          fontName: {
-            family: 'Epilogue',
-            style: 'SemiBold'
-          },
-          fontSize: 16,
-          fontWeight: 600,
-          letterSpacing: {
-            unit: 'PERCENT',
-            value: 0
-          },
-          lineHeight: {
-            unit: 'PERCENT',
-            value: 150
-          },
-          listSpacing: 0,
-          paragraphIndent: 0,
-          paragraphSpacing: 0,
-          textAlignHorizontal: 'LEFT',
-          textAlignVertical: 'TOP',
-          textAutoResize: 'WIDTH_AND_HEIGHT',
-          textCase: 'ORIGINAL',
-          textDecoration: 'NONE',
-          textStyleId: ''
-        }
-      ]
+      cornerSmoothing: 0
     },
     {
-      interactions: interactionsDesc2,
-      id: '8:299',
-      name: 'Rectangle 163',
+      id: '326:150',
+      name: 'Rectangle 189',
       visible: true,
       type: 'RECTANGLE',
       rotation: 0,
@@ -2396,21 +2051,18 @@ const balloon = {
       blendMode: 'PASS_THROUGH',
       layoutAlign: 'INHERIT',
       layoutGrow: 0,
-      constraints: {
-        horizontal: 'MIN',
-        vertical: 'MIN'
-      },
+      constraints: { horizontal: 'MIN', vertical: 'MIN' },
       opacity: 1,
-      absoluteBoundingBox: { x: 236, y: 80, width: 249, height: 53 },
-      absoluteRenderBounds: { x: 236, y: 80, width: 249, height: 53 },
+      absoluteBoundingBox: { x: 242, y: 43, width: 47, height: 44 },
+      absoluteRenderBounds: { x: 242, y: 43, width: 47, height: 44 },
       effects: [],
       relativeTransform: [
-        [1, 0, 236],
-        [0, 1, 80]
+        [1, 0, 242],
+        [0, 1, 43]
       ],
       absoluteTransform: [
-        [1, 0, 236],
-        [0, 1, 80]
+        [1, 0, 242],
+        [0, 1, 43]
       ],
       isMask: false,
       fills: [
@@ -2419,20 +2071,11 @@ const balloon = {
           visible: true,
           opacity: 1,
           blendMode: 'NORMAL',
-          color: {
-            r: 0.5921568870544434,
-            g: 0.27843138575553894,
-            b: 1
-          },
+          color: { r: 0.9541666507720947, g: 0.727552056312561, b: 0.7819396257400513 },
           boundVariables: {}
         }
       ],
-      fillGeometry: [
-        {
-          windingRule: 'NONZERO',
-          data: 'M0 0L50 0L50 50L0 50L0 0Z'
-        }
-      ],
+      fillGeometry: [{ windingRule: 'NONZERO', data: 'M0 0L47 0L47 44L0 44L0 0Z' }],
       strokes: [],
       strokeWeight: 1,
       strokeCap: 'NONE',
@@ -2440,107 +2083,13 @@ const balloon = {
       strokeGeometry: [],
       strokeAlign: 'INSIDE',
       cornerRadius: 0,
-      cornerSmoothing: 0,
-      children: [
-        {
-          id: '72:276',
-          name: '1',
-          visible: true,
-          type: 'TEXT',
-          rotation: 0,
-          componentPropertyReferences: null,
-          boundVariables: {},
-          locked: false,
-          exportSettings: [],
-          blendMode: 'PASS_THROUGH',
-          layoutAlign: 'INHERIT',
-          layoutGrow: 0,
-          constraints: {
-            horizontal: 'MIN',
-            vertical: 'MIN'
-          },
-          opacity: 1,
-          absoluteBoundingBox: {
-            x: 144,
-            y: 244,
-            width: 8,
-            height: 24
-          },
-          absoluteRenderBounds: {
-            x: 144.95199584960938,
-            y: 248.17599487304688,
-            width: 4.32000732421875,
-            height: 11.824005126953125
-          },
-          effects: [],
-          relativeTransform: [
-            [1, 0, 24],
-            [0, 1, 16]
-          ],
-          absoluteTransform: [
-            [1, 0, 144],
-            [0, 1, 244]
-          ],
-          isMask: false,
-          fills: [
-            {
-              type: 'SOLID',
-              visible: true,
-              opacity: 1,
-              blendMode: 'NORMAL',
-              color: {
-                r: 0,
-                g: 0,
-                b: 0
-              },
-              boundVariables: {}
-            }
-          ],
-          fillGeometry: [
-            {
-              windingRule: 'NONZERO',
-              data: 'M5.272 4.176L5.272 16L3.176 16L3.176 6.216C3.12267 6.26933 2.98133 6.34133 2.752 6.432C2.528 6.51733 2.256 6.6 1.936 6.68C1.62133 6.75467 1.29333 6.808 0.952 6.84L0.952 5.128C1.29333 5.08533 1.62133 5.01067 1.936 4.904C2.256 4.79733 2.53067 4.68 2.76 4.552C2.98933 4.41867 3.144 4.29333 3.224 4.176L5.272 4.176Z'
-            }
-          ],
-          strokes: [],
-          strokeWeight: 1,
-          strokeCap: 'NONE',
-          strokeJoin: 'MITER',
-          strokeGeometry: [],
-          strokeAlign: 'OUTSIDE',
-          characters: '-',
-          fontName: {
-            family: 'Epilogue',
-            style: 'SemiBold'
-          },
-          fontSize: 16,
-          fontWeight: 600,
-          letterSpacing: {
-            unit: 'PERCENT',
-            value: 0
-          },
-          lineHeight: {
-            unit: 'PERCENT',
-            value: 150
-          },
-          listSpacing: 0,
-          paragraphIndent: 0,
-          paragraphSpacing: 0,
-          textAlignHorizontal: 'LEFT',
-          textAlignVertical: 'TOP',
-          textAutoResize: 'WIDTH_AND_HEIGHT',
-          textCase: 'ORIGINAL',
-          textDecoration: 'NONE',
-          textStyleId: ''
-        }
-      ]
+      cornerSmoothing: 0
     },
     {
-      interactions: interactionsInc2,
-      id: '8:199',
-      name: 'Rectangle 163',
+      id: '326:155',
+      name: '-',
       visible: true,
-      type: 'RECTANGLE',
+      type: 'TEXT',
       rotation: 0,
       componentPropertyReferences: null,
       boundVariables: {},
@@ -2549,41 +2098,137 @@ const balloon = {
       blendMode: 'PASS_THROUGH',
       layoutAlign: 'INHERIT',
       layoutGrow: 0,
-      constraints: {
-        horizontal: 'MIN',
-        vertical: 'MIN'
-      },
+      constraints: { horizontal: 'MIN', vertical: 'MIN' },
       opacity: 1,
-      absoluteBoundingBox: { x: 296, y: 80, width: 249, height: 53 },
-      absoluteRenderBounds: { x: 296, y: 80, width: 249, height: 53 },
+      absoluteBoundingBox: { x: 54, y: 52, width: 10, height: 24 },
+      absoluteRenderBounds: { x: 55.42045593261719, y: 63.98295593261719, width: 6.363636016845703, height: 1.5625 },
       effects: [],
       relativeTransform: [
-        [1, 0, 296],
-        [0, 1, 80]
+        [1, 0, 54],
+        [0, 1, 52]
       ],
       absoluteTransform: [
-        [1, 0, 296],
-        [0, 1, 80]
+        [1, 0, 54],
+        [0, 1, 52]
       ],
       isMask: false,
       fills: [
-        {
-          type: 'SOLID',
-          visible: true,
-          opacity: 1,
-          blendMode: 'NORMAL',
-          color: {
-            r: 0.5921568870544434,
-            g: 0.27843138575553894,
-            b: 1
-          },
-          boundVariables: {}
-        }
+        { type: 'SOLID', visible: true, opacity: 1, blendMode: 'NORMAL', color: { r: 0, g: 0, b: 0 }, boundVariables: {} }
+      ],
+      fillGeometry: [
+        { windingRule: 'NONZERO', data: 'M7.78409 11.983L7.78409 13.5455L1.42045 13.5455L1.42045 11.983L7.78409 11.983Z' }
+      ],
+      strokes: [],
+      strokeWeight: 1,
+      strokeCap: 'NONE',
+      strokeJoin: 'MITER',
+      strokeGeometry: [],
+      strokeAlign: 'OUTSIDE',
+      characters: '-',
+      fontName: { family: 'Inter', style: 'Regular' },
+      fontSize: 20,
+      fontWeight: 400,
+      letterSpacing: { unit: 'PERCENT', value: 0 },
+      lineHeight: { unit: 'AUTO' },
+      listSpacing: 0,
+      paragraphIndent: 0,
+      paragraphSpacing: 0,
+      textAlignHorizontal: 'LEFT',
+      textAlignVertical: 'TOP',
+      textAutoResize: 'NONE',
+      textCase: 'ORIGINAL',
+      textDecoration: 'NONE',
+      textStyleId: ''
+    },
+    {
+      id: '326:156',
+      name: '-',
+      visible: true,
+      type: 'TEXT',
+      rotation: 0,
+      componentPropertyReferences: null,
+      boundVariables: {},
+      locked: false,
+      exportSettings: [],
+      blendMode: 'PASS_THROUGH',
+      layoutAlign: 'INHERIT',
+      layoutGrow: 0,
+      constraints: { horizontal: 'MIN', vertical: 'MIN' },
+      opacity: 1,
+      absoluteBoundingBox: { x: 261, y: 52, width: 10, height: 24 },
+      absoluteRenderBounds: { x: 262.4204406738281, y: 63.98295593261719, width: 6.3636474609375, height: 1.5625 },
+      effects: [],
+      relativeTransform: [
+        [1, 0, 261],
+        [0, 1, 52]
+      ],
+      absoluteTransform: [
+        [1, 0, 261],
+        [0, 1, 52]
+      ],
+      isMask: false,
+      fills: [
+        { type: 'SOLID', visible: true, opacity: 1, blendMode: 'NORMAL', color: { r: 0, g: 0, b: 0 }, boundVariables: {} }
+      ],
+      fillGeometry: [
+        { windingRule: 'NONZERO', data: 'M7.78409 11.983L7.78409 13.5455L1.42045 13.5455L1.42045 11.983L7.78409 11.983Z' }
+      ],
+      strokes: [],
+      strokeWeight: 1,
+      strokeCap: 'NONE',
+      strokeJoin: 'MITER',
+      strokeGeometry: [],
+      strokeAlign: 'OUTSIDE',
+      characters: '-',
+      fontName: { family: 'Inter', style: 'Regular' },
+      fontSize: 20,
+      fontWeight: 400,
+      letterSpacing: { unit: 'PERCENT', value: 0 },
+      lineHeight: { unit: 'AUTO' },
+      listSpacing: 0,
+      paragraphIndent: 0,
+      paragraphSpacing: 0,
+      textAlignHorizontal: 'LEFT',
+      textAlignVertical: 'TOP',
+      textAutoResize: 'NONE',
+      textCase: 'ORIGINAL',
+      textDecoration: 'NONE',
+      textStyleId: ''
+    },
+    {
+      id: '326:157',
+      name: '+',
+      visible: true,
+      type: 'TEXT',
+      rotation: 0,
+      componentPropertyReferences: null,
+      boundVariables: {},
+      locked: false,
+      exportSettings: [],
+      blendMode: 'PASS_THROUGH',
+      layoutAlign: 'INHERIT',
+      layoutGrow: 0,
+      constraints: { horizontal: 'MIN', vertical: 'MIN' },
+      opacity: 1,
+      absoluteBoundingBox: { x: 115, y: 51, width: 17, height: 25 },
+      absoluteRenderBounds: { x: 116.90341186523438, y: 59.630680084228516, width: 9.375, height: 9.375003814697266 },
+      effects: [],
+      relativeTransform: [
+        [1, 0, 115],
+        [0, 1, 51]
+      ],
+      absoluteTransform: [
+        [1, 0, 115],
+        [0, 1, 51]
+      ],
+      isMask: false,
+      fills: [
+        { type: 'SOLID', visible: true, opacity: 1, blendMode: 'NORMAL', color: { r: 0, g: 0, b: 0 }, boundVariables: {} }
       ],
       fillGeometry: [
         {
           windingRule: 'NONZERO',
-          data: 'M0 0L50 0L50 50L0 50L0 0Z'
+          data: 'M5.79545 18.0057L5.79545 8.63068L7.38636 8.63068L7.38636 18.0057L5.79545 18.0057ZM1.90341 14.1136L1.90341 12.5227L11.2784 12.5227L11.2784 14.1136L1.90341 14.1136Z'
         }
       ],
       strokes: [],
@@ -2591,102 +2236,80 @@ const balloon = {
       strokeCap: 'NONE',
       strokeJoin: 'MITER',
       strokeGeometry: [],
-      strokeAlign: 'INSIDE',
-      cornerRadius: 0,
-      cornerSmoothing: 0,
-      children: [
+      strokeAlign: 'OUTSIDE',
+      characters: '+',
+      fontName: { family: 'Inter', style: 'Regular' },
+      fontSize: 20,
+      fontWeight: 400,
+      letterSpacing: { unit: 'PERCENT', value: 0 },
+      lineHeight: { unit: 'AUTO' },
+      listSpacing: 0,
+      paragraphIndent: 0,
+      paragraphSpacing: 0,
+      textAlignHorizontal: 'LEFT',
+      textAlignVertical: 'TOP',
+      textAutoResize: 'NONE',
+      textCase: 'ORIGINAL',
+      textDecoration: 'NONE',
+      textStyleId: ''
+    },
+    {
+      id: '326:158',
+      name: '+',
+      visible: true,
+      type: 'TEXT',
+      rotation: 0,
+      componentPropertyReferences: null,
+      boundVariables: {},
+      locked: false,
+      exportSettings: [],
+      blendMode: 'PASS_THROUGH',
+      layoutAlign: 'INHERIT',
+      layoutGrow: 0,
+      constraints: { horizontal: 'MIN', vertical: 'MIN' },
+      opacity: 1,
+      absoluteBoundingBox: { x: 318, y: 52, width: 17, height: 25 },
+      absoluteRenderBounds: { x: 319.9034118652344, y: 60.630680084228516, width: 9.375, height: 9.375003814697266 },
+      effects: [],
+      relativeTransform: [
+        [1, 0, 318],
+        [0, 1, 52]
+      ],
+      absoluteTransform: [
+        [1, 0, 318],
+        [0, 1, 52]
+      ],
+      isMask: false,
+      fills: [
+        { type: 'SOLID', visible: true, opacity: 1, blendMode: 'NORMAL', color: { r: 0, g: 0, b: 0 }, boundVariables: {} }
+      ],
+      fillGeometry: [
         {
-          id: '72:276',
-          name: '1',
-          visible: true,
-          type: 'TEXT',
-          rotation: 0,
-          componentPropertyReferences: null,
-          boundVariables: {},
-          locked: false,
-          exportSettings: [],
-          blendMode: 'PASS_THROUGH',
-          layoutAlign: 'INHERIT',
-          layoutGrow: 0,
-          constraints: {
-            horizontal: 'MIN',
-            vertical: 'MIN'
-          },
-          opacity: 1,
-          absoluteBoundingBox: {
-            x: 144,
-            y: 244,
-            width: 8,
-            height: 24
-          },
-          absoluteRenderBounds: {
-            x: 144.95199584960938,
-            y: 248.17599487304688,
-            width: 4.32000732421875,
-            height: 11.824005126953125
-          },
-          effects: [],
-          relativeTransform: [
-            [1, 0, 24],
-            [0, 1, 16]
-          ],
-          absoluteTransform: [
-            [1, 0, 144],
-            [0, 1, 244]
-          ],
-          isMask: false,
-          fills: [
-            {
-              type: 'SOLID',
-              visible: true,
-              opacity: 1,
-              blendMode: 'NORMAL',
-              color: {
-                r: 0,
-                g: 0,
-                b: 0
-              },
-              boundVariables: {}
-            }
-          ],
-          fillGeometry: [
-            {
-              windingRule: 'NONZERO',
-              data: 'M5.272 4.176L5.272 16L3.176 16L3.176 6.216C3.12267 6.26933 2.98133 6.34133 2.752 6.432C2.528 6.51733 2.256 6.6 1.936 6.68C1.62133 6.75467 1.29333 6.808 0.952 6.84L0.952 5.128C1.29333 5.08533 1.62133 5.01067 1.936 4.904C2.256 4.79733 2.53067 4.68 2.76 4.552C2.98933 4.41867 3.144 4.29333 3.224 4.176L5.272 4.176Z'
-            }
-          ],
-          strokes: [],
-          strokeWeight: 1,
-          strokeCap: 'NONE',
-          strokeJoin: 'MITER',
-          strokeGeometry: [],
-          strokeAlign: 'OUTSIDE',
-          characters: '+',
-          fontName: {
-            family: 'Epilogue',
-            style: 'SemiBold'
-          },
-          fontSize: 16,
-          fontWeight: 600,
-          letterSpacing: {
-            unit: 'PERCENT',
-            value: 0
-          },
-          lineHeight: {
-            unit: 'PERCENT',
-            value: 150
-          },
-          listSpacing: 0,
-          paragraphIndent: 0,
-          paragraphSpacing: 0,
-          textAlignHorizontal: 'LEFT',
-          textAlignVertical: 'TOP',
-          textAutoResize: 'WIDTH_AND_HEIGHT',
-          textCase: 'ORIGINAL',
-          textDecoration: 'NONE',
-          textStyleId: ''
+          windingRule: 'NONZERO',
+          data: 'M5.79545 18.0057L5.79545 8.63068L7.38636 8.63068L7.38636 18.0057L5.79545 18.0057ZM1.90341 14.1136L1.90341 12.5227L11.2784 12.5227L11.2784 14.1136L1.90341 14.1136Z'
         }
-      ]
+      ],
+      strokes: [],
+      strokeWeight: 1,
+      strokeCap: 'NONE',
+      strokeJoin: 'MITER',
+      strokeGeometry: [],
+      strokeAlign: 'OUTSIDE',
+      characters: '+',
+      fontName: { family: 'Inter', style: 'Regular' },
+      fontSize: 20,
+      fontWeight: 400,
+      letterSpacing: { unit: 'PERCENT', value: 0 },
+      lineHeight: { unit: 'AUTO' },
+      listSpacing: 0,
+      paragraphIndent: 0,
+      paragraphSpacing: 0,
+      textAlignHorizontal: 'LEFT',
+      textAlignVertical: 'TOP',
+      textAutoResize: 'NONE',
+      textCase: 'ORIGINAL',
+      textDecoration: 'NONE',
+      textStyleId: ''
     }
   ],
   cornerSmoothing: 0,
@@ -2714,7 +2337,20 @@ const balloon = {
   itemReverseZIndex: false,
   strokesIncludedInLayout: false,
   layoutGrids: [],
-  overflowDirection: 'NONE'
+  overflowDirection: 'NONE',
+  variables: [
+    { name: 'baloonLeft1Visible', type: 'LOCAL', default: '1' },
+    { name: 'baloonLeft2Visible', type: 'LOCAL', default: '1' },
+    { name: 'baloonLeft3Visible', type: 'LOCAL', default: '1' },
+    { name: 'baloonCountLeft', type: 'LOCAL', default: '3' }
+  ],
+  computeFunctions: [
+    { name: 'decreaseBaloonCount', output: 'count - 1', params: ['count'] },
+    { name: 'increaseBaloonCount', output: 'count + 1', params: ['count'] },
+    { name: 'getLeftBaloon1Visible', output: 'count - 1', params: ['count'] },
+    { name: 'getLeftBaloon2Visible', output: 'count - 2', params: ['count'] },
+    { name: 'getLeftBaloon3Visible', output: 'count - 3', params: ['count'] }
+  ]
 };
 
 export default balloon;

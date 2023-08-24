@@ -69,6 +69,7 @@ const renderChild = async (
   rest
 ) => {
   if (!child) return;
+
   let pixiObject;
   const parentVariables = rest.variables;
   const childVariables = child.variableLink;
@@ -87,6 +88,7 @@ const renderChild = async (
             } else {
               child.relativeTransform.y = value;
             }
+
             break;
           case 'x':
             if (value > defaultValue) {
@@ -94,14 +96,21 @@ const renderChild = async (
             } else {
               child.relativeTransform.x = variable.value;
             }
+
             break;
           case 'width':
             child.width = value;
+
             break;
           case 'height':
             child.height = value;
+
+            break;
+          case 'visible':
+            set(child, childVariable.property, value >= 0);
             break;
           default:
+            set(child, childVariable.property, value);
             break;
         }
       }
@@ -113,6 +122,7 @@ const renderChild = async (
     for (let i = 0; i < modifiers.length; i++) {
       const modifier = modifiers[i];
       const { type } = modifier;
+
       switch (type) {
         case 'AUTO_TILE':
           const children = get(originalJson, [...path, 'children']);
@@ -125,6 +135,7 @@ const renderChild = async (
           const totalChildrenY = parseInt(child.height / childrenHeight);
           const totalChildrenX = parseInt(child.width / childrenWidth);
           const newChildren = [];
+
           for (let i = 0; i < totalChildrenY; i++) {
             for (let j = 0; j < totalChildrenX; j++) {
               const Newchild = {
@@ -139,12 +150,14 @@ const renderChild = async (
             }
           }
           child.children = newChildren;
+
           break;
         default:
           break;
       }
     }
   }
+
   switch (child.type) {
     case 'CANVAS':
       pixiObject = renderCanvas(child);
@@ -558,26 +571,51 @@ const renderPolygon = async (child, screenWidth, screenHeight, originalJson, pat
     }
   }
 
+  function executeComputeFunction(effect) {
+    const computeFunctionIndex = originalJson.computeFunctions?.findIndex(
+      i => i.name === effect.config?.computeFunction?.type
+    );
+    const computeFunction = get(originalJson.computeFunctions, computeFunctionIndex);
+    const valueObj = {};
+    Object.keys(effect.config.computeFunction.params).forEach(key => {
+      const variableName = effect.config.computeFunction.params[key];
+      const varIndex = originalJson.variables?.findIndex(i => i.name === variableName);
+      if (varIndex === -1) return;
+      const currentVal = get(originalJson, ['variables', varIndex, 'value']);
+      const defaultVal = get(originalJson, ['variables', varIndex, 'default']);
+      valueObj[key] = currentVal ?? defaultVal;
+    });
+    let mathEval = computeFunction.output;
+    computeFunction.params.forEach(p => {
+      mathEval = mathEval.replace(new RegExp(p, 'g'), valueObj[p]);
+    });
+    const newVal = math.evaluate(mathEval);
+
+    const varIndex = originalJson.variables?.findIndex(i => i.name === effect.config?.variableName);
+    const currentVal = get(originalJson, ['variables', varIndex, 'value']);
+    const defaultVal = get(originalJson, ['variables', varIndex, 'default']);
+
+    if ((currentVal ?? defaultVal) === newVal) return;
+    set(originalJson, ['variables', varIndex, 'value'], newVal);
+  }
+
   if (nonDragInteractions?.length) {
     nonDragInteractions.forEach(i => {
       switch (i.event) {
-        case 'onClick':
+        case 'ON_CLICK':
           pixiObject.eventMode = 'static';
           pixiObject.cursor = 'pointer';
 
           pixiObject.on('mousedown', function (e) {
             i.effects.forEach(effect => {
               switch (effect.type) {
-                case 'updateVariable':
+                case 'UPDATE_VARIABLE':
                   if (effect.valueType === 'constant') {
                     set(originalJson, effect.variable, effect.constant);
                     break;
                   }
-                  set(
-                    originalJson,
-                    ['variables', effect.variable],
-                    effectComputeFunction(effect.computeFunction.type, effect.computeFunction.arguments)
-                  );
+
+                  executeComputeFunction(effect);
                   break;
 
                 case 'updateLoon':
@@ -666,7 +704,7 @@ const renderPolygon = async (child, screenWidth, screenHeight, originalJson, pat
 
     // parse events
     let onDrag = null;
-    for (const dragInteraction of dragInteractions) {
+    for (const dragInteraction of dragInteractions || []) {
       switch (dragInteraction.event) {
         case 'ON_DRAG':
           onDrag = dragInteraction;
@@ -716,48 +754,28 @@ const renderPolygon = async (child, screenWidth, screenHeight, originalJson, pat
 
       // add events -> part 2
       if (onDrag) {
-        onDrag.effects?.forEach(d => {
-          switch (d.type) {
+        onDrag.effects?.forEach(effect => {
+          switch (effect.type) {
             case 'UPDATE_VARIABLE':
-              const varIndex = originalJson.variables?.findIndex(i => i.name === d.config?.variableName);
+              const varIndex = originalJson.variables?.findIndex(i => i.name === effect.config?.variableName);
               if (varIndex === -1) break;
               const currentVal = get(originalJson, ['variables', varIndex, 'value']);
               const defaultVal = get(originalJson, ['variables', varIndex, 'default']);
               let newVal = null;
 
-              switch (d.valueType) {
+              switch (effect.valueType) {
                 case 'LAYER_PROPERTY':
-                  newVal = get(dragTarget, [d.config?.value]);
+                  newVal = get(dragTarget, [effect.config?.value]);
                   if ((currentVal || defaultVal) === newVal) break;
                   set(originalJson, ['variables', varIndex, 'value'], newVal);
                   ['absoluteBoundingBox', 'absoluteRenderBounds', 'position', 'relativeTransform'].forEach(i => {
-                    set(originalJson, [...path, i, d.config?.value], newVal);
+                    set(originalJson, [...path, i, effect.config?.value], newVal);
                   });
                   setFigmaJson(originalJson);
                   break;
 
                 case 'COMPUTE_FUNCTION':
-                  const computeFunctionIndex = originalJson.computeFunctions?.findIndex(
-                    i => i.name === d.config?.computeFunction?.type
-                  );
-                  const computeFunction = get(originalJson.computeFunctions, computeFunctionIndex);
-                  const valueObj = {};
-                  Object.keys(d.config.computeFunction.params).forEach(key => {
-                    const variableName = d.config.computeFunction.params[key];
-                    const varIndex = originalJson.variables?.findIndex(i => i.name === variableName);
-                    if (varIndex === -1) return;
-                    const currentVal = get(originalJson, ['variables', varIndex, 'value']);
-                    const defaultVal = get(originalJson, ['variables', varIndex, 'default']);
-                    valueObj[key] = currentVal || defaultVal;
-                  });
-                  let mathEval = computeFunction.output;
-                  computeFunction.params.forEach(p => {
-                    mathEval = mathEval.replace(new RegExp(p, 'g'), valueObj[p]);
-                  });
-                  newVal = math.evaluate(mathEval);
-
-                  if ((currentVal || defaultVal) === newVal) break;
-                  set(originalJson, ['variables', varIndex, 'value'], newVal);
+                  executeComputeFunction(effect);
                   break;
                 default:
               }
