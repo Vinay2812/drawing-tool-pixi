@@ -15,6 +15,7 @@ export const renderFigmaJson = (figmaJson, elementId) => {
 
     const screenWidth = window.innerWidth > 400 ? 400 : window.innerWidth;
     const screenHeight = window.innerHeight;
+    const devicePixelRatio = window.devicePixelRatio;
 
     const scaleWidth = screenWidth / figmaJson?.absoluteBoundingBox?.width;
     const scaleHeight = screenHeight / figmaJson?.absoluteBoundingBox?.height;
@@ -22,12 +23,13 @@ export const renderFigmaJson = (figmaJson, elementId) => {
     const container = renderFigmaFromParsedJson(parsedJson.children, {
       scaleHeight,
       scaleWidth,
+      devicePixelRatio,
     });
 
     // Create a PIXI Application
     const app = new PIXI.Application({
       //   antialias: true,
-      //   resolution: window.devicePixelRatio*3,
+      resolution: devicePixelRatio,
       background: `#${parsedJson?.children[0]?.fills[0].color || "ffffff"}`,
     });
 
@@ -41,8 +43,8 @@ export const renderFigmaJson = (figmaJson, elementId) => {
     app.stage.addChild(container);
 
     app.renderer.resize(
-      scaleWidth * figmaJson?.absoluteRenderBounds?.width,
-      scaleWidth * figmaJson?.absoluteRenderBounds?.height
+      (scaleWidth * figmaJson?.absoluteRenderBounds?.width) / devicePixelRatio,
+      (scaleWidth * figmaJson?.absoluteRenderBounds?.height) / devicePixelRatio
     );
 
     // app.stage.y = container.height / container.resolution

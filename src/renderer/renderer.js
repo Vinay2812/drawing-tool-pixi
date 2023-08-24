@@ -11,7 +11,7 @@ import { debounce } from "lodash";
 
 export const renderFigmaFromParsedJson = (
   children,
-  { scaleHeight, scaleWidth }
+  { scaleHeight, scaleWidth, devicePixelRatio }
 ) => {
   const container = new PIXI.Container();
   container.sortableChildren = true;
@@ -21,6 +21,7 @@ export const renderFigmaFromParsedJson = (
     renderChild(child, container, screenWidth, screenHeight, {
       scaleHeight,
       scaleWidth,
+      devicePixelRatio,
     });
   });
   container.backgroundColor = 0xffffff;
@@ -36,15 +37,18 @@ export const renderFigmaFromParsedJson = (
   // pixiChild.endFill();
   // container.addChild(pixiChild);
 
-  container.scale.set(scaleWidth);
+  container.scale.set(scaleWidth / devicePixelRatio);
   return container;
 };
 
-const getScaleWidth = (scaleWidth, { maxWidth, width, minWidth }) => {
+const getScaleWidth = (
+  { scaleWidth, devicePixelRatio },
+  { maxWidth, width, minWidth }
+) => {
   let scale = 1;
-  if (minWidth && scaleWidth * width < minWidth) {
+  if (minWidth && (scaleWidth / devicePixelRatio) * width < minWidth) {
     scale = minWidth / width;
-  } else if (maxWidth && scaleWidth * width > maxWidth) {
+  } else if (maxWidth && (scaleWidth / devicePixelRatio) * width > maxWidth) {
     scale = maxWidth / width;
   }
   return scale;
@@ -55,7 +59,7 @@ const renderChild = async (
   parentContainer,
   screenWidth,
   screenHeight,
-  { scaleHeight, scaleWidth }
+  scaleInfo
 ) => {
   if (!child) return;
   let pixiObject;
@@ -85,7 +89,7 @@ const renderChild = async (
   }
 
   pixiObject?.scale?.set(
-    getScaleWidth(scaleWidth, {
+    getScaleWidth(scaleInfo, {
       width: child?.size?.width,
       maxWIdth: child?.maxWIdth,
       minWidth: child?.minWidth,
@@ -100,17 +104,7 @@ const renderChild = async (
       if (grandchild.type === "TEXT") {
         grandchild.parent = child;
       }
-      renderChild(
-        grandchild,
-        pixiObject,
-        screenWidth,
-        screenHeight,
-        screenHeight,
-        {
-          scaleHeight,
-          scaleWidth,
-        }
-      );
+      renderChild(grandchild, pixiObject, screenWidth, screenHeight, scaleInfo);
     });
   }
 };
@@ -126,7 +120,7 @@ const renderText = async (child) => {
   const fontNameObj = child.fontName || {};
   const fontFamily = fontNameObj.family || "Arial"; // Default to 'Arial' if fontFamily is not provided
   const fontStyle = fontNameObj.style || "normal"; // Default to 'normal' if fontStyle is not provided
-  const fontSize = child.fontSize || 12; // Default to 12 if fontSize is not provided
+  let fontSize = child.fontSize || 12; // Default to 12 if fontSize is not provided
   const fontWeight = child.fontWeight || "500"; // Default to 'normal' if fontWeight is not provided
   const textAlignHorizontal = child.textAlignHorizontal || "left"; // Default to 'left' if textAlignHorizontal is not provided
   const textDecoration = child.textDecoration || "none"; // Default to 'none' if textDecoration is not provided
@@ -322,7 +316,7 @@ const renderPolygon = async (child, screenWidth, screenHeight) => {
           pixiChild.beginFill(
             String(fill?.color).length === 6 ? `0x${fill?.color}` : fill?.color
           );
-      } else if (fill.type === "IMAGE") {
+      } else if (fill.type === "IMAGE" && (fill.gifRef || fill.imageRef)) {
         const gifRef = fill.gifRef;
         const imageUrl = fill.imageRef;
 
