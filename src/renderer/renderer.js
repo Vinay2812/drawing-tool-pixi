@@ -670,8 +670,8 @@ const renderPolygon = async (child, screenWidth, screenHeight, originalJson, pat
                   set(originalJson, [...newPath, 'children'], get(originalJson, [...newPath, 'variants', 0]));
                   break;
 
-                case 'toggleAnimation':
-                  setAnimationType(effect.action);
+                case 'TOGGLE_ANIMATION':
+                  setAnimationType(effect.config.animation);
                   break;
                 default:
               }

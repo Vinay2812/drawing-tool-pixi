@@ -37,6 +37,20 @@ const balloon = {
   strokeAlign: 'INSIDE',
   children: [
     {
+      interactions: [
+        {
+          event: 'ON_CLICK',
+          effects: [
+            {
+              type: 'TOGGLE_ANIMATION',
+              valueType: 'LAYER_PROPERTY',
+              config: {
+                animation: 'balloon'
+              }
+            }
+          ]
+        }
+      ],
       id: '245:218',
       name: 'Rectangle 187',
       visible: true,
