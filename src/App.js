@@ -72,7 +72,7 @@ const App = () => {
       <div
         style={{
           width: "100%",
-          maxWidth: "510px",
+          maxWidth: "410px",
           height: "100%",
           minHeight: "100vh",
           display: "grid",
