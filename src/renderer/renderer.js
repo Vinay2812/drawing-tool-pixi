@@ -88,33 +88,62 @@ const renderChild = async (
               child.relativeTransform.y = value;
             }
             break;
+          case 'x':
+            if (value > defaultValue) {
+              child.relativeTransform.x = defaultValue;
+            } else {
+              child.relativeTransform.x = variable.value;
+            }
+            break;
+          case 'width':
+            child.width = value;
+            break;
           case 'height':
-            const children = get(originalJson, [...path, 'children']);
-            let childHeight = 0;
-            if (children?.length > 0) {
-              childHeight = children[0].height;
-            }
-            const childLength = parseInt(value / childHeight);
-            const newHeight = child.relativeTransform.y - (childLength - 1) * childHeight;
-            const newchild = [];
-            for (let i = 0; i < childLength; i++) {
-              const Newchild = {
-                ...children[0],
-                relativeTransform: {
-                  ...children[0].relativeTransform,
-                  y: i * childHeight + i * GAP
-                }
-              };
-              newchild.push(Newchild);
-            }
             child.height = value;
-            child.children = newchild;
             break;
           default:
             break;
         }
       }
     });
+  }
+
+  if (child.modifiers?.length) {
+    const modifiers = child.modifiers;
+    for (let i = 0; i < modifiers.length; i++) {
+      const modifier = modifiers[i];
+      const { type } = modifier;
+      switch (type) {
+        case 'AUTO_TILE':
+          const children = get(originalJson, [...path, 'children']);
+          let childrenHeight = 0;
+          let childrenWidth = 0;
+          if (children?.length > 0) {
+            childrenHeight = children[0].height;
+            childrenWidth = children[0].width;
+          }
+          const totalChildrenY = parseInt(child.height / childrenHeight);
+          const totalChildrenX = parseInt(child.width / childrenWidth);
+          const newChildren = [];
+          for (let i = 0; i < totalChildrenY; i++) {
+            for (let j = 0; j < totalChildrenX; j++) {
+              const Newchild = {
+                ...children[0],
+                relativeTransform: {
+                  ...children[0].relativeTransform,
+                  y: i * childrenHeight + i * GAP,
+                  x: j * childrenWidth + j * GAP
+                }
+              };
+              newChildren.push(Newchild);
+            }
+          }
+          child.children = newChildren;
+          break;
+        default:
+          break;
+      }
+    }
   }
   switch (child.type) {
     case 'CANVAS':
