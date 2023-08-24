@@ -137,7 +137,7 @@ export const renderFigmaJson = (
         //     .map(i => i.properties?.mass)
         //     .reduce((sum, i) => sum + i, 0);
         AnimaionRenderer({
-          figmaJson,
+          figmaJson: figmaJson.children,
           parentContainer: container,
           engine,
           app,

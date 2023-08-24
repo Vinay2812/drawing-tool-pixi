@@ -677,7 +677,7 @@ const renderPolygon = async (child, screenWidth, screenHeight, originalJson, pat
               }
             });
 
-            if (!i?.effects?.filter(i => i.type === 'toggleAnimation')?.length) setFigmaJson(originalJson);
+            if (!i?.effects?.filter(i => i.type === 'TOGGLE_ANIMATION')?.length) setFigmaJson(originalJson);
           });
 
           break;
