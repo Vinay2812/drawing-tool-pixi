@@ -1,76 +1,74 @@
 import Matter from 'matter-js';
-
+import get from 'lodash/get';
 function AnimaionRenderer(props) {
-  const { parentContainer, engine, app, type, other, onCompleted } = props;
+  const { figmaJson, parentContainer, engine, app, type, other, onCompleted } = props;
 
   const { World, Bodies, Constraint, Body, Events, Composite, Vector } = Matter;
 
   if (type == 'balloon') {
-    const { balloonName, groundName, ballonMass, weightMass } = other;
-    const balloonSprite = findChildByNameDeep(parentContainer, balloonName);
-
-    balloonSprite.pivot.set(balloonSprite.mattterWidth / 2, balloonSprite.matterHeight / 2);
-    balloonSprite.x += balloonSprite.mattterWidth / 2;
-    balloonSprite.y += balloonSprite.matterHeight / 2;
-
-    const ground = Bodies.rectangle(
-      balloonSprite.x + 10,
-      balloonSprite.y + balloonSprite.matterHeight / 2 + 40,
-      balloonSprite.mattterWidth + 200,
-      10,
-      {
-        isStatic: true,
-        label: groundName
+    const frames = findFramesWithModifierName(figmaJson, 'GRAVITATIONAL_FORCE');
+    const balloons = [];
+    for (let i = 0; i < frames.length; i++) {
+      const { id, children } = frames[i];
+      const balloonSprite = findChildByNameDeep(parentContainer, id);
+      const rigidFrames = findFramesWithModifierName(children, 'RIGID_BODY');
+      let totalMass = 1;
+      for (let j = 0; j < rigidFrames.length; j++) {
+        const { modifiers } = rigidFrames[j];
+        const modifier = modifiers.find(i => i.type == 'RIGID_BODY');
+        const weight = get(modifier, 'config.weight');
+        totalMass += weight;
       }
-    );
-    const balloon = Bodies.rectangle(
-      balloonSprite.x,
-      balloonSprite.y,
-      balloonSprite.mattterWidth,
-      balloonSprite.matterHeight,
-      {
-        mass: weightMass
+
+      balloonSprite.pivot.set(balloonSprite.mattterWidth / 2, balloonSprite.matterHeight / 2);
+      balloonSprite.x += balloonSprite.mattterWidth / 2;
+      balloonSprite.y += balloonSprite.matterHeight / 2;
+
+      const ground = Bodies.rectangle(
+        balloonSprite.x + 10,
+        balloonSprite.y + balloonSprite.matterHeight / 2 + 40,
+        balloonSprite.mattterWidth + 200,
+        10,
+        {
+          isStatic: true
+        }
+      );
+      const balloon = Bodies.rectangle(
+        balloonSprite.x,
+        balloonSprite.y,
+        balloonSprite.mattterWidth,
+        balloonSprite.matterHeight,
+        {
+          mass: totalMass
+        }
+      );
+      balloons.push(balloon);
+
+      World.add(engine.world, [ground, balloon]);
+      function applyFlyingForces() {
+        Body.applyForce(balloon, balloon.position, {
+          x: 0,
+          y: -0.001
+        });
       }
-    );
 
-    World.add(engine.world, [ground, balloon]);
-    console.log(
-      ballonMass - weightMass == 0
-        ? -0.001 * ballonMass
-        : ballonMass - weightMass <= 1
-        ? -0.001 * (ballonMass + 1 - weightMass)
-        : -0.001 * (ballonMass - weightMass)
-    );
-    function applyFlyingForces() {
-      Body.applyForce(balloon, balloon.position, {
-        x: 0,
-        y:
-          ballonMass - weightMass == 0
-            ? -0.001 * ballonMass
-            : ballonMass - weightMass <= 1
-            ? -0.001 * (ballonMass + 1 - weightMass)
-            : -0.001 * (ballonMass - weightMass)
-      });
+      Events.on(engine, 'beforeUpdate', applyFlyingForces);
+      // Function to update Pixi.js sprites based on Matter.js bodies' positions
+      function updateSprites() {
+        balloonSprite.position.set(balloon.position.x, balloon.position.y);
+      }
+
+      // Add the ticker to update both Matter.js and Pixi.js
+      app.ticker.add(updateSprites, i);
     }
-
-    Events.on(engine, 'beforeUpdate', applyFlyingForces);
-
-    // Function to update Pixi.js sprites based on Matter.js bodies' positions
-    function updateSprites() {
-      balloonSprite.position.set(balloon.position.x, balloon.position.y);
-    }
-
-    // Add the ticker to update both Matter.js and Pixi.js
-    app.ticker.add(() => {
-      updateSprites();
-    });
-
     Events.on(engine, 'afterUpdate', () => {
       // Check if the simulation is stable based on your criteria
-      const isSimulationStable = isStableSimulation(balloon);
+      const isSimulationStable = isStableSimulation(balloons);
 
       if (isSimulationStable) {
-        balloon.isStatic = true;
+        balloons.forEach(balloon => {
+          balloon.isStatic = true;
+        });
         Events.off(engine);
         app.ticker.destroy();
         console.log('Simulation is now stable.');
@@ -251,14 +249,16 @@ export default AnimaionRenderer;
 const stableVelocityThreshold = 0.001; // Adjust this threshold as needed
 const stableForceThreshold = 0.001; // Adjust this threshold as needed
 
-function isStableSimulation(balloon) {
+function isStableSimulation(balloons) {
   // Check if velocities of all bodies are below the threshold
-  const areVelocitiesStable =
-    Math.abs(balloon.velocity.x) < stableVelocityThreshold && Math.abs(balloon.velocity.y) < stableVelocityThreshold;
+  const areVelocitiesStable = balloons.every(
+    body => Math.abs(body.velocity.x) < stableVelocityThreshold && Math.abs(body.velocity.y) < stableVelocityThreshold
+  );
 
   // Check if forces applied to all bodies are below the threshold
-  const areForcesStable =
-    Math.abs(balloon.force.x) < stableForceThreshold && Math.abs(balloon.force.y) < stableForceThreshold;
+  const areForcesStable = balloons.every(
+    body => Math.abs(body.force.x) < stableForceThreshold && Math.abs(body.force.y) < stableForceThreshold
+  );
 
   // Return true if both velocity and force criteria are met
   return areVelocitiesStable && areForcesStable;
@@ -294,4 +294,39 @@ function findChildByNameDeep(parent, name) {
   }
 
   return null;
+}
+
+function findFramesWithModifierName(data, modifierType) {
+  const objectsWithRigidBody = [];
+  function hasRigidBodyModifier(obj) {
+    if (obj.modifiers) {
+      for (const modifier of obj.modifiers) {
+        if (modifier.type === modifierType) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+  function traverse(node) {
+    if (hasRigidBodyModifier(node)) {
+      objectsWithRigidBody.push(node);
+    }
+    if (Array.isArray(node)) {
+      for (const childNode of node) {
+        childNode.visible && traverse(childNode);
+        if (node.children && node.visible) {
+          for (const child of node.children) {
+            traverse(child);
+          }
+        }
+      }
+    } else if (node.children && node.visible) {
+      for (const child of node.children) {
+        traverse(child);
+      }
+    }
+  }
+  traverse(data);
+  return objectsWithRigidBody;
 }

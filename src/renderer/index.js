@@ -125,29 +125,30 @@ export const renderFigmaJson = (
         break;
 
       case 'balloon':
-        const loonFrames = get(figmaJson, ['children', 0, 'children'])?.filter(i => i.properties?.type === 'loonFrame');
+        // const loonFrames = get(figmaJson, ['children', 0, 'children'])?.filter(i => i.properties?.type === 'loonFrame');
 
-        loonFrames.forEach(lf => {
-          const loonMass = lf.children
-            .filter(i => i.properties?.type === 'loon' && i.visible)
-            .map(i => i.properties?.mass)
-            .reduce((sum, i) => sum + i, 0);
-          const duckMass = lf.children
-            .filter(i => i.properties?.type === 'duck' && i.visible)
-            .map(i => i.properties?.mass)
-            .reduce((sum, i) => sum + i, 0);
-          AnimaionRenderer({
-            parentContainer: container,
-            engine,
-            app,
-            type: 'balloon',
-            other: {
-              balloonName: lf.id,
-              ballonMass: loonMass,
-              weightMass: duckMass
-            }
-          });
+        // loonFrames.forEach(lf => {
+        //   const loonMass = lf.children
+        //     .filter(i => i.properties?.type === 'loon' && i.visible)
+        //     .map(i => i.properties?.mass)
+        //     .reduce((sum, i) => sum + i, 0);
+        //   const duckMass = lf.children
+        //     .filter(i => i.properties?.type === 'duck' && i.visible)
+        //     .map(i => i.properties?.mass)
+        //     .reduce((sum, i) => sum + i, 0);
+        AnimaionRenderer({
+          figmaJson,
+          parentContainer: container,
+          engine,
+          app,
+          type: 'balloon'
+          // other: {
+          //   balloonName: lf.id,
+          //   ballonMass: loonMass,
+          //   weightMass: duckMass
+          // }
         });
+        // });
         break;
       default:
     }
