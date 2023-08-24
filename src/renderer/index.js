@@ -28,6 +28,7 @@ export const renderFigmaJson = (figmaJson, elementId) => {
     const app = new PIXI.Application({
       //   antialias: true,
       //   resolution: window.devicePixelRatio*3,
+      background: `#${parsedJson?.children[0]?.fills[0].color || "ffffff"}`,
     });
 
     app.renderer.plugins.interaction.autoPreventDefault = false;
