@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import FigmaRenderer from "./components/FigmaRenderer";
 // import sample from "./utils/sample";
-import sample from "./utils/bishal-test/7";
+import sample from "./utils/bishal-test/6";
 import useGraphqlCall from "./api/useGraphqlCall";
 
 const App = () => {
@@ -72,7 +72,7 @@ const App = () => {
       <div
         style={{
           width: "100%",
-          maxWidth: "410px",
+          maxWidth: "510px",
           height: "100%",
           minHeight: "100vh",
           display: "grid",
