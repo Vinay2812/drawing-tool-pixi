@@ -95,7 +95,8 @@ const parseChild = (child, level, minX, minY, parentObject = null) => {
     // need to remove this
     dragConfig: child.dragConfig,
     dropConfig: child.dropConfig,
-    modifiers: child.modifiers
+    modifiers: child.modifiers,
+    variableLink: child.variableLink
   };
   switch (child.type) {
     case 'CANVAS':

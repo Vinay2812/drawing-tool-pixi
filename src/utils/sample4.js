@@ -44,7 +44,7 @@ const ladder = {
     },
     {
       name: 'modify_tile_parent_y_position',
-      output: '580 - height',
+      output: '580 - height - 242',
       params: ['height']
     }
   ],

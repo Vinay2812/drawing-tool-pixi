@@ -53,7 +53,7 @@ export const renderFigmaJson = (
         scaleHeight,
         scaleWidth
       },
-      rest
+      { ...rest, variables: figmaJson.variables }
     );
 
     app.renderer.plugins.interaction.autoPreventDefault = false;
@@ -168,7 +168,7 @@ export const renderFigmaJson = (
         scaleHeight,
         scaleWidth
       },
-      rest
+      { ...rest, variables: figmaJson.variables }
     );
 
     app.renderer.plugins.interaction.autoPreventDefault = false;

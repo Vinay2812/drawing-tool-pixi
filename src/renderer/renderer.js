@@ -15,7 +15,7 @@ import { debounce } from 'lodash';
 let dragTarget = null;
 let dragData = null;
 const dropAreas = [];
-
+const GAP = 2;
 export const renderFigmaFromParsedJson = (app, parsedJson, setFigmaJson, { scaleHeight, scaleWidth }, rest) => {
   const children = parsedJson.children;
   const container = new PIXI.Container();
@@ -70,6 +70,52 @@ const renderChild = async (
 ) => {
   if (!child) return;
   let pixiObject;
+  const parentVariables = rest.variables;
+  const childVariables = child.variableLink;
+  if (parentVariables?.length && childVariables?.length) {
+    const childVariableNames = childVariables.map(i => i.variableName);
+    parentVariables.forEach(variable => {
+      if (childVariableNames.includes(variable.name)) {
+        const value = variable.value || variable.default || variable.defaultValue;
+        const defaultValue = variable.default || variable.defaultValue;
+        const childVariable = childVariables.find(i => i.variableName === variable.name);
+
+        switch (childVariable.property) {
+          case 'y':
+            if (value > defaultValue) {
+              child.relativeTransform.y = defaultValue;
+            } else {
+              child.relativeTransform.y = value;
+            }
+            break;
+          case 'height':
+            const children = get(originalJson, [...path, 'children']);
+            let childHeight = 0;
+            if (children?.length > 0) {
+              childHeight = children[0].height;
+            }
+            const childLength = parseInt(value / childHeight);
+            const newHeight = child.relativeTransform.y - (childLength - 1) * childHeight;
+            const newchild = [];
+            for (let i = 0; i < childLength; i++) {
+              const Newchild = {
+                ...children[0],
+                relativeTransform: {
+                  ...children[0].relativeTransform,
+                  y: i * childHeight + i * GAP
+                }
+              };
+              newchild.push(Newchild);
+            }
+            child.height = value;
+            child.children = newchild;
+            break;
+          default:
+            break;
+        }
+      }
+    });
+  }
   switch (child.type) {
     case 'CANVAS':
       pixiObject = renderCanvas(child);
