@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import FigmaRenderer from "./components/FigmaRenderer";
 // import sample from "./utils/sample";
-import sample from "./utils/bishal-test/6";
+import sample from "./utils/bishal-test/8";
 import useGraphqlCall from "./api/useGraphqlCall";
 
 const App = () => {

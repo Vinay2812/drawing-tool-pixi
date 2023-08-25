@@ -28,7 +28,7 @@ export const renderFigmaJson = (figmaJson, elementId) => {
 
     // Create a PIXI Application
     const app = new PIXI.Application({
-      //   antialias: true,
+      // antialias: true,
       resolution: devicePixelRatio,
       background: `#${parsedJson?.children[0]?.fills[0].color || "ffffff"}`,
     });
