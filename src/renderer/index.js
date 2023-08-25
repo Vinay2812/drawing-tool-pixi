@@ -6,12 +6,37 @@ import Matter, { Bodies, Engine, World } from 'matter-js';
 import AnimaionRenderer from '../components/AnimationRenderer';
 import get from 'lodash/get';
 
+export const getImageUrls = obj => {
+  let hashes = [];
+
+  if (Array.isArray(obj)) {
+    obj.forEach(item => {
+      hashes = hashes.concat(getImageUrls(item));
+    });
+  } else if (obj && typeof obj === 'object') {
+    if (obj.imageRef) {
+      const imageRef = obj.imageRef;
+      if (imageRef) {
+        hashes.push(imageRef);
+      }
+    }
+    for (const key in obj) {
+      hashes = hashes.concat(getImageUrls(obj[key]));
+    }
+  }
+
+  return hashes;
+};
+
 // Create a PIXI Application
-export const app = new PIXI.Application({
-  //   width: 1800,
-  //   height: 1800,
-  backgroundColor: 'red',
-  resizeTo: window
+const app = new PIXI.Application({
+  // antialias: true,
+  resolution: devicePixelRatio,
+  // background: `#${parsedJson?.children[0]?.fills[0].color || 'ffffff'}`,
+  antialias: true
+  // resizeTo: currentElement
+  //   width: screenWidth/2,
+  //     height: screenHeight/2,
 });
 
 // eslint-disable-next-line no-undef
@@ -30,43 +55,58 @@ export const renderFigmaJson = (
   props
 ) => {
   const { clicked, animationType, setAnimationType } = props;
+
+  const imageUrls = getImageUrls(figmaJson);
   // Check if canvas already exists
   const currentElement = document.getElementById(elementId);
   const canvas = currentElement?.querySelector('canvas');
 
-  const screenWidth = window.innerWidth > 400 ? 400 : window.innerWidth;
-  const screenHeight = window.innerHeight;
+  const screenWidth = window.innerWidth > 400 ? 400 : window.innerWidth * 2;
+  const screenHeight = window.innerHeight * 2;
+  const devicePixelRatio = window.devicePixelRatio * 2;
+  // const devicePixelRatio = 2;
 
   const scaleWidth = screenWidth / orgFigmaJson?.absoluteBoundingBox?.width;
   const scaleHeight = screenHeight / orgFigmaJson?.absoluteBoundingBox?.height;
   const rest = { animationType, setAnimationType };
 
-  if (!canvas) {
-    // Parse the Figma JSON into a PIXI Container
-    const parsedJson = !figmaJson.isParsed ? parseFigmaJson(figmaJson) : figmaJson;
+  // Parse the Figma JSON into a PIXI Container
+  const parsedJson = !figmaJson?.isParsed ? parseFigmaJson(figmaJson) : figmaJson;
 
+  if (!canvas) {
     const container = renderFigmaFromParsedJson(
       app,
       parsedJson,
       setFigmaJson,
       {
         scaleHeight,
-        scaleWidth
+        scaleWidth,
+        devicePixelRatio
       },
       { ...rest, variables: figmaJson.variables }
     );
+
+    app.background = `#${parsedJson?.children[0]?.fills[0].color || 'ffffff'}`;
+    app.resizeTo = currentElement;
 
     app.renderer.plugins.interaction.autoPreventDefault = false;
     app.renderer.view.style.touchAction = 'auto';
 
     // Append the PIXI view to the specified HTML element
     container.name = 'root';
-    document.getElementById(elementId).appendChild(app.view);
     app.stage.addChild(container);
 
+    // Append the PIXI view to the specified HTML element
+    const newCanvas = app.view;
+    newCanvas.style.width = screenWidth / 2;
+    newCanvas.style.height = screenHeight / 2;
+    document.getElementById(elementId).appendChild(newCanvas);
+
+    // Add the container to the PIXI stage
+
     app.renderer.resize(
-      scaleWidth * orgFigmaJson?.absoluteRenderBounds?.width,
-      scaleWidth * orgFigmaJson?.absoluteRenderBounds?.height
+      (scaleWidth * figmaJson?.absoluteRenderBounds?.width) / devicePixelRatio,
+      (scaleWidth * figmaJson?.absoluteRenderBounds?.height) / devicePixelRatio
     );
   }
 
@@ -167,7 +207,8 @@ export const renderFigmaJson = (
       setFigmaJson,
       {
         scaleHeight,
-        scaleWidth
+        scaleWidth,
+        devicePixelRatio
       },
       { ...rest, variables: figmaJson.variables }
     );
@@ -179,9 +220,17 @@ export const renderFigmaJson = (
     container.name = 'root';
     app.stage.addChild(container);
 
+    // Append the PIXI view to the specified HTML element
+    const newCanvas = app.view;
+    newCanvas.style.width = screenWidth / 2;
+    newCanvas.style.height = screenHeight / 2;
+    document.getElementById(elementId).appendChild(newCanvas);
+
+    // Add the container to the PIXI stage
+
     app.renderer.resize(
-      scaleWidth * orgFigmaJson?.absoluteRenderBounds?.width,
-      scaleWidth * orgFigmaJson?.absoluteRenderBounds?.height
+      scaleWidth * orgFigmaJson?.absoluteRenderBounds?.width / devicePixelRatio,
+      scaleWidth * orgFigmaJson?.absoluteRenderBounds?.height / devicePixelRatio,
     );
 
     setIsUpdated(false);

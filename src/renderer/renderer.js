@@ -16,7 +16,13 @@ let dragTarget = null;
 let dragData = null;
 const dropAreas = [];
 const GAP = 2;
-export const renderFigmaFromParsedJson = (app, parsedJson, setFigmaJson, { scaleHeight, scaleWidth }, rest) => {
+export const renderFigmaFromParsedJson = (
+  app,
+  parsedJson,
+  setFigmaJson,
+  { scaleHeight, scaleWidth, devicePixelRatio },
+  rest
+) => {
   const children = parsedJson.children;
   const container = new PIXI.Container();
   container.sortableChildren = true;
@@ -34,7 +40,8 @@ export const renderFigmaFromParsedJson = (app, parsedJson, setFigmaJson, { scale
       app,
       {
         scaleHeight,
-        scaleWidth
+        scaleWidth,
+        devicePixelRatio
       },
       rest
     );
@@ -52,8 +59,18 @@ export const renderFigmaFromParsedJson = (app, parsedJson, setFigmaJson, { scale
   // pixiChild.endFill();
   // container.addChild(pixiChild);
 
-  container.scale.set(scaleWidth);
+  container.scale.set(scaleWidth / devicePixelRatio);
   return container;
+};
+
+const getScaleWidth = ({ scaleWidth, devicePixelRatio }, { maxWidth, width, minWidth }) => {
+  let scale = 1;
+  if (minWidth && (scaleWidth / devicePixelRatio) * width < minWidth) {
+    scale = minWidth / width;
+  } else if (maxWidth && (scaleWidth / devicePixelRatio) * width > maxWidth) {
+    scale = maxWidth / width;
+  }
+  return scale;
 };
 
 const renderChild = async (
@@ -65,7 +82,7 @@ const renderChild = async (
   path = [],
   setFigmaJson,
   app,
-  { scaleHeight, scaleWidth },
+  scaleInfo,
   rest
 ) => {
   if (!child) return;
@@ -171,6 +188,8 @@ const renderChild = async (
     case 'LINE':
     case 'INSTANCE':
     case 'ELLIPSE':
+    case 'UNION':
+    case 'BOOLEAN_OPERATION':
       pixiObject = await renderPolygon(child, screenWidth, screenHeight, originalJson, path, setFigmaJson, app, rest);
       break;
     case 'TEXT':
@@ -199,10 +218,7 @@ const renderChild = async (
         [...path, 'children', idx],
         setFigmaJson,
         app,
-        {
-          scaleHeight,
-          scaleWidth
-        },
+        scaleInfo,
         rest
       );
     });
@@ -226,7 +242,7 @@ const renderText = async (child, screenWidth, screenHeight, originalJson, path, 
   const textDecoration = child.textDecoration || 'none'; // Default to 'none' if textDecoration is not provided
 
   const lineHeightObj = child.lineHeight || {};
-  let lineHeightValue = lineHeightObj.value || fontSize * 1.2; // Default to 1.2 times the fontSize if lineHeightValue is not provided
+  let lineHeightValue = lineHeightObj.value || fontSize; // Default to 1.2 times the fontSize if lineHeightValue is not provided
   if (lineHeightObj.unit === 'PERCENT') {
     lineHeightValue = (lineHeightValue / 100) * fontSize;
   }
@@ -250,6 +266,7 @@ const renderText = async (child, screenWidth, screenHeight, originalJson, path, 
   // }
   // wrapperPixiObject.width = child.absoluteBoundingBox.width;
   // wrapperPixiObject.height = child.absoluteBoundingBox.height;
+  const fillColor = child?.fills?.length > 0 && child.fills[0].visible && child.fills[0].color;
 
   const style = new PIXI.TextStyle({
     fontFamily: fontFamily,
@@ -261,12 +278,20 @@ const renderText = async (child, screenWidth, screenHeight, originalJson, path, 
     wordWrap: true,
     wordWrapWidth: child?.absoluteBoundingBox?.width,
     lineHeight: lineHeightValue,
-    letterSpacing: letterSpacingValue
+    letterSpacing: letterSpacingValue,
+    fill: fillColor
   });
 
   const pixiObject = new PIXI.Text(child.characters, style);
   pixiObject.zIndex = child.zIndex;
   wrapperPixiObject.addChild(pixiObject);
+  // if(child.textAlignVertical === "CENTER"){
+
+  // }
+  //   if(child.characters === '2'){
+  //     console.log("🚀 ~ file: renderer.js:172 ~ renderText ~ child:", child)
+
+  //   }
 
   return wrapperPixiObject;
 };
@@ -383,18 +408,14 @@ const renderPolygon = async (child, screenWidth, screenHeight, originalJson, pat
     pixiObject.lineStyle(1, 0x808080, 1, 0.5, true);
   }
 
-  pixiObject.name = child.id;
-  pixiObject.matterHeight = child.absoluteBoundingBox.height;
-  pixiObject.mattterWidth = child.absoluteBoundingBox.width;
   pixiObject.zIndex = child.zIndex;
   // if (child.clipsContent) {
-  //   let mask = new PIXI.Graphics();
-  //   mask.name = child.id;
-  //   mask.beginFill(0x000000);
-  //   mask = drawShape(child, mask);
-  //   mask.endFill();
-  //   pixiObject.addChild(mask);
-  //   pixiObject.mask = mask;
+  // 	let mask = new PIXI.Graphics();
+  // 	mask.beginFill(0x000000);
+  // 	mask = drawShape(child, mask);
+  // 	mask.endFill();
+  // 	pixiObject.addChild(mask);
+  // 	pixiObject.mask = mask;
   // }
 
   let fillColor =
@@ -405,10 +426,11 @@ const renderPolygon = async (child, screenWidth, screenHeight, originalJson, pat
 
   const fillOpacity = child?.fills?.length > 0 && child.fills[0].opacity;
 
-  fillColor ? pixiObject.beginFill(fillColor, fillOpacity || 1) : pixiObject.beginFill(0xffffcc, 0);
-  if (child.type !== 'TEXT') {
-    pixiObject = drawShape(child, pixiObject);
+  if (child.type === 'TEXT') {
+    fillColor = null;
   }
+  fillColor ? pixiObject.beginFill(fillColor, fillOpacity || 1) : pixiObject.beginFill(0xffffcc, 0);
+  pixiObject = drawShape(child, pixiObject);
   pixiObject.endFill();
   if (child?.fills?.length > 0 && child.fills.filter(f => f.type === 'IMAGE')?.length > 0) {
     child.fills.forEach(async fill => {
@@ -419,7 +441,7 @@ const renderPolygon = async (child, screenWidth, screenHeight, originalJson, pat
       let imageSprite;
       if (fill.type === 'SOLID') {
         if (fill.visible) pixiChild.beginFill(String(fill?.color).length === 6 ? `0x${fill?.color}` : fill?.color);
-      } else if (fill.type === 'IMAGE') {
+      } else if (fill.type === 'IMAGE' && (fill.gifRef || fill.imageRef)) {
         const gifRef = fill.gifRef;
         const imageUrl = fill.imageRef;
 
@@ -434,8 +456,10 @@ const renderPolygon = async (child, screenWidth, screenHeight, originalJson, pat
             .then(image => pixiChild.addChild(image));
         } else {
           const imageTexture = PIXI.Texture.from(imageUrl); // Load the texture
+          //   imageTexture.resolution = window.devicePixelRatio;
           imageSprite = new PIXI.Sprite(imageTexture);
         }
+        // imageSprite.roundPixels = true;
 
         imageSprite.blendMode = PIXI.BLEND_MODES.NORMAL; // Adjust blend mode if needed
         const rotation = fill.rotation;
@@ -477,7 +501,7 @@ const renderPolygon = async (child, screenWidth, screenHeight, originalJson, pat
         pixiChild.addChild(imageSprite);
       }
 
-      pixiChild = drawShape(child, pixiChild);
+      //   pixiChild = drawShape(child, pixiChild);
 
       if (child.relativeTransform) {
         const { x, y } = child.relativeTransform;
@@ -551,7 +575,6 @@ const renderPolygon = async (child, screenWidth, screenHeight, originalJson, pat
         });
         // filter.padding = 100;
         // pixiObject.filterArea = null;
-
         if (child.id === '137:97') {
           // pixiObject.beginFill(0x0000ff);
           // pixiObject.drawRect(0, 0, child.absoluteBoundingBox.width, child.absoluteBoundingBox.height);
