@@ -90,13 +90,13 @@ const renderChild = async (
 			break;
 	}
 
-	pixiObject?.scale?.set(
-		getScaleWidth(scaleInfo, {
-			width: child?.size?.width,
-			maxWIdth: child?.maxWIdth,
-			minWidth: child?.minWidth,
-		})
-	);
+	// pixiObject?.scale?.set(
+	// 	getScaleWidth(scaleInfo, {
+	// 		width: child?.size?.width,
+	// 		maxWIdth: child?.maxWIdth,
+	// 		minWidth: child?.minWidth,
+	// 	})
+	// );
 
 	if (parentContainer && pixiObject) {
 		parentContainer.addChild(pixiObject);
