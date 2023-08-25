@@ -4,8 +4,34 @@ import * as PIXI from "pixi.js";
 import { parseFigmaJson } from "../parser/parser";
 import { renderFigmaFromParsedJson } from "./renderer";
 
+
+export const getImageUrls = (obj) => {
+    let hashes = [];
+  
+    if (Array.isArray(obj)) {
+      obj.forEach((item) => {
+        hashes = hashes.concat(getImageUrls(item));
+      });
+    } else if (obj && typeof obj === "object") {
+      if (obj.imageRef) {
+        const imageRef = obj.imageRef;
+        if (imageRef) {
+          hashes.push(imageRef);
+        }
+      }
+      for (const key in obj) {
+        hashes = hashes.concat(getImageUrls(obj[key]));
+      }
+    }
+  
+    return hashes;
+  };
+
 // Function to render the Figma JSON using PIXI.js
 export const renderFigmaJson = (figmaJson, elementId) => {
+
+    const imageUrls = getImageUrls(figmaJson);
+    console.log("🚀 ~ file: index.js:34 ~ renderFigmaJson ~ imageUrls:", imageUrls)
   // Check if canvas already exists
   const currentElement = document.getElementById(elementId);
   const canvas = currentElement?.querySelector("canvas");
@@ -37,6 +63,11 @@ export const renderFigmaJson = (figmaJson, elementId) => {
     //   width: screenWidth/2,
     //     height: screenHeight/2,
     });
+    
+
+    // const assets = PIXI.Loader.shared.resources;
+    // const loader = PIXI.Loader.shared;
+    // loader.add(imageUrls);
 
     app.renderer.plugins.interaction.autoPreventDefault = false;
     app.renderer.view.style.touchAction = "auto";
