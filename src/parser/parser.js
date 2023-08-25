@@ -74,47 +74,59 @@ const calculateMinXY = (children) => {
 };
 
 const parseChild = (child, level, minX, minY, parentObject = null) => {
-  if (!level) return;
-  let childBoundingX = child?.absoluteBoundingBox?.x;
-  let childBoundingY = child?.absoluteBoundingBox?.y;
-  let renderBoundX = child?.absoluteRenderBounds?.x;
-  let renderBoundY = child?.absoluteRenderBounds?.y;
-  // if (typeof childBoundingX === "number") childBoundingX += Math.abs(minX);
-  // if (typeof childBoundingY === "number") childBoundingY += Math.abs(minY);
-  // if (typeof renderBoundX === "number") renderBoundX += Math.abs(minX);
-  // if (typeof renderBoundY === "number") renderBoundY += Math.abs(minY);
-  const pixiObject = {
-    id: child.id,
-    name: child.name,
-    type: child.type,
-    x: childBoundingX,
-    y: childBoundingY,
-    width: child?.absoluteBoundingBox?.width || 0,
-    height: child?.absoluteBoundingBox?.height || 0,
-    level,
-    children: child.children
-      ? child.children.map((c) => parseChild(c, level + 1, minX, minY, child))
-      : [],
-  };
-  switch (child.type) {
-    case "CANVAS":
-      return parseCanvas(child, level, pixiObject, parentObject);
-    case "FRAME":
-    case "GROUP":
-    case "RECTANGLE":
-    case "POLYGON":
-    case "VECTOR":
-    case "STAR":
-    case "LINE":
-    case "INSTANCE":
-    case "ELLIPSE":
-    case "INPUT":
-      return parsePolygon(child, level, pixiObject, minX, minY, parentObject);
-    case "TEXT":
-      return parseText(child, level, pixiObject);
-    default:
-      console.log("🚀 ~ file: parser.js:106 ~ parseChild ~ child", child);
-  }
+    if(child.name === "Rectangle 143") {
+        console.log("🚀 ~ file: parser.js:106 ~ parsePolygon ~ child:", child);
+    }
+	if (!level) return;
+	let childBoundingX = child?.absoluteBoundingBox?.x;
+	let childBoundingY = child?.absoluteBoundingBox?.y;
+	let renderBoundX = child?.absoluteRenderBounds?.x;
+	let renderBoundY = child?.absoluteRenderBounds?.y;
+	// if (typeof childBoundingX === "number") childBoundingX += Math.abs(minX);
+	// if (typeof childBoundingY === "number") childBoundingY += Math.abs(minY);
+	// if (typeof renderBoundX === "number") renderBoundX += Math.abs(minX);
+	// if (typeof renderBoundY === "number") renderBoundY += Math.abs(minY);
+	const pixiObject = {
+		id: child.id,
+		type: child.type,
+		x: childBoundingX,
+		y: childBoundingY,
+		width: child?.absoluteBoundingBox?.width || 0,
+		height: child?.absoluteBoundingBox?.height || 0,
+		level,
+		children: child.children
+			? child.children.map((c) =>
+					parseChild(c, level + 1, minX, minY, child)
+			  )
+			: [],
+	};
+	switch (child.type) {
+		case "CANVAS":
+			return parseCanvas(child, level, pixiObject, parentObject);
+		case "FRAME":
+		case "GROUP":
+		case "RECTANGLE":
+		case "POLYGON":
+		case "VECTOR":
+		case "STAR":
+		case "LINE":
+		case "INSTANCE":
+		case "ELLIPSE":
+        case "BOOLEAN_OPERATION":
+        case "UNION":
+			return parsePolygon(
+				child,
+				level,
+				pixiObject,
+				minX,
+				minY,
+				parentObject
+			);
+		case "TEXT":
+			return parseText(child, level, pixiObject);
+		default:
+			console.log("🚀 ~ file: parser.js:106 ~ parseChild ~ child", child);
+	}
 };
 
 const parseCanvas = (child, level, pixiObject) => {
