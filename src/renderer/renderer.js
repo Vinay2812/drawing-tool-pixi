@@ -316,6 +316,7 @@ const renderPolygon = async (child, screenWidth, screenHeight) => {
   ) {
     child.fills.forEach(async (fill) => {
       let pixiChild = new PIXI.Graphics();
+      
       pixiChild.zIndex = child.zIndex;
       pixiChild.position.set(child.position.x, child.position.y);
 
@@ -340,8 +341,10 @@ const renderPolygon = async (child, screenWidth, screenHeight) => {
             .then((image) => pixiChild.addChild(image));
         } else {
           const imageTexture = PIXI.Texture.from(imageUrl); // Load the texture
+        //   imageTexture.resolution = window.devicePixelRatio;
           imageSprite = new PIXI.Sprite(imageTexture);
         }
+        // imageSprite.roundPixels = true;
 
         imageSprite.blendMode = PIXI.BLEND_MODES.NORMAL; // Adjust blend mode if needed
         const rotation = fill.rotation;
@@ -389,7 +392,7 @@ const renderPolygon = async (child, screenWidth, screenHeight) => {
         pixiChild.addChild(imageSprite);
       }
 
-      pixiChild = drawShape(child, pixiChild);
+    //   pixiChild = drawShape(child, pixiChild);
 
       if (child.relativeTransform) {
         const { x, y } = child.relativeTransform;
@@ -479,11 +482,11 @@ const renderPolygon = async (child, screenWidth, screenHeight) => {
     pixiObject.filters = filters;
   }
 
-  if(child.absoluteBoundingBox.width  === 764){
+  if(child.id  === '72:571'){
     console.log("🚀 ~ file: renderer.js:475 ~ renderPolygon ~ child:", child, pixiObject)
-    pixiObject.beginFill(0x0000ff);
-    pixiObject.drawRect(0, 0, child.absoluteBoundingBox.width, child.absoluteBoundingBox.height);
-    pixiObject.endFill();
+    // pixiObject.beginFill(0x0000ff);
+    // pixiObject.drawRect(0, 0, child.absoluteBoundingBox.width, child.absoluteBoundingBox.height);
+    // pixiObject.endFill();
   }
 
   return pixiObject;

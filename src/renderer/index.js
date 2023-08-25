@@ -13,10 +13,10 @@ export const renderFigmaJson = (figmaJson, elementId) => {
     // Parse the Figma JSON into a PIXI Container
     const parsedJson = parseFigmaJson(figmaJson);
 
-    const screenWidth = window.innerWidth > 400 ? 400 : window.innerWidth;
-    const screenHeight = window.innerHeight;
-    // const devicePixelRatio = window.devicePixelRatio;
-    const devicePixelRatio = 2;
+    const screenWidth = window.innerWidth > 400 ? 800 : window.innerWidth *2;
+    const screenHeight = window.innerHeight*2;
+    const devicePixelRatio = window.devicePixelRatio *2;
+    // const devicePixelRatio = 2;
 
     const scaleWidth = screenWidth / figmaJson?.absoluteBoundingBox?.width;
     const scaleHeight = screenHeight / figmaJson?.absoluteBoundingBox?.height;
@@ -33,16 +33,24 @@ export const renderFigmaJson = (figmaJson, elementId) => {
       resolution: devicePixelRatio,
       background: `#${parsedJson?.children[0]?.fills[0].color || "ffffff"}`,
       antialias: true,
+      resizeTo: currentElement,
+    //   width: screenWidth/2,
+    //     height: screenHeight/2,
     });
 
     app.renderer.plugins.interaction.autoPreventDefault = false;
     app.renderer.view.style.touchAction = "auto";
+    // app.view.width = screenWidth /2;
+    // app.view.height = screenHeight /2;
+    app.stage.addChild(container);
 
     // Append the PIXI view to the specified HTML element
-    document.getElementById(elementId).appendChild(app.view);
+    const newCanvas = app.view;
+    newCanvas.style.width = screenWidth /2;
+    newCanvas.style.height = screenHeight /2;
+    document.getElementById(elementId).appendChild(newCanvas);
 
     // Add the container to the PIXI stage
-    app.stage.addChild(container);
 
     app.renderer.resize(
       (scaleWidth * figmaJson?.absoluteRenderBounds?.width) / devicePixelRatio,

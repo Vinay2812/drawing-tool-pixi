@@ -3,6 +3,7 @@ import FigmaRenderer from './components/FigmaRenderer';
 import sample from './utils/sample';
 import  useGraphqlCall  from './api/useGraphqlCall';
 import { uploadJson } from './test-api';
+import './App.css'
 
 
 const App = () => {
@@ -76,22 +77,12 @@ const App = () => {
         minWidth: "100vw",
         display: "grid",
         placeItems: "center",
-        background: "green",
+        background: "#FAF3F0",
       }}
     >
-      <div
-        style={{
-          width: "100%",
-          maxWidth: "410px",
-          height: "100%",
-          minHeight: "100vh",
-          display: "grid",
-          placeItems: "center",
-          overflow: "scroll",
-        }}
-      >
+      
         {loading ? "Loading ..." : <FigmaRenderer figmaJson={figmaJson} />}
-      </div>
+      
     </div>
   );
 };
