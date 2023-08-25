@@ -68,6 +68,9 @@ const calculateMinXY = (children) => {
 };
 
 const parseChild = (child, level, minX, minY, parentObject = null) => {
+    if(child.name === "Rectangle 143") {
+        console.log("🚀 ~ file: parser.js:106 ~ parsePolygon ~ child:", child);
+    }
 	if (!level) return;
 	let childBoundingX = child?.absoluteBoundingBox?.x;
 	let childBoundingY = child?.absoluteBoundingBox?.y;
@@ -103,6 +106,7 @@ const parseChild = (child, level, minX, minY, parentObject = null) => {
 		case "LINE":
 		case "INSTANCE":
 		case "ELLIPSE":
+        case "BOOLEAN_OPERATION":
 			return parsePolygon(
 				child,
 				level,

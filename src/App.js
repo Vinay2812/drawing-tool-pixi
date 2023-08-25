@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 import FigmaRenderer from './components/FigmaRenderer';
 import sample from './utils/sample';
 import  useGraphqlCall  from './api/useGraphqlCall';
+import { uploadJson } from './test-api';
+
 
 const App = () => {
     // Assume figmaJson is the JSON data from Figma
@@ -11,6 +13,7 @@ const App = () => {
     const [figmaJson, setFigmaJson] = React.useState(null);
     
     useEffect(() => {
+        // uploadJson();
         // First url path is the figma context id
         let figmaContextId = window.location.pathname.split('/')[1];
         // URL decode the figma context id
