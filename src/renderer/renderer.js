@@ -5,12 +5,12 @@ import set from 'lodash/set';
 import { AnimatedGIF } from '@pixi/gif';
 import { DropShadowFilter } from '@pixi/filter-drop-shadow';
 import { FXAAFilter } from '@pixi/filter-fxaa';
-import * as math from 'mathjs';
 
 import '@pixi/graphics-extras';
 import { drawSVGPath, fillSVGPath, parseColor } from '../utils/layout';
 import TextInput from './PIXI.TextInput';
 import { debounce } from 'lodash';
+import { attachInteraction } from './interaction';
 
 let dragTarget = null;
 let dragData = null;
@@ -77,8 +77,8 @@ const renderChild = async (
     const childVariableNames = childVariables.map(i => i.variableName);
     parentVariables.forEach(variable => {
       if (childVariableNames.includes(variable.name)) {
-        const value = variable.value || variable.default || variable.defaultValue;
-        const defaultValue = variable.default || variable.defaultValue;
+        const value = variable.value ?? variable.default ?? variable.defaultValue;
+        const defaultValue = variable.default ?? variable.defaultValue;
         const childVariable = childVariables.find(i => i.variableName === variable.name);
 
         switch (childVariable.property) {
@@ -107,7 +107,7 @@ const renderChild = async (
 
             break;
           case 'visible':
-            set(child, childVariable.property, value >= 0);
+            set(child, childVariable.property, value > 0);
             break;
           default:
             set(child, childVariable.property, value);
@@ -370,7 +370,16 @@ const renderPolygon = async (child, screenWidth, screenHeight, originalJson, pat
 
   let pixiObject = new PIXI.Graphics();
 
-  if (child.dropConfig && child.dropConfig.droppable) {
+  // add drag controllers
+  let dropConfig = child.dropConfig && child.dropConfig;
+  if (child.modifiers?.length) {
+    dropConfig = get(
+      child.modifiers.filter(i => i.type === 'DROPPABLE'),
+      [0]
+    );
+  }
+
+  if (dropConfig) {
     pixiObject.lineStyle(1, 0x808080, 1, 0.5, true);
   }
 
@@ -558,131 +567,13 @@ const renderPolygon = async (child, screenWidth, screenHeight, originalJson, pat
 
   // add events -> part 1
   const interactions = child.interactions;
-  const dragEvents = ['ON_DRAG'];
+  const dragEvents = ['ON_DRAG', 'ON_DRAG_START'];
   const nonDragInteractions = interactions?.filter(i => dragEvents.indexOf(i.event) === -1);
   const dragInteractions = interactions?.filter(i => dragEvents.indexOf(i.event) !== -1);
-  function effectComputeFunction(type, args) {
-    switch (type) {
-      case 'increment':
-        return (get(originalJson, ['variables', args.variable_1]) || 0) + 1;
-      case 'decrement':
-        return (get(originalJson, ['variables', args.variable_1]) || 0) - 1;
-      default:
-    }
-  }
-
-  function executeComputeFunction(effect) {
-    const computeFunctionIndex = originalJson.computeFunctions?.findIndex(
-      i => i.name === effect.config?.computeFunction?.type
-    );
-    const computeFunction = get(originalJson.computeFunctions, computeFunctionIndex);
-    const valueObj = {};
-    Object.keys(effect.config.computeFunction.params).forEach(key => {
-      const variableName = effect.config.computeFunction.params[key];
-      const varIndex = originalJson.variables?.findIndex(i => i.name === variableName);
-      if (varIndex === -1) return;
-      const currentVal = get(originalJson, ['variables', varIndex, 'value']);
-      const defaultVal = get(originalJson, ['variables', varIndex, 'default']);
-      valueObj[key] = currentVal ?? defaultVal;
-    });
-    let mathEval = computeFunction.output;
-    computeFunction.params.forEach(p => {
-      mathEval = mathEval.replace(new RegExp(p, 'g'), valueObj[p]);
-    });
-    const newVal = math.evaluate(mathEval);
-
-    const varIndex = originalJson.variables?.findIndex(i => i.name === effect.config?.variableName);
-    const currentVal = get(originalJson, ['variables', varIndex, 'value']);
-    const defaultVal = get(originalJson, ['variables', varIndex, 'default']);
-
-    if ((currentVal ?? defaultVal) === newVal) return;
-    set(originalJson, ['variables', varIndex, 'value'], newVal);
-  }
 
   if (nonDragInteractions?.length) {
-    nonDragInteractions.forEach(i => {
-      switch (i.event) {
-        case 'ON_CLICK':
-          pixiObject.eventMode = 'static';
-          pixiObject.cursor = 'pointer';
-
-          pixiObject.on('mousedown', function (e) {
-            i.effects.forEach(effect => {
-              switch (effect.type) {
-                case 'UPDATE_VARIABLE':
-                  if (effect.valueType === 'constant') {
-                    set(originalJson, effect.variable, effect.constant);
-                    break;
-                  }
-
-                  executeComputeFunction(effect);
-                  break;
-
-                case 'updateLoon':
-                  if (effect.action === 'next') {
-                    const index = get(originalJson, effect.path)?.findIndex(
-                      i => i.properties?.type === effect.itemType && !i.visible
-                    );
-
-                    if (index !== -1) set(originalJson, [...effect.path, index, 'visible'], true);
-                    break;
-                  }
-
-                  const arr = get(originalJson, effect.path);
-                  const index =
-                    arr.length - 1 - [...arr].reverse()?.findIndex(i => i.properties?.type === effect.itemType && i.visible);
-
-                  if (index !== -1) set(originalJson, [...effect.path, index, 'visible'], false);
-                  break;
-
-                case 'updateVariant':
-                  const updateBy = effect.action == 'next' ? 1 : -1;
-                  const newPath = [...path];
-                  newPath.pop();
-                  newPath.pop();
-                  if (get(originalJson, [...newPath, 'defaultChildren'])) {
-                    // set current variant value
-                    const newCurrentVariant = get(originalJson, ['currentVariant', newPath.join('.')]) + updateBy;
-                    set(
-                      originalJson,
-                      ['currentVariant', newPath.join('.')],
-                      newCurrentVariant === -1 ? null : newCurrentVariant
-                    );
-
-                    // set new variant value
-                    set(
-                      originalJson,
-                      [...newPath, 'children'],
-                      newCurrentVariant === -1
-                        ? get(originalJson, [...newPath, 'defaultChildren'])
-                        : get(originalJson, [...newPath, 'variants', newCurrentVariant])
-                    );
-
-                    if (newCurrentVariant === -1) set(originalJson, [...newPath, 'defaultChildren'], null);
-                    break;
-                  }
-
-                  // set default children
-                  set(originalJson, [...newPath, 'defaultChildren'], get(originalJson, [...newPath, 'children']));
-                  // set current variant value
-                  set(originalJson, ['currentVariant', newPath.join('.')], 0);
-                  // set new variant value
-                  set(originalJson, [...newPath, 'children'], get(originalJson, [...newPath, 'variants', 0]));
-                  break;
-
-                case 'TOGGLE_ANIMATION':
-                  setAnimationType(effect.config.animation);
-                  break;
-                default:
-              }
-            });
-
-            if (!i?.effects?.filter(i => i.type === 'TOGGLE_ANIMATION')?.length) setFigmaJson(originalJson);
-          });
-
-          break;
-        default:
-      }
+    nonDragInteractions.forEach(interaction => {
+      attachInteraction({ interaction, pixiObject, originalJson, setAnimationType, setFigmaJson, path, dragTarget });
     });
   }
 
@@ -704,10 +595,14 @@ const renderPolygon = async (child, screenWidth, screenHeight, originalJson, pat
 
     // parse events
     let onDrag = null;
+    let onDragBegin = null;
     for (const dragInteraction of dragInteractions || []) {
       switch (dragInteraction.event) {
         case 'ON_DRAG':
           onDrag = dragInteraction;
+          break;
+        case 'ON_DRAG_START':
+          onDragBegin = dragInteraction;
           break;
         default:
       }
@@ -740,49 +635,31 @@ const renderPolygon = async (child, screenWidth, screenHeight, originalJson, pat
         dragTarget.y = child.relativeTransform.y;
 
         if (dropAreaIndex !== -1) {
-          // hide original child
-          set(originalJson, [...path, 'visible'], false);
-          // show original child in dropped area
-          const hiddenItemIndex = get(originalJson, [...get(dropAreas, [dropAreaIndex, 'path']), 'children']).findIndex(
-            i => !i.visible && child.properties === i.properties
-          );
-          set(originalJson, [...get(dropAreas, [dropAreaIndex, 'path']), 'children', hiddenItemIndex, 'visible'], true);
-          // update canvas
-          setFigmaJson(originalJson);
+          const onDrop = get(dropAreas, [dropAreaIndex, 'onDrop']);
+          if (onDrop) {
+            attachInteraction({
+              interaction: onDrop,
+              pixiObject,
+              originalJson,
+              setAnimationType,
+              setFigmaJson,
+              path,
+              dragTarget
+            });
+          }
         }
       }
 
       // add events -> part 2
       if (onDrag) {
-        onDrag.effects?.forEach(effect => {
-          switch (effect.type) {
-            case 'UPDATE_VARIABLE':
-              const varIndex = originalJson.variables?.findIndex(i => i.name === effect.config?.variableName);
-              if (varIndex === -1) break;
-              const currentVal = get(originalJson, ['variables', varIndex, 'value']);
-              const defaultVal = get(originalJson, ['variables', varIndex, 'default']);
-              let newVal = null;
-
-              switch (effect.valueType) {
-                case 'LAYER_PROPERTY':
-                  newVal = get(dragTarget, [effect.config?.value]);
-                  if ((currentVal || defaultVal) === newVal) break;
-                  set(originalJson, ['variables', varIndex, 'value'], newVal);
-                  ['absoluteBoundingBox', 'absoluteRenderBounds', 'position', 'relativeTransform'].forEach(i => {
-                    set(originalJson, [...path, i, effect.config?.value], newVal);
-                  });
-                  setFigmaJson(originalJson);
-                  break;
-
-                case 'COMPUTE_FUNCTION':
-                  executeComputeFunction(effect);
-                  break;
-                default:
-              }
-
-              break;
-            default:
-          }
+        attachInteraction({
+          interaction: onDrag,
+          pixiObject,
+          originalJson,
+          setAnimationType,
+          setFigmaJson,
+          path,
+          dragTarget
         });
       }
 
@@ -846,6 +723,18 @@ const renderPolygon = async (child, screenWidth, screenHeight, originalJson, pat
       dragTarget = this;
       dragData = child;
       app.stage.on('pointermove', onDragMove);
+
+      if (onDragBegin) {
+        attachInteraction({
+          interaction: onDragBegin,
+          pixiObject,
+          originalJson,
+          setAnimationType,
+          setFigmaJson,
+          path,
+          dragTarget
+        });
+      }
     }
 
     pixiObject.on('pointerdown', onDragStart, pixiObject);
@@ -853,8 +742,14 @@ const renderPolygon = async (child, screenWidth, screenHeight, originalJson, pat
     pixiObject.on('pointerupoutside', onDragEnd);
   }
 
-  if (child.dropConfig && child.dropConfig.droppable) {
-    dropAreas.push({ area: pixiObject, width: pixiObject.getBounds().width, height: pixiObject.getBounds().height, path });
+  if (dropConfig) {
+    dropAreas.push({
+      area: pixiObject,
+      width: pixiObject.getBounds().width,
+      height: pixiObject.getBounds().height,
+      path,
+      onDrop: (interactions || []).find(interaction => interaction.event === 'ON_DROP')
+    });
   }
 
   return pixiObject;

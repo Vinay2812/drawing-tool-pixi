@@ -1,35 +1,4 @@
-const WProperties = {
-  type: 'watermelon',
-  mass: 2
-};
-
-const SProperties = {
-  type: 'slice',
-  mass: 1
-};
-
-const interactionsAnimation = [
-  {
-    event: 'onClick',
-    effects: [
-      {
-        type: 'toggleAnimation',
-        action: 'seesaw'
-      }
-    ]
-  }
-];
-
-const dragConfig = {
-  canDrag: true,
-  maxDragRange: [200, 150]
-};
-
-const dropConfig = {
-  droppable: true
-};
-
-const value = {
+const ladder = {
   id: '217:158',
   name: 'Landing Page -- Activity',
   visible: true,
@@ -82,7 +51,6 @@ const value = {
   strokeGeometry: [],
   strokeAlign: 'INSIDE',
   children: [
-    // seesaw triangle
     {
       id: '217:182',
       name: 'Polygon 7',
@@ -136,14 +104,9 @@ const value = {
       strokeCap: 'NONE',
       strokeJoin: 'MITER',
       strokeGeometry: [],
-      strokeAlign: 'INSIDE',
-      children: []
+      strokeAlign: 'INSIDE'
     },
-    // seesaw line
     {
-      properties: {
-        type: 'seeSawLine'
-      },
       id: '217:184',
       name: 'Pan with handle',
       visible: true,
@@ -225,8 +188,7 @@ const value = {
           strokeJoin: 'MITER',
           strokeGeometry: [],
           strokeAlign: 'INSIDE',
-          cornerSmoothing: 0,
-          children: []
+          cornerSmoothing: 0
         },
         {
           id: '217:186',
@@ -274,8 +236,7 @@ const value = {
           strokeJoin: 'MITER',
           strokeGeometry: [],
           strokeAlign: 'INSIDE',
-          cornerSmoothing: 0,
-          children: []
+          cornerSmoothing: 0
         },
         {
           id: '217:187',
@@ -323,8 +284,7 @@ const value = {
           strokeJoin: 'MITER',
           strokeGeometry: [],
           strokeAlign: 'INSIDE',
-          cornerSmoothing: 0,
-          children: []
+          cornerSmoothing: 0
         },
         {
           id: '217:188',
@@ -382,8 +342,7 @@ const value = {
           strokeJoin: 'MITER',
           strokeGeometry: [],
           strokeAlign: 'INSIDE',
-          cornerSmoothing: 0,
-          children: []
+          cornerSmoothing: 0
         },
         {
           id: '217:189',
@@ -441,8 +400,7 @@ const value = {
           strokeJoin: 'MITER',
           strokeGeometry: [],
           strokeAlign: 'INSIDE',
-          cornerSmoothing: 0,
-          children: []
+          cornerSmoothing: 0
         }
       ],
       cornerSmoothing: 0,
@@ -470,14 +428,73 @@ const value = {
       itemReverseZIndex: false,
       strokesIncludedInLayout: false,
       layoutGrids: [],
+      overflowDirection: 'NONE',
+      modifiers: [{ type: 'SEASAW', config: { leftFrameId: '243:150', rightFrameId: '243:153' } }]
+    },
+    {
+      id: '243:149',
+      name: 'Frame 409',
+      visible: true,
+      type: 'FRAME',
+      rotation: 0,
+      componentPropertyReferences: null,
+      boundVariables: {},
+      locked: false,
+      exportSettings: [],
+      blendMode: 'PASS_THROUGH',
+      layoutAlign: 'INHERIT',
+      layoutGrow: 0,
+      constraints: { horizontal: 'MIN', vertical: 'MIN' },
+      opacity: 1,
+      absoluteBoundingBox: { x: 35, y: 235, width: 71, height: 62 },
+      absoluteRenderBounds: { x: 35, y: 235, width: 71, height: 62 },
+      effects: [],
+      relativeTransform: [
+        [1, 0, 35],
+        [0, 1, 235]
+      ],
+      absoluteTransform: [
+        [1, 0, 35],
+        [0, 1, 235]
+      ],
+      isMask: false,
+      fills: [],
+      fillGeometry: [{ windingRule: 'NONZERO', data: 'M0 0L71 0L71 62L0 62L0 0Z' }],
+      strokes: [],
+      strokeWeight: 1,
+      strokeCap: 'NONE',
+      strokeJoin: 'MITER',
+      strokeGeometry: [],
+      strokeAlign: 'INSIDE',
+      children: [],
+      cornerSmoothing: 0,
+      minWidth: null,
+      maxWidth: null,
+      minHeight: null,
+      maxHeight: null,
+      clipsContent: true,
+      layoutMode: 'NONE',
+      layoutWrap: 'NO_WRAP',
+      primaryAxisSizingMode: 'AUTO',
+      counterAxisSizingMode: 'FIXED',
+      primaryAxisAlignItems: 'MIN',
+      counterAxisAlignItems: 'MIN',
+      counterAxisAlignContent: 'AUTO',
+      paddingLeft: 0,
+      paddingRight: 0,
+      paddingTop: 0,
+      paddingBottom: 0,
+      horizontalPadding: 0,
+      verticalPadding: 0,
+      itemSpacing: 0,
+      counterAxisSpacing: 0,
+      layoutPositioning: 'AUTO',
+      itemReverseZIndex: false,
+      strokesIncludedInLayout: false,
+      layoutGrids: [],
       overflowDirection: 'NONE'
     },
-    // seesaw left
     {
-      dropConfig,
-      properties: {
-        type: 'seeSawLeft'
-      },
       id: '243:150',
       name: 'Frame 410',
       visible: true,
@@ -492,8 +509,8 @@ const value = {
       layoutGrow: 0,
       constraints: { horizontal: 'MIN', vertical: 'MIN' },
       opacity: 1,
-      absoluteBoundingBox: { x: 35, y: 237, width: 79, height: 62 },
-      absoluteRenderBounds: { x: 35, y: 237, width: 79, height: 62 },
+      absoluteBoundingBox: { x: 35, y: 237, width: 124, height: 62 },
+      absoluteRenderBounds: { x: 29, y: 225, width: 130, height: 76 },
       effects: [],
       relativeTransform: [
         [1, 0, 35],
@@ -505,7 +522,7 @@ const value = {
       ],
       isMask: false,
       fills: [],
-      fillGeometry: [{ windingRule: 'NONZERO', data: 'M0 0L79 0L79 62L0 62L0 0Z' }],
+      fillGeometry: [{ windingRule: 'NONZERO', data: 'M0 0L124 0L124 62L0 62L0 0Z' }],
       strokes: [],
       strokeWeight: 1,
       strokeCap: 'NONE',
@@ -514,11 +531,9 @@ const value = {
       strokeAlign: 'INSIDE',
       children: [
         {
-          dragConfig,
-          properties: WProperties,
-          id: '243:156',
+          id: '343:153',
           name: 'Rectangle 153',
-          visible: !true,
+          visible: true,
           type: 'RECTANGLE',
           rotation: 0,
           componentPropertyReferences: null,
@@ -530,15 +545,15 @@ const value = {
           layoutGrow: 0,
           constraints: { horizontal: 'MIN', vertical: 'MIN' },
           opacity: 1,
-          absoluteBoundingBox: { x: 35, y: 225, width: 74, height: 74 },
-          absoluteRenderBounds: { x: 35, y: 237, width: 74, height: 62 },
+          absoluteBoundingBox: { x: 29, y: 225, width: 74, height: 74 },
+          absoluteRenderBounds: { x: 29, y: 225, width: 74, height: 74 },
           effects: [],
           relativeTransform: [
-            [1, 0, 0],
+            [1, 0, -6],
             [0, 1, -12]
           ],
           absoluteTransform: [
-            [1, 0, 35],
+            [1, 0, 29],
             [0, 1, 225]
           ],
           isMask: false,
@@ -570,14 +585,19 @@ const value = {
           strokeAlign: 'INSIDE',
           cornerRadius: 0,
           cornerSmoothing: 0,
-          children: []
+          variableLink: [{ variableName: 'watermelonLeftVisible', property: 'visible' }],
+          modifiers: [
+            {
+              type: 'DRAGGABLE',
+              config: {}
+            },
+            { type: 'RIGID_BODY', config: { weight: 2, identifier: 'watermelon' } }
+          ]
         },
         {
-          dragConfig,
-          properties: SProperties,
-          id: '243:157',
+          id: '343:155',
           name: 'Rectangle 157',
-          visible: !true,
+          visible: true,
           type: 'RECTANGLE',
           rotation: 0,
           componentPropertyReferences: null,
@@ -589,16 +609,16 @@ const value = {
           layoutGrow: 0,
           constraints: { horizontal: 'MIN', vertical: 'MIN' },
           opacity: 1,
-          absoluteBoundingBox: { x: 249, y: 236, width: 64, height: 64 },
-          absoluteRenderBounds: { x: 249, y: 237, width: 64, height: 62 },
+          absoluteBoundingBox: { x: 48, y: 237, width: 64, height: 64 },
+          absoluteRenderBounds: { x: 48, y: 237, width: 64, height: 64 },
           effects: [],
           relativeTransform: [
-            [1, 0, 0],
-            [0, 1, -1]
+            [1, 0, 13],
+            [0, 1, 0]
           ],
           absoluteTransform: [
-            [1, 0, 249],
-            [0, 1, 236]
+            [1, 0, 48],
+            [0, 1, 237]
           ],
           isMask: false,
           fills: [
@@ -629,14 +649,16 @@ const value = {
           strokeAlign: 'INSIDE',
           cornerRadius: 0,
           cornerSmoothing: 0,
-          children: []
+          variableLink: [{ variableName: 'sliceLeft1Visible', property: 'visible' }],
+          modifiers: [
+            { type: 'DRAGGABLE', config: {} },
+            { type: 'RIGID_BODY', config: { weight: 1, identifier: 'slice' } }
+          ]
         },
         {
-          dragConfig,
-          properties: SProperties,
-          id: '243:158',
+          id: '343:157',
           name: 'Rectangle 158',
-          visible: !true,
+          visible: true,
           type: 'RECTANGLE',
           rotation: 0,
           componentPropertyReferences: null,
@@ -648,15 +670,15 @@ const value = {
           layoutGrow: 0,
           constraints: { horizontal: 'MIN', vertical: 'MIN' },
           opacity: 1,
-          absoluteBoundingBox: { x: 256, y: 237, width: 64, height: 64 },
-          absoluteRenderBounds: { x: 256, y: 237, width: 64, height: 62 },
+          absoluteBoundingBox: { x: 71, y: 237, width: 64, height: 64 },
+          absoluteRenderBounds: { x: 71, y: 237, width: 64, height: 64 },
           effects: [],
           relativeTransform: [
-            [1, 0, 7],
+            [1, 0, 36],
             [0, 1, 0]
           ],
           absoluteTransform: [
-            [1, 0, 256],
+            [1, 0, 71],
             [0, 1, 237]
           ],
           isMask: false,
@@ -688,14 +710,19 @@ const value = {
           strokeAlign: 'INSIDE',
           cornerRadius: 0,
           cornerSmoothing: 0,
-          children: []
+          variableLink: [{ variableName: 'sliceLeft2Visible', property: 'visible' }],
+          modifiers: [
+            {
+              type: 'DRAGGABLE',
+              config: {}
+            },
+            { type: 'RIGID_BODY', config: { weight: 1, identifier: 'slice' } }
+          ]
         },
         {
-          dragConfig,
-          properties: SProperties,
-          id: '243:159',
+          id: '343:158',
           name: 'Rectangle 159',
-          visible: !true,
+          visible: true,
           type: 'RECTANGLE',
           rotation: 0,
           componentPropertyReferences: null,
@@ -707,15 +734,15 @@ const value = {
           layoutGrow: 0,
           constraints: { horizontal: 'MIN', vertical: 'MIN' },
           opacity: 1,
-          absoluteBoundingBox: { x: 264, y: 237, width: 64, height: 64 },
-          absoluteRenderBounds: { x: 264, y: 237, width: 64, height: 62 },
+          absoluteBoundingBox: { x: 95, y: 237, width: 64, height: 64 },
+          absoluteRenderBounds: { x: 95, y: 237, width: 64, height: 64 },
           effects: [],
           relativeTransform: [
-            [1, 0, 15],
+            [1, 0, 60],
             [0, 1, 0]
           ],
           absoluteTransform: [
-            [1, 0, 264],
+            [1, 0, 95],
             [0, 1, 237]
           ],
           isMask: false,
@@ -747,7 +774,14 @@ const value = {
           strokeAlign: 'INSIDE',
           cornerRadius: 0,
           cornerSmoothing: 0,
-          children: []
+          variableLink: [{ variableName: 'sliceLeft3Visible', property: 'visible' }],
+          modifiers: [
+            {
+              type: 'DRAGGABLE',
+              config: {}
+            },
+            { type: 'RIGID_BODY', config: { weight: 1, identifier: 'slice' } }
+          ]
         }
       ],
       cornerSmoothing: 0,
@@ -755,7 +789,7 @@ const value = {
       maxWidth: null,
       minHeight: null,
       maxHeight: null,
-      clipsContent: true,
+      clipsContent: false,
       layoutMode: 'NONE',
       layoutWrap: 'NO_WRAP',
       primaryAxisSizingMode: 'AUTO',
@@ -775,14 +809,163 @@ const value = {
       itemReverseZIndex: false,
       strokesIncludedInLayout: false,
       layoutGrids: [],
-      overflowDirection: 'NONE'
+      overflowDirection: 'NONE',
+      interactions: [
+        {
+          event: 'ON_DROP',
+          effects: [
+            {
+              type: 'UPDATE_VARIABLE',
+              valueType: 'COMPUTE_FUNCTION',
+              config: {
+                variableName: 'leftWatermelonCount',
+                computeFunction: {
+                  type: 'updateSeasawWatermelonCount',
+                  params: { countWatermelon: 'leftWatermelonCount', type: 'currentDraggedType' }
+                }
+              }
+            },
+            {
+              type: 'UPDATE_VARIABLE',
+              valueType: 'COMPUTE_FUNCTION',
+              config: {
+                variableName: 'leftSliceCount',
+                computeFunction: {
+                  type: 'updateSeasawSliceCount',
+                  params: { countSlice: 'leftSliceCount', type: 'currentDraggedType' }
+                }
+              }
+            },
+            {
+              type: 'UPDATE_VARIABLE',
+              valueType: 'COMPUTE_FUNCTION',
+              config: {
+                variableName: 'bottomWatermelonCount',
+                computeFunction: {
+                  type: 'updateBottomWatermelonCount',
+                  params: { countWatermelon: 'bottomWatermelonCount', type: 'currentDraggedType' }
+                }
+              }
+            },
+            {
+              type: 'UPDATE_VARIABLE',
+              valueType: 'COMPUTE_FUNCTION',
+              config: {
+                variableName: 'bottomSliceCount',
+                computeFunction: {
+                  type: 'updateBottomSliceCount',
+                  params: { countSlice: 'bottomSliceCount', type: 'currentDraggedType' }
+                }
+              }
+            },
+            {
+              type: 'UPDATE_VARIABLE',
+              valueType: 'COMPUTE_FUNCTION',
+              config: {
+                variableName: 'watermelonLeftVisible',
+                computeFunction: { type: 'chainValue', params: { value: 'leftWatermelonCount' } }
+              }
+            },
+            {
+              type: 'UPDATE_VARIABLE',
+              valueType: 'COMPUTE_FUNCTION',
+              config: {
+                variableName: 'sliceLeft1Visible',
+                computeFunction: { type: 'chainValue', params: { value: 'leftSliceCount' } }
+              }
+            },
+            {
+              type: 'UPDATE_VARIABLE',
+              valueType: 'COMPUTE_FUNCTION',
+              config: {
+                variableName: 'sliceLeft2Visible',
+                computeFunction: { type: 'decreaseCount', params: { input: 'leftSliceCount' } }
+              }
+            },
+            {
+              type: 'UPDATE_VARIABLE',
+              valueType: 'COMPUTE_FUNCTION',
+              config: {
+                variableName: 'sliceLeft3Visible',
+                computeFunction: { type: 'decreaseByTwo', params: { value: 'leftSliceCount' } }
+              }
+            },
+            {
+              type: 'UPDATE_VARIABLE',
+              valueType: 'COMPUTE_FUNCTION',
+              config: {
+                variableName: 'bottomWatermelonVisible',
+                computeFunction: { type: 'chainValue', params: { value: 'bottomWatermelonCount' } }
+              }
+            },
+            {
+              type: 'UPDATE_VARIABLE',
+              valueType: 'COMPUTE_FUNCTION',
+              config: {
+                variableName: 'bottomSlice1Visible',
+                computeFunction: { type: 'chainValue', params: { value: 'bottomSliceCount' } }
+              }
+            },
+            {
+              type: 'UPDATE_VARIABLE',
+              valueType: 'COMPUTE_FUNCTION',
+              config: {
+                variableName: 'bottomSlice2Visible',
+                computeFunction: { type: 'decreaseCount', params: { input: 'bottomSliceCount' } }
+              }
+            },
+            {
+              type: 'UPDATE_VARIABLE',
+              valueType: 'COMPUTE_FUNCTION',
+              config: {
+                variableName: 'bottomSlice3Visible',
+                computeFunction: { type: 'decreaseByTwo', params: { value: 'bottomSliceCount' } }
+              }
+            }
+          ]
+        }
+      ],
+      modifiers: [{ type: 'DROPPABLE' }]
     },
-    // seesaw right
     {
-      dropConfig,
-      properties: {
-        type: 'seeSawRight'
-      },
+      id: '307:163',
+      name: 'Rectangle 161',
+      visible: true,
+      type: 'RECTANGLE',
+      rotation: 0,
+      componentPropertyReferences: null,
+      boundVariables: {},
+      locked: false,
+      exportSettings: [],
+      blendMode: 'PASS_THROUGH',
+      layoutAlign: 'INHERIT',
+      layoutGrow: 0,
+      constraints: { horizontal: 'MIN', vertical: 'MIN' },
+      opacity: 1,
+      absoluteBoundingBox: { x: 48, y: 225, width: 74, height: 74 },
+      absoluteRenderBounds: null,
+      effects: [],
+      relativeTransform: [
+        [1, 0, 48],
+        [0, 1, 225]
+      ],
+      absoluteTransform: [
+        [1, 0, 48],
+        [0, 1, 225]
+      ],
+      isMask: false,
+      fills: [],
+      fillGeometry: [{ windingRule: 'NONZERO', data: 'M0 0L74 0L74 74L0 74L0 0Z' }],
+      strokes: [],
+      strokeWeight: 1,
+      strokeCap: 'NONE',
+      strokeJoin: 'MITER',
+      strokeGeometry: [],
+      strokeAlign: 'INSIDE',
+      cornerRadius: 0,
+      cornerSmoothing: 0
+    },
+    {
       id: '243:153',
       name: 'Frame 411',
       visible: true,
@@ -797,20 +980,20 @@ const value = {
       layoutGrow: 0,
       constraints: { horizontal: 'MIN', vertical: 'MIN' },
       opacity: 1,
-      absoluteBoundingBox: { x: 249, y: 237, width: 79, height: 62 },
-      absoluteRenderBounds: { x: 249, y: 237, width: 79, height: 62 },
+      absoluteBoundingBox: { x: 202, y: 237, width: 126, height: 62 },
+      absoluteRenderBounds: { x: 196, y: 225, width: 132, height: 76 },
       effects: [],
       relativeTransform: [
-        [1, 0, 249],
+        [1, 0, 202],
         [0, 1, 237]
       ],
       absoluteTransform: [
-        [1, 0, 249],
+        [1, 0, 202],
         [0, 1, 237]
       ],
       isMask: false,
       fills: [],
-      fillGeometry: [{ windingRule: 'NONZERO', data: 'M0 0L79 0L79 62L0 62L0 0Z' }],
+      fillGeometry: [{ windingRule: 'NONZERO', data: 'M0 0L126 0L126 62L0 62L0 0Z' }],
       strokes: [],
       strokeWeight: 1,
       strokeCap: 'NONE',
@@ -819,11 +1002,9 @@ const value = {
       strokeAlign: 'INSIDE',
       children: [
         {
-          dragConfig,
-          properties: WProperties,
-          id: '243:156',
+          id: '343:159',
           name: 'Rectangle 153',
-          visible: !true,
+          visible: true,
           type: 'RECTANGLE',
           rotation: 0,
           componentPropertyReferences: null,
@@ -835,15 +1016,15 @@ const value = {
           layoutGrow: 0,
           constraints: { horizontal: 'MIN', vertical: 'MIN' },
           opacity: 1,
-          absoluteBoundingBox: { x: 35, y: 225, width: 74, height: 74 },
-          absoluteRenderBounds: { x: 35, y: 237, width: 74, height: 62 },
+          absoluteBoundingBox: { x: 196, y: 225, width: 74, height: 74 },
+          absoluteRenderBounds: { x: 196, y: 225, width: 74, height: 74 },
           effects: [],
           relativeTransform: [
-            [1, 0, 0],
+            [1, 0, -6],
             [0, 1, -12]
           ],
           absoluteTransform: [
-            [1, 0, 35],
+            [1, 0, 196],
             [0, 1, 225]
           ],
           isMask: false,
@@ -875,14 +1056,19 @@ const value = {
           strokeAlign: 'INSIDE',
           cornerRadius: 0,
           cornerSmoothing: 0,
-          children: []
+          variableLink: [{ variableName: 'watermelonRightVisible', property: 'visible' }],
+          modifiers: [
+            {
+              type: 'DRAGGABLE',
+              config: {}
+            },
+            { type: 'RIGID_BODY', config: { weight: 2, identifier: 'watermelon' } }
+          ]
         },
         {
-          dragConfig,
-          properties: SProperties,
-          id: '243:157',
+          id: '343:160',
           name: 'Rectangle 157',
-          visible: !true,
+          visible: true,
           type: 'RECTANGLE',
           rotation: 0,
           componentPropertyReferences: null,
@@ -894,16 +1080,16 @@ const value = {
           layoutGrow: 0,
           constraints: { horizontal: 'MIN', vertical: 'MIN' },
           opacity: 1,
-          absoluteBoundingBox: { x: 249, y: 236, width: 64, height: 64 },
-          absoluteRenderBounds: { x: 249, y: 237, width: 64, height: 62 },
+          absoluteBoundingBox: { x: 215, y: 237, width: 64, height: 64 },
+          absoluteRenderBounds: { x: 215, y: 237, width: 64, height: 64 },
           effects: [],
           relativeTransform: [
-            [1, 0, 0],
-            [0, 1, -1]
+            [1, 0, 13],
+            [0, 1, 0]
           ],
           absoluteTransform: [
-            [1, 0, 249],
-            [0, 1, 236]
+            [1, 0, 215],
+            [0, 1, 237]
           ],
           isMask: false,
           fills: [
@@ -934,14 +1120,19 @@ const value = {
           strokeAlign: 'INSIDE',
           cornerRadius: 0,
           cornerSmoothing: 0,
-          children: []
+          variableLink: [{ variableName: 'sliceRight1Visible', property: 'visible' }],
+          modifiers: [
+            {
+              type: 'DRAGGABLE',
+              config: {}
+            },
+            { type: 'RIGID_BODY', config: { weight: 1, identifier: 'slice' } }
+          ]
         },
         {
-          dragConfig,
-          properties: SProperties,
-          id: '243:158',
+          id: '343:161',
           name: 'Rectangle 158',
-          visible: !true,
+          visible: true,
           type: 'RECTANGLE',
           rotation: 0,
           componentPropertyReferences: null,
@@ -953,15 +1144,15 @@ const value = {
           layoutGrow: 0,
           constraints: { horizontal: 'MIN', vertical: 'MIN' },
           opacity: 1,
-          absoluteBoundingBox: { x: 256, y: 237, width: 64, height: 64 },
-          absoluteRenderBounds: { x: 256, y: 237, width: 64, height: 62 },
+          absoluteBoundingBox: { x: 238, y: 237, width: 64, height: 64 },
+          absoluteRenderBounds: { x: 238, y: 237, width: 64, height: 64 },
           effects: [],
           relativeTransform: [
-            [1, 0, 7],
+            [1, 0, 36],
             [0, 1, 0]
           ],
           absoluteTransform: [
-            [1, 0, 256],
+            [1, 0, 238],
             [0, 1, 237]
           ],
           isMask: false,
@@ -993,14 +1184,19 @@ const value = {
           strokeAlign: 'INSIDE',
           cornerRadius: 0,
           cornerSmoothing: 0,
-          children: []
+          variableLink: [{ variableName: 'sliceRight2Visible', property: 'visible' }],
+          modifiers: [
+            {
+              type: 'DRAGGABLE',
+              config: {}
+            },
+            { type: 'RIGID_BODY', config: { weight: 1, identifier: 'slice' } }
+          ]
         },
         {
-          dragConfig,
-          properties: SProperties,
-          id: '243:159',
+          id: '343:162',
           name: 'Rectangle 159',
-          visible: !true,
+          visible: true,
           type: 'RECTANGLE',
           rotation: 0,
           componentPropertyReferences: null,
@@ -1012,15 +1208,15 @@ const value = {
           layoutGrow: 0,
           constraints: { horizontal: 'MIN', vertical: 'MIN' },
           opacity: 1,
-          absoluteBoundingBox: { x: 264, y: 237, width: 64, height: 64 },
-          absoluteRenderBounds: { x: 264, y: 237, width: 64, height: 62 },
+          absoluteBoundingBox: { x: 262, y: 237, width: 64, height: 64 },
+          absoluteRenderBounds: { x: 262, y: 237, width: 64, height: 64 },
           effects: [],
           relativeTransform: [
-            [1, 0, 15],
+            [1, 0, 60],
             [0, 1, 0]
           ],
           absoluteTransform: [
-            [1, 0, 264],
+            [1, 0, 262],
             [0, 1, 237]
           ],
           isMask: false,
@@ -1052,7 +1248,14 @@ const value = {
           strokeAlign: 'INSIDE',
           cornerRadius: 0,
           cornerSmoothing: 0,
-          children: []
+          variableLink: [{ variableName: 'sliceRight3Visible', property: 'visible' }],
+          modifiers: [
+            {
+              type: 'DRAGGABLE',
+              config: {}
+            },
+            { type: 'RIGID_BODY', config: { weight: 1, identifier: 'slice' } }
+          ]
         }
       ],
       cornerSmoothing: 0,
@@ -1060,7 +1263,7 @@ const value = {
       maxWidth: null,
       minHeight: null,
       maxHeight: null,
-      clipsContent: true,
+      clipsContent: false,
       layoutMode: 'NONE',
       layoutWrap: 'NO_WRAP',
       primaryAxisSizingMode: 'AUTO',
@@ -1080,11 +1283,125 @@ const value = {
       itemReverseZIndex: false,
       strokesIncludedInLayout: false,
       layoutGrids: [],
-      overflowDirection: 'NONE'
+      overflowDirection: 'NONE',
+      interactions: [
+        {
+          event: 'ON_DROP',
+          effects: [
+            {
+              type: 'UPDATE_VARIABLE',
+              valueType: 'COMPUTE_FUNCTION',
+              config: {
+                variableName: 'rightWatermelonCount',
+                computeFunction: {
+                  type: 'updateSeasawWatermelonCount',
+                  params: { countWatermelon: 'rightWatermelonCount', type: 'currentDraggedType' }
+                }
+              }
+            },
+            {
+              type: 'UPDATE_VARIABLE',
+              valueType: 'COMPUTE_FUNCTION',
+              config: {
+                variableName: 'rightSliceCount',
+                computeFunction: {
+                  type: 'updateSeasawSliceCount',
+                  params: { countSlice: 'rightSliceCount', type: 'currentDraggedType' }
+                }
+              }
+            },
+            {
+              type: 'UPDATE_VARIABLE',
+              valueType: 'COMPUTE_FUNCTION',
+              config: {
+                variableName: 'bottomWatermelonCount',
+                computeFunction: {
+                  type: 'updateBottomWatermelonCount',
+                  params: { countWatermelon: 'bottomWatermelonCount', type: 'currentDraggedType' }
+                }
+              }
+            },
+            {
+              type: 'UPDATE_VARIABLE',
+              valueType: 'COMPUTE_FUNCTION',
+              config: {
+                variableName: 'bottomSliceCount',
+                computeFunction: {
+                  type: 'updateBottomSliceCount',
+                  params: { countSlice: 'bottomSliceCount', type: 'currentDraggedType' }
+                }
+              }
+            },
+            {
+              type: 'UPDATE_VARIABLE',
+              valueType: 'COMPUTE_FUNCTION',
+              config: {
+                variableName: 'watermelonRightVisible',
+                computeFunction: { type: 'chainValue', params: { value: 'rightWatermelonCount' } }
+              }
+            },
+            {
+              type: 'UPDATE_VARIABLE',
+              valueType: 'COMPUTE_FUNCTION',
+              config: {
+                variableName: 'sliceRight1Visible',
+                computeFunction: { type: 'chainValue', params: { value: 'rightSliceCount' } }
+              }
+            },
+            {
+              type: 'UPDATE_VARIABLE',
+              valueType: 'COMPUTE_FUNCTION',
+              config: {
+                variableName: 'sliceRight2Visible',
+                computeFunction: { type: 'decreaseCount', params: { input: 'rightSliceCount' } }
+              }
+            },
+            {
+              type: 'UPDATE_VARIABLE',
+              valueType: 'COMPUTE_FUNCTION',
+              config: {
+                variableName: 'sliceRight3Visible',
+                computeFunction: { type: 'decreaseByTwo', params: { value: 'rightSliceCount' } }
+              }
+            },
+            {
+              type: 'UPDATE_VARIABLE',
+              valueType: 'COMPUTE_FUNCTION',
+              config: {
+                variableName: 'bottomWatermelonVisible',
+                computeFunction: { type: 'chainValue', params: { value: 'bottomWatermelonCount' } }
+              }
+            },
+            {
+              type: 'UPDATE_VARIABLE',
+              valueType: 'COMPUTE_FUNCTION',
+              config: {
+                variableName: 'bottomSlice1Visible',
+                computeFunction: { type: 'chainValue', params: { value: 'bottomSliceCount' } }
+              }
+            },
+            {
+              type: 'UPDATE_VARIABLE',
+              valueType: 'COMPUTE_FUNCTION',
+              config: {
+                variableName: 'bottomSlice2Visible',
+                computeFunction: { type: 'decreaseCount', params: { input: 'bottomSliceCount' } }
+              }
+            },
+            {
+              type: 'UPDATE_VARIABLE',
+              valueType: 'COMPUTE_FUNCTION',
+              config: {
+                variableName: 'bottomSlice3Visible',
+                computeFunction: { type: 'decreaseByTwo', params: { value: 'bottomSliceCount' } }
+              }
+            }
+          ]
+        }
+      ],
+      modifiers: [{ type: 'DROPPABLE' }]
     },
-    // seesaw items
     {
-      dropConfig,
       id: '243:160',
       name: 'Frame 412',
       visible: true,
@@ -1100,7 +1417,7 @@ const value = {
       constraints: { horizontal: 'MIN', vertical: 'MIN' },
       opacity: 1,
       absoluteBoundingBox: { x: 48, y: 513, width: 277, height: 118 },
-      absoluteRenderBounds: { x: 48, y: 513, width: 277, height: 118 },
+      absoluteRenderBounds: { x: 43, y: 513, width: 282, height: 118 },
       effects: [],
       relativeTransform: [
         [1, 0, 48],
@@ -1121,8 +1438,6 @@ const value = {
       strokeAlign: 'INSIDE',
       children: [
         {
-          dragConfig,
-          properties: WProperties,
           id: '243:161',
           name: 'Rectangle 153',
           visible: true,
@@ -1138,7 +1453,7 @@ const value = {
           constraints: { horizontal: 'MIN', vertical: 'MIN' },
           opacity: 1,
           absoluteBoundingBox: { x: 43, y: 557, width: 74, height: 74 },
-          absoluteRenderBounds: { x: 48, y: 557, width: 69, height: 74 },
+          absoluteRenderBounds: { x: 43, y: 557, width: 74, height: 74 },
           effects: [],
           relativeTransform: [
             [1, 0, -5],
@@ -1177,11 +1492,25 @@ const value = {
           strokeAlign: 'INSIDE',
           cornerRadius: 0,
           cornerSmoothing: 0,
-          children: []
+          variableLink: [{ variableName: 'bottomWatermelonVisible', property: 'visible' }],
+          interactions: [
+            {
+              event: 'ON_DRAG_START',
+              effects: [
+                {
+                  type: 'UPDATE_VARIABLE',
+                  valueType: 'LAYER_PROPERTY',
+                  config: { variableName: 'currentDraggedType', value: 'identifier' }
+                }
+              ]
+            }
+          ],
+          modifiers: [
+            { type: 'DRAGGABLE', config: {} },
+            { type: 'RIGID_BODY', config: { weight: 2, identifier: 'watermelon' } }
+          ]
         },
         {
-          dragConfig,
-          properties: SProperties,
           id: '243:163',
           name: 'Rectangle 157',
           visible: true,
@@ -1236,11 +1565,28 @@ const value = {
           strokeAlign: 'INSIDE',
           cornerRadius: 0,
           cornerSmoothing: 0,
-          children: []
+          variableLink: [{ variableName: 'bottomSlice1Visible', property: 'visible' }],
+          interactions: [
+            {
+              event: 'ON_DRAG_START',
+              effects: [
+                {
+                  type: 'UPDATE_VARIABLE',
+                  valueType: 'LAYER_PROPERTY',
+                  config: { variableName: 'currentDraggedType', value: 'identifier' }
+                }
+              ]
+            }
+          ],
+          modifiers: [
+            {
+              type: 'DRAGGABLE',
+              config: {}
+            },
+            { type: 'RIGID_BODY', config: { weight: 1, identifier: 'slice' } }
+          ]
         },
         {
-          dragConfig,
-          properties: SProperties,
           id: '243:164',
           name: 'Rectangle 158',
           visible: true,
@@ -1295,11 +1641,25 @@ const value = {
           strokeAlign: 'INSIDE',
           cornerRadius: 0,
           cornerSmoothing: 0,
-          children: []
+          variableLink: [{ variableName: 'bottomSlice2Visible', property: 'visible' }],
+          interactions: [
+            {
+              event: 'ON_DRAG_START',
+              effects: [
+                {
+                  type: 'UPDATE_VARIABLE',
+                  valueType: 'LAYER_PROPERTY',
+                  config: { variableName: 'currentDraggedType', value: 'identifier' }
+                }
+              ]
+            }
+          ],
+          modifiers: [
+            { type: 'DRAGGABLE', config: {} },
+            { type: 'RIGID_BODY', config: { weight: 1, identifier: 'slice' } }
+          ]
         },
         {
-          dragConfig,
-          properties: SProperties,
           id: '243:166',
           name: 'Rectangle 159',
           visible: true,
@@ -1354,7 +1714,23 @@ const value = {
           strokeAlign: 'INSIDE',
           cornerRadius: 0,
           cornerSmoothing: 0,
-          children: []
+          variableLink: [{ variableName: 'bottomSlice3Visible', property: 'visible' }],
+          interactions: [
+            {
+              event: 'ON_DRAG_START',
+              effects: [
+                {
+                  type: 'UPDATE_VARIABLE',
+                  valueType: 'LAYER_PROPERTY',
+                  config: { variableName: 'currentDraggedType', value: 'identifier' }
+                }
+              ]
+            }
+          ],
+          modifiers: [
+            { type: 'DRAGGABLE', config: {} },
+            { type: 'RIGID_BODY', config: { weight: 1, identifier: 'slice' } }
+          ]
         }
       ],
       cornerSmoothing: 0,
@@ -1362,7 +1738,7 @@ const value = {
       maxWidth: null,
       minHeight: null,
       maxHeight: null,
-      clipsContent: true,
+      clipsContent: false,
       layoutMode: 'NONE',
       layoutWrap: 'NO_WRAP',
       primaryAxisSizingMode: 'AUTO',
@@ -1383,170 +1759,6 @@ const value = {
       strokesIncludedInLayout: false,
       layoutGrids: [],
       overflowDirection: 'NONE'
-    },
-    // submit
-    {
-      id: '8:99',
-      name: 'Rectangle 163',
-      visible: true,
-      type: 'RECTANGLE',
-      rotation: 0,
-      componentPropertyReferences: null,
-      boundVariables: {},
-      locked: false,
-      exportSettings: [],
-      blendMode: 'PASS_THROUGH',
-      layoutAlign: 'INHERIT',
-      layoutGrow: 0,
-      constraints: {
-        horizontal: 'MIN',
-        vertical: 'MIN'
-      },
-      opacity: 1,
-      absoluteBoundingBox: {
-        x: 120,
-        y: 478,
-        width: 50,
-        height: 50
-      },
-      absoluteRenderBounds: {
-        x: 120,
-        y: 478,
-        width: 50,
-        height: 50
-      },
-      effects: [],
-      relativeTransform: [
-        [1, 0, 10],
-        [0, 1, 10]
-      ],
-      absoluteTransform: [
-        [1, 0, 120],
-        [0, 1, 478]
-      ],
-      isMask: false,
-      fills: [
-        {
-          type: 'SOLID',
-          visible: true,
-          opacity: 1,
-          blendMode: 'NORMAL',
-          color: {
-            r: 0.5921568870544434,
-            g: 0.27843138575553894,
-            b: 1
-          },
-          boundVariables: {}
-        }
-      ],
-      fillGeometry: [
-        {
-          windingRule: 'NONZERO',
-          data: 'M0 0L50 0L50 50L0 50L0 0Z'
-        }
-      ],
-      strokes: [],
-      strokeWeight: 1,
-      strokeCap: 'NONE',
-      strokeJoin: 'MITER',
-      strokeGeometry: [],
-      strokeAlign: 'INSIDE',
-      cornerRadius: 0,
-      cornerSmoothing: 0,
-      interactions: interactionsAnimation,
-      children: [
-        {
-          id: '72:276',
-          name: '1',
-          visible: true,
-          type: 'TEXT',
-          rotation: 0,
-          componentPropertyReferences: null,
-          boundVariables: {},
-          locked: false,
-          exportSettings: [],
-          blendMode: 'PASS_THROUGH',
-          layoutAlign: 'INHERIT',
-          layoutGrow: 0,
-          constraints: {
-            horizontal: 'MIN',
-            vertical: 'MIN'
-          },
-          opacity: 1,
-          absoluteBoundingBox: {
-            x: 144,
-            y: 244,
-            width: 8,
-            height: 24
-          },
-          absoluteRenderBounds: {
-            x: 144.95199584960938,
-            y: 248.17599487304688,
-            width: 4.32000732421875,
-            height: 11.824005126953125
-          },
-          effects: [],
-          relativeTransform: [
-            [1, 0, 24],
-            [0, 1, 16]
-          ],
-          absoluteTransform: [
-            [1, 0, 144],
-            [0, 1, 244]
-          ],
-          isMask: false,
-          fills: [
-            {
-              type: 'SOLID',
-              visible: true,
-              opacity: 1,
-              blendMode: 'NORMAL',
-              color: {
-                r: 0,
-                g: 0,
-                b: 0
-              },
-              boundVariables: {}
-            }
-          ],
-          fillGeometry: [
-            {
-              windingRule: 'NONZERO',
-              data: 'M5.272 4.176L5.272 16L3.176 16L3.176 6.216C3.12267 6.26933 2.98133 6.34133 2.752 6.432C2.528 6.51733 2.256 6.6 1.936 6.68C1.62133 6.75467 1.29333 6.808 0.952 6.84L0.952 5.128C1.29333 5.08533 1.62133 5.01067 1.936 4.904C2.256 4.79733 2.53067 4.68 2.76 4.552C2.98933 4.41867 3.144 4.29333 3.224 4.176L5.272 4.176Z'
-            }
-          ],
-          strokes: [],
-          strokeWeight: 1,
-          strokeCap: 'NONE',
-          strokeJoin: 'MITER',
-          strokeGeometry: [],
-          strokeAlign: 'OUTSIDE',
-          characters: 'Submit',
-          fontName: {
-            family: 'Epilogue',
-            style: 'SemiBold'
-          },
-          fontSize: 16,
-          fontWeight: 600,
-          letterSpacing: {
-            unit: 'PERCENT',
-            value: 0
-          },
-          lineHeight: {
-            unit: 'PERCENT',
-            value: 150
-          },
-          listSpacing: 0,
-          paragraphIndent: 0,
-          paragraphSpacing: 0,
-          textAlignHorizontal: 'LEFT',
-          textAlignVertical: 'TOP',
-          textAutoResize: 'WIDTH_AND_HEIGHT',
-          textCase: 'ORIGINAL',
-          textDecoration: 'NONE',
-          textStyleId: ''
-        }
-      ]
     }
   ],
   cornerSmoothing: 0,
@@ -1574,7 +1786,54 @@ const value = {
   itemReverseZIndex: false,
   strokesIncludedInLayout: false,
   layoutGrids: [],
-  overflowDirection: 'NONE'
+  overflowDirection: 'NONE',
+  variables: [
+    { name: 'leftWatermelonCount', type: 'LOCAL', default: '0' },
+    { name: 'rightWatermelonCount', type: 'LOCAL', default: '0' },
+    { name: 'leftSliceCount', type: 'LOCAL', default: '0' },
+    { name: 'rightSliceCount', type: 'LOCAL', default: '0' },
+    { name: 'watermelonLeftVisible', type: 'LOCAL', default: '0' },
+    { name: 'watermelonRightVisible', type: 'LOCAL', default: '0' },
+    { name: 'sliceLeft1Visible', type: 'LOCAL', default: '0' },
+    { name: 'sliceLeft2Visible', type: 'LOCAL', default: '0' },
+    { name: 'sliceLeft3Visible', type: 'LOCAL', default: '0' },
+    { name: 'sliceRight1Visible', type: 'LOCAL', default: '0' },
+    { name: 'sliceRight2Visible', type: 'LOCAL', default: '0' },
+    { name: 'sliceRight3Visible', type: 'LOCAL', default: '0' },
+    { name: 'bottomWatermelonCount', type: 'LOCAL', default: '1' },
+    { name: 'bottomSliceCount', type: 'LOCAL', default: '3' },
+    { name: 'bottomWatermelonVisible', type: 'LOCAL', default: '1' },
+    { name: 'bottomSlice1Visible', type: 'LOCAL', default: '1' },
+    { name: 'bottomSlice2Visible', type: 'LOCAL', default: '1' },
+    { name: 'bottomSlice3Visible', type: 'LOCAL', default: '1' },
+    { name: 'currentDraggedType', type: 'LOCAL', default: '' }
+  ],
+  computeFunctions: [
+    { name: 'increaseCount', output: 'input + 1', params: ['input'] },
+    { name: 'decreaseCount', output: 'input - 1', params: ['input'] },
+    {
+      name: 'updateSeasawWatermelonCount',
+      output: "type === 'watermelon' ? countWatermelon + 1 : countWatermelon",
+      params: ['countWatermelon', 'type']
+    },
+    {
+      name: 'updateSeasawSliceCount',
+      output: "type === 'slice' ? countSlice + 1 : countSlice",
+      params: ['countSlice', 'type']
+    },
+    {
+      name: 'updateBottomWatermelonCount',
+      output: "type === 'watermelon' ? countWatermelon - 1 : countWatermelon",
+      params: ['countWatermelon', 'type']
+    },
+    {
+      name: 'updateBottomSliceCount',
+      output: "type === 'slice' ? countSlice - 1 : countSlice",
+      params: ['countSlice', 'type']
+    },
+    { name: 'chainValue', output: 'value', params: ['value'] },
+    { name: 'decreaseByTwo', output: 'value - 2', params: ['value'] }
+  ]
 };
 
-export default value;
+export default ladder;
