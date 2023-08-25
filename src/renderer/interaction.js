@@ -53,7 +53,7 @@ export const attachInteraction = ({
             if (!dragTarget) break;
             switch (effect.valueType) {
               case 'LAYER_PROPERTY':
-                executeDragLayerProperty({ originalJson, path, dragTarget, effect, varIndex, init: true });
+                executeDragLayerProperty({ originalJson, path, dragTarget, effect, varIndex, init: true, setFigmaJson });
                 break;
 
               case 'COMPUTE_FUNCTION':
@@ -78,7 +78,7 @@ export const attachInteraction = ({
 
             switch (effect.valueType) {
               case 'LAYER_PROPERTY':
-                executeDragLayerProperty({ originalJson, path, dragTarget, effect, varIndex, init: false });
+                executeDragLayerProperty({ originalJson, path, dragTarget, effect, varIndex, init: false, setFigmaJson });
                 break;
 
               case 'COMPUTE_FUNCTION':
