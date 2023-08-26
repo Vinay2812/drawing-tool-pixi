@@ -13,27 +13,27 @@ export const renderFigmaFromParsedJson = (
   children,
   { scaleHeight, scaleWidth, devicePixelRatio }
 ) => {
-	const container = new PIXI.Container();
-	container.sortableChildren = true;
-	const screenWidth = children[0].absoluteBoundingBox.width;
-	const screenHeight = children[0].absoluteBoundingBox.height;
-	children.forEach((child) => {
-		renderChild(child, container, screenWidth, screenHeight, {
-			scaleHeight,
-			scaleWidth,
-			devicePixelRatio,
-		});
-	});
-	container.backgroundColor = 0xffffff;
-	// const pixiChild = new PIXI.Graphics();
-	// pixiChild.position.set(298, 15);
-	// pixiChild.zIndex = 200;
-	// // pixiChild.rotation = 1.5707963267948963;
-	// pixiChild.beginFill(0x00cccc);
-	// // pixiChild.drawTorus(180, 24, 36, 18, 0, Math.PI * 2);
-	// pixiChild.drawRect(0, 0, 44, 22);
-	// pixiChild.endFill();
-	// container.addChild(pixiChild);
+  const container = new PIXI.Container();
+  container.sortableChildren = true;
+  const screenWidth = children[0].absoluteBoundingBox.width;
+  const screenHeight = children[0].absoluteBoundingBox.height;
+  children.forEach((child) => {
+    renderChild(child, container, screenWidth, screenHeight, {
+      scaleHeight,
+      scaleWidth,
+      devicePixelRatio,
+    });
+  });
+  container.backgroundColor = 0xffffff;
+  // const pixiChild = new PIXI.Graphics();
+  // pixiChild.position.set(298, 15);
+  // pixiChild.zIndex = 200;
+  // // pixiChild.rotation = 1.5707963267948963;
+  // pixiChild.beginFill(0x00cccc);
+  // // pixiChild.drawTorus(180, 24, 36, 18, 0, Math.PI * 2);
+  // pixiChild.drawRect(0, 0, 44, 22);
+  // pixiChild.endFill();
+  // container.addChild(pixiChild);
 
   container.scale.set(scaleWidth / devicePixelRatio);
   return container;
@@ -116,32 +116,30 @@ const renderCanvas = (child) => {
 };
 
 const getTextAlignHorizontal = (textAlignHorizontal) => {
-	switch (textAlignHorizontal) {
-		case "LEFT":
-			return "left";
-		case "RIGHT":
-			return "right";
-		case "CENTER":
-			return "center";
-		case "JUSTIFIED":
-			return "justify";
-		default:
-			return "left";
-	}
+  switch (textAlignHorizontal) {
+    case "LEFT":
+      return "left";
+    case "RIGHT":
+      return "right";
+    case "CENTER":
+      return "center";
+    case "JUSTIFIED":
+      return "justify";
+    default:
+      return "left";
+  }
 };
 
 const renderText = async (child) => {
-	console.log("🚀 ~ file: renderer.js:127 ~ renderText ~ child:", child);
-	if (!child.visible) return;
-	const fontNameObj = child.fontName || {};
-	const fontFamily = fontNameObj.family || "Arial"; // Default to 'Arial' if fontFamily is not provided
-	let fontSize = child.fontSize || 12; // Default to 12 if fontSize is not provided
-	const fontWeight = child.fontWeight || "500"; // Default to 'normal' if fontWeight is not provided
+  console.log("🚀 ~ file: renderer.js:127 ~ renderText ~ child:", child);
+  if (!child.visible) return;
+  const fontNameObj = child.fontName || {};
+  const fontFamily = fontNameObj.family || "Arial"; // Default to 'Arial' if fontFamily is not provided
+  let fontSize = child.fontSize || 12; // Default to 12 if fontSize is not provided
+  const fontWeight = child.fontWeight || "500"; // Default to 'normal' if fontWeight is not provided
 
-	const textAlignHorizontal = getTextAlignHorizontal(
-		child.textAlignHorizontal
-	); // Default to 'left' if textAlignHorizontal is not provided
-	const textDecoration = child.textDecoration || "none"; // Default to 'none' if textDecoration is not provided
+  const textAlignHorizontal = getTextAlignHorizontal(child.textAlignHorizontal); // Default to 'left' if textAlignHorizontal is not provided
+  const textDecoration = child.textDecoration || "none"; // Default to 'none' if textDecoration is not provided
 
   const lineHeightObj = child.lineHeight || {};
   let lineHeightValue = lineHeightObj.value || fontSize; // Default to 1.2 times the fontSize if lineHeightValue is not provided
@@ -155,47 +153,48 @@ const renderText = async (child) => {
     letterSpacingValue = (letterSpacingValue / 100) * fontSize;
   }
 
-	let wrapperPixiObject = await renderPolygon(child);
-	if(child.characters === "Quantity of soil (grams)"){
-	console.log("🚀 ~ file: renderer.js:166 ~ renderText ~ child:", child, textAlignHorizontal)
+  let wrapperPixiObject = await renderPolygon(child);
+  if (child.characters === "Quantity of soil (grams)") {
+    console.log(
+      "🚀 ~ file: renderer.js:166 ~ renderText ~ child:",
+      child,
+      textAlignHorizontal
+    );
+  }
+  const fillColor =
+    child?.fills?.length > 0 && child.fills[0].visible && child.fills[0].color;
 
-    }
-    const fillColor =
-		child?.fills?.length > 0 &&
-		child.fills[0].visible &&
-		child.fills[0].color;
+  const style = new PIXI.TextStyle({
+    fontFamily: fontFamily,
+    // fontStyle: fontStyle,
+    fontSize: fontSize,
+    fontWeight: fontWeight,
+    align: textAlignHorizontal,
+    textDecoration: textDecoration,
+    wordWrap: true,
+    wordWrapWidth: child?.absoluteBoundingBox?.width + 2,
+    lineHeight: lineHeightValue,
+    letterSpacing: letterSpacingValue,
+    fill: fillColor,
+    trim: child.textAlignVertical === "CENTER",
+  });
 
-	const style = new PIXI.TextStyle({
-		fontFamily: fontFamily,
-		// fontStyle: fontStyle,
-		fontSize: fontSize,
-		fontWeight: fontWeight,
-		align: textAlignHorizontal,
-		textDecoration: textDecoration,
-		wordWrap: true,
-		wordWrapWidth: child?.absoluteBoundingBox?.width + 2,
-		lineHeight: lineHeightValue,
-		letterSpacing: letterSpacingValue,
-		fill: fillColor,
-		trim: child.textAlignVertical === "CENTER",
-	});
-
-	const pixiObject = new PIXI.Text();
-    pixiObject.text = child?.characters;
-    pixiObject.style = style;
-	pixiObject.zIndex = child.zIndex;
-    if(textAlignHorizontal === "center"){
-        pixiObject.pivot.x = pixiObject.width/2;
-        // pixiObject.pivot.y = pixiObject.height/2;
-        pixiObject.x = child.absoluteBoundingBox.width/2;
-        // pixiObject.y = child.absoluteBoundingBox.height/2;
-    }
-    if(child.textAlignVertical === "CENTER"){
-        pixiObject.pivot.y = pixiObject.height/2;
-        pixiObject.y = child.absoluteBoundingBox.height/2;
-    }
-	wrapperPixiObject.addChild(pixiObject);
-	return wrapperPixiObject;
+  const pixiObject = new PIXI.Text();
+  pixiObject.text = child?.characters;
+  pixiObject.style = style;
+  pixiObject.zIndex = child.zIndex;
+  if (textAlignHorizontal === "center") {
+    pixiObject.pivot.x = pixiObject.width / 2;
+    // pixiObject.pivot.y = pixiObject.height/2;
+    pixiObject.x = child.absoluteBoundingBox.width / 2;
+    // pixiObject.y = child.absoluteBoundingBox.height/2;
+  }
+  if (child.textAlignVertical === "CENTER") {
+    pixiObject.pivot.y = pixiObject.height / 2;
+    pixiObject.y = child.absoluteBoundingBox.height / 2;
+  }
+  wrapperPixiObject.addChild(pixiObject);
+  return wrapperPixiObject;
 };
 
 const renderInput = async (child) => {
@@ -387,7 +386,7 @@ const renderPolygon = async (child, screenWidth, screenHeight) => {
 
         imageSprite.blendMode = PIXI.BLEND_MODES.NORMAL; // Adjust blend mode if needed
         const rotation = fill.rotation;
-        imageSprite.backgroundColor = 0x000000;
+        // imageSprite.backgroundColor = 0x000000;
         imageSprite.rotation = ((fill.rotation || 0) * Math.PI) / 180;
         imageSprite.anchor.set(0.5, 0.5);
 
@@ -431,7 +430,7 @@ const renderPolygon = async (child, screenWidth, screenHeight) => {
         pixiChild.addChild(imageSprite);
       }
 
-      //   pixiChild = drawShape(child, pixiChild);
+      pixiChild = drawShape(child, pixiChild);
 
       if (child.relativeTransform) {
         const { x, y } = child.relativeTransform;
