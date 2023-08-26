@@ -667,7 +667,8 @@ const renderPolygon = async (child, screenWidth, screenHeight, originalJson, pat
               setAnimationType,
               setFigmaJson,
               path,
-              dragTarget
+              dragTarget,
+              dropTargetPath: get(dropAreas, [dropAreaIndex, 'path'])
             });
           }
         }
@@ -688,10 +689,12 @@ const renderPolygon = async (child, screenWidth, screenHeight, originalJson, pat
 
       // end
       app.stage.off('pointermove', onDragMove);
-      dragTarget.alpha = 1;
-      if (!dragConfig.axis) dragTarget.pivot.set(0);
-      dragTarget = null;
-      dragData = null;
+      if (dragTarget) {
+        dragTarget.alpha = 1;
+        if (!dragConfig.axis) dragTarget.pivot.set(0);
+        dragTarget = null;
+        dragData = null;
+      }
     }
 
     function onDragMove(event) {
@@ -765,11 +768,11 @@ const renderPolygon = async (child, screenWidth, screenHeight, originalJson, pat
     pixiObject.on('pointerupoutside', onDragEnd);
   }
 
-  if (dropConfig) {
+  if (dropConfig && dropAreas?.find(({ id }) => child.id === id) == null) {
     dropAreas.push({
+      id: child.id,
       area: pixiObject,
-      width: pixiObject.getBounds().width,
-      height: pixiObject.getBounds().height,
+      ...pixiObject.getBounds(),
       path,
       onDrop: (interactions || []).find(interaction => interaction.event === 'ON_DROP')
     });

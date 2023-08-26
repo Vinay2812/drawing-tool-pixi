@@ -586,12 +586,29 @@ const ladder = {
           cornerRadius: 0,
           cornerSmoothing: 0,
           variableLink: [{ variableName: 'watermelonLeftVisible', property: 'visible' }],
+          interactions: [
+            {
+              event: 'ON_DRAG_START',
+              effects: [
+                {
+                  type: 'UPDATE_VARIABLE',
+                  valueType: 'LAYER_PROPERTY',
+                  config: { variableName: 'currentDraggedType', value: 'identifier' }
+                },
+                {
+                  type: 'UPDATE_VARIABLE',
+                  valueType: 'LAYER_PROPERTY',
+                  config: { variableName: 'currentDraggedSource', value: 'source' }
+                }
+              ]
+            }
+          ],
           modifiers: [
             {
               type: 'DRAGGABLE',
               config: {}
             },
-            { type: 'RIGID_BODY', config: { weight: 2, identifier: 'watermelon' } }
+            { type: 'RIGID_BODY', config: { weight: 2, identifier: 'watermelon', source: 'left' } }
           ]
         },
         {
@@ -650,9 +667,26 @@ const ladder = {
           cornerRadius: 0,
           cornerSmoothing: 0,
           variableLink: [{ variableName: 'sliceLeft1Visible', property: 'visible' }],
+          interactions: [
+            {
+              event: 'ON_DRAG_START',
+              effects: [
+                {
+                  type: 'UPDATE_VARIABLE',
+                  valueType: 'LAYER_PROPERTY',
+                  config: { variableName: 'currentDraggedType', value: 'identifier' }
+                },
+                {
+                  type: 'UPDATE_VARIABLE',
+                  valueType: 'LAYER_PROPERTY',
+                  config: { variableName: 'currentDraggedSource', value: 'source' }
+                }
+              ]
+            }
+          ],
           modifiers: [
             { type: 'DRAGGABLE', config: {} },
-            { type: 'RIGID_BODY', config: { weight: 1, identifier: 'slice' } }
+            { type: 'RIGID_BODY', config: { weight: 1, identifier: 'slice', source: 'left' } }
           ]
         },
         {
@@ -711,12 +745,29 @@ const ladder = {
           cornerRadius: 0,
           cornerSmoothing: 0,
           variableLink: [{ variableName: 'sliceLeft2Visible', property: 'visible' }],
+          interactions: [
+            {
+              event: 'ON_DRAG_START',
+              effects: [
+                {
+                  type: 'UPDATE_VARIABLE',
+                  valueType: 'LAYER_PROPERTY',
+                  config: { variableName: 'currentDraggedType', value: 'identifier' }
+                },
+                {
+                  type: 'UPDATE_VARIABLE',
+                  valueType: 'LAYER_PROPERTY',
+                  config: { variableName: 'currentDraggedSource', value: 'source' }
+                }
+              ]
+            }
+          ],
           modifiers: [
             {
               type: 'DRAGGABLE',
               config: {}
             },
-            { type: 'RIGID_BODY', config: { weight: 1, identifier: 'slice' } }
+            { type: 'RIGID_BODY', config: { weight: 1, identifier: 'slice', source: 'left' } }
           ]
         },
         {
@@ -775,12 +826,29 @@ const ladder = {
           cornerRadius: 0,
           cornerSmoothing: 0,
           variableLink: [{ variableName: 'sliceLeft3Visible', property: 'visible' }],
+          interactions: [
+            {
+              event: 'ON_DRAG_START',
+              effects: [
+                {
+                  type: 'UPDATE_VARIABLE',
+                  valueType: 'LAYER_PROPERTY',
+                  config: { variableName: 'currentDraggedType', value: 'identifier' }
+                },
+                {
+                  type: 'UPDATE_VARIABLE',
+                  valueType: 'LAYER_PROPERTY',
+                  config: { variableName: 'currentDraggedSource', value: 'source' }
+                }
+              ]
+            }
+          ],
           modifiers: [
             {
               type: 'DRAGGABLE',
               config: {}
             },
-            { type: 'RIGID_BODY', config: { weight: 1, identifier: 'slice' } }
+            { type: 'RIGID_BODY', config: { weight: 1, identifier: 'slice', source: 'left' } }
           ]
         }
       ],
@@ -816,23 +884,22 @@ const ladder = {
           effects: [
             {
               type: 'UPDATE_VARIABLE',
-              valueType: 'COMPUTE_FUNCTION',
-              config: {
-                variableName: 'leftWatermelonCount',
-                computeFunction: {
-                  type: 'updateSeasawWatermelonCount',
-                  params: { countWatermelon: 'leftWatermelonCount', type: 'currentDraggedType' }
-                }
-              }
+              valueType: 'LAYER_PROPERTY',
+              config: { variableName: 'currentDraggedTarget', value: 'dropTarget' }
             },
             {
               type: 'UPDATE_VARIABLE',
               valueType: 'COMPUTE_FUNCTION',
               config: {
-                variableName: 'leftSliceCount',
+                variableName: 'leftWatermelonCount',
                 computeFunction: {
-                  type: 'updateSeasawSliceCount',
-                  params: { countSlice: 'leftSliceCount', type: 'currentDraggedType' }
+                  type: 'updateLeftWatermelonCount',
+                  params: {
+                    countWatermelon: 'leftWatermelonCount',
+                    type: 'currentDraggedType',
+                    source: 'currentDraggedSource',
+                    target: 'currentDraggedTarget'
+                  }
                 }
               }
             },
@@ -843,7 +910,44 @@ const ladder = {
                 variableName: 'bottomWatermelonCount',
                 computeFunction: {
                   type: 'updateBottomWatermelonCount',
-                  params: { countWatermelon: 'bottomWatermelonCount', type: 'currentDraggedType' }
+                  params: {
+                    countWatermelon: 'bottomWatermelonCount',
+                    type: 'currentDraggedType',
+                    source: 'currentDraggedSource',
+                    target: 'currentDraggedTarget'
+                  }
+                }
+              }
+            },
+            {
+              type: 'UPDATE_VARIABLE',
+              valueType: 'COMPUTE_FUNCTION',
+              config: {
+                variableName: 'rightWatermelonCount',
+                computeFunction: {
+                  type: 'updateRightWatermelonCount',
+                  params: {
+                    countWatermelon: 'rightWatermelonCount',
+                    type: 'currentDraggedType',
+                    source: 'currentDraggedSource',
+                    target: 'currentDraggedTarget'
+                  }
+                }
+              }
+            },
+            {
+              type: 'UPDATE_VARIABLE',
+              valueType: 'COMPUTE_FUNCTION',
+              config: {
+                variableName: 'leftSliceCount',
+                computeFunction: {
+                  type: 'updateLeftSliceCount',
+                  params: {
+                    sliceCount: 'leftSliceCount',
+                    type: 'currentDraggedType',
+                    source: 'currentDraggedSource',
+                    target: 'currentDraggedTarget'
+                  }
                 }
               }
             },
@@ -854,7 +958,12 @@ const ladder = {
                 variableName: 'bottomSliceCount',
                 computeFunction: {
                   type: 'updateBottomSliceCount',
-                  params: { countSlice: 'bottomSliceCount', type: 'currentDraggedType' }
+                  params: {
+                    sliceCount: 'bottomSliceCount',
+                    type: 'currentDraggedType',
+                    source: 'currentDraggedSource',
+                    target: 'currentDraggedTarget'
+                  }
                 }
               }
             },
@@ -862,32 +971,26 @@ const ladder = {
               type: 'UPDATE_VARIABLE',
               valueType: 'COMPUTE_FUNCTION',
               config: {
+                variableName: 'rightSliceCount',
+                computeFunction: {
+                  type: 'updateRightSliceCount',
+                  params: {
+                    sliceCount: 'rightSliceCount',
+                    type: 'currentDraggedType',
+                    source: 'currentDraggedSource',
+                    target: 'currentDraggedTarget'
+                  }
+                }
+              }
+            },
+
+            //
+            {
+              type: 'UPDATE_VARIABLE',
+              valueType: 'COMPUTE_FUNCTION',
+              config: {
                 variableName: 'watermelonLeftVisible',
-                computeFunction: { type: 'chainValue', params: { value: 'leftWatermelonCount' } }
-              }
-            },
-            {
-              type: 'UPDATE_VARIABLE',
-              valueType: 'COMPUTE_FUNCTION',
-              config: {
-                variableName: 'sliceLeft1Visible',
-                computeFunction: { type: 'chainValue', params: { value: 'leftSliceCount' } }
-              }
-            },
-            {
-              type: 'UPDATE_VARIABLE',
-              valueType: 'COMPUTE_FUNCTION',
-              config: {
-                variableName: 'sliceLeft2Visible',
-                computeFunction: { type: 'decreaseCount', params: { input: 'leftSliceCount' } }
-              }
-            },
-            {
-              type: 'UPDATE_VARIABLE',
-              valueType: 'COMPUTE_FUNCTION',
-              config: {
-                variableName: 'sliceLeft3Visible',
-                computeFunction: { type: 'decreaseByTwo', params: { value: 'leftSliceCount' } }
+                computeFunction: { type: 'getWatermelonLeftVisible', params: { value: 'leftWatermelonCount' } }
               }
             },
             {
@@ -895,7 +998,40 @@ const ladder = {
               valueType: 'COMPUTE_FUNCTION',
               config: {
                 variableName: 'bottomWatermelonVisible',
-                computeFunction: { type: 'chainValue', params: { value: 'bottomWatermelonCount' } }
+                computeFunction: { type: 'getWatermelonBottomVisible', params: { value: 'bottomWatermelonCount' } }
+              }
+            },
+            {
+              type: 'UPDATE_VARIABLE',
+              valueType: 'COMPUTE_FUNCTION',
+              config: {
+                variableName: 'watermelonRightVisible',
+                computeFunction: { type: 'getWatermelonRightVisible', params: { value: 'rightWatermelonCount' } }
+              }
+            },
+            // slice
+            {
+              type: 'UPDATE_VARIABLE',
+              valueType: 'COMPUTE_FUNCTION',
+              config: {
+                variableName: 'sliceLeft1Visible',
+                computeFunction: { type: 'getSliceLeft1Visible', params: { value: 'leftSliceCount' } }
+              }
+            },
+            {
+              type: 'UPDATE_VARIABLE',
+              valueType: 'COMPUTE_FUNCTION',
+              config: {
+                variableName: 'sliceLeft2Visible',
+                computeFunction: { type: 'getSliceLeft2Visible', params: { value: 'leftSliceCount' } }
+              }
+            },
+            {
+              type: 'UPDATE_VARIABLE',
+              valueType: 'COMPUTE_FUNCTION',
+              config: {
+                variableName: 'sliceLeft3Visible',
+                computeFunction: { type: 'getSliceLeft3Visible', params: { value: 'leftSliceCount' } }
               }
             },
             {
@@ -903,7 +1039,7 @@ const ladder = {
               valueType: 'COMPUTE_FUNCTION',
               config: {
                 variableName: 'bottomSlice1Visible',
-                computeFunction: { type: 'chainValue', params: { value: 'bottomSliceCount' } }
+                computeFunction: { type: 'getBottomSlice1Count', params: { value: 'bottomSliceCount' } }
               }
             },
             {
@@ -911,7 +1047,7 @@ const ladder = {
               valueType: 'COMPUTE_FUNCTION',
               config: {
                 variableName: 'bottomSlice2Visible',
-                computeFunction: { type: 'decreaseCount', params: { input: 'bottomSliceCount' } }
+                computeFunction: { type: 'getBottomSlice2Count', params: { value: 'bottomSliceCount' } }
               }
             },
             {
@@ -919,13 +1055,37 @@ const ladder = {
               valueType: 'COMPUTE_FUNCTION',
               config: {
                 variableName: 'bottomSlice3Visible',
-                computeFunction: { type: 'decreaseByTwo', params: { value: 'bottomSliceCount' } }
+                computeFunction: { type: 'getBottomSlice3Count', params: { value: 'bottomSliceCount' } }
+              }
+            },
+            {
+              type: 'UPDATE_VARIABLE',
+              valueType: 'COMPUTE_FUNCTION',
+              config: {
+                variableName: 'sliceRight1Visible',
+                computeFunction: { type: 'getRightSlice1Visible', params: { value: 'rightSliceCount' } }
+              }
+            },
+            {
+              type: 'UPDATE_VARIABLE',
+              valueType: 'COMPUTE_FUNCTION',
+              config: {
+                variableName: 'sliceRight2Visible',
+                computeFunction: { type: 'getRightSlice2Visible', params: { value: 'rightSliceCount' } }
+              }
+            },
+            {
+              type: 'UPDATE_VARIABLE',
+              valueType: 'COMPUTE_FUNCTION',
+              config: {
+                variableName: 'sliceRight3Visible',
+                computeFunction: { type: 'getRightSlice3Visible', params: { value: 'rightSliceCount' } }
               }
             }
           ]
         }
       ],
-      modifiers: [{ type: 'DROPPABLE' }]
+      modifiers: [{ type: 'DROPPABLE' }, { type: 'RIGID_BODY', config: { dropTarget: 'left' } }]
     },
     {
       id: '307:163',
@@ -1057,12 +1217,29 @@ const ladder = {
           cornerRadius: 0,
           cornerSmoothing: 0,
           variableLink: [{ variableName: 'watermelonRightVisible', property: 'visible' }],
+          interactions: [
+            {
+              event: 'ON_DRAG_START',
+              effects: [
+                {
+                  type: 'UPDATE_VARIABLE',
+                  valueType: 'LAYER_PROPERTY',
+                  config: { variableName: 'currentDraggedType', value: 'identifier' }
+                },
+                {
+                  type: 'UPDATE_VARIABLE',
+                  valueType: 'LAYER_PROPERTY',
+                  config: { variableName: 'currentDraggedSource', value: 'source' }
+                }
+              ]
+            }
+          ],
           modifiers: [
             {
               type: 'DRAGGABLE',
               config: {}
             },
-            { type: 'RIGID_BODY', config: { weight: 2, identifier: 'watermelon' } }
+            { type: 'RIGID_BODY', config: { weight: 2, identifier: 'watermelon', source: 'right' } }
           ]
         },
         {
@@ -1121,12 +1298,29 @@ const ladder = {
           cornerRadius: 0,
           cornerSmoothing: 0,
           variableLink: [{ variableName: 'sliceRight1Visible', property: 'visible' }],
+          interactions: [
+            {
+              event: 'ON_DRAG_START',
+              effects: [
+                {
+                  type: 'UPDATE_VARIABLE',
+                  valueType: 'LAYER_PROPERTY',
+                  config: { variableName: 'currentDraggedType', value: 'identifier' }
+                },
+                {
+                  type: 'UPDATE_VARIABLE',
+                  valueType: 'LAYER_PROPERTY',
+                  config: { variableName: 'currentDraggedSource', value: 'source' }
+                }
+              ]
+            }
+          ],
           modifiers: [
             {
               type: 'DRAGGABLE',
               config: {}
             },
-            { type: 'RIGID_BODY', config: { weight: 1, identifier: 'slice' } }
+            { type: 'RIGID_BODY', config: { weight: 1, identifier: 'slice', source: 'right' } }
           ]
         },
         {
@@ -1185,12 +1379,29 @@ const ladder = {
           cornerRadius: 0,
           cornerSmoothing: 0,
           variableLink: [{ variableName: 'sliceRight2Visible', property: 'visible' }],
+          interactions: [
+            {
+              event: 'ON_DRAG_START',
+              effects: [
+                {
+                  type: 'UPDATE_VARIABLE',
+                  valueType: 'LAYER_PROPERTY',
+                  config: { variableName: 'currentDraggedType', value: 'identifier' }
+                },
+                {
+                  type: 'UPDATE_VARIABLE',
+                  valueType: 'LAYER_PROPERTY',
+                  config: { variableName: 'currentDraggedSource', value: 'source' }
+                }
+              ]
+            }
+          ],
           modifiers: [
             {
               type: 'DRAGGABLE',
               config: {}
             },
-            { type: 'RIGID_BODY', config: { weight: 1, identifier: 'slice' } }
+            { type: 'RIGID_BODY', config: { weight: 1, identifier: 'slice', source: 'right' } }
           ]
         },
         {
@@ -1249,12 +1460,29 @@ const ladder = {
           cornerRadius: 0,
           cornerSmoothing: 0,
           variableLink: [{ variableName: 'sliceRight3Visible', property: 'visible' }],
+          interactions: [
+            {
+              event: 'ON_DRAG_START',
+              effects: [
+                {
+                  type: 'UPDATE_VARIABLE',
+                  valueType: 'LAYER_PROPERTY',
+                  config: { variableName: 'currentDraggedType', value: 'identifier' }
+                },
+                {
+                  type: 'UPDATE_VARIABLE',
+                  valueType: 'LAYER_PROPERTY',
+                  config: { variableName: 'currentDraggedSource', value: 'source' }
+                }
+              ]
+            }
+          ],
           modifiers: [
             {
               type: 'DRAGGABLE',
               config: {}
             },
-            { type: 'RIGID_BODY', config: { weight: 1, identifier: 'slice' } }
+            { type: 'RIGID_BODY', config: { weight: 1, identifier: 'slice', source: 'right' } }
           ]
         }
       ],
@@ -1290,23 +1518,22 @@ const ladder = {
           effects: [
             {
               type: 'UPDATE_VARIABLE',
-              valueType: 'COMPUTE_FUNCTION',
-              config: {
-                variableName: 'rightWatermelonCount',
-                computeFunction: {
-                  type: 'updateSeasawWatermelonCount',
-                  params: { countWatermelon: 'rightWatermelonCount', type: 'currentDraggedType' }
-                }
-              }
+              valueType: 'LAYER_PROPERTY',
+              config: { variableName: 'currentDraggedTarget', value: 'dropTarget' }
             },
             {
               type: 'UPDATE_VARIABLE',
               valueType: 'COMPUTE_FUNCTION',
               config: {
-                variableName: 'rightSliceCount',
+                variableName: 'rightWatermelonCount',
                 computeFunction: {
-                  type: 'updateSeasawSliceCount',
-                  params: { countSlice: 'rightSliceCount', type: 'currentDraggedType' }
+                  type: 'updateRightWatermelonCount',
+                  params: {
+                    countWatermelon: 'rightWatermelonCount',
+                    type: 'currentDraggedType',
+                    source: 'currentDraggedSource',
+                    target: 'currentDraggedTarget'
+                  }
                 }
               }
             },
@@ -1317,7 +1544,44 @@ const ladder = {
                 variableName: 'bottomWatermelonCount',
                 computeFunction: {
                   type: 'updateBottomWatermelonCount',
-                  params: { countWatermelon: 'bottomWatermelonCount', type: 'currentDraggedType' }
+                  params: {
+                    countWatermelon: 'bottomWatermelonCount',
+                    type: 'currentDraggedType',
+                    source: 'currentDraggedSource',
+                    target: 'currentDraggedTarget'
+                  }
+                }
+              }
+            },
+            {
+              type: 'UPDATE_VARIABLE',
+              valueType: 'COMPUTE_FUNCTION',
+              config: {
+                variableName: 'leftWatermelonCount',
+                computeFunction: {
+                  type: 'updateLeftWatermelonCount',
+                  params: {
+                    countWatermelon: 'leftWatermelonCount',
+                    type: 'currentDraggedType',
+                    source: 'currentDraggedSource',
+                    target: 'currentDraggedTarget'
+                  }
+                }
+              }
+            },
+            {
+              type: 'UPDATE_VARIABLE',
+              valueType: 'COMPUTE_FUNCTION',
+              config: {
+                variableName: 'rightSliceCount',
+                computeFunction: {
+                  type: 'updateRightSliceCount',
+                  params: {
+                    sliceCount: 'rightSliceCount',
+                    type: 'currentDraggedType',
+                    source: 'currentDraggedSource',
+                    target: 'currentDraggedTarget'
+                  }
                 }
               }
             },
@@ -1328,7 +1592,28 @@ const ladder = {
                 variableName: 'bottomSliceCount',
                 computeFunction: {
                   type: 'updateBottomSliceCount',
-                  params: { countSlice: 'bottomSliceCount', type: 'currentDraggedType' }
+                  params: {
+                    sliceCount: 'bottomSliceCount',
+                    type: 'currentDraggedType',
+                    source: 'currentDraggedSource',
+                    target: 'currentDraggedTarget'
+                  }
+                }
+              }
+            },
+            {
+              type: 'UPDATE_VARIABLE',
+              valueType: 'COMPUTE_FUNCTION',
+              config: {
+                variableName: 'leftSliceCount',
+                computeFunction: {
+                  type: 'updateLeftSliceCount',
+                  params: {
+                    sliceCount: 'leftSliceCount',
+                    type: 'currentDraggedType',
+                    source: 'currentDraggedSource',
+                    target: 'currentDraggedTarget'
+                  }
                 }
               }
             },
@@ -1337,31 +1622,7 @@ const ladder = {
               valueType: 'COMPUTE_FUNCTION',
               config: {
                 variableName: 'watermelonRightVisible',
-                computeFunction: { type: 'chainValue', params: { value: 'rightWatermelonCount' } }
-              }
-            },
-            {
-              type: 'UPDATE_VARIABLE',
-              valueType: 'COMPUTE_FUNCTION',
-              config: {
-                variableName: 'sliceRight1Visible',
-                computeFunction: { type: 'chainValue', params: { value: 'rightSliceCount' } }
-              }
-            },
-            {
-              type: 'UPDATE_VARIABLE',
-              valueType: 'COMPUTE_FUNCTION',
-              config: {
-                variableName: 'sliceRight2Visible',
-                computeFunction: { type: 'decreaseCount', params: { input: 'rightSliceCount' } }
-              }
-            },
-            {
-              type: 'UPDATE_VARIABLE',
-              valueType: 'COMPUTE_FUNCTION',
-              config: {
-                variableName: 'sliceRight3Visible',
-                computeFunction: { type: 'decreaseByTwo', params: { value: 'rightSliceCount' } }
+                computeFunction: { type: 'getWatermelonRightVisible', params: { value: 'rightWatermelonCount' } }
               }
             },
             {
@@ -1369,7 +1630,39 @@ const ladder = {
               valueType: 'COMPUTE_FUNCTION',
               config: {
                 variableName: 'bottomWatermelonVisible',
-                computeFunction: { type: 'chainValue', params: { value: 'bottomWatermelonCount' } }
+                computeFunction: { type: 'getWatermelonBottomVisible', params: { value: 'bottomWatermelonCount' } }
+              }
+            },
+            {
+              type: 'UPDATE_VARIABLE',
+              valueType: 'COMPUTE_FUNCTION',
+              config: {
+                variableName: 'watermelonLeftVisible',
+                computeFunction: { type: 'getWatermelonLeftVisible', params: { value: 'leftWatermelonCount' } }
+              }
+            },
+            {
+              type: 'UPDATE_VARIABLE',
+              valueType: 'COMPUTE_FUNCTION',
+              config: {
+                variableName: 'sliceRight1Visible',
+                computeFunction: { type: 'getRightSlice1Visible', params: { value: 'rightSliceCount' } }
+              }
+            },
+            {
+              type: 'UPDATE_VARIABLE',
+              valueType: 'COMPUTE_FUNCTION',
+              config: {
+                variableName: 'sliceRight2Visible',
+                computeFunction: { type: 'getRightSlice2Visible', params: { value: 'rightSliceCount' } }
+              }
+            },
+            {
+              type: 'UPDATE_VARIABLE',
+              valueType: 'COMPUTE_FUNCTION',
+              config: {
+                variableName: 'sliceRight3Visible',
+                computeFunction: { type: 'getRightSlice3Visible', params: { value: 'rightSliceCount' } }
               }
             },
             {
@@ -1377,7 +1670,7 @@ const ladder = {
               valueType: 'COMPUTE_FUNCTION',
               config: {
                 variableName: 'bottomSlice1Visible',
-                computeFunction: { type: 'chainValue', params: { value: 'bottomSliceCount' } }
+                computeFunction: { type: 'getBottomSlice1Count', params: { value: 'bottomSliceCount' } }
               }
             },
             {
@@ -1385,7 +1678,7 @@ const ladder = {
               valueType: 'COMPUTE_FUNCTION',
               config: {
                 variableName: 'bottomSlice2Visible',
-                computeFunction: { type: 'decreaseCount', params: { input: 'bottomSliceCount' } }
+                computeFunction: { type: 'getBottomSlice2Count', params: { value: 'bottomSliceCount' } }
               }
             },
             {
@@ -1393,13 +1686,37 @@ const ladder = {
               valueType: 'COMPUTE_FUNCTION',
               config: {
                 variableName: 'bottomSlice3Visible',
-                computeFunction: { type: 'decreaseByTwo', params: { value: 'bottomSliceCount' } }
+                computeFunction: { type: 'getBottomSlice3Count', params: { value: 'bottomSliceCount' } }
+              }
+            },
+            {
+              type: 'UPDATE_VARIABLE',
+              valueType: 'COMPUTE_FUNCTION',
+              config: {
+                variableName: 'sliceLeft1Visible',
+                computeFunction: { type: 'getSliceLeft1Visible', params: { value: 'leftSliceCount' } }
+              }
+            },
+            {
+              type: 'UPDATE_VARIABLE',
+              valueType: 'COMPUTE_FUNCTION',
+              config: {
+                variableName: 'sliceLeft2Visible',
+                computeFunction: { type: 'getSliceLeft2Visible', params: { value: 'leftSliceCount' } }
+              }
+            },
+            {
+              type: 'UPDATE_VARIABLE',
+              valueType: 'COMPUTE_FUNCTION',
+              config: {
+                variableName: 'sliceLeft3Visible',
+                computeFunction: { type: 'getSliceLeft3Visible', params: { value: 'leftSliceCount' } }
               }
             }
           ]
         }
       ],
-      modifiers: [{ type: 'DROPPABLE' }]
+      modifiers: [{ type: 'DROPPABLE' }, { type: 'RIGID_BODY', config: { dropTarget: 'right' } }]
     },
     {
       id: '243:160',
@@ -1501,13 +1818,18 @@ const ladder = {
                   type: 'UPDATE_VARIABLE',
                   valueType: 'LAYER_PROPERTY',
                   config: { variableName: 'currentDraggedType', value: 'identifier' }
+                },
+                {
+                  type: 'UPDATE_VARIABLE',
+                  valueType: 'LAYER_PROPERTY',
+                  config: { variableName: 'currentDraggedSource', value: 'source' }
                 }
               ]
             }
           ],
           modifiers: [
             { type: 'DRAGGABLE', config: {} },
-            { type: 'RIGID_BODY', config: { weight: 2, identifier: 'watermelon' } }
+            { type: 'RIGID_BODY', config: { weight: 2, identifier: 'watermelon', source: 'bottom' } }
           ]
         },
         {
@@ -1574,6 +1896,11 @@ const ladder = {
                   type: 'UPDATE_VARIABLE',
                   valueType: 'LAYER_PROPERTY',
                   config: { variableName: 'currentDraggedType', value: 'identifier' }
+                },
+                {
+                  type: 'UPDATE_VARIABLE',
+                  valueType: 'LAYER_PROPERTY',
+                  config: { variableName: 'currentDraggedSource', value: 'source' }
                 }
               ]
             }
@@ -1583,7 +1910,7 @@ const ladder = {
               type: 'DRAGGABLE',
               config: {}
             },
-            { type: 'RIGID_BODY', config: { weight: 1, identifier: 'slice' } }
+            { type: 'RIGID_BODY', config: { weight: 1, identifier: 'slice', source: 'bottom' } }
           ]
         },
         {
@@ -1650,13 +1977,18 @@ const ladder = {
                   type: 'UPDATE_VARIABLE',
                   valueType: 'LAYER_PROPERTY',
                   config: { variableName: 'currentDraggedType', value: 'identifier' }
+                },
+                {
+                  type: 'UPDATE_VARIABLE',
+                  valueType: 'LAYER_PROPERTY',
+                  config: { variableName: 'currentDraggedSource', value: 'source' }
                 }
               ]
             }
           ],
           modifiers: [
             { type: 'DRAGGABLE', config: {} },
-            { type: 'RIGID_BODY', config: { weight: 1, identifier: 'slice' } }
+            { type: 'RIGID_BODY', config: { weight: 1, identifier: 'slice', source: 'bottom' } }
           ]
         },
         {
@@ -1723,13 +2055,18 @@ const ladder = {
                   type: 'UPDATE_VARIABLE',
                   valueType: 'LAYER_PROPERTY',
                   config: { variableName: 'currentDraggedType', value: 'identifier' }
+                },
+                {
+                  type: 'UPDATE_VARIABLE',
+                  valueType: 'LAYER_PROPERTY',
+                  config: { variableName: 'currentDraggedSource', value: 'source' }
                 }
               ]
             }
           ],
           modifiers: [
             { type: 'DRAGGABLE', config: {} },
-            { type: 'RIGID_BODY', config: { weight: 1, identifier: 'slice' } }
+            { type: 'RIGID_BODY', config: { weight: 1, identifier: 'slice', source: 'bottom' } }
           ]
         }
       ],
@@ -1758,7 +2095,214 @@ const ladder = {
       itemReverseZIndex: false,
       strokesIncludedInLayout: false,
       layoutGrids: [],
-      overflowDirection: 'NONE'
+      overflowDirection: 'NONE',
+      interactions: [
+        {
+          event: 'ON_DROP',
+          effects: [
+            {
+              type: 'UPDATE_VARIABLE',
+              valueType: 'LAYER_PROPERTY',
+              config: { variableName: 'currentDraggedTarget', value: 'dropTarget' }
+            },
+            {
+              type: 'UPDATE_VARIABLE',
+              valueType: 'COMPUTE_FUNCTION',
+              config: {
+                variableName: 'leftWatermelonCount',
+                computeFunction: {
+                  type: 'updateLeftWatermelonCount',
+                  params: {
+                    countWatermelon: 'leftWatermelonCount',
+                    type: 'currentDraggedType',
+                    source: 'currentDraggedSource',
+                    target: 'currentDraggedTarget'
+                  }
+                }
+              }
+            },
+            {
+              type: 'UPDATE_VARIABLE',
+              valueType: 'COMPUTE_FUNCTION',
+              config: {
+                variableName: 'bottomWatermelonCount',
+                computeFunction: {
+                  type: 'updateBottomWatermelonCount',
+                  params: {
+                    countWatermelon: 'bottomWatermelonCount',
+                    type: 'currentDraggedType',
+                    source: 'currentDraggedSource',
+                    target: 'currentDraggedTarget'
+                  }
+                }
+              }
+            },
+            {
+              type: 'UPDATE_VARIABLE',
+              valueType: 'COMPUTE_FUNCTION',
+              config: {
+                variableName: 'rightWatermelonCount',
+                computeFunction: {
+                  type: 'updateRightWatermelonCount',
+                  params: {
+                    countWatermelon: 'rightWatermelonCount',
+                    type: 'currentDraggedType',
+                    source: 'currentDraggedSource',
+                    target: 'currentDraggedTarget'
+                  }
+                }
+              }
+            },
+            {
+              type: 'UPDATE_VARIABLE',
+              valueType: 'COMPUTE_FUNCTION',
+              config: {
+                variableName: 'leftSliceCount',
+                computeFunction: {
+                  type: 'updateLeftSliceCount',
+                  params: {
+                    sliceCount: 'leftSliceCount',
+                    type: 'currentDraggedType',
+                    source: 'currentDraggedSource',
+                    target: 'currentDraggedTarget'
+                  }
+                }
+              }
+            },
+            {
+              type: 'UPDATE_VARIABLE',
+              valueType: 'COMPUTE_FUNCTION',
+              config: {
+                variableName: 'bottomSliceCount',
+                computeFunction: {
+                  type: 'updateBottomSliceCount',
+                  params: {
+                    sliceCount: 'bottomSliceCount',
+                    type: 'currentDraggedType',
+                    source: 'currentDraggedSource',
+                    target: 'currentDraggedTarget'
+                  }
+                }
+              }
+            },
+            {
+              type: 'UPDATE_VARIABLE',
+              valueType: 'COMPUTE_FUNCTION',
+              config: {
+                variableName: 'rightSliceCount',
+                computeFunction: {
+                  type: 'updateRightSliceCount',
+                  params: {
+                    sliceCount: 'rightSliceCount',
+                    type: 'currentDraggedType',
+                    source: 'currentDraggedSource',
+                    target: 'currentDraggedTarget'
+                  }
+                }
+              }
+            },
+
+            {
+              type: 'UPDATE_VARIABLE',
+              valueType: 'COMPUTE_FUNCTION',
+              config: {
+                variableName: 'watermelonLeftVisible',
+                computeFunction: { type: 'getWatermelonLeftVisible', params: { value: 'leftWatermelonCount' } }
+              }
+            },
+            {
+              type: 'UPDATE_VARIABLE',
+              valueType: 'COMPUTE_FUNCTION',
+              config: {
+                variableName: 'bottomWatermelonVisible',
+                computeFunction: { type: 'getWatermelonBottomVisible', params: { value: 'bottomWatermelonCount' } }
+              }
+            },
+            {
+              type: 'UPDATE_VARIABLE',
+              valueType: 'COMPUTE_FUNCTION',
+              config: {
+                variableName: 'watermelonRightVisible',
+                computeFunction: { type: 'getWatermelonLeftVisible', params: { value: 'rightWatermelonCount' } }
+              }
+            },
+            // slice
+            {
+              type: 'UPDATE_VARIABLE',
+              valueType: 'COMPUTE_FUNCTION',
+              config: {
+                variableName: 'sliceLeft1Visible',
+                computeFunction: { type: 'getSliceLeft1Visible', params: { value: 'leftSliceCount' } }
+              }
+            },
+            {
+              type: 'UPDATE_VARIABLE',
+              valueType: 'COMPUTE_FUNCTION',
+              config: {
+                variableName: 'sliceLeft2Visible',
+                computeFunction: { type: 'getSliceLeft2Visible', params: { value: 'leftSliceCount' } }
+              }
+            },
+            {
+              type: 'UPDATE_VARIABLE',
+              valueType: 'COMPUTE_FUNCTION',
+              config: {
+                variableName: 'sliceLeft3Visible',
+                computeFunction: { type: 'getSliceLeft3Visible', params: { value: 'leftSliceCount' } }
+              }
+            },
+            {
+              type: 'UPDATE_VARIABLE',
+              valueType: 'COMPUTE_FUNCTION',
+              config: {
+                variableName: 'bottomSlice1Visible',
+                computeFunction: { type: 'getBottomSlice1Count', params: { value: 'bottomSliceCount' } }
+              }
+            },
+            {
+              type: 'UPDATE_VARIABLE',
+              valueType: 'COMPUTE_FUNCTION',
+              config: {
+                variableName: 'bottomSlice2Visible',
+                computeFunction: { type: 'getBottomSlice2Count', params: { value: 'bottomSliceCount' } }
+              }
+            },
+            {
+              type: 'UPDATE_VARIABLE',
+              valueType: 'COMPUTE_FUNCTION',
+              config: {
+                variableName: 'bottomSlice3Visible',
+                computeFunction: { type: 'getBottomSlice3Count', params: { value: 'bottomSliceCount' } }
+              }
+            },
+            {
+              type: 'UPDATE_VARIABLE',
+              valueType: 'COMPUTE_FUNCTION',
+              config: {
+                variableName: 'sliceRight1Visible',
+                computeFunction: { type: 'getRightSlice1Visible', params: { value: 'rightSliceCount' } }
+              }
+            },
+            {
+              type: 'UPDATE_VARIABLE',
+              valueType: 'COMPUTE_FUNCTION',
+              config: {
+                variableName: 'sliceRight2Visible',
+                computeFunction: { type: 'getRightSlice2Visible', params: { value: 'rightSliceCount' } }
+              }
+            },
+            {
+              type: 'UPDATE_VARIABLE',
+              valueType: 'COMPUTE_FUNCTION',
+              config: {
+                variableName: 'sliceRight3Visible',
+                computeFunction: { type: 'getRightSlice3Visible', params: { value: 'rightSliceCount' } }
+              }
+            }
+          ]
+        }
+      ],
+      modifiers: [{ type: 'DROPPABLE' }, { type: 'RIGID_BODY', config: { dropTarget: 'bottom' } }]
     }
   ],
   cornerSmoothing: 0,
@@ -1788,51 +2332,137 @@ const ladder = {
   layoutGrids: [],
   overflowDirection: 'NONE',
   variables: [
+    // watermelon
     { name: 'leftWatermelonCount', type: 'LOCAL', default: '0' },
     { name: 'rightWatermelonCount', type: 'LOCAL', default: '0' },
-    { name: 'leftSliceCount', type: 'LOCAL', default: '0' },
-    { name: 'rightSliceCount', type: 'LOCAL', default: '0' },
+    { name: 'bottomWatermelonCount', type: 'LOCAL', default: '1' },
     { name: 'watermelonLeftVisible', type: 'LOCAL', default: '0' },
     { name: 'watermelonRightVisible', type: 'LOCAL', default: '0' },
+    { name: 'bottomWatermelonVisible', type: 'LOCAL', default: '1' },
+
+    // slice
+    // left
+    { name: 'leftSliceCount', type: 'LOCAL', default: '0' },
     { name: 'sliceLeft1Visible', type: 'LOCAL', default: '0' },
     { name: 'sliceLeft2Visible', type: 'LOCAL', default: '0' },
     { name: 'sliceLeft3Visible', type: 'LOCAL', default: '0' },
+    // right
+    { name: 'rightSliceCount', type: 'LOCAL', default: '0' },
     { name: 'sliceRight1Visible', type: 'LOCAL', default: '0' },
     { name: 'sliceRight2Visible', type: 'LOCAL', default: '0' },
     { name: 'sliceRight3Visible', type: 'LOCAL', default: '0' },
-    { name: 'bottomWatermelonCount', type: 'LOCAL', default: '1' },
+    // bottom
     { name: 'bottomSliceCount', type: 'LOCAL', default: '3' },
-    { name: 'bottomWatermelonVisible', type: 'LOCAL', default: '1' },
     { name: 'bottomSlice1Visible', type: 'LOCAL', default: '1' },
     { name: 'bottomSlice2Visible', type: 'LOCAL', default: '1' },
     { name: 'bottomSlice3Visible', type: 'LOCAL', default: '1' },
-    { name: 'currentDraggedType', type: 'LOCAL', default: '' }
+
+    // helpers
+    { name: 'currentDraggedType', type: 'LOCAL', default: '' },
+    { name: 'currentDraggedSource', type: 'LOCAL', default: '' },
+    { name: 'currentDraggedTarget', type: 'LOCAL', default: '' }
   ],
   computeFunctions: [
-    { name: 'increaseCount', output: 'input + 1', params: ['input'] },
-    { name: 'decreaseCount', output: 'input - 1', params: ['input'] },
+    // { name: 'increaseCount', output: 'input + 1', params: ['input'] },
+    // { name: 'decreaseCount', output: 'input - 1', params: ['input'] },
     {
-      name: 'updateSeasawWatermelonCount',
-      output: "type === 'watermelon' ? countWatermelon + 1 : countWatermelon",
-      params: ['countWatermelon', 'type']
-    },
-    {
-      name: 'updateSeasawSliceCount',
-      output: "type === 'slice' ? countSlice + 1 : countSlice",
-      params: ['countSlice', 'type']
+      name: 'updateLeftWatermelonCount',
+      output:
+        "type === 'watermelon' ? countWatermelon + (target === 'left' ? 1 : (source === 'left' ? -1 : countWatermelon)) : countWatermelon",
+      params: ['countWatermelon', 'type', 'source', 'target']
     },
     {
       name: 'updateBottomWatermelonCount',
-      output: "type === 'watermelon' ? countWatermelon - 1 : countWatermelon",
-      params: ['countWatermelon', 'type']
+      output:
+        "type === 'watermelon' ? countWatermelon + (target === 'bottom' ? 1 : (source === 'bottom' ? -1 : countWatermelon)) : countWatermelon",
+      params: ['countWatermelon', 'type', 'source', 'target']
+    },
+    {
+      name: 'updateRightWatermelonCount',
+      output:
+        "type === 'watermelon' ? countWatermelon + (target === 'right' ? 1 : (source === 'right' ? -1 : countWatermelon)) : countWatermelon",
+      params: ['countWatermelon', 'type', 'source', 'target']
+    },
+    {
+      name: 'getWatermelonLeftVisible',
+      output: 'value >= 1',
+      params: ['value']
+    },
+    {
+      name: 'getWatermelonBottomVisible',
+      output: 'value >= 1',
+      params: ['value']
+    },
+    {
+      name: 'getWatermelonRightVisible',
+      output: 'value >= 1',
+      params: ['value']
+    },
+
+    // slice
+    {
+      name: 'updateLeftSliceCount',
+      output: "type === 'slice' ? sliceCount + (target === 'left' ? 1 : (source === 'left' ? -1 : 0)) : sliceCount",
+      params: ['sliceCount', 'type', 'source', 'target']
     },
     {
       name: 'updateBottomSliceCount',
-      output: "type === 'slice' ? countSlice - 1 : countSlice",
-      params: ['countSlice', 'type']
+      output: "type === 'slice' ? sliceCount + (target === 'bottom' ? 1 : (source === 'bottom' ? -1 : 0)) : sliceCount",
+      params: ['sliceCount', 'type', 'source', 'target']
     },
-    { name: 'chainValue', output: 'value', params: ['value'] },
-    { name: 'decreaseByTwo', output: 'value - 2', params: ['value'] }
+    {
+      name: 'updateRightSliceCount',
+      output: "type === 'slice' ? sliceCount + (target === 'right' ? 1 : (source === 'right' ? -1 : 0)) : sliceCount",
+      params: ['sliceCount', 'type', 'source', 'target']
+    },
+
+    {
+      name: 'getSliceLeft1Visible',
+      output: 'value >= 1',
+      params: ['value']
+    },
+    {
+      name: 'getSliceLeft2Visible',
+      output: 'value >= 2',
+      params: ['value']
+    },
+    {
+      name: 'getSliceLeft3Visible',
+      output: 'value >= 3',
+      params: ['value']
+    },
+    {
+      name: 'getBottomSlice1Count',
+      output: 'value >= 1',
+      params: ['value']
+    },
+    {
+      name: 'getBottomSlice2Count',
+      output: 'value >= 2',
+      params: ['value']
+    },
+    {
+      name: 'getBottomSlice3Count',
+      output: 'value >= 3',
+      params: ['value']
+    },
+    {
+      name: 'getRightSlice1Visible',
+      output: 'value >= 1',
+      params: ['value']
+    },
+    {
+      name: 'getRightSlice2Visible',
+      output: 'value >= 2',
+      params: ['value']
+    },
+    {
+      name: 'getRightSlice3Visible',
+      output: 'value >= 3',
+      params: ['value']
+    }
+
+    // { name: 'updateCount', output: 'value', params: ['value'] }
   ]
 };
 

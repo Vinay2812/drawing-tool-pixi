@@ -9,7 +9,8 @@ export const attachInteraction = ({
   setAnimationType,
   setFigmaJson,
   path,
-  dragTarget
+  dragTarget,
+  dropTargetPath
 }) => {
   switch (interaction.event) {
     case 'ON_CLICK':
@@ -78,7 +79,16 @@ export const attachInteraction = ({
 
             switch (effect.valueType) {
               case 'LAYER_PROPERTY':
-                executeDragLayerProperty({ originalJson, path, dragTarget, effect, varIndex, init: false, setFigmaJson });
+                executeDragLayerProperty({
+                  originalJson,
+                  path,
+                  dragTarget,
+                  effect,
+                  varIndex,
+                  init: false,
+                  setFigmaJson,
+                  dropTargetPath
+                });
                 break;
 
               case 'COMPUTE_FUNCTION':
@@ -130,13 +140,26 @@ export const executeComputeFunction = ({ effect, originalJson }) => {
   set(originalJson, ['variables', varIndex, 'value'], newVal);
 };
 
-export const executeDragLayerProperty = ({ originalJson, path, dragTarget, effect, varIndex, setFigmaJson, init }) => {
+export const executeDragLayerProperty = ({
+  originalJson,
+  path = [],
+  dragTarget,
+  effect,
+  varIndex,
+  setFigmaJson,
+  init,
+  dropTargetPath = []
+}) => {
   const currentVal = get(originalJson, ['variables', varIndex, 'value']);
   const defaultVal = get(originalJson, ['variables', varIndex, 'default']);
-  const rigidBody = get(originalJson, [...path, 'modifiers']).filter(m => m.type === 'RIGID_BODY');
+  const rigidBody = get(originalJson, [...path, 'modifiers'])?.filter(m => m.type === 'RIGID_BODY');
+  const dropTargetChildRigidBody = get(originalJson, [...dropTargetPath, 'modifiers'])?.filter(m => m.type === 'RIGID_BODY');
+
   let data = dragTarget;
-  if (rigidBody.length) data = get(rigidBody, [0, 'config']);
-  const newVal = get(data, [effect.config?.value]);
+  let dropTargetData = dragTarget;
+  if (rigidBody?.length) data = get(rigidBody, [0, 'config']);
+  if (dropTargetChildRigidBody?.length) dropTargetData = get(dropTargetChildRigidBody, [0, 'config']);
+  const newVal = get(data, [effect.config?.value]) || get(dropTargetData, [effect.config?.value]);
   if ((currentVal || defaultVal) === newVal) return;
 
   if (!rigidBody.length) {
