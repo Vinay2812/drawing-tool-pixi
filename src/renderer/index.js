@@ -31,7 +31,7 @@ export const getImageUrls = obj => {
 // Create a PIXI Application
 const app = new PIXI.Application({
   // antialias: true,
-  resolution: devicePixelRatio,
+  // resolution: window?.devicePixelRatio * 2 ?? devicePixelRatio,
   // background: `#${parsedJson?.children[0]?.fills[0].color || 'ffffff'}`,
   antialias: true
   // resizeTo: currentElement
@@ -86,8 +86,9 @@ export const renderFigmaJson = (
       { ...rest, variables: figmaJson.variables }
     );
 
-    app.background = `#${parsedJson?.children[0]?.fills[0].color || 'ffffff'}`;
-    app.resizeTo = currentElement;
+    app.renderer.background = `#${parsedJson?.children[0]?.fills[0].color || 'ffffff'}`;
+    app.renderer.resizeTo = currentElement;
+    app.renderer.resolution = devicePixelRatio;
 
     app.renderer.plugins.interaction.autoPreventDefault = false;
     app.renderer.view.style.touchAction = 'auto';
@@ -229,8 +230,8 @@ export const renderFigmaJson = (
     // Add the container to the PIXI stage
 
     app.renderer.resize(
-      scaleWidth * orgFigmaJson?.absoluteRenderBounds?.width / devicePixelRatio,
-      scaleWidth * orgFigmaJson?.absoluteRenderBounds?.height / devicePixelRatio,
+      (scaleWidth * orgFigmaJson?.absoluteRenderBounds?.width) / devicePixelRatio,
+      (scaleWidth * orgFigmaJson?.absoluteRenderBounds?.height) / devicePixelRatio
     );
 
     setIsUpdated(false);
