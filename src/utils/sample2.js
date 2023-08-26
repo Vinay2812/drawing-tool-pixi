@@ -2368,19 +2368,19 @@ const ladder = {
     {
       name: 'updateLeftWatermelonCount',
       output:
-        "type === 'watermelon' ? countWatermelon + (target === 'left' ? 1 : (source === 'left' ? -1 : countWatermelon)) : countWatermelon",
+        "type === 'watermelon' && target != source ? countWatermelon + (target === 'left' ? 1 : (source === 'left' ? -1 : countWatermelon)) : countWatermelon",
       params: ['countWatermelon', 'type', 'source', 'target']
     },
     {
       name: 'updateBottomWatermelonCount',
       output:
-        "type === 'watermelon' ? countWatermelon + (target === 'bottom' ? 1 : (source === 'bottom' ? -1 : countWatermelon)) : countWatermelon",
+        "type === 'watermelon' && target != source ? countWatermelon + (target === 'bottom' ? 1 : (source === 'bottom' ? -1 : countWatermelon)) : countWatermelon",
       params: ['countWatermelon', 'type', 'source', 'target']
     },
     {
       name: 'updateRightWatermelonCount',
       output:
-        "type === 'watermelon' ? countWatermelon + (target === 'right' ? 1 : (source === 'right' ? -1 : countWatermelon)) : countWatermelon",
+        "type === 'watermelon' && target != source ? countWatermelon + (target === 'right' ? 1 : (source === 'right' ? -1 : countWatermelon)) : countWatermelon",
       params: ['countWatermelon', 'type', 'source', 'target']
     },
     {
@@ -2402,17 +2402,20 @@ const ladder = {
     // slice
     {
       name: 'updateLeftSliceCount',
-      output: "type === 'slice' ? sliceCount + (target === 'left' ? 1 : (source === 'left' ? -1 : 0)) : sliceCount",
+      output:
+        "type === 'slice' && target != source ? sliceCount + (target === 'left' ? 1 : (source === 'left' ? -1 : 0)) : sliceCount",
       params: ['sliceCount', 'type', 'source', 'target']
     },
     {
       name: 'updateBottomSliceCount',
-      output: "type === 'slice' ? sliceCount + (target === 'bottom' ? 1 : (source === 'bottom' ? -1 : 0)) : sliceCount",
+      output:
+        "type === 'slice' && target != source ? sliceCount + (target === 'bottom' ? 1 : (source === 'bottom' ? -1 : 0)) : sliceCount",
       params: ['sliceCount', 'type', 'source', 'target']
     },
     {
       name: 'updateRightSliceCount',
-      output: "type === 'slice' ? sliceCount + (target === 'right' ? 1 : (source === 'right' ? -1 : 0)) : sliceCount",
+      output:
+        "type === 'slice' && target != source ? sliceCount + (target === 'right' ? 1 : (source === 'right' ? -1 : 0)) : sliceCount",
       params: ['sliceCount', 'type', 'source', 'target']
     },
 
