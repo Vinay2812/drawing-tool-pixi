@@ -180,6 +180,7 @@ const renderText = async (child) => {
   });
 
   const pixiObject = new PIXI.Text();
+  pixiObject.resolution = 2;
   pixiObject.text = child?.characters;
   pixiObject.style = style;
   pixiObject.zIndex = child.zIndex;
@@ -495,14 +496,17 @@ const renderPolygon = async (child, screenWidth, screenHeight) => {
     let filters = [];
     child.effects.forEach((effect) => {
       if (effect.type === "DROP_SHADOW") {
+        console.log("🚀 ~ file: renderer.js:499 ~ child.effects.forEach ~ effect:", effect)
+        const color = parseColor(effect.color);
         const filter = new DropShadowFilter({
           alpha: effect.visible ? effect.color.a : 0,
           distance: Math.sqrt(effect.offset.x ** 2 + effect.offset.y ** 2),
           blur: effect.radius / 5,
-          color: 0x000000,
+          color: color,
           offset: effect.offset,
-          spread: effect.radius,
+          spread: effect.radius / 5,
           quality: 4,
+          resolution: 4,
         });
         // filter.padding = 100;
         // pixiObject.filterArea = null;
