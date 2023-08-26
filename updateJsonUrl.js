@@ -3,8 +3,8 @@ const axios = require("axios");
 
 // CONSTANTS
 // FIGMA
-const ACCESS_TOKEN = "figd_-_6JwkotWF5Nq1wmMmVRJVxSeHHGKJvP2bVSGwdO";
-const FILE_KEY = "m84ERFoN2nxoEqrNCfotoi";
+const ACCESS_TOKEN = "figd_GeQM0HEJknVWtKjQ_kpK12TgKT2Ouu6B4-7DQ3A7";
+const FILE_KEY = "ixE1TVyHYZObrzeNW1wvrD";
 
 // S3
 const BUCKET_NAME = "sets-gamify-assets";
@@ -14,6 +14,16 @@ const S3_PRESIGN_URL =
 
 // JSON DATA
 const jsonData = {};
+
+function getFileExtensionFromContentType(contentType) {
+  const parts = contentType.split("/");
+  if (parts.length === 2) {
+    const extension = parts[1];
+    return extension;
+  } else {
+    return null; // Invalid content type format
+  }
+}
 
 const fetchAssetsUrls = async (figmaFileKey) => {
   const response = await axios
@@ -30,7 +40,7 @@ const fetchAssetsUrls = async (figmaFileKey) => {
   return response?.data?.meta?.images;
 };
 
-const getPresignedURL = async (filename) => {
+const getPresignedURL = async (filename, extension) => {
   const bucket_name = BUCKET_NAME;
   const url = S3_PRESIGN_URL;
 
@@ -39,7 +49,7 @@ const getPresignedURL = async (filename) => {
       url,
       {
         bucket_name: bucket_name,
-        key: FILE_PATH + filename,
+        key: FILE_PATH + filename + (extension ? `.${extension}` : ""),
       },
       {
         headers: {
@@ -80,7 +90,12 @@ const uploadToS3 = async (imageMap) => {
 
         const contentType = response.headers["content-type"];
 
-        const { url, bucket_url } = await getPresignedURL(filename);
+        const fileExtension = getFileExtensionFromContentType(contentType);
+
+        const { url, bucket_url } = await getPresignedURL(
+          filename,
+          fileExtension
+        );
 
         const fileContent = response.data;
 

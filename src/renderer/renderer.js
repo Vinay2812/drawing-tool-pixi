@@ -5,6 +5,7 @@ import set from 'lodash/set';
 import { AnimatedGIF } from '@pixi/gif';
 import { DropShadowFilter } from '@pixi/filter-drop-shadow';
 import { FXAAFilter } from '@pixi/filter-fxaa';
+import '@pixi/gif';
 
 import '@pixi/graphics-extras';
 import { drawSVGPath, fillSVGPath, parseColor } from '../utils/layout';
@@ -53,9 +54,7 @@ export const renderFigmaFromParsedJson = (
   // // pixiChild.rotation = 1.5707963267948963;
   // pixiChild.beginFill(0x00cccc);
   // // pixiChild.drawTorus(180, 24, 36, 18, 0, Math.PI * 2);
-  // drawSVGPath(
-  //     pixiChild, "M21 2C22.1046 2 23 1.10457 23 2.38498e-08C23 -1.10457 22.1046 -2 21 -2L21 2ZM7.76799 4.69313L6.5078 3.1401L7.76799 4.69313ZM12.5352 40.2184L11.729 42.0487L12.5352 40.2184ZM26.5364 41.2571L26.0091 39.3278L26.5364 41.2571ZM38.063 33.2415L39.688 34.4074L38.063 33.2415ZM41.963 19.7544L43.9595 19.6358L41.963 19.7544ZM37.9689 5.474C37.2233 4.65907 35.9582 4.6029 35.1432 5.34853C34.3283 6.09416 34.2721 7.35925 35.0178 8.17418L37.9689 5.474ZM21 -2C15.7226 -2 10.6058 -0.185153 6.5078 3.1401L9.02818 6.24617C12.4135 3.49922 16.6404 2 21 2L21 -2ZM6.5078 3.1401C2.40982 6.46535 -0.419975 11.0987 -1.5069 16.263L2.40735 17.0868C3.30524 12.8207 5.6429 8.99312 9.02818 6.24617L6.5078 3.1401ZM-1.5069 16.263C-2.59382 21.4272 -1.87174 26.8081 0.538209 31.5031L4.09678 29.6765C2.10595 25.798 1.50946 21.3529 2.40735 17.0868L-1.5069 16.263ZM0.538209 31.5031C2.94816 36.1981 6.89937 39.9215 11.729 42.0487L13.3414 38.3881C9.35165 36.6308 6.08761 33.5549 4.09678 29.6765L0.538209 31.5031ZM11.729 42.0487C16.5587 44.176 21.973 44.5776 27.0636 43.1863L26.0091 39.3278C21.8038 40.4772 17.3311 40.1454 13.3414 38.3881L11.729 42.0487ZM27.0636 43.1863C32.1543 41.795 36.6117 38.6954 39.688 34.4074L36.4379 32.0757C33.8966 35.6179 30.2144 38.1785 26.0091 39.3278L27.0636 43.1863ZM39.688 34.4074C42.7644 30.1194 44.2725 24.9039 43.9595 19.6358L39.9665 19.8731C40.2251 24.225 38.9793 28.5334 36.4379 32.0757L39.688 34.4074ZM43.9595 19.6358C43.6465 14.3677 41.5314 9.36753 37.9689 5.474L35.0178 8.17418C37.9607 11.3906 39.708 15.5212 39.9665 19.8731L43.9595 19.6358Z"
-  // )
+  // pixiChild.drawRect(0, 0, 44, 22);
   // pixiChild.endFill();
   // container.addChild(pixiChild);
 
@@ -231,6 +230,21 @@ const renderCanvas = child => {
   return pixiObject;
 };
 
+const getTextAlignHorizontal = textAlignHorizontal => {
+  switch (textAlignHorizontal) {
+    case 'LEFT':
+      return 'left';
+    case 'RIGHT':
+      return 'right';
+    case 'CENTER':
+      return 'center';
+    case 'JUSTIFIED':
+      return 'justify';
+    default:
+      return 'left';
+  }
+};
+
 const renderText = async (child, screenWidth, screenHeight, originalJson, path, setFigmaJson, app, rest) => {
   if (!child.visible) return;
   const fontNameObj = child.fontName || {};
@@ -238,7 +252,7 @@ const renderText = async (child, screenWidth, screenHeight, originalJson, path, 
   const fontStyle = fontNameObj.style || 'normal'; // Default to 'normal' if fontStyle is not provided
   const fontSize = child.fontSize || 12; // Default to 12 if fontSize is not provided
   const fontWeight = child.fontWeight || '500'; // Default to 'normal' if fontWeight is not provided
-  const textAlignHorizontal = child.textAlignHorizontal || 'left'; // Default to 'left' if textAlignHorizontal is not provided
+  const textAlignHorizontal = getTextAlignHorizontal(child.textAlignHorizontal); // Default to 'left' if textAlignHorizontal is not provided
   const textDecoration = child.textDecoration || 'none'; // Default to 'none' if textDecoration is not provided
 
   const lineHeightObj = child.lineHeight || {};
@@ -279,20 +293,26 @@ const renderText = async (child, screenWidth, screenHeight, originalJson, path, 
     wordWrapWidth: child?.absoluteBoundingBox?.width,
     lineHeight: lineHeightValue,
     letterSpacing: letterSpacingValue,
-    fill: fillColor
+    fill: fillColor,
+    trim: child.textAlignVertical === 'CENTER'
   });
 
-  const pixiObject = new PIXI.Text(child.characters, style);
+  const pixiObject = new PIXI.Text();
+  pixiObject.resolution = 2;
+  pixiObject.text = child?.characters;
+  pixiObject.style = style;
   pixiObject.zIndex = child.zIndex;
+  if (textAlignHorizontal === 'center') {
+    pixiObject.pivot.x = pixiObject.width / 2;
+    // pixiObject.pivot.y = pixiObject.height/2;
+    pixiObject.x = child.absoluteBoundingBox.width / 2;
+    // pixiObject.y = child.absoluteBoundingBox.height/2;
+  }
+  if (child.textAlignVertical === 'CENTER') {
+    pixiObject.pivot.y = pixiObject.height / 2;
+    pixiObject.y = child.absoluteBoundingBox.height / 2;
+  }
   wrapperPixiObject.addChild(pixiObject);
-  // if(child.textAlignVertical === "CENTER"){
-
-  // }
-  //   if(child.characters === '2'){
-  //     console.log("🚀 ~ file: renderer.js:172 ~ renderText ~ child:", child)
-
-  //   }
-
   return wrapperPixiObject;
 };
 
@@ -445,25 +465,23 @@ const renderPolygon = async (child, screenWidth, screenHeight, originalJson, pat
         const gifRef = fill.gifRef;
         const imageUrl = fill.imageRef;
 
+        const cacheAsset = PIXI.Assets.get(imageUrl || gifRef);
         if (gifRef) {
-          imageSprite = await fetch(gifRef)
-            .then(res => {
-              return res.arrayBuffer();
-            })
-            .then(buff => {
-              return AnimatedGIF.fromBuffer(buff);
-            })
-            .then(image => pixiChild.addChild(image));
+          if (cacheAsset) imageSprite = pixiChild.addChild(cacheAsset);
+          else {
+            imageSprite = await PIXI.Assets.load(gifRef).then(image => pixiChild.addChild(image));
+          }
         } else {
-          const imageTexture = PIXI.Texture.from(imageUrl); // Load the texture
-          //   imageTexture.resolution = window.devicePixelRatio;
+          const imageTexture = cacheAsset || PIXI.Texture.from(imageUrl); // Load the texture
+          // imageTexture.resolution = window.devicePixelRatio;
+
           imageSprite = new PIXI.Sprite(imageTexture);
         }
         // imageSprite.roundPixels = true;
 
         imageSprite.blendMode = PIXI.BLEND_MODES.NORMAL; // Adjust blend mode if needed
         const rotation = fill.rotation;
-        imageSprite.backgroundColor = 0x000000;
+        // imageSprite.backgroundColor = 0x000000;
         imageSprite.rotation = ((fill.rotation || 0) * Math.PI) / 180;
         imageSprite.anchor.set(0.5, 0.5);
 
@@ -501,7 +519,7 @@ const renderPolygon = async (child, screenWidth, screenHeight, originalJson, pat
         pixiChild.addChild(imageSprite);
       }
 
-      //   pixiChild = drawShape(child, pixiChild);
+      pixiChild = drawShape(child, pixiChild);
 
       if (child.relativeTransform) {
         const { x, y } = child.relativeTransform;
@@ -564,22 +582,25 @@ const renderPolygon = async (child, screenWidth, screenHeight, originalJson, pat
     let filters = [];
     child.effects.forEach(effect => {
       if (effect.type === 'DROP_SHADOW') {
+        const color = parseColor(effect.color);
         const filter = new DropShadowFilter({
           alpha: effect.visible ? effect.color.a : 0,
           distance: Math.sqrt(effect.offset.x ** 2 + effect.offset.y ** 2),
           blur: effect.radius / 5,
-          color: 0x000000,
+          color: color,
           offset: effect.offset,
           spread: effect.radius,
-          quality: 4
+          quality: 4,
+          resolution: 4
         });
         // filter.padding = 100;
         // pixiObject.filterArea = null;
-        if (child.id === '137:97') {
-          // pixiObject.beginFill(0x0000ff);
-          // pixiObject.drawRect(0, 0, child.absoluteBoundingBox.width, child.absoluteBoundingBox.height);
-          // pixiObject.endFill();
-        }
+
+        // if (child.id === '137:97') {
+        //   pixiObject.beginFill(0x0000ff);
+        //   pixiObject.drawRect(0, 0, child.absoluteBoundingBox.width, child.absoluteBoundingBox.height);
+        //   pixiObject.endFill();
+        // }
 
         filters.push(filter);
       }
@@ -782,11 +803,12 @@ const renderPolygon = async (child, screenWidth, screenHeight, originalJson, pat
 };
 
 const drawShape = (child, pixiObject) => {
-  if (child.fillGeometry?.length > 0) {
-    fillSVGPath(pixiObject, child.fillGeometry[0].data);
+  if (child.type === 'GROUP' || child.type === 'TEXT') {
+    pixiObject.drawRect(0, 0, child.size.width, child.size.height);
+    child.type === 'TEXT' && pixiObject.position.set(child.position.x, child.position.y);
   }
-  if (child.type === 'GROUP') {
-    pixiObject.drawRect(child.relativeTransform.x, child.relativeTransform.y, child.size.width, child.size.height);
+  if (child.fillGeometry?.length > 0 && child.type !== 'TEXT') {
+    fillSVGPath(pixiObject, child.fillGeometry[0].data);
   }
 
   if (child.strokes?.length > 0) {
