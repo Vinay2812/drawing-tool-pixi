@@ -464,7 +464,7 @@ const renderPolygon = async (child, screenWidth, screenHeight) => {
       // Add the mask as a child, so that the mask is positioned relative to its parent
       maskContainer.addChild(pixiChild);
       // Offset by the window's frame width
-      pixiObject.addChild(maskContainer);
+      pixiObject.addChild(pixiChild);
     });
   }
 
@@ -507,11 +507,11 @@ const renderPolygon = async (child, screenWidth, screenHeight) => {
         // filter.padding = 100;
         // pixiObject.filterArea = null;
 
-        if (child.id === "137:97") {
-          // pixiObject.beginFill(0x0000ff);
-          // pixiObject.drawRect(0, 0, child.absoluteBoundingBox.width, child.absoluteBoundingBox.height);
-          // pixiObject.endFill();
-        }
+        // if (child.id === "288:1178") {
+        //   pixiObject.beginFill(0x0000ff);
+        //   pixiObject.drawRect(0, 0, child.absoluteBoundingBox.width, child.absoluteBoundingBox.height);
+        //   pixiObject.endFill();
+        // }
 
         filters.push(filter);
       }
@@ -531,17 +531,14 @@ const renderPolygon = async (child, screenWidth, screenHeight) => {
 };
 
 const drawShape = (child, pixiObject) => {
-  if (child.fillGeometry?.length > 0) {
-    fillSVGPath(pixiObject, child.fillGeometry[0].data);
-  }
-  if (child.type === "GROUP") {
-    pixiObject.drawRect(
-      child.relativeTransform.x,
-      child.relativeTransform.y,
-      child.size.width,
-      child.size.height
-    );
-  }
+	if (child.type === "GROUP" || child.type === "TEXT") {
+		pixiObject.drawRect(0, 0, child.size.width, child.size.height);
+		child.type === "TEXT" &&
+			pixiObject.position.set(child.position.x, child.position.y);
+	}
+	if (child.fillGeometry?.length > 0 && child.type !== "TEXT") {
+		fillSVGPath(pixiObject, child.fillGeometry[0].data);
+	}
 
   if (child.strokes?.length > 0) {
     const visibleStrokes = child.strokes.filter(
