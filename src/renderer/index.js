@@ -71,7 +71,7 @@ export const renderFigmaJson = (
     const currentElement = document.getElementById(elementId);
     const canvas = currentElement?.querySelector('canvas');
 
-    const screenWidth = window.innerWidth > 400 ? 400 * resolutionFactor : window.innerWidth * resolutionFactor;
+    const screenWidth = window.innerWidth > 400 ? 400 /* * resolutionFactor */ : window.innerWidth * resolutionFactor;
     const screenHeight = window.innerHeight * resolutionFactor;
     const devicePixelRatio = window.devicePixelRatio * resolutionFactor;
     // const devicePixelRatio = 2;
@@ -230,8 +230,8 @@ export const renderFigmaJson = (
 
       // Append the PIXI view to the specified HTML element
       const newCanvas = app.view;
-      newCanvas.style.width = screenWidth / 2;
-      newCanvas.style.height = screenHeight / 2;
+      newCanvas.style.width = screenWidth / resolutionFactor;
+      newCanvas.style.height = screenHeight / resolutionFactor;
       document.getElementById(elementId).appendChild(newCanvas);
 
       // Add the container to the PIXI stage
