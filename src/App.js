@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import FigmaRenderer from "./components/FigmaRenderer";
 // import sample from "./utils/sample";
-// import sample from "./utils/bishal-test/8";
+import sample from "./utils/bishal-test/3";
 import useGraphqlCall from "./api/useGraphqlCall";
 // import { uploadJson } from "./test-api";
 import "./App.css";
@@ -19,18 +19,10 @@ const App = () => {
     let figmaContextId = window.location.pathname.split("/")[1];
     // URL decode the figma context id
     figmaContextId = decodeURIComponent(figmaContextId);
-    setFigmaContextId(figmaContextId);
+
+    if (!figmaContextId) setFigmaJson(sample);
+    else setFigmaContextId(figmaContextId);
   }, []);
-
-  //   useEffect(() => {
-  //     // First url path is the figma context id
-  //     let figmaContextId = window.location.pathname.split("/")[1];
-  //     // URL decode the figma context id
-  //     figmaContextId = decodeURIComponent(figmaContextId);
-
-  //     if (!figmaContextId) setFigmaJson(sample);
-  //     else setFigmaContextId(figmaContextId);
-  //   }, []);
 
   const { data } = useGraphqlCall(figmaContextId);
   console.log("🚀 ~ file: App.js:20 ~ App ~ data:", data);
