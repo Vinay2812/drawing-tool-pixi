@@ -5,18 +5,25 @@ import set from 'lodash/set';
 import { AnimatedGIF } from '@pixi/gif';
 import { DropShadowFilter } from '@pixi/filter-drop-shadow';
 import { FXAAFilter } from '@pixi/filter-fxaa';
-import * as math from 'mathjs';
+import '@pixi/gif';
 
 import '@pixi/graphics-extras';
 import { drawSVGPath, fillSVGPath, parseColor } from '../utils/layout';
 import TextInput from './PIXI.TextInput';
 import { debounce } from 'lodash';
+import { attachInteraction } from './interaction';
 
 let dragTarget = null;
 let dragData = null;
 const dropAreas = [];
 const GAP = 2;
-export const renderFigmaFromParsedJson = (app, parsedJson, setFigmaJson, { scaleHeight, scaleWidth }, rest) => {
+export const renderFigmaFromParsedJson = (
+  app,
+  parsedJson,
+  setFigmaJson,
+  { scaleHeight, scaleWidth, devicePixelRatio },
+  rest
+) => {
   const children = parsedJson.children;
   const container = new PIXI.Container();
   container.sortableChildren = true;
@@ -34,7 +41,8 @@ export const renderFigmaFromParsedJson = (app, parsedJson, setFigmaJson, { scale
       app,
       {
         scaleHeight,
-        scaleWidth
+        scaleWidth,
+        devicePixelRatio
       },
       rest
     );
@@ -46,14 +54,22 @@ export const renderFigmaFromParsedJson = (app, parsedJson, setFigmaJson, { scale
   // // pixiChild.rotation = 1.5707963267948963;
   // pixiChild.beginFill(0x00cccc);
   // // pixiChild.drawTorus(180, 24, 36, 18, 0, Math.PI * 2);
-  // drawSVGPath(
-  //     pixiChild, "M21 2C22.1046 2 23 1.10457 23 2.38498e-08C23 -1.10457 22.1046 -2 21 -2L21 2ZM7.76799 4.69313L6.5078 3.1401L7.76799 4.69313ZM12.5352 40.2184L11.729 42.0487L12.5352 40.2184ZM26.5364 41.2571L26.0091 39.3278L26.5364 41.2571ZM38.063 33.2415L39.688 34.4074L38.063 33.2415ZM41.963 19.7544L43.9595 19.6358L41.963 19.7544ZM37.9689 5.474C37.2233 4.65907 35.9582 4.6029 35.1432 5.34853C34.3283 6.09416 34.2721 7.35925 35.0178 8.17418L37.9689 5.474ZM21 -2C15.7226 -2 10.6058 -0.185153 6.5078 3.1401L9.02818 6.24617C12.4135 3.49922 16.6404 2 21 2L21 -2ZM6.5078 3.1401C2.40982 6.46535 -0.419975 11.0987 -1.5069 16.263L2.40735 17.0868C3.30524 12.8207 5.6429 8.99312 9.02818 6.24617L6.5078 3.1401ZM-1.5069 16.263C-2.59382 21.4272 -1.87174 26.8081 0.538209 31.5031L4.09678 29.6765C2.10595 25.798 1.50946 21.3529 2.40735 17.0868L-1.5069 16.263ZM0.538209 31.5031C2.94816 36.1981 6.89937 39.9215 11.729 42.0487L13.3414 38.3881C9.35165 36.6308 6.08761 33.5549 4.09678 29.6765L0.538209 31.5031ZM11.729 42.0487C16.5587 44.176 21.973 44.5776 27.0636 43.1863L26.0091 39.3278C21.8038 40.4772 17.3311 40.1454 13.3414 38.3881L11.729 42.0487ZM27.0636 43.1863C32.1543 41.795 36.6117 38.6954 39.688 34.4074L36.4379 32.0757C33.8966 35.6179 30.2144 38.1785 26.0091 39.3278L27.0636 43.1863ZM39.688 34.4074C42.7644 30.1194 44.2725 24.9039 43.9595 19.6358L39.9665 19.8731C40.2251 24.225 38.9793 28.5334 36.4379 32.0757L39.688 34.4074ZM43.9595 19.6358C43.6465 14.3677 41.5314 9.36753 37.9689 5.474L35.0178 8.17418C37.9607 11.3906 39.708 15.5212 39.9665 19.8731L43.9595 19.6358Z"
-  // )
+  // pixiChild.drawRect(0, 0, 44, 22);
   // pixiChild.endFill();
   // container.addChild(pixiChild);
 
-  container.scale.set(scaleWidth);
+  container.scale.set(scaleWidth / devicePixelRatio);
   return container;
+};
+
+const getScaleWidth = ({ scaleWidth, devicePixelRatio }, { maxWidth, width, minWidth }) => {
+  let scale = 1;
+  if (minWidth && (scaleWidth / devicePixelRatio) * width < minWidth) {
+    scale = minWidth / width;
+  } else if (maxWidth && (scaleWidth / devicePixelRatio) * width > maxWidth) {
+    scale = maxWidth / width;
+  }
+  return scale;
 };
 
 const renderChild = async (
@@ -65,7 +81,7 @@ const renderChild = async (
   path = [],
   setFigmaJson,
   app,
-  { scaleHeight, scaleWidth },
+  scaleInfo,
   rest
 ) => {
   if (!child) return;
@@ -77,8 +93,8 @@ const renderChild = async (
     const childVariableNames = childVariables.map(i => i.variableName);
     parentVariables.forEach(variable => {
       if (childVariableNames.includes(variable.name)) {
-        const value = variable.value || variable.default || variable.defaultValue;
-        const defaultValue = variable.default || variable.defaultValue;
+        const value = variable.value ?? variable.default ?? variable.defaultValue;
+        const defaultValue = variable.default ?? variable.defaultValue;
         const childVariable = childVariables.find(i => i.variableName === variable.name);
 
         switch (childVariable.property) {
@@ -107,7 +123,7 @@ const renderChild = async (
 
             break;
           case 'visible':
-            set(child, childVariable.property, value >= 0);
+            set(child, childVariable.property, value > 0);
             break;
           default:
             set(child, childVariable.property, value);
@@ -171,6 +187,8 @@ const renderChild = async (
     case 'LINE':
     case 'INSTANCE':
     case 'ELLIPSE':
+    case 'UNION':
+    case 'BOOLEAN_OPERATION':
       pixiObject = await renderPolygon(child, screenWidth, screenHeight, originalJson, path, setFigmaJson, app, rest);
       break;
     case 'TEXT':
@@ -199,10 +217,7 @@ const renderChild = async (
         [...path, 'children', idx],
         setFigmaJson,
         app,
-        {
-          scaleHeight,
-          scaleWidth
-        },
+        scaleInfo,
         rest
       );
     });
@@ -215,6 +230,21 @@ const renderCanvas = child => {
   return pixiObject;
 };
 
+const getTextAlignHorizontal = textAlignHorizontal => {
+  switch (textAlignHorizontal) {
+    case 'LEFT':
+      return 'left';
+    case 'RIGHT':
+      return 'right';
+    case 'CENTER':
+      return 'center';
+    case 'JUSTIFIED':
+      return 'justify';
+    default:
+      return 'left';
+  }
+};
+
 const renderText = async (child, screenWidth, screenHeight, originalJson, path, setFigmaJson, app, rest) => {
   if (!child.visible) return;
   const fontNameObj = child.fontName || {};
@@ -222,11 +252,11 @@ const renderText = async (child, screenWidth, screenHeight, originalJson, path, 
   const fontStyle = fontNameObj.style || 'normal'; // Default to 'normal' if fontStyle is not provided
   const fontSize = child.fontSize || 12; // Default to 12 if fontSize is not provided
   const fontWeight = child.fontWeight || '500'; // Default to 'normal' if fontWeight is not provided
-  const textAlignHorizontal = child.textAlignHorizontal || 'left'; // Default to 'left' if textAlignHorizontal is not provided
+  const textAlignHorizontal = getTextAlignHorizontal(child.textAlignHorizontal); // Default to 'left' if textAlignHorizontal is not provided
   const textDecoration = child.textDecoration || 'none'; // Default to 'none' if textDecoration is not provided
 
   const lineHeightObj = child.lineHeight || {};
-  let lineHeightValue = lineHeightObj.value || fontSize * 1.2; // Default to 1.2 times the fontSize if lineHeightValue is not provided
+  let lineHeightValue = lineHeightObj.value || fontSize; // Default to 1.2 times the fontSize if lineHeightValue is not provided
   if (lineHeightObj.unit === 'PERCENT') {
     lineHeightValue = (lineHeightValue / 100) * fontSize;
   }
@@ -250,6 +280,7 @@ const renderText = async (child, screenWidth, screenHeight, originalJson, path, 
   // }
   // wrapperPixiObject.width = child.absoluteBoundingBox.width;
   // wrapperPixiObject.height = child.absoluteBoundingBox.height;
+  const fillColor = child?.fills?.length > 0 && child.fills[0].visible && child.fills[0].color;
 
   const style = new PIXI.TextStyle({
     fontFamily: fontFamily,
@@ -261,13 +292,27 @@ const renderText = async (child, screenWidth, screenHeight, originalJson, path, 
     wordWrap: true,
     wordWrapWidth: child?.absoluteBoundingBox?.width,
     lineHeight: lineHeightValue,
-    letterSpacing: letterSpacingValue
+    letterSpacing: letterSpacingValue,
+    fill: fillColor,
+    trim: child.textAlignVertical === 'CENTER'
   });
 
-  const pixiObject = new PIXI.Text(child.characters, style);
+  const pixiObject = new PIXI.Text();
+  pixiObject.resolution = 2;
+  pixiObject.text = child?.characters;
+  pixiObject.style = style;
   pixiObject.zIndex = child.zIndex;
+  if (textAlignHorizontal === 'center') {
+    pixiObject.pivot.x = pixiObject.width / 2;
+    // pixiObject.pivot.y = pixiObject.height/2;
+    pixiObject.x = child.absoluteBoundingBox.width / 2;
+    // pixiObject.y = child.absoluteBoundingBox.height/2;
+  }
+  if (child.textAlignVertical === 'CENTER') {
+    pixiObject.pivot.y = pixiObject.height / 2;
+    pixiObject.y = child.absoluteBoundingBox.height / 2;
+  }
   wrapperPixiObject.addChild(pixiObject);
-
   return wrapperPixiObject;
 };
 
@@ -370,22 +415,27 @@ const renderPolygon = async (child, screenWidth, screenHeight, originalJson, pat
 
   let pixiObject = new PIXI.Graphics();
 
-  if (child.dropConfig && child.dropConfig.droppable) {
+  // add drag controllers
+  let dropConfig = child.dropConfig && child.dropConfig;
+  if (child.modifiers?.length) {
+    dropConfig = get(
+      child.modifiers.filter(i => i.type === 'DROPPABLE'),
+      [0]
+    );
+  }
+
+  if (dropConfig) {
     pixiObject.lineStyle(1, 0x808080, 1, 0.5, true);
   }
 
-  pixiObject.name = child.id;
-  pixiObject.matterHeight = child.absoluteBoundingBox.height;
-  pixiObject.mattterWidth = child.absoluteBoundingBox.width;
   pixiObject.zIndex = child.zIndex;
   // if (child.clipsContent) {
-  //   let mask = new PIXI.Graphics();
-  //   mask.name = child.id;
-  //   mask.beginFill(0x000000);
-  //   mask = drawShape(child, mask);
-  //   mask.endFill();
-  //   pixiObject.addChild(mask);
-  //   pixiObject.mask = mask;
+  // 	let mask = new PIXI.Graphics();
+  // 	mask.beginFill(0x000000);
+  // 	mask = drawShape(child, mask);
+  // 	mask.endFill();
+  // 	pixiObject.addChild(mask);
+  // 	pixiObject.mask = mask;
   // }
 
   let fillColor =
@@ -396,10 +446,11 @@ const renderPolygon = async (child, screenWidth, screenHeight, originalJson, pat
 
   const fillOpacity = child?.fills?.length > 0 && child.fills[0].opacity;
 
-  fillColor ? pixiObject.beginFill(fillColor, fillOpacity || 1) : pixiObject.beginFill(0xffffcc, 0);
-  if (child.type !== 'TEXT') {
-    pixiObject = drawShape(child, pixiObject);
+  if (child.type === 'TEXT') {
+    fillColor = null;
   }
+  fillColor ? pixiObject.beginFill(fillColor, fillOpacity || 1) : pixiObject.beginFill(0xffffcc, 0);
+  pixiObject = drawShape(child, pixiObject);
   pixiObject.endFill();
   if (child?.fills?.length > 0 && child.fills.filter(f => f.type === 'IMAGE')?.length > 0) {
     child.fills.forEach(async fill => {
@@ -410,27 +461,27 @@ const renderPolygon = async (child, screenWidth, screenHeight, originalJson, pat
       let imageSprite;
       if (fill.type === 'SOLID') {
         if (fill.visible) pixiChild.beginFill(String(fill?.color).length === 6 ? `0x${fill?.color}` : fill?.color);
-      } else if (fill.type === 'IMAGE') {
+      } else if (fill.type === 'IMAGE' && (fill.gifRef || fill.imageRef)) {
         const gifRef = fill.gifRef;
         const imageUrl = fill.imageRef;
 
+        const cacheAsset = PIXI.Assets.get(imageUrl || gifRef);
         if (gifRef) {
-          imageSprite = await fetch(gifRef)
-            .then(res => {
-              return res.arrayBuffer();
-            })
-            .then(buff => {
-              return AnimatedGIF.fromBuffer(buff);
-            })
-            .then(image => pixiChild.addChild(image));
+          if (cacheAsset) imageSprite = pixiChild.addChild(cacheAsset);
+          else {
+            imageSprite = await PIXI.Assets.load(gifRef).then(image => pixiChild.addChild(image));
+          }
         } else {
-          const imageTexture = PIXI.Texture.from(imageUrl); // Load the texture
+          const imageTexture = cacheAsset || PIXI.Texture.from(imageUrl); // Load the texture
+          // imageTexture.resolution = window.devicePixelRatio;
+
           imageSprite = new PIXI.Sprite(imageTexture);
         }
+        // imageSprite.roundPixels = true;
 
         imageSprite.blendMode = PIXI.BLEND_MODES.NORMAL; // Adjust blend mode if needed
         const rotation = fill.rotation;
-        imageSprite.backgroundColor = 0x000000;
+        // imageSprite.backgroundColor = 0x000000;
         imageSprite.rotation = ((fill.rotation || 0) * Math.PI) / 180;
         imageSprite.anchor.set(0.5, 0.5);
 
@@ -622,23 +673,25 @@ const renderPolygon = async (child, screenWidth, screenHeight, originalJson, pat
     let filters = [];
     child.effects.forEach(effect => {
       if (effect.type === 'DROP_SHADOW') {
+        const color = parseColor(effect.color);
         const filter = new DropShadowFilter({
           alpha: effect.visible ? effect.color.a : 0,
           distance: Math.sqrt(effect.offset.x ** 2 + effect.offset.y ** 2),
           blur: effect.radius / 5,
-          color: 0x000000,
+          color: color,
           offset: effect.offset,
           spread: effect.radius,
-          quality: 4
+          quality: 4,
+          resolution: 4
         });
         // filter.padding = 100;
         // pixiObject.filterArea = null;
 
-        if (child.id === '137:97') {
-          // pixiObject.beginFill(0x0000ff);
-          // pixiObject.drawRect(0, 0, child.absoluteBoundingBox.width, child.absoluteBoundingBox.height);
-          // pixiObject.endFill();
-        }
+        // if (child.id === '137:97') {
+        //   pixiObject.beginFill(0x0000ff);
+        //   pixiObject.drawRect(0, 0, child.absoluteBoundingBox.width, child.absoluteBoundingBox.height);
+        //   pixiObject.endFill();
+        // }
 
         filters.push(filter);
       }
@@ -649,131 +702,13 @@ const renderPolygon = async (child, screenWidth, screenHeight, originalJson, pat
 
   // add events -> part 1
   const interactions = child.interactions;
-  const dragEvents = ['ON_DRAG'];
+  const dragEvents = ['ON_DRAG', 'ON_DRAG_START'];
   const nonDragInteractions = interactions?.filter(i => dragEvents.indexOf(i.event) === -1);
   const dragInteractions = interactions?.filter(i => dragEvents.indexOf(i.event) !== -1);
-  function effectComputeFunction(type, args) {
-    switch (type) {
-      case 'increment':
-        return (get(originalJson, ['variables', args.variable_1]) || 0) + 1;
-      case 'decrement':
-        return (get(originalJson, ['variables', args.variable_1]) || 0) - 1;
-      default:
-    }
-  }
-
-  function executeComputeFunction(effect) {
-    const computeFunctionIndex = originalJson.computeFunctions?.findIndex(
-      i => i.name === effect.config?.computeFunction?.type
-    );
-    const computeFunction = get(originalJson.computeFunctions, computeFunctionIndex);
-    const valueObj = {};
-    Object.keys(effect.config.computeFunction.params).forEach(key => {
-      const variableName = effect.config.computeFunction.params[key];
-      const varIndex = originalJson.variables?.findIndex(i => i.name === variableName);
-      if (varIndex === -1) return;
-      const currentVal = get(originalJson, ['variables', varIndex, 'value']);
-      const defaultVal = get(originalJson, ['variables', varIndex, 'default']);
-      valueObj[key] = currentVal ?? defaultVal;
-    });
-    let mathEval = computeFunction.output;
-    computeFunction.params.forEach(p => {
-      mathEval = mathEval.replace(new RegExp(p, 'g'), valueObj[p]);
-    });
-    const newVal = math.evaluate(mathEval);
-
-    const varIndex = originalJson.variables?.findIndex(i => i.name === effect.config?.variableName);
-    const currentVal = get(originalJson, ['variables', varIndex, 'value']);
-    const defaultVal = get(originalJson, ['variables', varIndex, 'default']);
-
-    if ((currentVal ?? defaultVal) === newVal) return;
-    set(originalJson, ['variables', varIndex, 'value'], newVal);
-  }
 
   if (nonDragInteractions?.length) {
-    nonDragInteractions.forEach(i => {
-      switch (i.event) {
-        case 'ON_CLICK':
-          pixiObject.eventMode = 'static';
-          pixiObject.cursor = 'pointer';
-
-          pixiObject.on('mousedown', function (e) {
-            i.effects.forEach(effect => {
-              switch (effect.type) {
-                case 'UPDATE_VARIABLE':
-                  if (effect.valueType === 'constant') {
-                    set(originalJson, effect.variable, effect.constant);
-                    break;
-                  }
-
-                  executeComputeFunction(effect);
-                  break;
-
-                case 'updateLoon':
-                  if (effect.action === 'next') {
-                    const index = get(originalJson, effect.path)?.findIndex(
-                      i => i.properties?.type === effect.itemType && !i.visible
-                    );
-
-                    if (index !== -1) set(originalJson, [...effect.path, index, 'visible'], true);
-                    break;
-                  }
-
-                  const arr = get(originalJson, effect.path);
-                  const index =
-                    arr.length - 1 - [...arr].reverse()?.findIndex(i => i.properties?.type === effect.itemType && i.visible);
-
-                  if (index !== -1) set(originalJson, [...effect.path, index, 'visible'], false);
-                  break;
-
-                case 'updateVariant':
-                  const updateBy = effect.action == 'next' ? 1 : -1;
-                  const newPath = [...path];
-                  newPath.pop();
-                  newPath.pop();
-                  if (get(originalJson, [...newPath, 'defaultChildren'])) {
-                    // set current variant value
-                    const newCurrentVariant = get(originalJson, ['currentVariant', newPath.join('.')]) + updateBy;
-                    set(
-                      originalJson,
-                      ['currentVariant', newPath.join('.')],
-                      newCurrentVariant === -1 ? null : newCurrentVariant
-                    );
-
-                    // set new variant value
-                    set(
-                      originalJson,
-                      [...newPath, 'children'],
-                      newCurrentVariant === -1
-                        ? get(originalJson, [...newPath, 'defaultChildren'])
-                        : get(originalJson, [...newPath, 'variants', newCurrentVariant])
-                    );
-
-                    if (newCurrentVariant === -1) set(originalJson, [...newPath, 'defaultChildren'], null);
-                    break;
-                  }
-
-                  // set default children
-                  set(originalJson, [...newPath, 'defaultChildren'], get(originalJson, [...newPath, 'children']));
-                  // set current variant value
-                  set(originalJson, ['currentVariant', newPath.join('.')], 0);
-                  // set new variant value
-                  set(originalJson, [...newPath, 'children'], get(originalJson, [...newPath, 'variants', 0]));
-                  break;
-
-                case 'TOGGLE_ANIMATION':
-                  setAnimationType(effect.config.animation);
-                  break;
-                default:
-              }
-            });
-
-            if (!i?.effects?.filter(i => i.type === 'toggleAnimation')?.length) setFigmaJson(originalJson);
-          });
-
-          break;
-        default:
-      }
+    nonDragInteractions.forEach(interaction => {
+      attachInteraction({ interaction, pixiObject, originalJson, setAnimationType, setFigmaJson, path, dragTarget });
     });
   }
 
@@ -795,10 +730,14 @@ const renderPolygon = async (child, screenWidth, screenHeight, originalJson, pat
 
     // parse events
     let onDrag = null;
+    let onDragBegin = null;
     for (const dragInteraction of dragInteractions || []) {
       switch (dragInteraction.event) {
         case 'ON_DRAG':
           onDrag = dragInteraction;
+          break;
+        case 'ON_DRAG_START':
+          onDragBegin = dragInteraction;
           break;
         default:
       }
@@ -831,58 +770,43 @@ const renderPolygon = async (child, screenWidth, screenHeight, originalJson, pat
         dragTarget.y = child.relativeTransform.y;
 
         if (dropAreaIndex !== -1) {
-          // hide original child
-          set(originalJson, [...path, 'visible'], false);
-          // show original child in dropped area
-          const hiddenItemIndex = get(originalJson, [...get(dropAreas, [dropAreaIndex, 'path']), 'children']).findIndex(
-            i => !i.visible && child.properties === i.properties
-          );
-          set(originalJson, [...get(dropAreas, [dropAreaIndex, 'path']), 'children', hiddenItemIndex, 'visible'], true);
-          // update canvas
-          setFigmaJson(originalJson);
+          const onDrop = get(dropAreas, [dropAreaIndex, 'onDrop']);
+          if (onDrop) {
+            attachInteraction({
+              interaction: onDrop,
+              pixiObject,
+              originalJson,
+              setAnimationType,
+              setFigmaJson,
+              path,
+              dragTarget,
+              dropTargetPath: get(dropAreas, [dropAreaIndex, 'path'])
+            });
+          }
         }
       }
 
       // add events -> part 2
       if (onDrag) {
-        onDrag.effects?.forEach(effect => {
-          switch (effect.type) {
-            case 'UPDATE_VARIABLE':
-              const varIndex = originalJson.variables?.findIndex(i => i.name === effect.config?.variableName);
-              if (varIndex === -1) break;
-              const currentVal = get(originalJson, ['variables', varIndex, 'value']);
-              const defaultVal = get(originalJson, ['variables', varIndex, 'default']);
-              let newVal = null;
-
-              switch (effect.valueType) {
-                case 'LAYER_PROPERTY':
-                  newVal = get(dragTarget, [effect.config?.value]);
-                  if ((currentVal || defaultVal) === newVal) break;
-                  set(originalJson, ['variables', varIndex, 'value'], newVal);
-                  ['absoluteBoundingBox', 'absoluteRenderBounds', 'position', 'relativeTransform'].forEach(i => {
-                    set(originalJson, [...path, i, effect.config?.value], newVal);
-                  });
-                  setFigmaJson(originalJson);
-                  break;
-
-                case 'COMPUTE_FUNCTION':
-                  executeComputeFunction(effect);
-                  break;
-                default:
-              }
-
-              break;
-            default:
-          }
+        attachInteraction({
+          interaction: onDrag,
+          pixiObject,
+          originalJson,
+          setAnimationType,
+          setFigmaJson,
+          path,
+          dragTarget
         });
       }
 
       // end
       app.stage.off('pointermove', onDragMove);
-      dragTarget.alpha = 1;
-      if (!dragConfig.axis) dragTarget.pivot.set(0);
-      dragTarget = null;
-      dragData = null;
+      if (dragTarget) {
+        dragTarget.alpha = 1;
+        if (!dragConfig.axis) dragTarget.pivot.set(0);
+        dragTarget = null;
+        dragData = null;
+      }
     }
 
     function onDragMove(event) {
@@ -937,6 +861,18 @@ const renderPolygon = async (child, screenWidth, screenHeight, originalJson, pat
       dragTarget = this;
       dragData = child;
       app.stage.on('pointermove', onDragMove);
+
+      if (onDragBegin) {
+        attachInteraction({
+          interaction: onDragBegin,
+          pixiObject,
+          originalJson,
+          setAnimationType,
+          setFigmaJson,
+          path,
+          dragTarget
+        });
+      }
     }
 
     pixiObject.on('pointerdown', onDragStart, pixiObject);
@@ -944,19 +880,26 @@ const renderPolygon = async (child, screenWidth, screenHeight, originalJson, pat
     pixiObject.on('pointerupoutside', onDragEnd);
   }
 
-  if (child.dropConfig && child.dropConfig.droppable) {
-    dropAreas.push({ area: pixiObject, width: pixiObject.getBounds().width, height: pixiObject.getBounds().height, path });
+  if (dropConfig && dropAreas?.find(({ id }) => child.id === id) == null) {
+    dropAreas.push({
+      id: child.id,
+      area: pixiObject,
+      ...pixiObject.getBounds(),
+      path,
+      onDrop: (interactions || []).find(interaction => interaction.event === 'ON_DROP')
+    });
   }
 
   return pixiObject;
 };
 
 const drawShape = (child, pixiObject) => {
-  if (child.fillGeometry?.length > 0) {
-    fillSVGPath(pixiObject, child.fillGeometry[0].data);
+  if (child.type === 'GROUP' || child.type === 'TEXT') {
+    pixiObject.drawRect(0, 0, child.size.width, child.size.height);
+    child.type === 'TEXT' && pixiObject.position.set(child.position.x, child.position.y);
   }
-  if (child.type === 'GROUP') {
-    pixiObject.drawRect(child.relativeTransform.x, child.relativeTransform.y, child.size.width, child.size.height);
+  if (child.fillGeometry?.length > 0 && child.type !== 'TEXT') {
+    fillSVGPath(pixiObject, child.fillGeometry[0].data);
   }
 
   if (child.strokes?.length > 0) {

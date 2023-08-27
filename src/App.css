@@ -1,4 +1,4 @@
-.App {
+/* .App {
   text-align: center;
 }
 
@@ -35,4 +35,35 @@
   to {
     transform: rotate(360deg);
   }
+} */
+
+#figma-canvas-container {
+	max-height: 100vh !important;
+	overflow: auto;
+}
+
+#figma-canvas-container canvas {
+	width: 400px !important;
+}
+
+#figma-canvas-container::-webkit-scrollbar {
+	width: 6px;
+	height: 6px;
+}
+
+#figma-canvas-container::-webkit-scrollbar-track {
+	border-radius: 10px;
+	background: rgba(0, 0, 0, 0.1);
+}
+#figma-canvas-container::-webkit-scrollbar-thumb {
+	border-radius: 10px;
+	background: rgba(0, 0, 0, 0.2);
+}
+
+#figma-canvas-container::-webkit-scrollbar-thumb:hover {
+	background: rgba(0, 0, 0, 0.4);
+}
+
+#figma-canvas-container::-webkit-scrollbar-thumb:active {
+	background: rgba(0, 0, 0, 0.9);
 }

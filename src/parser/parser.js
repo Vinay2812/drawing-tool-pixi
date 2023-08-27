@@ -13,31 +13,7 @@ import {
 import rectangleKeys from '../keys/rectangle';
 import textKeys from '../keys/text';
 
-const getImageHashes = obj => {
-  let hashes = [];
-
-  if (Array.isArray(obj)) {
-    obj.forEach(item => {
-      hashes = hashes.concat(getImageHashes(item));
-    });
-  } else if (obj && typeof obj === 'object') {
-    if (obj.imageRef) {
-      const imageRef = obj.imageRef;
-      if (imageRef) {
-        const imageHash = imageRef.split('/').pop();
-        hashes.push(imageHash);
-      }
-    }
-    for (const key in obj) {
-      hashes = hashes.concat(getImageHashes(obj[key]));
-    }
-  }
-
-  return hashes;
-};
-
 export const parseFigmaJson = figmaJson => {
-  const imageHashes = getImageHashes(figmaJson);
   const children = [figmaJson];
   const { minX, minY } = calculateMinXY(children);
   const parsedChildren = children.map(child => {
@@ -110,6 +86,8 @@ const parseChild = (child, level, minX, minY, parentObject = null) => {
     case 'LINE':
     case 'INSTANCE':
     case 'ELLIPSE':
+    case 'BOOLEAN_OPERATION':
+    case 'UNION':
       return parsePolygon(child, level, pixiObject, minX, minY, parentObject);
     case 'TEXT':
       return parseText(child, level, pixiObject);
