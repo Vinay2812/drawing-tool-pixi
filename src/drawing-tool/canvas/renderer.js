@@ -1,8 +1,7 @@
 import { SmoothGraphics } from "@pixi/graphics-smooth"
-import { getPixiViewport } from "./setup"
 import * as PIXI from "pixi.js"
 import { tools } from "../tools"
-import { renderAngleBetweenLines, renderPoint } from "../tools/line"
+import { renderAngleBetweenLines } from "../tools/line"
 import { findPointAtDistance, getPointerPosition, isPointerNearEdges, isPointerOutside } from "../tools/utils/calculations"
 import { delay } from "../tools/utils/helpers"
 import { renderSvg } from "../toolbox/renderer"
@@ -23,12 +22,6 @@ export function renderCanvasGrid({ viewport, gridGraphics, config }) {
 
     const endX = viewport.x + viewport.worldWidth / 2;
     const endY = viewport.y + viewport.worldHeight / 2;
-
-    // const startX = x - canvasWidth;
-    // const startY = y - canvasHeight;
-
-    // const endX = x + canvasWidth
-    // const endY = y + canvasHeight
 
     // Render vertical grid lines
     for (let x = startX; x < endX; x += effectiveGridSize) {
@@ -60,6 +53,7 @@ export function renderCanvasGrid({ viewport, gridGraphics, config }) {
             gridGraphics.lineTo(endX, y)
         }
     }
+
     // const initialX = startX + effectiveGridSize
     // const initialY = startY + effectiveGridSize
     // const line = {
@@ -81,96 +75,32 @@ export function renderCanvasGrid({ viewport, gridGraphics, config }) {
     // }
 }
 
-// export function renderCanvasGrid({ viewport, gridGraphics, config, canvasWidth, canvasHeight }) {
-//     if (!viewport) return;
-
-//     gridGraphics.clear();
-//     const gridSize = config.gridSize;
-//     const gridColor = "black"; // Grid line color
-//     const gridAlpha = 0.8; // Grid line opacity
-
-//     // Calculate the effective grid size in screen space
-//     const effectiveGridSize = gridSize * viewport.scale.x;
-
-//     // Calculate the visible area of the viewport
-//     const visibleArea = viewport.getVisibleBounds();
-
-//     // Calculate the range of visible grid lines based on the visible area
-//     const startX = Math.floor(visibleArea.left / effectiveGridSize) * effectiveGridSize;
-//     const startY = Math.floor(visibleArea.top / effectiveGridSize) * effectiveGridSize;
-//     const endX = Math.floor(visibleArea.right / effectiveGridSize) * effectiveGridSize;
-//     const endY = Math.floor(visibleArea.bottom / effectiveGridSize) * effectiveGridSize;
-
-//     // Render vertical grid lines
-//     for (let x = startX; x <= endX; x += effectiveGridSize) {
-//         gridGraphics.lineStyle(1, gridColor, gridAlpha);
-//         gridGraphics.moveTo(x, startY);
-//         gridGraphics.lineTo(x, endY);
-//     }
-
-//     // Render horizontal grid lines
-//     for (let y = startY; y <= endY; y += effectiveGridSize) {
-//         gridGraphics.lineStyle(1, gridColor, gridAlpha);
-//         gridGraphics.moveTo(startX, y);
-//         gridGraphics.lineTo(endX, y);
-//     }
-
-//     // ... Render subgrid lines and additional logic if needed ...
-// }
-
-const startPoint = {
-    current: null
-}
-const setStartPoint = (point) => {
-    startPoint.current = point
-};
-
-const isDrawing = {
-    current: false
-}
-
-const selectedPoint = {
-    current: null
-}
-const setSelectedPoint = (point) => (selectedPoint.current = point);
-
-const pencilPointsRef = {
-    current: []
-}
-const gridGraphics = new SmoothGraphics();
-const viewportContainer = new PIXI.Container();
-const outline = new SmoothGraphics();
-let zoomBtnsContainer = new PIXI.Container();
-
 export const renderCanvas = ({
     canvasWidth,
     canvasHeight,
     canvasMargin,
+    canvasContainer,
     app,
     drawingItems,
     setDrawingItems,
     graphicsStoreRef,
     pointNumberRef,
-    viewportRef,
     canvasConfig,
     activeTool,
-    canvasContainer,
     defaultDrawingItems,
-    toolboxHeight,
+    viewport,
+    setStartPoint,
+    setSelectedPoint,
+    setIsDrawing,
+    pencilPointsRef,
+    viewportContainer,
+    outline,
+    gridGraphics,
+    startPoint,
+    selectedPoint,
+    isDrawing,
+    zoomBtnsContainer
 }) => {
-    const viewport = getPixiViewport(app.renderer.events, canvasWidth, canvasHeight, viewportContainer)
-    const setIsDrawing = (val) => {
-        isDrawing.current = val;
-        if (viewportContainer && zoomBtnsContainer) {
-            if (val === true) {
-                viewportContainer.removeChild(zoomBtnsContainer)
-            }
-            else {
-                viewportContainer.addChild(zoomBtnsContainer)
-            }
-        }
-    };
-    // viewportContainer.mask = null;
     outline.clear();
     outline.lineStyle(1, "black");
     outline.drawRect(0, 0, canvasWidth, canvasHeight);
@@ -190,10 +120,15 @@ export const renderCanvas = ({
     viewport.addChild(debugGraphics);
 
     const canvasGridProps = { viewport, gridGraphics, config: canvasConfig, canvasWidth, canvasHeight }
-    viewport.on("moved", () => {
+    viewport.on("moved", (e) => {
         gridGraphics.clear();
         renderCanvasGrid(canvasGridProps);
     });
+
+    viewport.on("zoomed", () => {
+        gridGraphics.clear();
+        renderCanvasGrid(canvasGridProps);
+    })
 
     renderCanvasGrid(canvasGridProps)
     renderDrawingItems(defaultDrawingItems, false);
@@ -221,7 +156,6 @@ export const renderCanvas = ({
             }, {}),
             canvasConfig,
             drawingItems,
-            canvasContainer
         };
     }
 
@@ -239,7 +173,6 @@ export const renderCanvas = ({
             const endPoint = getPointerPosition(
                 e,
                 viewport,
-                canvasContainer,
             );
             const start = startPoint.current;
             const line = {
@@ -265,13 +198,7 @@ export const renderCanvas = ({
             // Update the viewport's center position
             viewport.moveCenter(newCenter.x, newCenter.y);
             gridGraphics.clear();
-            renderCanvasGrid({
-                viewport,
-                gridGraphics,
-                config: canvasConfig,
-                canvasWidth,
-                canvasHeight,
-            });
+            renderCanvasGrid(canvasGridProps);
 
             // Wait for a short delay
             await delay(1);
@@ -306,34 +233,22 @@ export const renderCanvas = ({
     }
 
     function handleOnDown(e) {
-        // const rec = canvasContainer.getBoundingClientRect();
-        // console.log(e)
-        // // const p = new PIXI.Point(e.clientX - rec.x + canvasContainer.scrollLeft, e.clientY - rec.y + canvasContainer.scrollTop);
-        // // const point = viewport.toWorld(p);
-        // // renderPoint(debugGraphics, point, 5, "green")
-        // // renderPoint(debugGraphics, p, 5, "red")
-        // // const {x, y} = viewportContainer.getBounds()
-        // const p = new PIXI.Point(e.global.x - rec.left, e.global.x - rec.top);
-        // const point = viewport.toGlobal(p);
-        // console.log("pointe", e.global.x, e.global.y, p.x, p.y, point.x, point.y)
-        // renderPoint(debugGraphics, point, 5, "green")
-        // renderPoint(debugGraphics, p, 5, "red")
+        app.renderer.view.style.touchAction = "none";
         const props = getProps();
         return tools[activeTool].events.onDown(e, props);
     }
 
     function handleOnUp(e) {
+
         const props = getProps();
         tools[activeTool].events.onUp(e, props);
+        app.renderer.view.style.touchAction = "auto";
     }
 
-
-    viewport.addEventListener("pointermove", handleOnMove);
-    viewport.addEventListener("pointerdown", handleOnDown);
-    viewport.addEventListener("pointerup", handleOnUp);
-    viewport.addEventListener("pointerout", handleOnUp);
-
-
+    viewport.onpointerdown = handleOnDown
+    viewport.onpointerup = handleOnUp
+    viewport.onpointermove = handleOnMove
+    viewport.onpointerout = handleOnUp
 
     function renderDrawingItems(drawingItems, editable = true) {
         drawingItems.forEach((item) => {
@@ -360,9 +275,10 @@ export const renderCanvas = ({
 
 
     zoomBtnsContainer.removeChildren()
-    zoomBtnsContainer = renderZoomButtons(viewport)
+    zoomBtnsContainer = renderZoomButtons(viewport, canvasGridProps, gridGraphics)
     zoomBtnsContainer.x = canvasWidth - 60
     zoomBtnsContainer.y = canvasMargin
+    zoomBtnsContainer.interactive = true
 
     const mask = new PIXI.Graphics();
     mask.beginFill(0xffffff);
@@ -374,14 +290,11 @@ export const renderCanvas = ({
     viewportContainer.addChild(mask);
     viewportContainer.mask = mask
     viewportContainer.addChild(zoomBtnsContainer)
-    viewportRef.current = viewport;
 
     return viewportContainer
 }
 
-export function renderZoomButtons(viewport) {
-    const maxZoomPercent = 4;
-    const minZoomPercent = 0.5;
+export function renderZoomButtons(viewport, canvasGridProps, gridGraphics) {
 
     const zoomInSvg = <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -439,19 +352,15 @@ export function renderZoomButtons(viewport) {
 
 
     zoomInButton.onpointerdown = () => {
-        const newScale = Math.min(
-            viewport.scale.x * 1.2,
-            maxZoomPercent,
-        );
-        viewport.setZoom(newScale);
+        viewport.setZoom(viewport.scale.x * 1.2);
+        gridGraphics.clear();
+        renderCanvasGrid(canvasGridProps);
     }
 
     zoomOutButton.onpointerdown = () => {
-        const newScale = Math.max(
-            viewport.scale.x / 1.2,
-            minZoomPercent,
-        );
-        viewport.setZoom(newScale);
+        viewport.setZoom(viewport.scale.x / 1.2);
+        gridGraphics.clear();
+        renderCanvasGrid(canvasGridProps);
     }
 
     zoomInButton.interactive = true
@@ -470,6 +379,6 @@ export function renderZoomButtons(viewport) {
     zoomContainer.addChild(zoomInButton)
     zoomContainer.addChild(zoomOutButton)
     zoomContainer.zIndex = 10
-    zoomBtnsContainer.interactive = true
+    // zoomBtnsContainer.interactive = true
     return zoomContainer
 }

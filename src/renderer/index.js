@@ -22,11 +22,13 @@ export const renderFigmaJson = (figmaJson, elementId) => {
 
     // Create a PIXI Application
     const app = new PIXI.Application({
-      //   antialias: true,
-      resolution: devicePixelRatio,
+      resolution: window.devicePixelRatio ?? 1,
       background: `#${parsedJson?.children[0]?.fills[0].color || "ffffff"}`,
+      // autoDensity: true,
+      antialias: true,
     });
-
+    app.renderer.events.autoPreventDefault = false;
+    app.renderer.view.style.touchAction = "auto";
     const container = renderFigmaFromParsedJson(parsedJson.children, {
       scaleHeight,
       scaleWidth,
@@ -34,9 +36,7 @@ export const renderFigmaJson = (figmaJson, elementId) => {
       app,
       canvasContainerId: elementId,
     });
-    // app.renderer.events.e
-    app.renderer.plugins.interaction.autoPreventDefault = false;
-    app.renderer.view.style.touchAction = "auto";
+    container.interactive = true;
 
     // Append the PIXI view to the specified HTML element
     document.getElementById(elementId).appendChild(app.view);

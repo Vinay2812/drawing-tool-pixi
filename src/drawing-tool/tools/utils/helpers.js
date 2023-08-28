@@ -2,12 +2,12 @@ export function resetGraphics(
     graphicsStoreRef,
     pointNumberRef,
     // appRef: React.MutableRefObject<PIXI.Application<HTMLCanvasElement> | null>,
-    viewportRef
+    viewport
 ) {
-    if (!viewportRef.current) return
+    if (!viewport) return
     Object.keys(graphicsStoreRef.current).forEach(key => {
         graphicsStoreRef.current[key].forEach(g => {
-            viewportRef.current.removeChild(g)
+            viewport.removeChild(g)
         })
     })
     pointNumberRef.current = 0

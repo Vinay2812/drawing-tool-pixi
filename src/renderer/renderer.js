@@ -8,7 +8,7 @@ import "@pixi/graphics-extras";
 import { drawSVGPath, fillSVGPath, parseColor } from "../utils/layout";
 import TextInput from "./PIXI.TextInput";
 import { debounce } from "lodash";
-import { renderDrawingTool } from "../drawing-tool/renderer";
+import { DrawingTool } from "../drawing-tool";
 
 export const renderFigmaFromParsedJson = (
   children,
@@ -18,28 +18,29 @@ export const renderFigmaFromParsedJson = (
   container.sortableChildren = true;
   const screenWidth = children[0].absoluteBoundingBox.width;
   const screenHeight = children[0].absoluteBoundingBox.height;
-  // children.forEach((child) => {
-  //   renderChild(child, container, screenWidth, screenHeight, appEvents, canvasContainerId, {
-  //     scaleHeight,
-  //     scaleWidth,
-  //     devicePixelRatio,
-  //   });
-  // });
-  const child = {
-    modifiers: ["DRAWING_TOOL"],
-    canvasWidth: screenWidth,
-    canvasHeight: screenHeight,
-    gridSize: 50,
-    showSubGrid: true,
-    unit: "m",
-    hiddenTools: ["circle"],
-    defaultDrawingItems: [],
-  }
-  renderChild(child, container, screenWidth, screenHeight, {
-    scaleHeight,
-    scaleWidth,
-    devicePixelRatio,
-  }, app, canvasContainerId);
+  children.forEach((child) => {
+    renderChild(child, container, screenWidth, screenHeight, {
+      scaleHeight,
+      scaleWidth,
+      devicePixelRatio,
+    }, app, canvasContainerId);
+  });
+  // const child = {
+  //   modifiers: ["DRAWING_TOOL"],
+  //   canvasWidth: screenWidth,
+  //   canvasHeight: screenHeight,
+  //   gridSize: 50,
+  //   showSubGrid: true,
+  //   unit: "m",
+  //   hiddenTools: ["circle"],
+  //   defaultDrawingItems: [],
+  // }
+  // renderChild(child, container, screenWidth, screenHeight, {
+  //   scaleHeight,
+  //   scaleWidth,
+  //   devicePixelRatio,
+  // }, app, canvasContainerId);
+
   container.backgroundColor = 0xffffff;
   // const pixiChild = new PIXI.Graphics();
   // // pixiChild.position.set(128, 56);
@@ -115,7 +116,7 @@ const renderChild = async (
       defaultDrawingItems,
       unit,
     } = child;
-    await renderDrawingTool({
+    const drawingTool = new DrawingTool({
       canvasWidth,
       canvasHeight,
       app,
@@ -127,6 +128,7 @@ const renderChild = async (
       defaultDrawingItems,
       unit,
     })
+    drawingTool.render()
   }
   pixiObject?.scale?.set(
     getScaleWidth(scaleInfo, {

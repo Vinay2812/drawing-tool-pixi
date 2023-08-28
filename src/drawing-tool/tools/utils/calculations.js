@@ -224,29 +224,9 @@ export function getLabelPosition(point1, point2, gap = 25) {
     return { x, y }
 }
 
-export function getPointerPosition(event, viewport, canvasContainer) {
-    const containerOffset = canvasContainer.getBoundingClientRect();
-    const containerScrollX = canvasContainer.scrollLeft;
-    const containerScrollY = canvasContainer.scrollTop;
-
-    // Calculate the adjusted pointer position relative to the container's view
-    const pointerX = event.clientX - containerOffset.x + containerScrollX;
-    const pointerY = event.clientY - containerOffset.y + containerScrollY;
-
-    // Get the global position of the pointer within the viewport
-    const globalPos = viewport.toWorld(pointerX, pointerY);
-
+export function getPointerPosition(event, viewport) {
+    const globalPos = viewport.toWorld(event.data.global);
     return globalPos;
-    // const containerRect = canvasContainer.getBoundingClientRect();
-    // const toolBoxHeight = 50;
-    // const viewportX = viewport.center.x;
-    // const viewportY = viewport.center.y;
-    // const relativeX = event.clientX - containerRect.left - viewportX;
-    // const relativeY = event.clientY - containerRect.top - viewportY - toolBoxHeight;
-    // const normalizedX = relativeX / 510;
-    // const normalizedY = relativeY / window.innerHeight/* height of viewportContainer */;
-
-    // return { x: normalizedX, y: normalizedY };
 }
 
 export function getPointsFromLines(lines) {

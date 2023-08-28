@@ -31,11 +31,11 @@ export const onClick = (args) => {
         setUndoItems,
         undoItems,
         graphicsStoreRef,
-        viewportRef,
+        viewport,
         pointNumberRef,
         drawingItems,
     } = args;
-    resetGraphics(graphicsStoreRef, pointNumberRef, viewportRef);
+    resetGraphics(graphicsStoreRef, pointNumberRef, viewport);
     setDrawingItems([...drawingItems, undoItems[undoItems.length - 1]]);
     setUndoItems(undoItems.slice(0, undoItems.length - 1));
 };
