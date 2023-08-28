@@ -1,28 +1,80 @@
 // src/components/FigmaRenderer.js
 
-import React, { useEffect } from "react";
+import * as PIXI from "pixi.js";
+import { parseFigmaJson } from "../parser/parser";
+import set from "lodash/set";
 import PropTypes from "prop-types";
 import { renderFigmaJson } from "../renderer";
-import { useDrawingTools } from "../drawing-tool/state";
+import React, { useEffect, useState } from "react";
+import Matter, { Engine } from "matter-js";
+
+// globalThis.__PIXI_APP__ = app;
+const engine = Engine.create();
 
 const FigmaRenderer = ({ figmaJson }) => {
+  const [figmaJsonState, setFigmaJson] = React.useState(figmaJson);
+  const [isUpdated, setIsUpdated] = React.useState(false);
+  const [clicked, setClicked] = useState("");
+  const [animationType, setAnimationType] = useState(null);
   // Create a unique ID for the container element
   const elementId = "figma-canvas-container";
-  const drawingTools = useDrawingTools();
 
   // const {
   //   activeTool,
   //   drawingItems,
   //   undoItems,
   // } = getDrawingTools();
-  const { activeTool, drawingItems } = drawingTools;
   useEffect(() => {
     // Render the Figma JSON inside the container element
-    renderFigmaJson(figmaJson, elementId, drawingTools, useDrawingTools);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeTool, drawingItems]);
+    renderFigmaJson(
+      { figmaJsonState, figmaJson },
+      elementId,
+      (e) => {
+        set(e, "isParsed", true);
+        setIsUpdated(true);
+        setFigmaJson(e);
+      },
+      isUpdated,
+      setIsUpdated,
+      { clicked, engine, animationType, setAnimationType }
+    );
+  }, [figmaJsonState, isUpdated, clicked, animationType]);
 
-  return <div id={elementId} />;
+  Matter.Runner.run(engine);
+  return (
+    <>
+      <div>
+        <button
+          onClick={() => {
+            setClicked("up");
+          }}
+        >
+          up
+        </button>
+        <button
+          onClick={() => {
+            setClicked("down");
+          }}
+        >
+          down
+        </button>
+      </div>
+      <div
+        style={{
+          position: "relative",
+        }}
+      >
+        <div id={elementId} />
+        <div
+          id={"matterJs"}
+          style={{
+            top: 0,
+            position: "absolute",
+          }}
+        />
+      </div>
+    </>
+  );
 };
 
 FigmaRenderer.propTypes = {

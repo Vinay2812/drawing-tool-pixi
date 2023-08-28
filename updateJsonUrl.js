@@ -1,8 +1,9 @@
 const axios = require("axios");
+// const jsdata = require("./notes/data.json");
 
 // CONSTANTS
 // FIGMA
-const ACCESS_TOKEN = "figd_icnuQc-GqAz-jhQ0YBFus9byzWlroQ5al6FGBBsr";
+const ACCESS_TOKEN = "figd_GeQM0HEJknVWtKjQ_kpK12TgKT2Ouu6B4-7DQ3A7";
 const FILE_KEY = "ixE1TVyHYZObrzeNW1wvrD";
 
 // S3
@@ -14,42 +15,54 @@ const S3_PRESIGN_URL =
 // JSON DATA
 const jsonData = {};
 
-const fetchAssetsUrls = async () => {
-  const response = await fetch(
-    `https://api.figma.com/v1/files/${FILE_KEY}/images`,
-    {
+function getFileExtensionFromContentType(contentType) {
+  const parts = contentType.split("/");
+  if (parts.length === 2) {
+    const extension = parts[1];
+    return extension;
+  } else {
+    return null; // Invalid content type format
+  }
+}
+
+const fetchAssetsUrls = async (figmaFileKey) => {
+  const response = await axios
+    .get(`https://api.figma.com/v1/files/${figmaFileKey}/images`, {
       headers: {
         "X-FIGMA-TOKEN": ACCESS_TOKEN,
+        "Content-Type": "application/json",
       },
-    }
-  );
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 
-  const data = await response.json();
-
-  return data?.meta?.images;
+  return response?.data?.meta?.images;
 };
 
-const getPresignedURL = async (filename) => {
+const getPresignedURL = async (filename, extension) => {
   const bucket_name = BUCKET_NAME;
   const url = S3_PRESIGN_URL;
 
-  const data = {
-    bucket_name: bucket_name,
-    key: FILE_PATH + filename,
-  };
+  const response = await axios
+    .post(
+      url,
+      {
+        bucket_name: bucket_name,
+        key: FILE_PATH + filename + (extension ? `.${extension}` : ""),
+      },
+      {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      }
+    )
+    .catch((err) => {
+      console.log(err);
+    });
 
-  const options = {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  };
-  const response = await fetch(url, options);
-  const resObj = await response.json();
-
-  return resObj;
+  return response?.data;
 };
 
 const CDN_URL = `https://cdn.homeworkapp.ai/${BUCKET_NAME}`;
@@ -77,19 +90,26 @@ const uploadToS3 = async (imageMap) => {
 
         const contentType = response.headers["content-type"];
 
-        const { url, bucket_url } = await getPresignedURL(filename);
+        const fileExtension = getFileExtensionFromContentType(contentType);
+
+        const { url, bucket_url } = await getPresignedURL(
+          filename,
+          fileExtension
+        );
 
         const fileContent = response.data;
 
         const uploadResponse = await axios.put(url, fileContent, {
           headers: {
             "Content-Type": contentType, // Set the content type appropriately
+            maxContentLength: Infinity,
+            maxBodyLength: Infinity,
           },
         });
 
         if (uploadResponse.status === 200) {
           const uploadedImageUrl = replaceUrl(bucket_url);
-          // console.log("File uploaded successfully: ", uploadedImageUrl, i);
+          console.log("File uploaded successfully: ", uploadedImageUrl, i);
           updatedImageMap[element] = {
             type: contentType,
             url: uploadedImageUrl,
@@ -131,8 +151,8 @@ const replaceImageHashes = (obj, imageData) => {
   return obj;
 };
 
-const updateFigmaJson = async () => {
-  const imageMap = await fetchAssetsUrls();
+const updateFigmaJson = async (jsonData, figmaFileKey) => {
+  const imageMap = await fetchAssetsUrls(figmaFileKey);
   const updatedImageMap = await uploadToS3(imageMap);
   console.log("Uploaded Files: ", updatedImageMap);
 
@@ -142,4 +162,4 @@ const updateFigmaJson = async () => {
   return updatedJson;
 };
 
-updateFigmaJson();
+updateFigmaJson(jsonData, FILE_KEY);
