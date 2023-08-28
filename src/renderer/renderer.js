@@ -8,22 +8,38 @@ import "@pixi/graphics-extras";
 import { drawSVGPath, fillSVGPath, parseColor } from "../utils/layout";
 import TextInput from "./PIXI.TextInput";
 import { debounce } from "lodash";
+import { renderDrawingTool } from "../drawing-tool/renderer";
 
 export const renderFigmaFromParsedJson = (
   children,
-  { scaleHeight, scaleWidth, devicePixelRatio }
+  { scaleHeight, scaleWidth, devicePixelRatio, appEvents, canvasContainerId }
 ) => {
   const container = new PIXI.Container();
   container.sortableChildren = true;
   const screenWidth = children[0].absoluteBoundingBox.width;
   const screenHeight = children[0].absoluteBoundingBox.height;
-  children.forEach((child) => {
-    renderChild(child, container, screenWidth, screenHeight, {
-      scaleHeight,
-      scaleWidth,
-      devicePixelRatio,
-    });
-  });
+  // children.forEach((child) => {
+  //   renderChild(child, container, screenWidth, screenHeight, appEvents, canvasContainerId, {
+  //     scaleHeight,
+  //     scaleWidth,
+  //     devicePixelRatio,
+  //   });
+  // });
+  const child = {
+    modifiers: ["DRAWING_TOOL"],
+    canvasWidth: screenWidth,
+    canvasHeight: screenHeight,
+    gridSize: 50,
+    showSubGrid: true,
+    unit: "m",
+    hiddenTools: ["circle"],
+    defaultDrawingItems: [],
+  }
+  renderChild(child, container, screenWidth, screenHeight, {
+    scaleHeight,
+    scaleWidth,
+    devicePixelRatio,
+  }, appEvents, canvasContainerId);
   container.backgroundColor = 0xffffff;
   // const pixiChild = new PIXI.Graphics();
   // // pixiChild.position.set(128, 56);
@@ -59,7 +75,9 @@ const renderChild = async (
   parentContainer,
   screenWidth,
   screenHeight,
-  scaleInfo
+  scaleInfo,
+  appEvents,
+  canvasContainerId,
 ) => {
   if (!child) return;
   let pixiObject;
@@ -87,7 +105,29 @@ const renderChild = async (
     default:
       break;
   }
-
+  if (child.modifiers?.find((type) => type === "DRAWING_TOOL")) {
+    const {
+      canvasWidth,
+      canvasHeight,
+      gridSize,
+      showSubGrid,
+      hiddenTools,
+      defaultDrawingItems,
+      unit,
+    } = child;
+    await renderDrawingTool({
+      canvasWidth,
+      canvasHeight,
+      appEvents,
+      pixiContainer: parentContainer,
+      canvasContainerId,
+      gridSize,
+      showSubGrid,
+      hiddenTools,
+      defaultDrawingItems,
+      unit,
+    })
+  }
   pixiObject?.scale?.set(
     getScaleWidth(scaleInfo, {
       width: child?.size?.width,
@@ -104,7 +144,7 @@ const renderChild = async (
       if (grandchild.type === "TEXT") {
         grandchild.parent = child;
       }
-      renderChild(grandchild, pixiObject, screenWidth, screenHeight, scaleInfo);
+      renderChild(grandchild, pixiObject, screenWidth, screenHeight, scaleInfo, appEvents, canvasContainerId);
     });
   }
 };

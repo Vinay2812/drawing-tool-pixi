@@ -20,12 +20,6 @@ export const renderFigmaJson = (figmaJson, elementId) => {
     const scaleWidth = screenWidth / figmaJson?.absoluteBoundingBox?.width;
     const scaleHeight = screenHeight / figmaJson?.absoluteBoundingBox?.height;
 
-    const container = renderFigmaFromParsedJson(parsedJson.children, {
-      scaleHeight,
-      scaleWidth,
-      devicePixelRatio,
-    });
-
     // Create a PIXI Application
     const app = new PIXI.Application({
       //   antialias: true,
@@ -33,6 +27,14 @@ export const renderFigmaJson = (figmaJson, elementId) => {
       background: `#${parsedJson?.children[0]?.fills[0].color || "ffffff"}`,
     });
 
+    const container = renderFigmaFromParsedJson(parsedJson.children, {
+      scaleHeight,
+      scaleWidth,
+      devicePixelRatio,
+      appEvents: app.renderer.events,
+      canvasContainerId: elementId,
+    });
+    // app.renderer.events.e
     app.renderer.plugins.interaction.autoPreventDefault = false;
     app.renderer.view.style.touchAction = "auto";
 
