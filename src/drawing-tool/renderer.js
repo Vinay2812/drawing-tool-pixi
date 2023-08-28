@@ -101,7 +101,6 @@ export async function renderDrawingTool({
         toolboxContainer.x = 1.5 * canvasMargin;
         pixiContainer.addChild(toolboxContainer);
         if (prevToolboxContainer) {
-            await delay(50)
             pixiContainer.removeChild(prevToolboxContainer);
         }
     }
@@ -127,17 +126,17 @@ export async function renderDrawingTool({
     };
     const setUndoItems = (items) => {
         undoItems = items
-        rerenderCanvas()
         rerenderToolbox()
+        rerenderCanvas()
     };
     const setDrawingItems = (items) => {
         drawingItems = items
         undoItems = []
-        rerenderCanvas()
         rerenderToolbox()
+        rerenderCanvas()
     };
 
-    await rerenderToolbox()
+    rerenderToolbox()
     rerenderCanvas()
     pixiContainer.interactive = true;
     return pixiContainer;

@@ -27,8 +27,8 @@ export function getPixiViewport(
     //     viewport.removeEventListener("pointerout", () => {})
     //     return viewport
     const newViewport = new Viewport({
-        worldWidth: 50000,
-        worldHeight: 50000,
+        worldWidth: 10000,
+        worldHeight: 10000,
         screenWidth: canvasWidth,
         screenHeight: canvasHeight,
         events,

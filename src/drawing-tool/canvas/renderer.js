@@ -251,7 +251,7 @@ export const renderCanvas = ({
                 break;
             }
 
-            const travelDistance = canvasConfig.gridSize * 0.02;
+            const travelDistance = canvasConfig.gridSize * 0.05;
 
             const shift = findPointAtDistance(line, travelDistance);
             const deltaX = start.x - shift.x;
@@ -274,7 +274,7 @@ export const renderCanvas = ({
             });
 
             // Wait for a short delay
-            await delay(10);
+            await delay(1);
 
             // Update edge status
             touchingEdge = isPointerNearEdges(
