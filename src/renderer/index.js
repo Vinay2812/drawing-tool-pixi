@@ -99,7 +99,7 @@ export const renderFigmaJson = (
         { ...rest, variables: figmaJson.variables }
       );
 
-      app.renderer.background = `#${
+      app.renderer.background.color = `#${
         parsedJson?.children[0]?.fills[0]?.color || "ffffff"
       }`;
       app.renderer.resizeTo = currentElement;
