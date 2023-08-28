@@ -26,10 +26,9 @@ export function getPixiViewport(
     //     viewport.removeEventListener("pointermove", () => {})
     //     viewport.removeEventListener("pointerout", () => {})
     //     return viewport
-    // };
     const newViewport = new Viewport({
-        worldWidth: 100000,
-        worldHeight: 100000,
+        worldWidth: 50000,
+        worldHeight: 50000,
         screenWidth: canvasWidth,
         screenHeight: canvasHeight,
         events,
@@ -43,7 +42,9 @@ export function getPixiViewport(
         .wheel()
         .drag({
             wheel: false,
-        }).decelerate();
+        }).decelerate({
+            bounce: 0
+        });
     if (viewport) {
         viewportContainer.removeChild(viewport)
         viewport.removeAllListeners()

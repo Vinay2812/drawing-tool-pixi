@@ -8,7 +8,7 @@ import { delay } from "../tools/utils/helpers"
 import { renderSvg } from "../toolbox/renderer"
 import ReactDOMServer from "react-dom/server"
 
-export function renderCanvasGrid({ viewport, gridGraphics, config, canvasWidth, canvasHeight }) {
+export function renderCanvasGrid({ viewport, gridGraphics, config }) {
     if (!viewport) return
     gridGraphics.clear()
     const gridSize = config.gridSize
@@ -18,37 +18,46 @@ export function renderCanvasGrid({ viewport, gridGraphics, config, canvasWidth, 
     // Calculate the effective grid size in screen space
     const effectiveGridSize = gridSize * viewport.scale.x
 
-    const startX = viewport.x - viewport.worldWidth
-    const startY = viewport.y - viewport.worldHeight
+    const startX = viewport.x - viewport.worldWidth / 2;
+    const startY = viewport.y - viewport.worldHeight / 2;
+
+    const endX = viewport.x + viewport.worldWidth / 2;
+    const endY = viewport.y + viewport.worldHeight / 2;
+
+    // const startX = x - canvasWidth;
+    // const startY = y - canvasHeight;
+
+    // const endX = x + canvasWidth
+    // const endY = y + canvasHeight
 
     // Render vertical grid lines
-    for (let x = startX; x < viewport.worldWidth; x += effectiveGridSize) {
+    for (let x = startX; x < endX; x += effectiveGridSize) {
         gridGraphics.lineStyle(1, gridColor, gridAlpha)
         gridGraphics.moveTo(x, startY)
-        gridGraphics.lineTo(x, viewport.worldHeight)
+        gridGraphics.lineTo(x, endY)
     }
 
     // Render horizontal grid lines
-    for (let y = startY; y < viewport.worldHeight; y += effectiveGridSize) {
+    for (let y = startY; y < endY; y += effectiveGridSize) {
         gridGraphics.lineStyle(1, gridColor, gridAlpha)
         gridGraphics.moveTo(startX, y)
-        gridGraphics.lineTo(viewport.worldWidth, y)
+        gridGraphics.lineTo(endX, y)
     }
     if (config.showSubGrid) {
         const subGridSize = effectiveGridSize / 5
         const subGridAlpha = 0.1
         // Render vertical grid lines
-        for (let x = startX; x < viewport.worldWidth; x += subGridSize) {
+        for (let x = startX; x < endX; x += subGridSize) {
             gridGraphics.lineStyle(1, gridColor, subGridAlpha)
             gridGraphics.moveTo(x, startY)
-            gridGraphics.lineTo(x, viewport.worldHeight)
+            gridGraphics.lineTo(x, endY)
         }
 
         // Render horizontal grid lines
-        for (let y = startY; y < viewport.worldHeight; y += subGridSize) {
+        for (let y = startY; y < endY; y += subGridSize) {
             gridGraphics.lineStyle(1, gridColor, subGridAlpha)
             gridGraphics.moveTo(startX, y)
-            gridGraphics.lineTo(viewport.worldWidth, y)
+            gridGraphics.lineTo(endX, y)
         }
     }
     // const initialX = startX + effectiveGridSize
@@ -137,7 +146,7 @@ export const renderCanvas = ({
     canvasWidth,
     canvasHeight,
     canvasMargin,
-    appEvents,
+    app,
     drawingItems,
     setDrawingItems,
     graphicsStoreRef,
@@ -149,7 +158,7 @@ export const renderCanvas = ({
     defaultDrawingItems,
     toolboxHeight,
 }) => {
-    const viewport = getPixiViewport(appEvents, canvasWidth, canvasHeight, viewportContainer, appEvents)
+    const viewport = getPixiViewport(app.renderer.events, canvasWidth, canvasHeight, viewportContainer)
     const setIsDrawing = (val) => {
         isDrawing.current = val;
         if (viewportContainer && zoomBtnsContainer) {
@@ -242,7 +251,7 @@ export const renderCanvas = ({
                 break;
             }
 
-            const travelDistance = canvasConfig.gridSize * 0.1;
+            const travelDistance = canvasConfig.gridSize * 0.02;
 
             const shift = findPointAtDistance(line, travelDistance);
             const deltaX = start.x - shift.x;
@@ -265,7 +274,7 @@ export const renderCanvas = ({
             });
 
             // Wait for a short delay
-            await delay(100);
+            await delay(10);
 
             // Update edge status
             touchingEdge = isPointerNearEdges(

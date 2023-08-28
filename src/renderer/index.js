@@ -31,7 +31,7 @@ export const renderFigmaJson = (figmaJson, elementId) => {
       scaleHeight,
       scaleWidth,
       devicePixelRatio,
-      appEvents: app.renderer.events,
+      app,
       canvasContainerId: elementId,
     });
     // app.renderer.events.e
@@ -43,6 +43,7 @@ export const renderFigmaJson = (figmaJson, elementId) => {
 
     // Add the container to the PIXI stage
     app.stage.addChild(container);
+    app.renderer.render(app.stage);
 
     app.renderer.resize(
       (scaleWidth * figmaJson?.absoluteRenderBounds?.width) / devicePixelRatio,

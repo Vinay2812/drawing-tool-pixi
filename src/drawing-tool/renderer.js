@@ -18,7 +18,7 @@ const viewportRef = {
 export async function renderDrawingTool({
     canvasWidth,
     canvasHeight,
-    appEvents,
+    app,
     pixiContainer,
     gridSize = 50,
     showSubGrid = false,
@@ -48,7 +48,7 @@ export async function renderDrawingTool({
         viewportContainer = renderCanvas({
             canvasWidth,
             canvasHeight,
-            appEvents,
+            app,
             drawingItems,
             setDrawingItems,
             undoItems,

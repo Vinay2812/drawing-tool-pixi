@@ -12,7 +12,7 @@ import { renderDrawingTool } from "../drawing-tool/renderer";
 
 export const renderFigmaFromParsedJson = (
   children,
-  { scaleHeight, scaleWidth, devicePixelRatio, appEvents, canvasContainerId }
+  { scaleHeight, scaleWidth, devicePixelRatio, app, canvasContainerId }
 ) => {
   const container = new PIXI.Container();
   container.sortableChildren = true;
@@ -39,7 +39,7 @@ export const renderFigmaFromParsedJson = (
     scaleHeight,
     scaleWidth,
     devicePixelRatio,
-  }, appEvents, canvasContainerId);
+  }, app, canvasContainerId);
   container.backgroundColor = 0xffffff;
   // const pixiChild = new PIXI.Graphics();
   // // pixiChild.position.set(128, 56);
@@ -76,7 +76,7 @@ const renderChild = async (
   screenWidth,
   screenHeight,
   scaleInfo,
-  appEvents,
+  app,
   canvasContainerId,
 ) => {
   if (!child) return;
@@ -118,7 +118,7 @@ const renderChild = async (
     await renderDrawingTool({
       canvasWidth,
       canvasHeight,
-      appEvents,
+      app,
       pixiContainer: parentContainer,
       canvasContainerId,
       gridSize,
@@ -144,7 +144,7 @@ const renderChild = async (
       if (grandchild.type === "TEXT") {
         grandchild.parent = child;
       }
-      renderChild(grandchild, pixiObject, screenWidth, screenHeight, scaleInfo, appEvents, canvasContainerId);
+      renderChild(grandchild, pixiObject, screenWidth, screenHeight, scaleInfo, app, canvasContainerId);
     });
   }
 };
