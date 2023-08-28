@@ -556,6 +556,97 @@ const renderPolygon = async (child, screenWidth, screenHeight, originalJson, pat
       pixiObject.addChild(maskContainer);
     });
   }
+  if (child?.fills?.length > 0 && child.fills.filter(f => f.type === 'GRADIENT_LINEAR')?.length > 0) {
+    const gradientColors = child.fills[0].gradientStops;
+    const gradTexture = createGradTexture();
+    pixiObject.beginFill();
+    pixiObject
+      .beginTextureFill({ texture: gradTexture })
+      .drawRect(pixiObject.x, pixiObject.y, pixiObject.width, pixiObject.height);
+    function createGradTexture() {
+      const canvas = document.createElement('canvas');
+      canvas.width = pixiObject.width;
+      canvas.height = pixiObject.height;
+      const context = canvas.getContext('2d');
+
+      // Create a linear gradient
+      const gradient = context.createLinearGradient(0, 0, canvas.width, canvas.height);
+      gradientColors.forEach(stop => {
+        gradient.addColorStop(
+          stop.position,
+          `rgba(${stop.color.r * 255},${stop.color.g * 255},${stop.color.b * 255},${stop.color.a})`
+        );
+      });
+      // Fill the canvas with the gradient
+      context.fillStyle = gradient;
+      context.fillRect(0, 0, canvas.width, canvas.height);
+      return PIXI.Texture.from(canvas);
+    }
+    pixiObject.endFill();
+  }
+
+  if (child?.fills?.length > 0 && child.fills.filter(f => f.type === 'GRADIENT_RADIAL')?.length > 0) {
+    const gradientColors = child.fills[0].gradientStops;
+    const gradTexture = createGradTexture();
+    pixiObject.beginFill();
+    pixiObject.beginTextureFill({ texture: gradTexture });
+    pixiObject = drawShape(child, pixiObject);
+    function createGradTexture() {
+      const canvas = document.createElement('canvas');
+      canvas.width = pixiObject.width;
+      canvas.height = pixiObject.height;
+      const context = canvas.getContext('2d');
+      const gradient = context.createRadialGradient(
+        child.absoluteBoundingBox.width / 2,
+        child.absoluteBoundingBox.height / 2,
+        0,
+        child.absoluteBoundingBox.width / 2,
+        child.absoluteBoundingBox.height / 2,
+        child.absoluteBoundingBox.width / 2
+      );
+      gradientColors.forEach(stop => {
+        gradient.addColorStop(
+          stop.position,
+          `rgba(${stop.color.r * 255},${stop.color.g * 255},${stop.color.b * 255},${stop.color.a})`
+        );
+      });
+      context.fillStyle = gradient;
+      context.fillRect(0, 0, child.absoluteBoundingBox.width, child.absoluteBoundingBox.height);
+      return PIXI.Texture.from(canvas);
+    }
+    pixiObject.endFill();
+  }
+  if (child?.fills?.length > 0 && child.fills.filter(f => f.type === 'GRADIENT_ANGULAR')?.length > 0) {
+    const gradientColors = child.fills[0].gradientStops;
+    const gradientTransformMatrix = child.fills[0].gradientTransform;
+    const rotationAngle = Math.abs(Math.atan2(gradientTransformMatrix[1][0], gradientTransformMatrix[0][0]));
+    const gradTexture = createGradTexture();
+    pixiObject.beginFill();
+    pixiObject.beginTextureFill({ texture: gradTexture });
+    pixiObject = drawShape(child, pixiObject);
+
+    function createGradTexture() {
+      const canvas = document.createElement('canvas');
+      canvas.width = child.absoluteBoundingBox.width;
+      canvas.height = child.absoluteBoundingBox.height;
+      const context = canvas.getContext('2d');
+      const gradient = context.createConicGradient(
+        rotationAngle,
+        child.absoluteBoundingBox.width / 2,
+        child.absoluteBoundingBox.height / 2
+      );
+      gradientColors.forEach(stop => {
+        gradient.addColorStop(
+          stop.position,
+          `rgba(${stop.color.r * 255},${stop.color.g * 255},${stop.color.b * 255},${stop.color.a})`
+        );
+      });
+      context.fillStyle = gradient;
+      context.fillRect(0, 0, child.absoluteBoundingBox.width, child.absoluteBoundingBox.height);
+      return PIXI.Texture.from(canvas);
+    }
+    pixiObject.endFill();
+  }
 
   if (child.relativeTransform && child.fillGeometry?.length > 0) {
     let { x, y, scaleX, scaleY, rotation, skewX, skewY } = child.relativeTransform;

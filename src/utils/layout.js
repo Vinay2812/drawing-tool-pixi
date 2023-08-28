@@ -32,7 +32,7 @@ export const extractColor = (object) => {
 };
 
 function rgbaToHex(color) {
-  console.log("🚀 ~ file: layout.js:35 ~ rgbaToHex ~ color:", color);
+  // console.log("🚀 ~ file: layout.js:35 ~ rgbaToHex ~ color:", color);
   if (["string", "number"].includes(typeof color)) return color;
 
   let r = Math.round(color.r * 255);
@@ -83,13 +83,13 @@ export function shiftOrigin(pathData, dx, dy) {
     .replace("Z", "")
     .split(/(?=[ML])/)
     .filter(Boolean);
-  console.log("🚀 ~ file: layout.js:80 ~ shiftOrigin ~ commands:", commands);
+  // console.log("🚀 ~ file: layout.js:80 ~ shiftOrigin ~ commands:", commands);
 
   // Process each command and coordinate
   const shiftedCommands = commands.map((command) => {
     const cmd = command.charAt(0);
     const coords = command.slice(1).trim().split(" ");
-    console.log("🚀 ~ file: layout.js:86 ~ shiftedCommands ~ coords:", coords);
+    // console.log("🚀 ~ file: layout.js:86 ~ shiftedCommands ~ coords:", coords);
 
     // If the command is 'M' or 'L', shift the coordinates
     if (cmd === "M" || cmd === "L") {
@@ -110,20 +110,20 @@ export function shiftOrigin(pathData, dx, dy) {
 }
 
 export function convertToDrawPolygonData(pathData, type = "") {
-  type === "RECTANGLE" &&
-    console.log(
-      "🚀 ~ file: layout.js:114 ~ convertToDrawPolygonData ~ pathData:",
-      pathData
-    );
+  // type === "RECTANGLE" &&
+    // console.log(
+    //   "🚀 ~ file: layout.js:114 ~ convertToDrawPolygonData ~ pathData:",
+    //   pathData
+    // );
   // Split the path data into commands and coordinates
   if (typeof pathData !== "string") {
     pathData = pathData.toString();
   }
   const commands = pathData.replace("Z", "").split(/(?=[MLC])/);
-  console.log(
-    "🚀 ~ file: layout.js:121 ~ convertToDrawPolygonData ~ commands:",
-    commands
-  );
+  // console.log(
+  //   "🚀 ~ file: layout.js:121 ~ convertToDrawPolygonData ~ commands:",
+  //   commands
+  // );
 
   // Initialize an array to hold the points
   const points = [];
@@ -143,12 +143,12 @@ export function convertToDrawPolygonData(pathData, type = "") {
     }
   });
 
-  console.log(
-    "🚀 ~ file: layout.js:135 ~ convertToDrawPolygonData ~ points:",
-    pathData,
-    commands,
-    points
-  );
+  // console.log(
+  //   "🚀 ~ file: layout.js:135 ~ convertToDrawPolygonData ~ points:",
+  //   pathData,
+  //   commands,
+  //   points
+  // );
   return points;
 }
 
