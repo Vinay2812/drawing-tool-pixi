@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import FigmaRenderer from "./components/FigmaRenderer";
 // import sample from "./utils/sample";
-import sample from "./utils/bishal-test/3";
+import sample from "./utils/bishal-test/9.json";
 import useGraphqlCall from "./api/useGraphqlCall";
 // import { uploadJson } from "./test-api";
 import "./App.css";
@@ -43,44 +43,47 @@ const App = () => {
       .load()
       .then((loadedFont) => {
         document.fonts.add(loadedFont);
-        console.log(`${family} font loaded successfully`);
+        console.log(
+          `${family} - ${descriptors.weight} font loaded successfully`
+        );
       })
       .catch((error) => {
-        console.log(`Failed to load ${family} font: `, error);
+        console.log(
+          `Failed to load ${family} - ${descriptors.weight} font: `,
+          error
+        );
       });
   };
   useEffect(() => {
     if (!figmaJson) return;
 
-    Promise.all([
+    const descriptors = [...Array(9)].map((_, i) => ({
+      style: "normal",
+      weight: `${(i + 1) * 100}`,
+    }));
+
+    const fontsToLoad = descriptors.flatMap((descriptor) => [
       loadFont({
         family: "Epilogue",
         source:
           "url(https://fonts.gstatic.com/s/epilogue/v17/O4ZMFGj5hxF0EhjimngomvnCCtqb30OXMDPSC5_U.woff2)",
-        descriptors: {
-          style: "normal",
-          weight: "400",
-        },
+        descriptors: descriptor,
       }),
       loadFont({
         family: "Manrope",
         source:
           "url(https://fonts.gstatic.com/s/manrope/v14/xn7gYHE41ni1AdIRggexSg.woff2)",
-        descriptors: {
-          style: "normal",
-          weight: "400",
-        },
+        descriptors: descriptor,
       }),
       loadFont({
         family: "Open Sans",
         source:
           "url(https://fonts.gstatic.com/s/opensans/v35/mem8YaGs126MiZpBA-UFVZ0b.woff2)",
-        descriptors: {
-          style: "normal",
-          weight: "400",
-        },
+        descriptors: descriptor,
       }),
-    ])
+    ]);
+
+    Promise.all(fontsToLoad)
       .then(() => {
         console.log("Fonts loaded successfully");
         setLoading(false);

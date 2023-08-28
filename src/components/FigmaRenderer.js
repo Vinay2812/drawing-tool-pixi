@@ -1,12 +1,12 @@
 // src/components/FigmaRenderer.js
 
-import * as PIXI from 'pixi.js';
-import { parseFigmaJson } from '../parser/parser';
-import set from 'lodash/set';
-import PropTypes from 'prop-types';
-import { renderFigmaJson } from '../renderer';
-import React, { useEffect, useState } from 'react';
-import Matter, { Engine } from 'matter-js';
+import * as PIXI from "pixi.js";
+import { parseFigmaJson } from "../parser/parser";
+import set from "lodash/set";
+import PropTypes from "prop-types";
+import { renderFigmaJson } from "../renderer";
+import React, { useEffect, useState } from "react";
+import Matter, { Engine } from "matter-js";
 
 // globalThis.__PIXI_APP__ = app;
 const engine = Engine.create();
@@ -14,18 +14,18 @@ const engine = Engine.create();
 const FigmaRenderer = ({ figmaJson }) => {
   const [figmaJsonState, setFigmaJson] = React.useState(figmaJson);
   const [isUpdated, setIsUpdated] = React.useState(false);
-  const [clicked, setClicked] = useState('');
+  const [clicked, setClicked] = useState("");
   const [animationType, setAnimationType] = useState(null);
   // Create a unique ID for the container element
-  const elementId = 'figma-canvas-container';
+  const elementId = "figma-canvas-container";
 
   useEffect(() => {
     // Render the Figma JSON inside the container element
     renderFigmaJson(
       { figmaJsonState, figmaJson },
       elementId,
-      e => {
-        set(e, 'isParsed', true);
+      (e) => {
+        set(e, "isParsed", true);
         setIsUpdated(true);
         setFigmaJson(e);
       },
@@ -41,14 +41,14 @@ const FigmaRenderer = ({ figmaJson }) => {
       <div>
         <button
           onClick={() => {
-            setClicked('up');
+            setClicked("up");
           }}
         >
           up
         </button>
         <button
           onClick={() => {
-            setClicked('down');
+            setClicked("down");
           }}
         >
           down
@@ -56,15 +56,15 @@ const FigmaRenderer = ({ figmaJson }) => {
       </div>
       <div
         style={{
-          position: 'relative'
+          position: "relative",
         }}
       >
         <div id={elementId} />
         <div
-          id={'matterJs'}
+          id={"matterJs"}
           style={{
             top: 0,
-            position: 'absolute'
+            position: "absolute",
           }}
         />
       </div>
@@ -73,7 +73,7 @@ const FigmaRenderer = ({ figmaJson }) => {
 };
 
 FigmaRenderer.propTypes = {
-  figmaJson: PropTypes.object.isRequired
+  figmaJson: PropTypes.object.isRequired,
 };
 
 export default FigmaRenderer;
