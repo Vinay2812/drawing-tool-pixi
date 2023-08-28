@@ -11,10 +11,9 @@ export function onDown(e, others) {
         setIsDrawing,
         shapes,
         viewport,
-        canvasContainer,
         canvasConfig
     } = others
-    const start = getPointerPosition(e, viewport, canvasContainer)
+    const start = getPointerPosition(e, viewport)
     const lines = shapes["circle"] ?? []
     const points = getPointsFromLines(lines)
     const closestPoint = getClosestPoint(start, points, canvasConfig.gridSize / 2)
@@ -29,11 +28,10 @@ export function onMove(e, others) {
         viewport,
         graphicsStoreRef,
         shapes,
-        canvasContainer,
         canvasConfig
     } = others
     if (!startPoint || !isDrawing) return
-    const end = getPointerPosition(e, viewport, canvasContainer)
+    const end = getPointerPosition(e, viewport)
     const shapeId = (shapes["circle"] ?? []).length + 1
     renderCircleWithMeasurements(
         { start: startPoint, end, shapeId },
@@ -52,7 +50,6 @@ export function onUp(e, others) {
         setStartPoint,
         setDrawingItems,
         shapes,
-        canvasContainer,
         drawingItems
     } = others
     if (!startPoint || !isDrawing) {
@@ -60,7 +57,7 @@ export function onUp(e, others) {
     }
 
     const start = startPoint
-    const end = getPointerPosition(e, viewport, canvasContainer)
+    const end = getPointerPosition(e, viewport)
     const shapeId = (shapes["circle"] ?? []).length + 1
     setDrawingItems([
         ...drawingItems,

@@ -20,7 +20,7 @@ export function renderToolbox({
     setUndoItems,
     graphicsStoreRef,
     pointNumberRef,
-    viewportRef,
+    viewport,
     hiddenTools,
     toolboxHeight,
     canvasMargin,
@@ -34,7 +34,7 @@ export function renderToolbox({
         setUndoItems,
         graphicsStoreRef,
         pointNumberRef,
-        viewportRef,
+        viewport,
         hiddenTools,
     }
     const leftTools = Object.entries(tools).filter(([_, tool]) => {

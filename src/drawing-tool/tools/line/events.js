@@ -18,12 +18,11 @@ export function onDown(e, others) {
     setStartPoint,
     setIsDrawing,
     shapes,
-    canvasContainer,
     canvasConfig
   } = others
   const lines = shapes["line"] ?? []
   const points = getPointsFromLines(lines)
-  const startPoint = getPointerPosition(e, viewport, canvasContainer)
+  const startPoint = getPointerPosition(e, viewport)
   const closestPoint = getClosestPoint(
     startPoint,
     points,
@@ -41,12 +40,11 @@ export function onMove(e, others) {
     pointNumberRef,
     shapes,
     viewport,
-    canvasContainer,
     canvasConfig
   } = others
   if (!startPoint || !isDrawing) return
 
-  const end = getPointerPosition(e, viewport, canvasContainer)
+  const end = getPointerPosition(e, viewport)
   const start = startPoint
   const lines = shapes["line"] ?? []
   const line = { start, end, shapeId: lines.length + 1 }
@@ -71,7 +69,6 @@ export function onUp(e, others) {
     setStartPoint,
     shapes,
     viewport,
-    canvasContainer,
     canvasConfig,
     drawingItems
   } = others
@@ -80,7 +77,7 @@ export function onUp(e, others) {
   }
 
   const start = startPoint
-  const end = getPointerPosition(e, viewport, canvasContainer)
+  const end = getPointerPosition(e, viewport)
   const lines = shapes["line"] ?? []
   const points = getPointsFromLines(lines)
   const updatedStart = getClosestPoint(start, points, canvasConfig.gridSize / 2)

@@ -30,12 +30,12 @@ export const onClick = (args) => {
         setDrawingItems,
         setUndoItems,
         graphicsStoreRef,
-        viewportRef,
+        viewport,
         pointNumberRef,
         drawingItems,
         undoItems,
     } = args;
-    resetGraphics(graphicsStoreRef, pointNumberRef, viewportRef);
+    resetGraphics(graphicsStoreRef, pointNumberRef, viewport);
     setDrawingItems(
         !drawingItems.length
             ? []

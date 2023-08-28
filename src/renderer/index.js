@@ -4,10 +4,8 @@ import * as PIXI from "pixi.js";
 import { parseFigmaJson } from "../parser/parser";
 import { renderFigmaFromParsedJson } from "./renderer";
 
-let app;
-
 // Function to render the Figma JSON using PIXI.js
-export const renderFigmaJson = (figmaJson, elementId, drawingTools, useDrawingTools) => {
+export const renderFigmaJson = (figmaJson, elementId, drawingTools) => {
   // Check if canvas already exists
   const currentElement = document.getElementById(elementId);
   const canvas = currentElement?.querySelector("canvas");
@@ -18,61 +16,30 @@ export const renderFigmaJson = (figmaJson, elementId, drawingTools, useDrawingTo
   const devicePixelRatio = window.devicePixelRatio;
   const scaleWidth = screenWidth / figmaJson?.absoluteBoundingBox?.width;
   const scaleHeight = screenHeight / figmaJson?.absoluteBoundingBox?.height;
-  if (!app) {
+  if (!canvas) {
     // Create a PIXI Application
-    app = new PIXI.Application({
-      //   antialias: true,
-      resolution: devicePixelRatio,
+    const app = new PIXI.Application({
+      resolution: window.devicePixelRatio ?? 1,
       background: `#${parsedJson?.children[0]?.fills[0].color || "ffffff"}`,
+      // autoDensity: true,
+      antialias: true,
     });
-
-    app.renderer.plugins.interaction.autoPreventDefault = false;
+    app.renderer.events.autoPreventDefault = false;
     app.renderer.view.style.touchAction = "auto";
-
-    // Append the PIXI view to the specified HTML element
-    document.getElementById(elementId).appendChild(app.view);
-    app.renderer.resize(
-      (scaleWidth * figmaJson?.absoluteRenderBounds?.width) / devicePixelRatio,
-      (scaleWidth * figmaJson?.absoluteRenderBounds?.height) / devicePixelRatio
-    );
-        // Append the PIXI view to the specified HTML element
-      document.getElementById(elementId).appendChild(app.view);
-  }
-  else {
-
-  }
-  // if (!canvas) {
-    // Parse the Figma JSON into a PIXI Container
-    // const parsedJson = parseFigmaJson(figmaJson);
-
-    // const screenWidth = window.innerWidth > 400 ? 400 : window.innerWidth;
-    // const screenHeight = window.innerHeight;
-    // const devicePixelRatio = window.devicePixelRatio;
-
-    // const scaleWidth = screenWidth / figmaJson?.absoluteBoundingBox?.width;
-    // const scaleHeight = screenHeight / figmaJson?.absoluteBoundingBox?.height;
-    // // Create a PIXI Application
-    // const app = new PIXI.Application({
-    //   //   antialias: true,
-    //   resolution: devicePixelRatio,
-    //   background: `#${parsedJson?.children[0]?.fills[0].color || "ffffff"}`,
-    // });
-
     const container = renderFigmaFromParsedJson(parsedJson.children, {
       scaleHeight,
       scaleWidth,
       devicePixelRatio,
-      appEvents: app.renderer.events,
+      app,
       canvasContainerId: elementId,
       drawingTools,
     });
-    // app.renderer.events.e
-    // app.renderer.plugins.interaction.autoPreventDefault = false;
-    // app.renderer.view.style.touchAction = "auto";
+    container.interactive = true;
 
 
     // Add the container to the PIXI stage
     app.stage.addChild(container);
+    app.renderer.render(app.stage);
 
     // app.renderer.resize(
     //   (scaleWidth * figmaJson?.absoluteRenderBounds?.width) / devicePixelRatio,
@@ -92,5 +59,6 @@ export const renderFigmaJson = (figmaJson, elementId, drawingTools, useDrawingTo
     // debugGraphics.drawRect(0, 0, 800, 600);
     // container.addChild(debugGraphics);
     // Optionally, you can add code here to set up interactivity, animations, etc.
-  // }
+    // }
+  }
 };

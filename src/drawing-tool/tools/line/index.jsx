@@ -6,8 +6,8 @@ export const renderer = renderLineGraphics
 export const Icon = props => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    height="24"
-    width="24"
+    height="48"
+    width="48"
     stroke="currentColor"
     {...props}
   >

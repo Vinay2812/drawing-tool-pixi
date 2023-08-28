@@ -13,14 +13,13 @@ export function onDown(e, others) {
     const {
         viewport,
         setStartPoint,
-        canvasContainer,
         setIsDrawing,
         setSelectedPoint,
         shapes,
         canvasConfig
     } = others
     const lines = shapes["line"] ?? []
-    const clickedPoint = getPointerPosition(e, viewport, canvasContainer)
+    const clickedPoint = getPointerPosition(e, viewport)
     const points = getPointsFromLines(lines)
     const endPoint = getClosestPoint(
         clickedPoint,
@@ -57,13 +56,12 @@ export function onMove(e, others) {
         graphicsStoreRef,
         pointNumberRef,
         shapes,
-        canvasContainer,
         canvasConfig
     } = others
     if (!startPoint || !isDrawing || !selectedPoint) {
         return
     }
-    const end = getPointerPosition(e, viewport, canvasContainer)
+    const end = getPointerPosition(e, viewport)
     const start = startPoint
     const lines = shapes["line"] ?? []
     const selectedLine = {
@@ -99,7 +97,6 @@ export function onUp(e, others) {
         graphicsStoreRef,
         setStartPoint,
         shapes,
-        canvasContainer,
         canvasConfig,
         drawingItems
     } = others
@@ -108,7 +105,7 @@ export function onUp(e, others) {
     }
     viewport.plugins.resume("drag")
     const start = startPoint
-    const end = getPointerPosition(e, viewport, canvasContainer)
+    const end = getPointerPosition(e, viewport)
     const selectedLine = {
         start: start,
         end: selectedPoint,
