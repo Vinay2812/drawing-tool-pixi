@@ -7,36 +7,37 @@ import {
   parseColor,
   getTransformParameters,
   convertToDrawPolygonData,
-  shiftOrigin,
-} from "../utils/layout";
+  shiftOrigin
+} from '../utils/layout';
 
-import rectangleKeys from "../keys/rectangle";
-import textKeys from "../keys/text";
+import rectangleKeys from '../keys/rectangle';
+import textKeys from '../keys/text';
 
-
-
-export const parseFigmaJson = (figmaJson) => {
-
+export const parseFigmaJson = figmaJson => {
   const children = [figmaJson];
   const { minX, minY } = calculateMinXY(children);
-  const parsedChildren = children.map((child) => {
+  const parsedChildren = children.map(child => {
     return parseChild(child, 1, minX, minY);
   });
-  return { children: parsedChildren, minX, minY };
+  return {
+    children: parsedChildren,
+    minX,
+    minY,
+    variables: figmaJson.variables || {},
+    computeFunctions: figmaJson.computeFunctions || {}
+  };
 };
 
-const calculateMinXY = (children) => {
+const calculateMinXY = children => {
   let minX = Infinity;
   let minY = Infinity;
-  children.forEach((child) => {
+  children.forEach(child => {
     const x = child?.absoluteBoundingBox?.x || 0;
     const y = child?.absoluteBoundingBox?.y || 0;
     minX = Math.min(minX, x);
     minY = Math.min(minY, y);
     if (child.children) {
-      const { minX: childMinX, minY: childMinY } = calculateMinXY(
-        child.children
-      );
+      const { minX: childMinX, minY: childMinY } = calculateMinXY(child.children);
       minX = Math.min(minX, childMinX);
       minY = Math.min(minY, childMinY);
     }
@@ -45,59 +46,53 @@ const calculateMinXY = (children) => {
 };
 
 const parseChild = (child, level, minX, minY, parentObject = null) => {
-    if(child.name === "Rectangle 143") {
-        console.log("🚀 ~ file: parser.js:106 ~ parsePolygon ~ child:", child);
-    }
-	if (!level) return;
-	let childBoundingX = child?.absoluteBoundingBox?.x;
-	let childBoundingY = child?.absoluteBoundingBox?.y;
-	let renderBoundX = child?.absoluteRenderBounds?.x;
-	let renderBoundY = child?.absoluteRenderBounds?.y;
-	// if (typeof childBoundingX === "number") childBoundingX += Math.abs(minX);
-	// if (typeof childBoundingY === "number") childBoundingY += Math.abs(minY);
-	// if (typeof renderBoundX === "number") renderBoundX += Math.abs(minX);
-	// if (typeof renderBoundY === "number") renderBoundY += Math.abs(minY);
-	const pixiObject = {
-		id: child.id,
-		type: child.type,
-		x: childBoundingX,
-		y: childBoundingY,
-		width: child?.absoluteBoundingBox?.width || 0,
-		height: child?.absoluteBoundingBox?.height || 0,
-		level,
-		children: child.children
-			? child.children.map((c) =>
-					parseChild(c, level + 1, minX, minY, child)
-			  )
-			: [],
-	};
-	switch (child.type) {
-		case "CANVAS":
-			return parseCanvas(child, level, pixiObject, parentObject);
-		case "FRAME":
-		case "GROUP":
-		case "RECTANGLE":
-		case "POLYGON":
-		case "VECTOR":
-		case "STAR":
-		case "LINE":
-		case "INSTANCE":
-		case "ELLIPSE":
-        case "BOOLEAN_OPERATION":
-        case "UNION":
-			return parsePolygon(
-				child,
-				level,
-				pixiObject,
-				minX,
-				minY,
-				parentObject
-			);
-		case "TEXT":
-			return parseText(child, level, pixiObject);
-		default:
-			console.log("🚀 ~ file: parser.js:106 ~ parseChild ~ child", child);
-	}
+  if (!level) return;
+  let childBoundingX = child?.absoluteBoundingBox?.x;
+  let childBoundingY = child?.absoluteBoundingBox?.y;
+  let renderBoundX = child?.absoluteRenderBounds?.x;
+  let renderBoundY = child?.absoluteRenderBounds?.y;
+  // if (typeof childBoundingX === "number") childBoundingX += Math.abs(minX);
+  // if (typeof childBoundingY === "number") childBoundingY += Math.abs(minY);
+  // if (typeof renderBoundX === "number") renderBoundX += Math.abs(minX);
+  // if (typeof renderBoundY === "number") renderBoundY += Math.abs(minY);
+  const pixiObject = {
+    id: child.id,
+    name: child.name,
+    type: child.type,
+    x: childBoundingX,
+    y: childBoundingY,
+    width: child?.absoluteBoundingBox?.width || 0,
+    height: child?.absoluteBoundingBox?.height || 0,
+    level,
+    children: child.children ? child.children.map(c => parseChild(c, level + 1, minX, minY, child)) : [],
+    interactions: child.interactions,
+    properties: child.properties,
+    variants: child.variants ? child.variants.map(i => i.map(c => parseChild(c, level + 1, minX, minY, child))) : [],
+    // need to remove this
+    dragConfig: child.dragConfig,
+    dropConfig: child.dropConfig,
+    modifiers: child.modifiers,
+    variableLink: child.variableLink
+  };
+  switch (child.type) {
+    case 'CANVAS':
+      return parseCanvas(child, level, pixiObject, parentObject);
+    case 'FRAME':
+    case 'GROUP':
+    case 'RECTANGLE':
+    case 'POLYGON':
+    case 'VECTOR':
+    case 'STAR':
+    case 'LINE':
+    case 'INSTANCE':
+    case 'ELLIPSE':
+    case 'BOOLEAN_OPERATION':
+    case 'UNION':
+      return parsePolygon(child, level, pixiObject, minX, minY, parentObject);
+    case 'TEXT':
+      return parseText(child, level, pixiObject);
+    default:
+  }
 };
 
 const parseCanvas = (child, level, pixiObject) => {
@@ -109,17 +104,17 @@ const parseText = (child, level, pixiObject) => {
   pixiObject.zIndex = level;
   pixiObject = {
     ...pixiObject,
-    ...child,
+    ...child
   };
   pixiObject = parsePolygon(child, level, pixiObject);
   return pixiObject;
 };
 
 const parsePolygon = (child, level, pixiObject, minX, minY, parentObject) => {
-  if (child.id === "8:87") {
-    console.log("🚀 ~ file: parser.js:106 ~ parsePolygon ~ child:", child);
-  }
-  rectangleKeys.forEach((key) => {
+  // if (child.id === "8:87") {
+  // 	console.log("🚀 ~ file: parser.js:106 ~ parsePolygon ~ child:", child);
+  // }
+  rectangleKeys.forEach(key => {
     pixiObject[key] = child[key];
   });
   const position = calculateAbsoluteRenderBoundPosition(child);
@@ -132,7 +127,7 @@ const parsePolygon = (child, level, pixiObject, minX, minY, parentObject) => {
   pixiObject.rotation = rotation;
   pixiObject.clipsContent = child.clipsContent;
   // pixiObject.color = color;
-  pixiObject.strokes = child.strokes?.map((stroke) => {
+  pixiObject.strokes = child.strokes?.map(stroke => {
     stroke.color = parseColor(stroke.color);
     return stroke;
   });
@@ -143,16 +138,13 @@ const parsePolygon = (child, level, pixiObject, minX, minY, parentObject) => {
   pixiObject.strokeWeight = strokeWeight;
   let fills = child?.fills?.length > 0 ? child.fills : null;
   if (fills) {
-    console.log("🚀 ~ file: parser.js:85 ~ parseFrame ~ fills:", fills);
-    pixiObject.fills = fills.map((fill) => {
+    pixiObject.fills = fills.map(fill => {
       fill.color = parseColor(fill.color);
       return fill;
     });
   }
-  let fillGeometry =
-    child?.fillGeometry?.length > 0 ? child.fillGeometry : null;
+  let fillGeometry = child?.fillGeometry?.length > 0 ? child.fillGeometry : null;
   if (fillGeometry) {
-    console.log("fillGeometry", fillGeometry);
     pixiObject.fillGeometry = fillGeometry;
   }
   // let strokeGeometry =
@@ -165,16 +157,14 @@ const parsePolygon = (child, level, pixiObject, minX, minY, parentObject) => {
   //     });
   // }
   pixiObject.relativeTransform =
-    child?.relativeTransform?.length > 0
-      ? getTransformParameters(child.relativeTransform, parentObject)
-      : null;
-  if (child.id === "8:87") {
-    console.log(
-      "🚀 ~ file: parser.js:106 ~ parsePolygon ~ pixiObject:",
-      child,
-      pixiObject
-    );
-  }
+    child?.relativeTransform?.length > 0 ? getTransformParameters(child.relativeTransform, parentObject) : null;
+  // if (child.id === "8:87") {
+  // 	console.log(
+  // 		"🚀 ~ file: parser.js:106 ~ parsePolygon ~ pixiObject:",
+  // 		child,
+  // 		pixiObject
+  // 	);
+  // }
   // pixiObject.parent = parentObject;
 
   return pixiObject;
