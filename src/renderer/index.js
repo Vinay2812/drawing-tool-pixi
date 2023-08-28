@@ -61,7 +61,7 @@ export const renderFigmaJson = (
 ) => {
   const { clicked, animationType, setAnimationType } = props;
 
-  const imageUrls = getImageUrls(figmaJson);
+  const imageUrls = getImageUrls(orgFigmaJson);
 
   // Promise.all(
   //   imageUrls.map((v) => PIXI.Assets.load(v, (p) => console.warn(v, p)))
@@ -71,7 +71,7 @@ export const renderFigmaJson = (
     const currentElement = document.getElementById(elementId);
     const canvas = currentElement?.querySelector('canvas');
 
-    const screenWidth = window.innerWidth > 400 ? 400 /* * resolutionFactor */ : window.innerWidth * resolutionFactor;
+    const screenWidth = window.innerWidth > 400 ? 400 * resolutionFactor : window.innerWidth * resolutionFactor;
     const screenHeight = window.innerHeight * resolutionFactor;
     const devicePixelRatio = window.devicePixelRatio * resolutionFactor;
     // const devicePixelRatio = 2;
@@ -208,7 +208,6 @@ export const renderFigmaJson = (
     if (canvas && isUpdated) {
       if (app.stage.children.length) app.stage.removeChild(app.stage.children[0]);
 
-      const parsedJson = figmaJson;
       const container = renderFigmaFromParsedJson(
         app,
         parsedJson,
