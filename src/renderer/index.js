@@ -32,14 +32,11 @@ export const getImageUrls = (obj) => {
 // Function to render the Figma JSON using PIXI.js
 export const renderFigmaJson = async (figmaJson, elementId) => {
   const imageUrls = getImageUrls(figmaJson);
-  // console.log(
-  //   "🚀 ~ file: index.js:34 ~ renderFigmaJson ~ imageUrls:",
-  //   imageUrls
-  // );
+  console.warn(
+    "🚀 ~ file: index.js:34 ~ renderFigmaJson ~ imageUrls:",
+    imageUrls
+  );
 
-  // Promise.all(
-  //   imageUrls.map((v) => PIXI.Assets.load(v, (p) => console.warn(v, p)))
-  // )
   PIXI.Assets.load(imageUrls).then(() => {
     // Check if canvas already exists
     const currentElement = document.getElementById(elementId);
@@ -66,7 +63,7 @@ export const renderFigmaJson = async (figmaJson, elementId) => {
       const app = new PIXI.Application({
         // antialias: true,
         resolution: devicePixelRatio,
-        background: `#${parsedJson?.children[0]?.fills[0].color || "ffffff"}`,
+        background: `#${parsedJson?.children[0]?.fills[0]?.color || "ffffff"}`,
         antialias: true,
         resizeTo: currentElement,
         //   width: screenWidth/2,
