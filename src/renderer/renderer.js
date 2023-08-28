@@ -12,7 +12,7 @@ import { renderDrawingTool } from "../drawing-tool/renderer";
 
 export const renderFigmaFromParsedJson = (
   children,
-  { scaleHeight, scaleWidth, devicePixelRatio, appEvents, canvasContainerId }
+  { scaleHeight, scaleWidth, devicePixelRatio, appEvents, canvasContainerId, drawingTools }
 ) => {
   const container = new PIXI.Container();
   container.sortableChildren = true;
@@ -39,7 +39,7 @@ export const renderFigmaFromParsedJson = (
     scaleHeight,
     scaleWidth,
     devicePixelRatio,
-  }, appEvents, canvasContainerId);
+  }, appEvents, canvasContainerId, drawingTools);
   container.backgroundColor = 0xffffff;
   // const pixiChild = new PIXI.Graphics();
   // // pixiChild.position.set(128, 56);
@@ -78,6 +78,7 @@ const renderChild = async (
   scaleInfo,
   appEvents,
   canvasContainerId,
+  drawingTools
 ) => {
   if (!child) return;
   let pixiObject;
@@ -126,6 +127,7 @@ const renderChild = async (
       hiddenTools,
       defaultDrawingItems,
       unit,
+      drawingTools
     })
   }
   pixiObject?.scale?.set(

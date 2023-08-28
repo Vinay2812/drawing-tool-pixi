@@ -109,25 +109,25 @@ export function renderCanvasGrid({ viewport, gridGraphics, config, canvasWidth, 
 //     // ... Render subgrid lines and additional logic if needed ...
 // }
 
-const startPoint = {
-    current: null
-}
-const setStartPoint = (point) => {
-    startPoint.current = point
-};
+// const startPoint = {
+//     current: null
+// }
+// const setStartPoint = (point) => {
+//     startPoint.current = point
+// };
 
-const isDrawing = {
-    current: false
-}
+// const isDrawing = {
+//     current: false
+// }
 
-const selectedPoint = {
-    current: null
-}
-const setSelectedPoint = (point) => (selectedPoint.current = point);
+// const selectedPoint = {
+//     current: null
+// }
+// const setSelectedPoint = (point) => (selectedPoint.current = point);
 
-const pencilPointsRef = {
-    current: []
-}
+// const pencilPointsRef = {
+//     current: []
+// }
 const gridGraphics = new SmoothGraphics();
 const viewportContainer = new PIXI.Container();
 const outline = new SmoothGraphics();
@@ -148,19 +148,27 @@ export const renderCanvas = ({
     canvasContainer,
     defaultDrawingItems,
     toolboxHeight,
+    isDrawing,
+    startPoint,
+    selectedPoint,
+    setIsDrawing,
+    setStartPoint,
+    setSelectedPoint,
+    pencilPointsRef
+
 }) => {
     const viewport = getPixiViewport(appEvents, canvasWidth, canvasHeight, viewportContainer, appEvents)
-    const setIsDrawing = (val) => {
-        isDrawing.current = val;
-        if (viewportContainer && zoomBtnsContainer) {
-            if (val === true) {
-                viewportContainer.removeChild(zoomBtnsContainer)
-            }
-            else {
-                viewportContainer.addChild(zoomBtnsContainer)
-            }
-        }
-    };
+    // const setIsDrawing = (val) => {
+    //     isDrawing.current = val;
+    //     if (viewportContainer && zoomBtnsContainer) {
+    //         if (val === true) {
+    //             viewportContainer.removeChild(zoomBtnsContainer)
+    //         }
+    //         else {
+    //             viewportContainer.addChild(zoomBtnsContainer)
+    //         }
+    //     }
+    // };
     // viewportContainer.mask = null;
     outline.clear();
     outline.lineStyle(1, "black");
@@ -188,6 +196,7 @@ export const renderCanvas = ({
 
     renderCanvasGrid(canvasGridProps)
     renderDrawingItems(defaultDrawingItems, false);
+    console.log(drawingItems)
     renderDrawingItems(drawingItems);
 
     function getProps() {
@@ -319,10 +328,15 @@ export const renderCanvas = ({
     }
 
 
-    viewport.addEventListener("pointermove", handleOnMove);
-    viewport.addEventListener("pointerdown", handleOnDown);
-    viewport.addEventListener("pointerup", handleOnUp);
-    viewport.addEventListener("pointerout", handleOnUp);
+    // viewport.addEventListener("pointermove", handleOnMove);
+    // viewport.addEventListener("pointerdown", handleOnDown);
+    // viewport.addEventListener("pointerup", handleOnUp);
+    // viewport.addEventListener("pointerout", handleOnUp);
+
+    viewport.onpointerdown = handleOnDown
+    viewport.onpointerup = handleOnUp
+    viewport.onpointermove = handleOnMove
+    viewport.onpointerout = handleOnUp
 
 
 

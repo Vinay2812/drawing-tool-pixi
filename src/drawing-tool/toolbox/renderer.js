@@ -87,14 +87,14 @@ export function renderToolbox({
             outline.endFill();
             button.addChild(outline);
         }
-        
+
         button.addChild(iconSprite);
         const buttonContainer = new PIXI.Container();
         buttonContainer.cursor = "pointer";
         buttonContainer.addChild(button);
         buttonContainer.x = xOffset;
         buttonContainer.interactive = true;
-        buttonContainer.onpointerdown = () => tools[tool.name].onClick(props);
+        buttonContainer.onpointerdown = () => { console.log("clicked"); tools[tool.name].onClick(props); }
         xOffset += iconGap;
 
         leftToolsContainer.addChild(buttonContainer);

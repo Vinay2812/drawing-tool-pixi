@@ -5,15 +5,15 @@ import { isMobile } from "./tools/utils/config";
 import { delay } from "./tools/utils/helpers";
 
 let toolboxContainer, viewportContainer;
-const graphicsStoreRef = {
-    current: {}
-}
-const pointNumberRef = {
-    current: 0
-}
-const viewportRef = {
-    current: null
-}
+// const graphicsStoreRef = {
+//     current: {}
+// }
+// const pointNumberRef = {
+//     current: 0
+// }
+// const viewportRef = {
+//     current: null
+// }
 
 export async function renderDrawingTool({
     canvasWidth,
@@ -27,16 +27,30 @@ export async function renderDrawingTool({
     lineWidth = 5,
     unit = "cm",
     canvasContainerId,
+    drawingTools
 }) {
+
+    const {
+        graphicsStoreRef,
+        pointNumberRef,
+        viewportRef,
+        activeTool,
+        drawingItems,
+        undoItems,
+        setDrawingItems,
+        setUndoItems,
+        setActiveTool,
+    } = drawingTools;
+
     if (toolboxContainer) {
         pixiContainer.removeChild(toolboxContainer);
     }
     if (viewportContainer) {
         pixiContainer.removeChild(viewportContainer);
     }
-    let drawingItems = [];
-    let undoItems = [];
-    let activeTool = "select";
+    // let drawingItems = [];
+    // let undoItems = [];
+    // let activeTool = "select";
     let toolboxHeight = 50;
     const canvasMargin = 20;
 
@@ -62,7 +76,8 @@ export async function renderDrawingTool({
             canvasContainer,
             toolboxHeight,
             canvasMargin,
-            defaultDrawingItems
+            defaultDrawingItems,
+            ...drawingTools
         })
         // if (toolboxContainer) {
         // const mask = new PIXI.Graphics();
@@ -120,22 +135,22 @@ export async function renderDrawingTool({
         unit,
         showSubGrid,
     }
-    const setActiveTool = (toolName) => {
-        activeTool = toolName;
-        rerenderToolbox()
-        rerenderCanvas()
-    };
-    const setUndoItems = (items) => {
-        undoItems = items
-        rerenderCanvas()
-        rerenderToolbox()
-    };
-    const setDrawingItems = (items) => {
-        drawingItems = items
-        undoItems = []
-        rerenderCanvas()
-        rerenderToolbox()
-    };
+    // const setActiveTool = (toolName) => {
+    //     activeTool = toolName;
+    //     rerenderToolbox()
+    //     rerenderCanvas()
+    // };
+    // const setUndoItems = (items) => {
+    //     undoItems = items
+    //     rerenderCanvas()
+    //     rerenderToolbox()
+    // };
+    // const setDrawingItems = (items) => {
+    //     drawingItems = items
+    //     undoItems = []
+    //     rerenderCanvas()
+    //     rerenderToolbox()
+    // };
 
     await rerenderToolbox()
     rerenderCanvas()
