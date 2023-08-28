@@ -100,7 +100,7 @@ export const renderFigmaJson = (
       );
 
       app.renderer.background = `#${
-        parsedJson?.children[0]?.fills[0].color || "ffffff"
+        parsedJson?.children[0]?.fills[0]?.color || "ffffff"
       }`;
       app.renderer.resizeTo = currentElement;
       app.renderer.resolution = devicePixelRatio;
