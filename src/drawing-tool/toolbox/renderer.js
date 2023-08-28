@@ -94,7 +94,7 @@ export function renderToolbox({
         buttonContainer.addChild(button);
         buttonContainer.x = xOffset;
         buttonContainer.interactive = true;
-        buttonContainer.onpointerdown = () => { console.log("clicked"); tools[tool.name].onClick(props); }
+        buttonContainer.onpointerdown = () => {tools[tool.name].onClick(props); }
         xOffset += iconGap;
 
         leftToolsContainer.addChild(buttonContainer);

@@ -96,15 +96,14 @@ export const renderFigmaJson = (
           scaleWidth,
           devicePixelRatio,
         },
-        { ...rest, variables: figmaJson.variables }
+        { ...rest, variables: figmaJson.variables, canvasContainerId: elementId }
       );
 
-      app.renderer.background.color = `#${
-        (parsedJson?.children &&
+      app.renderer.background.color = `#${(parsedJson?.children &&
           parsedJson?.children[0]?.fills &&
           parsedJson?.children[0]?.fills[0]?.color) ||
         "ffffff"
-      }`;
+        }`;
 
       app.renderer.resizeTo = currentElement;
       app.renderer.resolution = devicePixelRatio;
@@ -123,9 +122,9 @@ export const renderFigmaJson = (
 
       app.renderer.resize(
         (scaleWidth * figmaJson?.absoluteRenderBounds?.width) /
-          devicePixelRatio,
+        devicePixelRatio,
         (scaleWidth * figmaJson?.absoluteRenderBounds?.height) /
-          devicePixelRatio
+        devicePixelRatio
       );
     }
 
@@ -238,7 +237,7 @@ export const renderFigmaJson = (
           scaleWidth,
           devicePixelRatio,
         },
-        { ...rest, variables: figmaJson.variables }
+        { ...rest, variables: figmaJson.variables, canvasContainerId: elementId }
       );
 
       app.renderer.plugins.interaction.autoPreventDefault = false;
@@ -258,9 +257,9 @@ export const renderFigmaJson = (
 
       app.renderer.resize(
         (scaleWidth * orgFigmaJson?.absoluteRenderBounds?.width) /
-          devicePixelRatio,
+        devicePixelRatio,
         (scaleWidth * orgFigmaJson?.absoluteRenderBounds?.height) /
-          devicePixelRatio
+        devicePixelRatio
       );
 
       setIsUpdated(false);

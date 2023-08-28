@@ -1,15 +1,17 @@
 import { SmoothGraphics } from "@pixi/graphics-smooth"
 import * as PIXI from "pixi.js"
 import { tools } from "../tools"
-import { renderAngleBetweenLines } from "../tools/line"
+import { renderAngleBetweenLines, renderLine, renderLineGraphics, renderPoint } from "../tools/line"
 import { findPointAtDistance, getPointerPosition, isPointerNearEdges, isPointerOutside } from "../tools/utils/calculations"
 import { delay } from "../tools/utils/helpers"
 import { renderSvg } from "../toolbox/renderer"
 import ReactDOMServer from "react-dom/server"
 
-export function renderCanvasGrid({ viewport, gridGraphics, config }) {
+export function renderCanvasGrid({ viewport, gridGraphics, config, lineGraphics, textGraphics }) {
     if (!viewport) return
     gridGraphics.clear()
+    lineGraphics.clear()
+    textGraphics.text = ""
     const gridSize = config.gridSize
     const gridColor = "black" // Grid line color
     const gridAlpha = 0.8 // Grid line opacity
@@ -54,25 +56,32 @@ export function renderCanvasGrid({ viewport, gridGraphics, config }) {
         }
     }
 
-    // const initialX = startX + effectiveGridSize
-    // const initialY = startY + effectiveGridSize
-    // const line = {
-    //     start: {
-    //         x: initialX,
-    //         y: initialY
-    //     },
-    //     end: {
-    //         x: initialX + effectiveGridSize,
-    //         y: initialY
-    //     },
-    //     shapeId: -1
-    // }
 
-    // if (viewport.scale.x < 2 && viewport.scale.y < 2) {
-    //     renderGridUnit(viewport, app, line, gridGraphics, config)
-    // } else {
-    //     app.stage.removeChild(textGraphics)
-    // }
+    if (viewport.scale.x !== 1) return;
+
+    const initialX = viewport.x + effectiveGridSize
+    const initialY = viewport.y + effectiveGridSize
+    const line = {
+        start: {
+            x: initialX,
+            y: initialY
+        },
+        end: {
+            x: initialX + effectiveGridSize,
+            y: initialY
+        },
+        shapeId: -1
+    }
+
+    lineGraphics.lineStyle(config.lineWidth, "blue", 1)
+    lineGraphics.moveTo(line.start.x, line.start.y)
+    lineGraphics.lineTo(line.end.x, line.end.y)
+    renderPoint(lineGraphics, line.start, 5, "blue")
+    renderPoint(lineGraphics, line.end, 5, "blue")
+
+    textGraphics.x = line.start.x + 15
+    textGraphics.y = line.start.y - 15
+    textGraphics.text = `1${config.unit}`
 }
 
 export const renderCanvas = ({
@@ -99,7 +108,9 @@ export const renderCanvas = ({
     startPoint,
     selectedPoint,
     isDrawing,
-    zoomBtnsContainer
+    zoomBtnsContainer,
+    lineGraphics,
+    textGraphics
 }) => {
     outline.clear();
     outline.lineStyle(1, "black");
@@ -119,20 +130,26 @@ export const renderCanvas = ({
     // renderPoint(debugGraphics, viewport.center, 5, "green")
     viewport.addChild(debugGraphics);
 
-    const canvasGridProps = { viewport, gridGraphics, config: canvasConfig, canvasWidth, canvasHeight }
+    const canvasGridProps = {
+        viewport,
+        gridGraphics,
+        config: canvasConfig,
+        canvasWidth,
+        canvasHeight,
+        lineGraphics,
+        textGraphics
+    }
     viewport.on("moved", (e) => {
         gridGraphics.clear();
         renderCanvasGrid(canvasGridProps);
     });
 
     viewport.on("zoomed", () => {
-        gridGraphics.clear();
         renderCanvasGrid(canvasGridProps);
     })
 
     renderCanvasGrid(canvasGridProps)
     renderDrawingItems(defaultDrawingItems, false);
-    console.log(drawingItems)
     renderDrawingItems(drawingItems);
 
     function getProps() {
@@ -278,7 +295,7 @@ export const renderCanvas = ({
     zoomBtnsContainer.removeChildren()
     zoomBtnsContainer = renderZoomButtons(viewport, canvasGridProps, gridGraphics)
     zoomBtnsContainer.x = canvasWidth - 60
-    zoomBtnsContainer.y = canvasMargin
+    zoomBtnsContainer.y = 0
     zoomBtnsContainer.interactive = true
 
     const mask = new PIXI.Graphics();

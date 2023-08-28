@@ -314,7 +314,6 @@ export function renderAngleBetweenLines(
 
 export function renderNewLine(line, setDrawingItems, drawingItems) {
     const { start, end, shapeId } = line
-    console.log("renderNewLine", start, end)
     if (!isSamePoint(start, end)) {
         setDrawingItems(
             [

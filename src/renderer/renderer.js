@@ -30,39 +30,54 @@ export const renderFigmaFromParsedJson = (
   container.sortableChildren = true;
   const screenWidth = children[0].absoluteBoundingBox.width;
   const screenHeight = children[0].absoluteBoundingBox.height;
-  children.forEach((child, idx) => {
-    renderChild(
-      child,
-      container,
-      screenWidth,
-      screenHeight,
-      parsedJson,
-      ["children", idx],
-      setFigmaJson,
-      app,
-      {
-        scaleHeight,
-        scaleWidth,
-        devicePixelRatio,
-      },
-      rest
-    );
-  });
-  // const child = {
-  //   modifiers: ["DRAWING_TOOL"],
-  //   canvasWidth: screenWidth,
-  //   canvasHeight: screenHeight,
-  //   gridSize: 50,
-  //   showSubGrid: true,
-  //   unit: "m",
-  //   hiddenTools: ["circle"],
-  //   defaultDrawingItems: [],
-  // }
-  // renderChild(child, container, screenWidth, screenHeight, {
-  //   scaleHeight,
-  //   scaleWidth,
-  //   devicePixelRatio,
-  // }, app, canvasContainerId);
+  // children.forEach((child, idx) => {
+  //   renderChild(
+  //     child,
+  //     container,
+  //     screenWidth,
+  //     screenHeight,
+  //     parsedJson,
+  //     ["children", idx],
+  //     setFigmaJson,
+  //     app,
+  //     {
+  //       scaleHeight,
+  //       scaleWidth,
+  //       devicePixelRatio,
+  //     },
+  //     rest
+  //   );
+  // });
+  const child = {
+    modifiers: [{
+      type: "DRAWING_TOOL",
+      canvasWidth: screenWidth,
+      canvasHeight: screenHeight,
+      gridSize: 50,
+      showSubGrid: true,
+      unit: "m",
+      hiddenTools: ["circle"],
+      defaultDrawingItems: [],
+    }],
+  }
+
+  renderChild(
+    child,
+    container,
+    screenWidth,
+    screenHeight,
+    parsedJson,
+    ["children", 0],
+    setFigmaJson,
+    app,
+    {
+      scaleHeight,
+      scaleWidth,
+      devicePixelRatio,
+    },
+    rest
+  );
+
 
   container.backgroundColor = 0xffffff;
   // const pixiChild = new PIXI.Graphics();
@@ -158,8 +173,7 @@ const renderChild = async (
 
   if (child.modifiers?.length) {
     const modifiers = child.modifiers;
-    for (let i = 0; i < modifiers.length; i++) {
-      const modifier = modifiers[i];
+    for (let modifier of modifiers) {
       const { type } = modifier;
 
       switch (type) {
@@ -190,6 +204,33 @@ const renderChild = async (
           }
           child.children = newChildren;
 
+          break;
+        case "DRAWING_TOOL":
+          const {
+            canvasWidth,
+            canvasHeight,
+            gridSize,
+            showSubGrid,
+            unit,
+            hiddenTools,
+            defaultDrawingItems,
+          } = modifier;
+          const {
+            canvasContainerId
+          } = rest;
+          const drawingTool = new DrawingTool({
+            app,
+            canvasWidth,
+            canvasHeight,
+            canvasContainerId,
+            gridSize,
+            pixiContainer: parentContainer,
+            showSubGrid,
+            unit,
+            hiddenTools,
+            defaultDrawingItems,
+          });
+          drawingTool.render()
           break;
         default:
           break;
@@ -679,8 +720,7 @@ const renderPolygon = async (
       gradientColors.forEach((stop) => {
         gradient.addColorStop(
           stop.position,
-          `rgba(${stop.color.r * 255},${stop.color.g * 255},${
-            stop.color.b * 255
+          `rgba(${stop.color.r * 255},${stop.color.g * 255},${stop.color.b * 255
           },${stop.color.a})`
         );
       });
@@ -717,8 +757,7 @@ const renderPolygon = async (
       gradientColors.forEach((stop) => {
         gradient.addColorStop(
           stop.position,
-          `rgba(${stop.color.r * 255},${stop.color.g * 255},${
-            stop.color.b * 255
+          `rgba(${stop.color.r * 255},${stop.color.g * 255},${stop.color.b * 255
           },${stop.color.a})`
         );
       });
@@ -760,8 +799,7 @@ const renderPolygon = async (
       gradientColors.forEach((stop) => {
         gradient.addColorStop(
           stop.position,
-          `rgba(${stop.color.r * 255},${stop.color.g * 255},${
-            stop.color.b * 255
+          `rgba(${stop.color.r * 255},${stop.color.g * 255},${stop.color.b * 255
           },${stop.color.a})`
         );
       });

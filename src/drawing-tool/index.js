@@ -59,6 +59,8 @@ export class DrawingTool {
         //graphics
         this.gridGraphics = new SmoothGraphics();
         this.outline = new SmoothGraphics();
+        this.lineGraphics = new SmoothGraphics();
+        this.textGraphics = new PIXI.Text("", this.canvasConfig.textGraphicsOptions);
         // states
         this.drawingItems = [];
         this.undoItems = [];
@@ -191,24 +193,26 @@ export class DrawingTool {
             .map((item) => item.data);
         const shapeAnalyzer = new ShapeAnalyzer()
         const shapeFromLinesData = shapeAnalyzer.getShapeData(lines, this.gridSize)
-        const circles =  this.drawingItems
-        .filter(({ type }) => type === "circle")
-        .map((item) => {
-            const circleData = item.data;
-            return {
-                type: "circle",
-                data: {
-                    start: circleData.start,
-                    end: circleData.end,
-                    radius: getDistance(circleData.start, circleData.end),
-                    shapeId: circleData.shapeId,
-                },
-            };
-        });
+        const circles = this.drawingItems
+            .filter(({ type }) => type === "circle")
+            .map((item) => {
+                const circleData = item.data;
+                return {
+                    type: "circle",
+                    data: {
+                        start: circleData.start,
+                        end: circleData.end,
+                        radius: getDistance(circleData.start, circleData.end),
+                        shapeId: circleData.shapeId,
+                    },
+                };
+            });
         return [...shapeFromLinesData, ...circles];
     }
 
     render = () => {
+        this.viewport.addChild(this.lineGraphics);
+        this.viewport.addChild(this.textGraphics);
         this.#reRenderToolbox();
         this.#reRenderCanvas();
     }
