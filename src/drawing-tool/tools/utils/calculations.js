@@ -326,19 +326,20 @@ export function getPointsSortedInClockwise(points, commonPoint) {
     return points
 }
 
-export function isPointerNearEdges(e, container, edgeThreshold, canvasWidth, canvasHeight) {
-    const { clientX: pointerX, clientY: pointerY } = e
-    const containerRect = container.getBoundingClientRect()
+export function isPointerNearEdges(e, container, edgeThreshold, canvasWidth, canvasHeight, toolboxHeight, canvasMargin) {
+    const { clientX: pointerX, clientY: pointerY } = e;
+    const containerRect = container.getBoundingClientRect();
+    const containerScrollTop = container.scrollTop;
 
-    const leftEdge = containerRect.left + 20;
-    const rightEdge = containerRect.x + canvasWidth + 20;
-    const topEdge = containerRect.top + 50;
-    const bottomEdge = containerRect.y + canvasHeight + 50;
+    const leftEdge = containerRect.left + canvasMargin;
+    const rightEdge = containerRect.right - canvasMargin;
+    const topEdge = containerRect.top + toolboxHeight + canvasMargin - containerScrollTop;
+    const bottomEdge = (containerScrollTop ? (containerRect.top + canvasHeight - toolboxHeight) : (containerRect.bottom)) - canvasMargin
 
-    const isNearLeft = (pointerX - leftEdge) <= edgeThreshold
-    const isNearRight = (rightEdge - pointerX) <= edgeThreshold
-    const isNearTop = (pointerY - topEdge) <= edgeThreshold
-    const isNearBottom = (bottomEdge - pointerY) <= edgeThreshold
+    const isNearLeft = Math.abs(pointerX - leftEdge) <= edgeThreshold;
+    const isNearRight = Math.abs(rightEdge - pointerX) <= edgeThreshold;
+    const isNearTop = Math.abs(pointerY - topEdge) <= edgeThreshold;
+    const isNearBottom = Math.abs(bottomEdge - pointerY) <= edgeThreshold;
     return isNearLeft || isNearBottom || isNearRight || isNearTop
 }
 

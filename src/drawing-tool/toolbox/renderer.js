@@ -43,15 +43,13 @@ export function renderToolbox({
         hiddenTools,
     }
 
-    const iconGap = 45;
+    const iconGap = toolboxHeight - 10;
     toolboxContainer.height = toolboxHeight
 
     toolboxContainer.addChild(leftToolsContainer)
     toolboxContainer.addChild(rightToolsContainer)
 
     let xOffset = 0 // Initial X position for the buttons
-    toolboxContainer.y = 10
-    // toolboxContainer.x = canvasMargin * 1.5
     toolboxContainer.cursor = "pointer"
 
     rightToolsContainer.x = canvasMargin / 1.5;
@@ -73,7 +71,7 @@ export function renderToolbox({
             const backgroundColor = "#008E97"
             const backgroundGraphics = new SmoothGraphics();
             backgroundGraphics.beginFill(backgroundColor);
-            backgroundGraphics.drawRect(-iconGap / 4, -4, iconGap, toolboxHeight - canvasMargin + 3);
+            backgroundGraphics.drawRect(-iconGap / 4, -4, iconGap, toolboxHeight - canvasMargin + 4);
             backgroundGraphics.endFill();
             button.addChild(backgroundGraphics);
         } else {
