@@ -49,7 +49,11 @@ export function onMove(e, others) {
   const lines = shapes["line"] ?? []
   const line = { start, end, shapeId: lines.length + 1 }
   const lineExist = getLineFromLines(line, lines)
-  if (lineExist) return
+  const length = roundupNumber(
+    getDistance(line.start, line.end) / canvasConfig.gridSize,
+    1
+  )
+  if (lineExist || length <= 0.1) return
   renderLineGraphics(line, viewport, graphicsStoreRef, canvasConfig)
   renderAngleBetweenLines(
     [...lines, line],
@@ -92,7 +96,7 @@ export function onUp(e, others) {
     getDistance(line.start, line.end) / canvasConfig.gridSize,
     1
   )
-  if (!lineExist && length > 0.1) renderNewLine(line, setDrawingItems, drawingItems)
+  if (!lineExist && length > (0.1 * viewport.scale.x)) renderNewLine(line, setDrawingItems, drawingItems)
   setStartPoint(null)
   setIsDrawing(false)
 }
