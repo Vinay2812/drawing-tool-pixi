@@ -108,23 +108,21 @@ export class DrawingTool {
             screenWidth: this.canvasWidth,
             screenHeight: this.canvasHeight,
             events: this.app.renderer.events,
-            interaction: this.app.renderer.plugins.interaction,
-            ticker: this.app.ticker,
+            // interaction: this.app.renderer.plugins.interaction,
+            // ticker: this.app.ticker,
         })
             .pinch({
                 noDrag: true,
                 factor: 1,
-                percent: 2,
+                percent: 1,
                 axis: "all",
             })
             .wheel()
             .drag({
                 wheel: false,
-                underflow: "center",
-            }).decelerate({
-                bounce: 0
-            });
-        viewport.interactive = true;
+                factor: isMobile() ? 2 : 1
+            }).decelerate();
+        // viewport.interactive = true;
         return viewport;
     }
 
@@ -282,6 +280,10 @@ export class DrawingTool {
         tools[this.activeTool].events.onUp(e, props);
     }
 
+    #handleOnOutside = (e) => {
+        this.#handleOnUp(e)
+    }
+
 
     #renderCanvasGrid = () => {
         this.gridGraphics.clear()
@@ -421,14 +423,14 @@ export class DrawingTool {
         this.viewport.addEventListener("pointermove", this.#handleOnMove);
         this.viewport.addEventListener("pointerdown", this.#handleOnDown);
         this.viewport.addEventListener("pointerup", this.#handleOnUp);
-        this.viewport.addEventListener("pointerout", this.#handleOnUp);
+        this.viewport.addEventListener("pointerupoutside", this.#handleOnOutside);
     }
 
     #removeEventListeners = () => {
         this.viewport.removeEventListener("pointermove", this.#handleOnMove);
         this.viewport.removeEventListener("pointerdown", this.#handleOnDown);
         this.viewport.removeEventListener("pointerup", this.#handleOnUp);
-        this.viewport.removeEventListener("pointerout", this.#handleOnUp);
+        this.viewport.removeEventListener("pointerupoutside", this.#handleOnOutside);
     }
 
     render = () => {
@@ -448,6 +450,14 @@ export class DrawingTool {
                     g.resolution = 1 + this.viewport.scale.x
                 })
             })
+        })
+
+        this.viewport.on("pinch-start", () => {
+            this.startPoint.current = null;
+            this.isDrawing.current = false;
+            this.pencilPointsRef.current = [];
+            this.viewport.moveCenter(this.viewport.center.x, this.viewport.center.y)
+
         })
     }
 

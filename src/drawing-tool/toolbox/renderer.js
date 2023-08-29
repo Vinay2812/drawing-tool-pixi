@@ -75,7 +75,7 @@ export function renderToolbox({
             backgroundGraphics.endFill();
             button.addChild(backgroundGraphics);
         } else {
-            const outline = new PIXI.Graphics();
+            const outline = new SmoothGraphics();
             outline.lineStyle(1, "black", 0.6);
             outline.drawRect(-iconGap / 4, -3, iconGap, toolboxHeight - canvasMargin + 2);
             outline.endFill();
@@ -87,6 +87,7 @@ export function renderToolbox({
         buttonContainer.cursor = "pointer";
         buttonContainer.addChild(button);
         buttonContainer.x = xOffset;
+        buttonContainer.width = iconGap;
         buttonContainer.interactive = true;
         buttonContainer.onpointerdown = () => { tools[tool.name].onClick(props); }
         xOffset += iconGap;
