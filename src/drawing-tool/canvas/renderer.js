@@ -2,40 +2,34 @@ import { SmoothGraphics } from "@pixi/graphics-smooth"
 import * as PIXI from "pixi.js"
 import { tools } from "../tools"
 import { renderAngleBetweenLines } from "../tools/line"
-import { findPointAtDistance, getPointerPosition, isPointerNearEdges, isPointerOutside } from "../tools/utils/calculations"
-import { delay } from "../tools/utils/helpers"
 import { renderSvg } from "../toolbox/renderer"
 import ReactDOMServer from "react-dom/server"
 
 export const renderCanvas = ({
     canvasWidth,
     canvasHeight,
-    canvasMargin,
-    canvasContainer,
-    app,
     drawingItems,
-    setDrawingItems,
     graphicsStoreRef,
     pointNumberRef,
     canvasConfig,
     activeTool,
     defaultDrawingItems,
     viewport,
-    setStartPoint,
-    setSelectedPoint,
-    setIsDrawing,
-    pencilPointsRef,
     viewportContainer,
     outline,
     gridGraphics,
-    startPoint,
-    selectedPoint,
-    isDrawing,
     zoomBtnsContainer,
+    canvasMargin,
 }) => {
+
+    const maskX = 0;
+    const maskY = 0;
+    const maskWidth = canvasWidth - 1.5 * canvasMargin;
+    const maskHeight = canvasHeight - canvasMargin;
+
     outline.clear();
     outline.lineStyle(1, "black");
-    outline.drawRect(0, 0, canvasWidth, canvasHeight);
+    outline.drawRect(maskX, maskY, maskWidth, maskHeight);
     outline.endFill();
     outline.zIndex = 10
 
@@ -50,125 +44,6 @@ export const renderCanvas = ({
     viewport.addChild(debugGraphics);
     renderDrawingItems(defaultDrawingItems, false);
     renderDrawingItems(drawingItems);
-
-    function getProps() {
-        return {
-            startPoint: startPoint.current,
-            isDrawing: isDrawing.current,
-            viewport,
-            graphicsStoreRef,
-            selectedPoint: selectedPoint.current,
-            setDrawingItems,
-            setStartPoint,
-            setSelectedPoint,
-            setIsDrawing,
-            pointNumberRef,
-            pencilPointsRef,
-            shapes: drawingItems.reduce((data, item) => {
-                if (!data[item.type]) {
-                    data[item.type] = [];
-                }
-                data[item.type].push(item.data);
-                return data;
-            }, {}),
-            canvasConfig,
-            drawingItems,
-        };
-    }
-
-    async function handlePointNearEdge(e) {
-
-        let touchingEdge = isPointerNearEdges(
-            e,
-            canvasContainer,
-            canvasConfig.gridSize,
-            canvasWidth,
-            canvasHeight,
-        );
-        let outsideContainer = isPointerOutside(e, canvasContainer);
-        if (touchingEdge) {
-            await delay(100)
-            touchingEdge = isPointerNearEdges(
-                e,
-                canvasContainer,
-                canvasConfig.gridSize,
-                canvasWidth,
-                canvasHeight,
-            );
-        }
-        while (touchingEdge && !outsideContainer) {
-            const endPoint = getPointerPosition(
-                e,
-                viewport,
-            );
-            const start = startPoint.current;
-            const line = {
-                start: start,
-                end: endPoint,
-                shapeId: -1,
-            };
-            if (!start || !endPoint) {
-                break;
-            }
-
-            const travelDistance = canvasConfig.gridSize * 0.05;
-
-            const shift = findPointAtDistance(line, travelDistance);
-            const deltaX = start.x - shift.x;
-            const deltaY = start.y - shift.y;
-
-            const newCenter = {
-                x: viewport.center.x - deltaX,
-                y: viewport.center.y - deltaY,
-            };
-            viewport.moveCenter(newCenter.x, newCenter.y);
-            await delay(100);
-
-            // Update edge status
-            touchingEdge = isPointerNearEdges(
-                e,
-                canvasContainer,
-                canvasConfig.gridSize,
-                canvasWidth,
-                canvasHeight,
-            );
-            outsideContainer = isPointerOutside(e, canvasContainer, -5);
-
-            if (outsideContainer) {
-                const props = getProps();
-                return tools[activeTool].events.onUp(e, props);
-            }
-
-            const props = getProps();
-            tools[activeTool].events.onMove(e, props);
-        }
-    }
-
-    async function handleOnMove(e) {
-        if (startPoint.current) {
-            await handlePointNearEdge(e);
-        }
-        if (!isDrawing.current) return;
-        const props = getProps();
-        return tools[activeTool].events.onMove(e, props);
-    }
-
-    function handleOnDown(e) {
-        app.renderer.view.style.touchAction = "none";
-        const props = getProps();
-        return tools[activeTool].events.onDown(e, props);
-    }
-
-    function handleOnUp(e) {
-        const props = getProps();
-        tools[activeTool].events.onUp(e, props);
-        app.renderer.view.style.touchAction = "auto";
-    }
-
-    viewport.onpointerdown = handleOnDown
-    viewport.onpointerup = handleOnUp
-    viewport.onpointermove = handleOnMove
-    viewport.onpointerout = handleOnUp
 
     function renderDrawingItems(drawingItems, editable = true) {
         drawingItems.forEach((item) => {
@@ -196,13 +71,13 @@ export const renderCanvas = ({
 
     zoomBtnsContainer.removeChildren()
     zoomBtnsContainer = renderZoomButtons(viewport)
-    zoomBtnsContainer.x = canvasWidth - 60
+    zoomBtnsContainer.x = maskWidth - zoomBtnsContainer.width - canvasMargin / 2
     zoomBtnsContainer.y = 0
     zoomBtnsContainer.interactive = true
 
     const mask = new PIXI.Graphics();
     mask.beginFill(0xffffff);
-    mask.drawRect(0, 0, canvasWidth, canvasHeight);
+    mask.drawRect(maskX, maskY, maskWidth, maskHeight);
     mask.endFill();
 
     viewport.addChild(gridGraphics);
@@ -210,7 +85,7 @@ export const renderCanvas = ({
     viewportContainer.addChild(mask);
     viewportContainer.mask = mask
     viewportContainer.addChild(zoomBtnsContainer)
-
+    viewportContainer.interactive = true
     return viewportContainer
 }
 

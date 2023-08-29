@@ -5,9 +5,10 @@ import * as PIXI from "pixi.js";
 import { SmoothGraphics } from "@pixi/graphics-smooth";
 import { Viewport } from "pixi-viewport";
 import { ShapeAnalyzer } from "./shape";
-import { getDistance } from "./tools/utils/calculations";
+import { findPointAtDistance, getDistance, getPointerPosition, isPointerNearEdges, isPointerOutside } from "./tools/utils/calculations";
 import { renderPoint } from "./tools/line";
 import { tools } from "./tools";
+import { delay } from "./tools/utils/helpers";
 // import Toolbox from "./toolbox";
 
 export class DrawingTool {
@@ -52,7 +53,6 @@ export class DrawingTool {
             unit,
             showSubGrid,
         };
-
         // viewport
         this.viewport = this.#getPixiViewport();
 
@@ -106,7 +106,7 @@ export class DrawingTool {
             worldWidth: 100000,
             worldHeight: 100000,
             screenWidth: this.canvasWidth,
-            screenHeight: this.canvasHeight - 50,
+            screenHeight: this.canvasHeight,
             events: this.app.renderer.events,
             interaction: this.app.renderer.plugins.interaction,
             ticker: this.app.ticker,
@@ -140,7 +140,9 @@ export class DrawingTool {
     }
 
     #setActiveTool = (tool) => {
+        // this.#removeEventListeners()
         this.activeTool = tool;
+        this.#addEventListeners();
         this.#reRenderToolbox();
         this.#reRenderCanvas()
     }
@@ -157,6 +159,129 @@ export class DrawingTool {
         this.#reRenderToolbox();
         this.#reRenderCanvas()
     }
+
+    // Event listeners
+    #getPointerEventProps() {
+        return {
+            startPoint: this.startPoint.current,
+            isDrawing: this.isDrawing.current,
+            viewport: this.viewport,
+            graphicsStoreRef: this.graphicsStoreRef,
+            selectedPoint: this.selectedPoint.current,
+            setDrawingItems: this.#setDrawingItems,
+            setStartPoint: this.#setStartPoint,
+            setSelectedPoint: this.#setSelectedPoint,
+            setIsDrawing: this.#setIsDrawing,
+            pointNumberRef: this.pointNumberRef,
+            pencilPointsRef: this.pencilPointsRef,
+            shapes: this.drawingItems.reduce((data, item) => {
+                if (!data[item.type]) {
+                    data[item.type] = [];
+                }
+                data[item.type].push(item.data);
+                return data;
+            }, {}),
+            canvasConfig: this.canvasConfig,
+            drawingItems: this.drawingItems,
+        };
+    }
+
+    #handlePointNearEdge = async (e) => {
+
+        let touchingEdge = isPointerNearEdges(
+            e,
+            this.canvasContainer,
+            this.gridSize,
+            this.canvasWidth,
+            this.canvasHeight,
+            this.toolboxHeight,
+            this.canvasMargin
+        );
+        // let outsideContainer = isPointerOutside(e, this.canvasContainer);
+        if (touchingEdge) {
+            await delay(100)
+            touchingEdge = isPointerNearEdges(
+                e,
+                this.canvasContainer,
+                this.canvasConfig.gridSize,
+                this.canvasWidth,
+                this.canvasHeight,
+                this.toolboxHeight,
+                this.canvasMargin
+            );
+        }
+        while (touchingEdge) {
+            const endPoint = getPointerPosition(
+                e,
+                this.viewport,
+            );
+            const start = this.startPoint.current;
+            const line = {
+                start: start,
+                end: endPoint,
+                shapeId: -1,
+            };
+            if (!start || !endPoint) {
+                return;
+            }
+
+            const travelDistance = this.canvasConfig.gridSize * 0.05 / this.viewport.scale.x;
+
+            const shift = findPointAtDistance(line, travelDistance);
+            const deltaX = start.x - shift.x;
+            const deltaY = start.y - shift.y;
+
+            const newCenter = {
+                x: this.viewport.center.x - deltaX,
+                y: this.viewport.center.y - deltaY,
+            };
+            this.viewport.moveCenter(newCenter.x, newCenter.y);
+            await delay(100);
+
+            // Update edge status
+            touchingEdge = isPointerNearEdges(
+                e,
+                this.canvasContainer,
+                this.canvasConfig.gridSize,
+                this.canvasWidth,
+                this.canvasHeight,
+                this.toolboxHeight,
+                this.canvasMargin
+            );
+            // outsideContainer = isPointerOutside(e, this.canvasContainer, -5);
+
+            // if (outsideContainer) {
+            //     const props = this.#getPointerEventProps();
+            //     return tools[this.activeTool].events.onUp(e, props);
+            // }
+
+            const props = this.#getPointerEventProps();
+            tools[this.activeTool].events.onMove(e, props);
+        }
+
+        // const props = this.#getPointerEventProps();
+        // tools[this.activeTool].events.onUp(e, props);
+    }
+
+    #handleOnMove = async (e) => {
+        if (this.startPoint.current) {
+            await this.#handlePointNearEdge(e);
+        }
+        if (!this.isDrawing.current) return;
+        const props = this.#getPointerEventProps();
+        return tools[this.activeTool].events.onMove(e, props);
+    }
+
+    #handleOnDown = (e) => {
+        const props = this.#getPointerEventProps();
+        return tools[this.activeTool].events.onDown(e, props);
+    }
+
+    #handleOnUp = (e) => {
+        const props = this.#getPointerEventProps();
+        tools[this.activeTool].events.onUp(e, props);
+    }
+
 
     #renderCanvasGrid = () => {
         this.gridGraphics.clear()
@@ -206,7 +331,6 @@ export class DrawingTool {
             }
         }
 
-
         if (this.viewport.scale.x !== 1) return;
 
         const initialX = this.viewport.x + effectiveGridSize
@@ -245,8 +369,9 @@ export class DrawingTool {
             setSelectedPoint: this.#setSelectedPoint,
             setIsDrawing: this.#setIsDrawing,
         })
-        this.viewportContainer.y = this.toolboxHeight + this.canvasMargin;
-        this.viewportContainer.x = this.canvasMargin;
+        this.viewportContainer.y = this.toolboxHeight + this.canvasMargin / 2;
+        this.viewportContainer.x = this.canvasMargin / 2;
+        // this.#renderCanvasGrid()
         this.pixiContainer.addChild(this.viewportContainer);
     }
 
@@ -265,7 +390,7 @@ export class DrawingTool {
             setIsDrawing: this.#setIsDrawing
         });
         this.toolboxContainer.y = this.canvasMargin;
-        this.toolboxContainer.x = 1.5 * this.canvasMargin;
+        this.toolboxContainer.x = this.canvasMargin;
         this.pixiContainer.addChild(this.toolboxContainer);
     }
 
@@ -292,7 +417,22 @@ export class DrawingTool {
         return [...shapeFromLinesData, ...circles];
     }
 
+    #addEventListeners = () => {
+        this.viewport.addEventListener("pointermove", this.#handleOnMove);
+        this.viewport.addEventListener("pointerdown", this.#handleOnDown);
+        this.viewport.addEventListener("pointerup", this.#handleOnUp);
+        this.viewport.addEventListener("pointerout", this.#handleOnUp);
+    }
+
+    #removeEventListeners = () => {
+        this.viewport.removeEventListener("pointermove", this.#handleOnMove);
+        this.viewport.removeEventListener("pointerdown", this.#handleOnDown);
+        this.viewport.removeEventListener("pointerup", this.#handleOnUp);
+        this.viewport.removeEventListener("pointerout", this.#handleOnUp);
+    }
+
     render = () => {
+        this.#addEventListeners();
         this.viewport.addChild(this.lineGraphics);
         this.viewport.addChild(this.textGraphics);
         this.#reRenderToolbox();
@@ -309,13 +449,13 @@ export class DrawingTool {
                 })
             })
         })
-        // this.viewport.on("zoomed-end", () => {
-        //     this.textGraphics.x = this.textGraphics.x * this.viewport.scale.x
-        //     this.textGraphics.y = this.textGraphics.y * this.viewport.scale.y
-        //     Object.keys(this.graphicsStoreRef.current).forEach((key) => {
-        //         this.graphicsStoreRef.current[key].forEach(g => g.scale.set(this.viewport.scale.x))
-        //     })
-        // })
+    }
+
+    destroy = () => {
+        this.#removeEventListeners();
+        this.viewport.destroy();
+        this.viewportContainer.destroy();
+        this.pixiContainer.destroy();
     }
 
 }
