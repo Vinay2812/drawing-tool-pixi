@@ -109,7 +109,7 @@ export const renderFigmaJson = (
       app.renderer.resolution = devicePixelRatio;
 
       app.renderer.plugins.interaction.autoPreventDefault = false;
-      app.renderer.view.style.touchAction = "auto";
+      // app.renderer.view.style.touchAction = "auto";
 
       // Append the PIXI view to the specified HTML element
       app.stage.addChild(container);
