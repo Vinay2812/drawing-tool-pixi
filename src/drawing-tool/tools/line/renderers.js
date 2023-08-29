@@ -47,7 +47,7 @@ export function renderDistanceOnLine(textGraphics, line, config, viewport) {
     let p1 = start
     let p2 = end
     let gap = config.gridSize / (isMobile() ? 3.5 : 2.75) + config.lineWidth * 1.2
-    gap /= viewport.scale.x
+    // gap /= viewport.scale.x
 
     if ((p2.x < p1.x && p2.y < p1.y) || (p2.x < p1.x && p2.y > p1.y)) {
         p1 = end

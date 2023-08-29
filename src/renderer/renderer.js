@@ -30,53 +30,53 @@ export const renderFigmaFromParsedJson = (
   container.sortableChildren = true;
   const screenWidth = children[0].absoluteBoundingBox.width;
   const screenHeight = children[0].absoluteBoundingBox.height;
-  // children.forEach((child, idx) => {
-  //   renderChild(
-  //     child,
-  //     container,
-  //     screenWidth,
-  //     screenHeight,
-  //     parsedJson,
-  //     ["children", idx],
-  //     setFigmaJson,
-  //     app,
-  //     {
-  //       scaleHeight,
-  //       scaleWidth,
-  //       devicePixelRatio,
-  //     },
-  //     rest
-  //   );
-  // });
-  const child = {
-    modifiers: [{
-      type: "DRAWING_TOOL",
-      canvasWidth: screenWidth,
-      canvasHeight: screenHeight,
-      gridSize: 50,
-      showSubGrid: true,
-      unit: "m",
-      hiddenTools: ["circle"],
-      defaultDrawingItems: [],
-    }],
-  }
+  children.forEach((child, idx) => {
+    renderChild(
+      child,
+      container,
+      screenWidth,
+      screenHeight,
+      parsedJson,
+      ["children", idx],
+      setFigmaJson,
+      app,
+      {
+        scaleHeight,
+        scaleWidth,
+        devicePixelRatio,
+      },
+      rest
+    );
+  });
+  // const child = {
+  //   modifiers: [{
+  //     type: "DRAWING_TOOL",
+  //     canvasWidth: screenWidth,
+  //     canvasHeight: screenHeight,
+  //     gridSize: 50,
+  //     showSubGrid: true,
+  //     unit: "m",
+  //     hiddenTools: ["circle"],
+  //     defaultDrawingItems: [],
+  //   }],
+  // }
 
-  renderChild(
-    child,
-    container,
-    screenWidth,
-    screenHeight,
-    parsedJson,
-    ["children", 0],
-    setFigmaJson,
-    app,
-    {
-      scaleHeight,
-      scaleWidth,
-      devicePixelRatio,
-    },
-    rest
-  );
+  // renderChild(
+  //   child,
+  //   container,
+  //   screenWidth,
+  //   screenHeight,
+  //   parsedJson,
+  //   ["children", 0],
+  //   setFigmaJson,
+  //   app,
+  //   {
+  //     scaleHeight,
+  //     scaleWidth,
+  //     devicePixelRatio,
+  //   },
+  //   rest
+  // );
 
 
   container.backgroundColor = 0xffffff;

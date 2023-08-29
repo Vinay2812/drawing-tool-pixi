@@ -24,6 +24,11 @@ export function renderToolbox({
     hiddenTools,
     toolboxHeight,
     canvasMargin,
+    toolboxContainer,
+    leftToolsContainer,
+    rightToolsContainer,
+    leftTools,
+    rightTools
 }) {
     const props = {
         activeTool,
@@ -37,18 +42,9 @@ export function renderToolbox({
         viewport,
         hiddenTools,
     }
-    const leftTools = Object.entries(tools).filter(([_, tool]) => {
-        return tool.isLeft && !hiddenTools.includes(tool.name)
-    })
-    const rightTools = Object.entries(tools).filter(([_, tool]) => {
-        return !tool.isLeft && !hiddenTools.includes(tool.name)
-    })
 
     const iconGap = 45;
-    const toolboxContainer = new PIXI.Container()
     toolboxContainer.height = toolboxHeight
-    const leftToolsContainer = new PIXI.Container()
-    const rightToolsContainer = new PIXI.Container()
 
     toolboxContainer.addChild(leftToolsContainer)
     toolboxContainer.addChild(rightToolsContainer)
@@ -94,7 +90,7 @@ export function renderToolbox({
         buttonContainer.addChild(button);
         buttonContainer.x = xOffset;
         buttonContainer.interactive = true;
-        buttonContainer.onpointerdown = () => {tools[tool.name].onClick(props); }
+        buttonContainer.onpointerdown = () => { tools[tool.name].onClick(props); }
         xOffset += iconGap;
 
         leftToolsContainer.addChild(buttonContainer);
@@ -114,7 +110,7 @@ export function renderToolbox({
         if (!disabled)
             button.onpointerdown = () => tools[tool.name].onClick(props)
 
-        xOffset += iconGap // Add the width of the button plus 10px of padding
+        xOffset += iconGap
         button.cursor = "pointer";
         rightToolsContainer.addChild(button)
     })

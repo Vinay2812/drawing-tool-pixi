@@ -1,88 +1,11 @@
 import { SmoothGraphics } from "@pixi/graphics-smooth"
 import * as PIXI from "pixi.js"
 import { tools } from "../tools"
-import { renderAngleBetweenLines, renderLine, renderLineGraphics, renderPoint } from "../tools/line"
+import { renderAngleBetweenLines } from "../tools/line"
 import { findPointAtDistance, getPointerPosition, isPointerNearEdges, isPointerOutside } from "../tools/utils/calculations"
 import { delay } from "../tools/utils/helpers"
 import { renderSvg } from "../toolbox/renderer"
 import ReactDOMServer from "react-dom/server"
-
-export function renderCanvasGrid({ viewport, gridGraphics, config, lineGraphics, textGraphics }) {
-    if (!viewport) return
-    gridGraphics.clear()
-    lineGraphics.clear()
-    textGraphics.text = ""
-    const gridSize = config.gridSize
-    const gridColor = "black" // Grid line color
-    const gridAlpha = 0.8 // Grid line opacity
-
-    // Calculate the effective grid size in screen space
-    const effectiveGridSize = gridSize * viewport.scale.x
-
-    const startX = viewport.x - viewport.worldWidth / 2;
-    const startY = viewport.y - viewport.worldHeight / 2;
-
-    const endX = viewport.x + viewport.worldWidth / 2;
-    const endY = viewport.y + viewport.worldHeight / 2;
-
-    // Render vertical grid lines
-    for (let x = startX; x < endX; x += effectiveGridSize) {
-        gridGraphics.lineStyle(1, gridColor, gridAlpha)
-        gridGraphics.moveTo(x, startY)
-        gridGraphics.lineTo(x, endY)
-    }
-
-    // Render horizontal grid lines
-    for (let y = startY; y < endY; y += effectiveGridSize) {
-        gridGraphics.lineStyle(1, gridColor, gridAlpha)
-        gridGraphics.moveTo(startX, y)
-        gridGraphics.lineTo(endX, y)
-    }
-    if (config.showSubGrid) {
-        const subGridSize = effectiveGridSize / 5
-        const subGridAlpha = 0.1
-        // Render vertical grid lines
-        for (let x = startX; x < endX; x += subGridSize) {
-            gridGraphics.lineStyle(1, gridColor, subGridAlpha)
-            gridGraphics.moveTo(x, startY)
-            gridGraphics.lineTo(x, endY)
-        }
-
-        // Render horizontal grid lines
-        for (let y = startY; y < endY; y += subGridSize) {
-            gridGraphics.lineStyle(1, gridColor, subGridAlpha)
-            gridGraphics.moveTo(startX, y)
-            gridGraphics.lineTo(endX, y)
-        }
-    }
-
-
-    if (viewport.scale.x !== 1) return;
-
-    const initialX = viewport.x + effectiveGridSize
-    const initialY = viewport.y + effectiveGridSize
-    const line = {
-        start: {
-            x: initialX,
-            y: initialY
-        },
-        end: {
-            x: initialX + effectiveGridSize,
-            y: initialY
-        },
-        shapeId: -1
-    }
-
-    lineGraphics.lineStyle(config.lineWidth, "blue", 1)
-    lineGraphics.moveTo(line.start.x, line.start.y)
-    lineGraphics.lineTo(line.end.x, line.end.y)
-    renderPoint(lineGraphics, line.start, 5, "blue")
-    renderPoint(lineGraphics, line.end, 5, "blue")
-
-    textGraphics.x = line.start.x + 15
-    textGraphics.y = line.start.y - 15
-    textGraphics.text = `1${config.unit}`
-}
 
 export const renderCanvas = ({
     canvasWidth,
@@ -109,8 +32,6 @@ export const renderCanvas = ({
     selectedPoint,
     isDrawing,
     zoomBtnsContainer,
-    lineGraphics,
-    textGraphics
 }) => {
     outline.clear();
     outline.lineStyle(1, "black");
@@ -125,30 +46,8 @@ export const renderCanvas = ({
     } else {
         viewport.plugins.pause("drag");
     }
-    gridGraphics.clear();
     const debugGraphics = new SmoothGraphics();
-    // renderPoint(debugGraphics, viewport.center, 5, "green")
     viewport.addChild(debugGraphics);
-
-    const canvasGridProps = {
-        viewport,
-        gridGraphics,
-        config: canvasConfig,
-        canvasWidth,
-        canvasHeight,
-        lineGraphics,
-        textGraphics
-    }
-    viewport.on("moved", (e) => {
-        gridGraphics.clear();
-        renderCanvasGrid(canvasGridProps);
-    });
-
-    viewport.on("zoomed", () => {
-        renderCanvasGrid(canvasGridProps);
-    })
-
-    renderCanvasGrid(canvasGridProps)
     renderDrawingItems(defaultDrawingItems, false);
     renderDrawingItems(drawingItems);
 
@@ -178,6 +77,7 @@ export const renderCanvas = ({
     }
 
     async function handlePointNearEdge(e) {
+
         let touchingEdge = isPointerNearEdges(
             e,
             canvasContainer,
@@ -186,7 +86,16 @@ export const renderCanvas = ({
             canvasHeight,
         );
         let outsideContainer = isPointerOutside(e, canvasContainer);
-
+        if (touchingEdge) {
+            await delay(100)
+            touchingEdge = isPointerNearEdges(
+                e,
+                canvasContainer,
+                canvasConfig.gridSize,
+                canvasWidth,
+                canvasHeight,
+            );
+        }
         while (touchingEdge && !outsideContainer) {
             const endPoint = getPointerPosition(
                 e,
@@ -212,14 +121,8 @@ export const renderCanvas = ({
                 x: viewport.center.x - deltaX,
                 y: viewport.center.y - deltaY,
             };
-
-            // Update the viewport's center position
             viewport.moveCenter(newCenter.x, newCenter.y);
-            gridGraphics.clear();
-            renderCanvasGrid(canvasGridProps);
-
-            // Wait for a short delay
-            await delay(1);
+            await delay(100);
 
             // Update edge status
             touchingEdge = isPointerNearEdges(
@@ -257,7 +160,6 @@ export const renderCanvas = ({
     }
 
     function handleOnUp(e) {
-
         const props = getProps();
         tools[activeTool].events.onUp(e, props);
         app.renderer.view.style.touchAction = "auto";
@@ -293,7 +195,7 @@ export const renderCanvas = ({
 
 
     zoomBtnsContainer.removeChildren()
-    zoomBtnsContainer = renderZoomButtons(viewport, canvasGridProps, gridGraphics)
+    zoomBtnsContainer = renderZoomButtons(viewport)
     zoomBtnsContainer.x = canvasWidth - 60
     zoomBtnsContainer.y = 0
     zoomBtnsContainer.interactive = true
@@ -312,7 +214,7 @@ export const renderCanvas = ({
     return viewportContainer
 }
 
-export function renderZoomButtons(viewport, canvasGridProps, gridGraphics) {
+export function renderZoomButtons(viewport) {
 
     const zoomInSvg = <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -370,15 +272,13 @@ export function renderZoomButtons(viewport, canvasGridProps, gridGraphics) {
 
 
     zoomInButton.onpointerdown = () => {
-        viewport.setZoom(viewport.scale.x * 1.2);
-        gridGraphics.clear();
-        renderCanvasGrid(canvasGridProps);
+        viewport.setZoom(viewport.scale.x * 1.1);
+        // renderCanvasGrid();
     }
 
     zoomOutButton.onpointerdown = () => {
-        viewport.setZoom(viewport.scale.x / 1.2);
-        gridGraphics.clear();
-        renderCanvasGrid(canvasGridProps);
+        viewport.setZoom(viewport.scale.x / 1.1);
+        // renderCanvasGrid();
     }
 
     zoomInButton.interactive = true
