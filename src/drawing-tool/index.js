@@ -222,7 +222,7 @@ export class DrawingTool {
                 shapeId: -1,
             };
             if (!start || !endPoint) {
-                break;
+                return;
             }
 
             const travelDistance = this.canvasConfig.gridSize * 0.05 / this.viewport.scale.x;
