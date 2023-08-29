@@ -56,7 +56,7 @@ export const renderFigmaFromParsedJson = (
       gridSize: 50,
       showSubGrid: true,
       unit: "m",
-      hiddenTools: ["circle"],
+      hiddenTools: [],
       defaultDrawingItems: [],
     }],
   }
