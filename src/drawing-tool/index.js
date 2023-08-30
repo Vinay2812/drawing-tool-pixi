@@ -6,7 +6,7 @@ import { SmoothGraphics } from "@pixi/graphics-smooth";
 import { Viewport } from "pixi-viewport";
 import { ShapeAnalyzer } from "./shape";
 import { findPointAtDistance, getDistance, getPointerPosition, isPointerNearEdges, isPointerOutside } from "./tools/utils/calculations";
-import { renderDistanceOnLine, renderPoint } from "./tools/line";
+import { renderAngleBetweenLines, renderDistanceOnLine, renderPoint } from "./tools/line";
 import { tools } from "./tools";
 import { delay } from "./tools/utils/helpers";
 // import Toolbox from "./toolbox";
@@ -138,27 +138,31 @@ export class DrawingTool {
     }
 
     #setActiveTool = (tool) => {
-        // this.#removeEventListeners()
+        this.#removeEventListeners()
         this.activeTool = tool;
+        if (this.activeTool === "select") {
+            this.viewport.plugins.resume("drag");
+        } else {
+            this.viewport.plugins.pause("drag");
+        }
         this.#addEventListeners();
-        this.#reRenderToolbox();
-        this.#reRenderCanvas()
+        this.#renderToolbox();
     }
 
     #setDrawingItems = (items) => {
         this.drawingItems = items;
         this.undoItems = []
-        this.#reRenderToolbox();
-        this.#reRenderCanvas()
+        this.#renderToolbox();
+        this.#renderRecentDrawingItem()
     }
 
     #setUndoItems = (items) => {
         this.undoItems = items;
-        this.#reRenderToolbox();
-        this.#reRenderCanvas()
+        this.#renderToolbox();
+        this.#renderAllDrawingItems(false)
+        this.#renderAllDrawingItems(true)
     }
 
-    // Event listeners
     #getPointerEventProps() {
         return {
             startPoint: this.startPoint.current,
@@ -284,82 +288,56 @@ export class DrawingTool {
         this.#handleOnUp(e)
     }
 
-
-    #renderCanvasGrid = () => {
-        this.gridGraphics.clear()
-        this.lineGraphics.clear()
-        this.textGraphics.text = ""
-        const gridSize = this.gridSize
-        const gridColor = "black" // Grid line color
-        const gridAlpha = 0.8 // Grid line opacity
-
-        // Calculate the effective grid size in screen space
-        const effectiveGridSize = gridSize * this.viewport.scale.x
-
-        const startX = this.viewport.x - this.viewport.worldWidth / 2;
-        const startY = this.viewport.y - this.viewport.worldHeight / 2;
-
-        const endX = this.viewport.x + this.viewport.worldWidth / 2;
-        const endY = this.viewport.y + this.viewport.worldHeight / 2;
-
-        // Render vertical grid lines
-        for (let x = startX; x < endX; x += effectiveGridSize) {
-            this.gridGraphics.lineStyle(1, gridColor, gridAlpha)
-            this.gridGraphics.moveTo(x, startY)
-            this.gridGraphics.lineTo(x, endY)
-        }
-
-        // Render horizontal grid lines
-        for (let y = startY; y < endY; y += effectiveGridSize) {
-            this.gridGraphics.lineStyle(1, gridColor, gridAlpha)
-            this.gridGraphics.moveTo(startX, y)
-            this.gridGraphics.lineTo(endX, y)
-        }
-        if (this.showSubGrid) {
-            const subGridSize = effectiveGridSize / 5
-            const subGridAlpha = 0.1
-            // Render vertical grid lines
-            for (let x = startX; x < endX; x += subGridSize) {
-                this.gridGraphics.lineStyle(1, gridColor, subGridAlpha)
-                this.gridGraphics.moveTo(x, startY)
-                this.gridGraphics.lineTo(x, endY)
-            }
-
-            // Render horizontal grid lines
-            for (let y = startY; y < endY; y += subGridSize) {
-                this.gridGraphics.lineStyle(1, gridColor, subGridAlpha)
-                this.gridGraphics.moveTo(startX, y)
-                this.gridGraphics.lineTo(endX, y)
-            }
-        }
-
-        if (this.viewport.scale.x !== 1) return;
-
-        const initialX = this.viewport.x + effectiveGridSize
-        const initialY = this.viewport.y + effectiveGridSize
-        const line = {
-            start: {
-                x: initialX,
-                y: initialY
-            },
-            end: {
-                x: initialX + effectiveGridSize,
-                y: initialY
-            },
-            shapeId: -1
-        }
-
-        this.lineGraphics.lineStyle(this.lineWidth, "blue", 1)
-        this.lineGraphics.moveTo(line.start.x, line.start.y)
-        this.lineGraphics.lineTo(line.end.x, line.end.y)
-        renderPoint(this.lineGraphics, line.start, 5, "blue")
-        renderPoint(this.lineGraphics, line.end, 5, "blue")
-
-        renderDistanceOnLine(this.textGraphics, line, this.canvasConfig, this.viewport)
-        this.textGraphics.text = `1${this.unit}`
+    #renderRecentDrawingItem = () => {
+        const editable = true;
+        if (!this.drawingItems.length) return;
+        const n = this.drawingItems.length;
+        const renderer = tools[this.drawingItems[n - 1].type].renderer;
+        renderer(
+            this.drawingItems[n - 1].data,
+            this.viewport,
+            this.graphicsStoreRef,
+            this.canvasConfig,
+            editable,
+        );
+        renderAngleBetweenLines(
+            (this.drawingItems)
+                .filter((item) => item.type === "line")
+                .map((item) => item.data),
+            this.viewport,
+            this.graphicsStoreRef,
+            this.pointNumberRef,
+            this.canvasConfig,
+            editable,
+        );
     }
 
-    #reRenderCanvas = () => {
+    #renderAllDrawingItems = (defaultDrawingItems = false) => {
+        const items = defaultDrawingItems ? this.drawingItems : this.defaultDrawingItems
+        const editable = defaultDrawingItems
+        items.forEach((item) => {
+            const renderer = tools[item.type].renderer;
+            renderer(
+                item.data,
+                this.viewport,
+                this.graphicsStoreRef,
+                this.canvasConfig,
+                editable,
+            );
+        });
+        renderAngleBetweenLines(
+            (items)
+                .filter((item) => item.type === "line")
+                .map((item) => item.data),
+            this.viewport,
+            this.graphicsStoreRef,
+            this.pointNumberRef,
+            this.canvasConfig,
+            editable,
+        );
+    }
+
+    #renderCanvas = () => {
         this.pixiContainer.removeChild(this.viewportContainer);
         this.viewportContainer = renderCanvas({
             ...this,
@@ -372,11 +350,10 @@ export class DrawingTool {
         })
         this.viewportContainer.y = this.toolboxHeight + this.canvasMargin / 2;
         this.viewportContainer.x = this.canvasMargin / 2;
-        // this.#renderCanvasGrid()
-        this.pixiContainer.addChild(this.viewportContainer);
+        // this.pixiContainer.addChild(this.viewportContainer);
     }
 
-    #reRenderToolbox = () => {
+    #renderToolbox = () => {
         if (this.toolboxContainer.children.length) {
             this.leftToolsContainer.removeChildren();
             this.rightToolsContainer.removeChildren();
@@ -392,7 +369,7 @@ export class DrawingTool {
         });
         this.toolboxContainer.y = this.canvasMargin;
         this.toolboxContainer.x = this.canvasMargin;
-        this.pixiContainer.addChild(this.toolboxContainer);
+        // this.pixiContainer.addChild(this.toolboxContainer);
     }
 
     getShapeData = () => {
@@ -436,9 +413,12 @@ export class DrawingTool {
         this.#addEventListeners();
         this.viewport.addChild(this.lineGraphics);
         this.viewport.addChild(this.textGraphics);
-        this.#reRenderToolbox();
-        this.#reRenderCanvas();
-        this.#renderCanvasGrid()
+        this.#renderToolbox();
+        this.#renderCanvas();
+        this.#renderAllDrawingItems(false)
+
+        this.pixiContainer.addChild(this.toolboxContainer);
+        this.pixiContainer.addChild(this.viewportContainer);
 
         this.viewport.on("zoomed", () => {
             this.gridGraphics.resolution = 1 + this.viewport.scale.x
@@ -456,7 +436,6 @@ export class DrawingTool {
             this.isDrawing.current = false;
             this.pencilPointsRef.current = [];
             this.viewport.moveCenter(this.viewport.center.x, this.viewport.center.y)
-
         })
     }
 
