@@ -1,27 +1,103 @@
 import { SmoothGraphics } from "@pixi/graphics-smooth"
 import * as PIXI from "pixi.js"
-import { tools } from "../tools"
-import { renderAngleBetweenLines } from "../tools/line"
 import { renderSvg } from "../toolbox/renderer"
 import ReactDOMServer from "react-dom/server"
+import { renderDistanceOnLine, renderPoint } from "../tools/line"
+
+const renderCanvasGrid = (viewport, gridGraphics, lineGraphics, textGraphics, canvasConfig) => {
+    gridGraphics.clear()
+    lineGraphics.clear()
+    textGraphics.text = ""
+    const {
+        gridSize,
+        unit,
+        lineWidth,
+        showSubGrid
+    } = canvasConfig
+    const gridColor = "black" // Grid line color
+    const gridAlpha = 0.8 // Grid line opacity
+
+    // Calculate the effective grid size in screen space
+    const effectiveGridSize = gridSize * viewport.scale.x
+
+    const startX = viewport.x - viewport.worldWidth / 2;
+    const startY = viewport.y - viewport.worldHeight / 2;
+
+    const endX = viewport.x + viewport.worldWidth / 2;
+    const endY = viewport.y + viewport.worldHeight / 2;
+
+    // Render vertical grid lines
+    for (let x = startX; x < endX; x += effectiveGridSize) {
+        gridGraphics.lineStyle(1, gridColor, gridAlpha)
+        gridGraphics.moveTo(x, startY)
+        gridGraphics.lineTo(x, endY)
+    }
+
+    // Render horizontal grid lines
+    for (let y = startY; y < endY; y += effectiveGridSize) {
+        gridGraphics.lineStyle(1, gridColor, gridAlpha)
+        gridGraphics.moveTo(startX, y)
+        gridGraphics.lineTo(endX, y)
+    }
+    if (showSubGrid) {
+        const subGridSize = effectiveGridSize / 5
+        const subGridAlpha = 0.1
+        // Render vertical grid lines
+        for (let x = startX; x < endX; x += subGridSize) {
+            gridGraphics.lineStyle(1, gridColor, subGridAlpha)
+            gridGraphics.moveTo(x, startY)
+            gridGraphics.lineTo(x, endY)
+        }
+
+        // Render horizontal grid lines
+        for (let y = startY; y < endY; y += subGridSize) {
+            gridGraphics.lineStyle(1, gridColor, subGridAlpha)
+            gridGraphics.moveTo(startX, y)
+            gridGraphics.lineTo(endX, y)
+        }
+    }
+
+    if (viewport.scale.x !== 1) return;
+
+    const initialX = viewport.x + effectiveGridSize
+    const initialY = viewport.y + effectiveGridSize
+    const line = {
+        start: {
+            x: initialX,
+            y: initialY
+        },
+        end: {
+            x: initialX + effectiveGridSize,
+            y: initialY
+        },
+        shapeId: -1
+    }
+
+    lineGraphics.lineStyle(lineWidth, "blue", 1)
+    lineGraphics.moveTo(line.start.x, line.start.y)
+    lineGraphics.lineTo(line.end.x, line.end.y)
+    renderPoint(lineGraphics, line.start, 5, "blue")
+    renderPoint(lineGraphics, line.end, 5, "blue")
+
+    renderDistanceOnLine(textGraphics, line, canvasConfig, viewport)
+    textGraphics.text = `1${unit}`
+}
 
 export const renderCanvas = ({
     canvasWidth,
     canvasHeight,
-    drawingItems,
-    graphicsStoreRef,
-    pointNumberRef,
-    canvasConfig,
-    activeTool,
-    defaultDrawingItems,
     viewport,
     viewportContainer,
     outline,
     gridGraphics,
     zoomBtnsContainer,
     canvasMargin,
+    lineGraphics,
+    textGraphics,
+    canvasConfig
 }) => {
 
+    renderCanvasGrid(viewport, gridGraphics, lineGraphics, textGraphics, canvasConfig)
     const maskX = 0;
     const maskY = 0;
     const maskWidth = canvasWidth - 1.5 * canvasMargin;
@@ -35,39 +111,8 @@ export const renderCanvas = ({
 
     viewportContainer.addChild(outline);
 
-    if (activeTool === "select") {
-        viewport.plugins.resume("drag");
-    } else {
-        viewport.plugins.pause("drag");
-    }
     const debugGraphics = new SmoothGraphics();
     viewport.addChild(debugGraphics);
-    renderDrawingItems(defaultDrawingItems, false);
-    renderDrawingItems(drawingItems);
-
-    function renderDrawingItems(drawingItems, editable = true) {
-        drawingItems.forEach((item) => {
-            const renderer = tools[item.type].renderer;
-            renderer(
-                item.data,
-                viewport,
-                graphicsStoreRef,
-                canvasConfig,
-                editable,
-            );
-        });
-        renderAngleBetweenLines(
-            (drawingItems)
-                .filter((item) => item.type === "line")
-                .map((item) => item.data),
-            viewport,
-            graphicsStoreRef,
-            pointNumberRef,
-            canvasConfig,
-            editable,
-        );
-    }
-
 
     zoomBtnsContainer.removeChildren()
     zoomBtnsContainer = renderZoomButtons(viewport)
@@ -89,7 +134,7 @@ export const renderCanvas = ({
     return viewportContainer
 }
 
-export function renderZoomButtons(viewport) {
+function renderZoomButtons(viewport) {
 
     const zoomInSvg = <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -148,12 +193,10 @@ export function renderZoomButtons(viewport) {
 
     zoomInButton.onpointerdown = () => {
         viewport.setZoom(viewport.scale.x * 1.1);
-        // renderCanvasGrid();
     }
 
     zoomOutButton.onpointerdown = () => {
         viewport.setZoom(viewport.scale.x / 1.1);
-        // renderCanvasGrid();
     }
 
     zoomInButton.interactive = true
@@ -172,6 +215,6 @@ export function renderZoomButtons(viewport) {
     zoomContainer.addChild(zoomInButton)
     zoomContainer.addChild(zoomOutButton)
     zoomContainer.zIndex = 10
-    // zoomBtnsContainer.interactive = true
+
     return zoomContainer
 }
