@@ -8,10 +8,9 @@ export const Icon = (props) => (
         xmlns="http://www.w3.org/2000/svg"
         height="25"
         width="25"
-        // viewBox="2 2 40 40"
+        viewBox="0 0 24 24"
         stroke="currentColor"
         {...props}
-        zIndex="100"
     >
         <circle cx="4" cy="4" r="2" fill={props.style?.stroke ?? "black"} />
         <circle cx="20" cy="20" r="2" fill={props.style?.stroke ?? "black"} />
