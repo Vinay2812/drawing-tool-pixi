@@ -6,7 +6,7 @@ import { SmoothGraphics } from "@pixi/graphics-smooth";
 import { Viewport } from "pixi-viewport";
 import { ShapeAnalyzer } from "./shape";
 import { findPointAtDistance, getDistance, getPointerPosition, isPointerNearEdges, isPointerOutside } from "./tools/utils/calculations";
-import { renderPoint } from "./tools/line";
+import { renderDistanceOnLine, renderPoint } from "./tools/line";
 import { tools } from "./tools";
 import { delay } from "./tools/utils/helpers";
 // import Toolbox from "./toolbox";
@@ -355,8 +355,7 @@ export class DrawingTool {
         renderPoint(this.lineGraphics, line.start, 5, "blue")
         renderPoint(this.lineGraphics, line.end, 5, "blue")
 
-        this.textGraphics.x = line.start.x + 15 * this.viewport.scale.x
-        this.textGraphics.y = line.start.y - 15 * this.viewport.scale.x
+        renderDistanceOnLine(this.textGraphics, line, this.canvasConfig, this.viewport)
         this.textGraphics.text = `1${this.unit}`
     }
 
