@@ -61,38 +61,47 @@ export function renderToolbox({
     }
 
     leftTools.forEach(([toolName, tool], idx) => {
-        const isActiveTool = toolName === activeTool; // Check if this tool is the active tool
+        const button = new PIXI.Container();
+        const backgroundGraphics = new SmoothGraphics();
+        const outline = new SmoothGraphics();
+        const buttonContainer = new PIXI.Container();
+
+        buttonContainer.x = xOffset;
+
+        const isActiveTool = toolName === activeTool;
         const Icon = tool.Icon;
         const svgIcon = ReactDOMServer.renderToStaticMarkup(<Icon style={isActiveTool ? { stroke: "white" } : {}} />);
         const iconSprite = renderSvg(svgIcon);
-        const button = new PIXI.Container();
-        // Create a background color graphics object for the active tool
-        if (isActiveTool) {
-            const backgroundColor = "#008E97"
-            const backgroundGraphics = new SmoothGraphics();
-            backgroundGraphics.beginFill(backgroundColor);
-            backgroundGraphics.drawRect(-iconGap / 4, -4, iconGap, toolboxHeight - canvasMargin + 4);
-            backgroundGraphics.endFill();
-            button.addChild(backgroundGraphics);
-        } else {
-            const outline = new SmoothGraphics();
-            outline.lineStyle(1, "black", 0.6);
-            outline.drawRect(-iconGap / 4, -3, iconGap, toolboxHeight - canvasMargin + 2);
-            outline.endFill();
-            button.addChild(outline);
-        }
 
+        iconSprite.interactive = true;
+        iconSprite.cursor = "pointer";
+        iconSprite.addEventListener("pointerdown", () => {
+            tools[tool.name].onClick(props);
+        })
+
+        // Create a background color graphics object for the active tool
+        const backgroundColor = isActiveTool ? "#008E97" : "white"
+        backgroundGraphics.interactive = true;
+        backgroundGraphics.cursor = "pointer";
+        backgroundGraphics.beginFill(backgroundColor);
+        backgroundGraphics.drawRect(-iconGap / 4, -4, iconGap, toolboxHeight - canvasMargin + 4);
+        backgroundGraphics.endFill();
+        backgroundGraphics.addEventListener("pointerdown", () => {
+            tools[tool.name].onClick(props);
+        })
+
+        outline.lineStyle(1, "black", 0.6);
+        outline.drawRect(-iconGap / 4, -3, iconGap, toolboxHeight - canvasMargin + 2);
+        outline.endFill();
+    
+        button.addChild(backgroundGraphics);
+        button.addChild(outline);
         button.addChild(iconSprite);
-        const buttonContainer = new PIXI.Container();
-        buttonContainer.cursor = "pointer";
         buttonContainer.addChild(button);
-        buttonContainer.x = xOffset;
-        buttonContainer.width = iconGap;
-        buttonContainer.interactive = true;
-        buttonContainer.onpointerdown = () => { tools[tool.name].onClick(props); }
-        xOffset += iconGap;
 
         leftToolsContainer.addChild(buttonContainer);
+    
+        xOffset += iconGap;
     });
 
     rightTools.forEach(([toolName, tool]) => {

@@ -15,15 +15,6 @@ export const Icon = (props) => (
         strokeLinecap="round"
         strokeLinejoin="round"
     >
-        <rect
-            x="0"
-            y="0"
-            width="40"
-            height="40"
-            fill="none"
-            stroke={"none"}
-            strokeWidth="2"
-        />
         <path d="M22 14a8 8 0 0 1-8 8" />
         <path d="M18 11v-1a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v0" />
         <path d="M14 10V9a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v1" />
